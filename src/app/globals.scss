@@ -1,12 +1,27 @@
 :root {
+
+  // background
   --background: #ffffff;
   --foreground: #171717;
+  --grayBackground: #f8f8f8;
+
+  //text
+  --blackText: #000000;
+  --whiteText: #ffffff;
+  --descriptionText: #606060;
+  --placeholderText: #c6c6c6;
+
+
+  //border
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --blackText: #ffffff;
+    --whiteText: #000000;
+    --textDescription: #606060;
   }
 }
 
