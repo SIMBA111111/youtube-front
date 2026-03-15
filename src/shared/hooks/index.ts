@@ -1,0 +1,1 @@
+export { voiceSearchHook } from './voiceSearchHook'

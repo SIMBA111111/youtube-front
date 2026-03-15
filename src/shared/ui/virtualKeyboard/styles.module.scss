@@ -1,0 +1,80 @@
+// VirtualKeyboard.module.scss
+.virtualKeyboard {
+  position: fixed;
+  background: #2d2d2d;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  user-select: none;
+  font-family: 'Segoe UI', sans-serif;
+  min-width: 600px;
+
+  &__header {
+    padding: 8px 12px;
+    background: #1a1a1a;
+    border-radius: 8px 8px 0 0;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+
+    &-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    &-drag-handle {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: move;
+      font-size: 16px;
+      padding: 0 4px;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  &__content {
+    padding: 16px;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  &__key {
+    min-width: 40px;
+    height: 40px;
+    background: #3d3d3d;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+    padding: 0 8px;
+
+    &:hover {
+      background: #4d4d4d;
+    }
+
+    &_space {
+      min-width: 200px;
+    }
+
+    &_close {
+      background: #dc3545;
+
+      &:hover {
+        background: #c82333;
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+export { Svg } from './Svg'
+export { BackgroundFon } from './BackgroundFon'
+export { Searcher } from './Searcher'
+export { Text } from './Text'
+export { Modal } from './Modal'

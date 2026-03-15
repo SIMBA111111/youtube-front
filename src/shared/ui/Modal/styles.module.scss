@@ -1,0 +1,39 @@
+.overlay {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 0.3;
+    z-index: 100;
+}
+
+.modalContainer {
+    z-index: 999;
+    // top: 100px;
+    display: flex;
+    gap: 16px;
+    position: absolute;
+
+    &__visible {
+        visibility: visible;
+    }
+
+    &__hidden {
+        visibility: hidden;
+    }
+}
+
+.modal{ 
+    display: flex;
+    align-items: start;
+    padding: 20px 30px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 5px var(--gray);
+}
+
+.closeBtn {
+    cursor: pointer;
+    height: fit-content;
+}

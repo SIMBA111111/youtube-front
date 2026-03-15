@@ -1,0 +1,16 @@
+.BackgroundFon {
+    padding: 7px 12px 7px 12px;
+    display: flex;
+
+    &__gray {
+        &:hover {
+            background-color: var(--gray) !important;
+        }
+    }
+
+    &__lightGray {
+        &:hover {
+            background-color: var(--lightGray) !important;
+        }   
+    }
+}
