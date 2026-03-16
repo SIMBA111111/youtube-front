@@ -11,12 +11,13 @@ import styles from './styles.module.scss'
 interface IModal {
     children: ReactNode
     isCloseButton?: boolean
+    isOverlay?: boolean
     isVisible: boolean
     setIsVisible: Dispatch<SetStateAction<boolean>>
     clasName?: string
 }
 
-export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isVisible, setIsVisible, clasName}) => {
+export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isOverlay=true,isVisible, setIsVisible, clasName}) => {
     const modalRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
@@ -42,10 +43,10 @@ export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isVisible
             <div className={classList} ref={modalRef}>
                 <div className={styles.modal}>
                     {children}
-                    {isCloseButton && <div className={styles.closeBtn} onClick={() => setIsVisible(false)}><Svg name="cross" size="middle"/></div>}
                 </div>
+                {isCloseButton && <div className={styles.closeBtn} onClick={() => setIsVisible(false)}><Svg name="cross" size="middle"/></div>}
             </div>
-            <div className={isVisible ? styles.overlay : ''}></div>
+            {isOverlay && <div className={isVisible ? styles.overlay : ''}></div>}
         </>
     )
 }

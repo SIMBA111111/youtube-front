@@ -1,0 +1,30 @@
+.create {
+    cursor: pointer;
+}
+
+.createBtn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.createModal {
+    margin: 10px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+    &__item {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 4px 12px;
+
+        &:hover {
+            background-color: aqua;
+        }
+    }
+}

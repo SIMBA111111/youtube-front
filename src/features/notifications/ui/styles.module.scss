@@ -1,0 +1,23 @@
+.notifications {
+    position: relative;
+
+    &:hover {
+        .notificationTooltip {
+            display: block;
+        }        
+    }
+}
+
+.notificationTooltip {
+    display: none;
+    position: absolute;
+    width: fit-content;
+    white-space: nowrap;
+    top: 60px;
+    right: -70%;
+    padding: 10px;
+    color: var(--whiteText);
+    background-color: var(--lightBlackBackground);
+    border-radius: 8px;
+    opacity: 0.6;
+}
