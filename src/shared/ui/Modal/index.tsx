@@ -14,21 +14,39 @@ interface IModal {
     isOverlay?: boolean
     isVisible: boolean
     setIsVisible: Dispatch<SetStateAction<boolean>>
-    clasName?: string
+    className?: string
 }
 
-export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isOverlay=true,isVisible, setIsVisible, clasName}) => {
+export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isOverlay=true,isVisible, setIsVisible, className}) => {
     const modalRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+                // Проверяем, есть ли другие открытые модалки
+                const openModals = document.querySelectorAll(`.${styles.modalContainer}.${styles.modalContainer__visible}`);
+                
+                // Если это не последняя открытая модалка, не закрываем
+                if (openModals.length > 1) {
+                    const currentModalIndex = Array.from(openModals).findIndex(
+                        modal => modal === modalRef.current
+                    );
+                    
+                    // Если это не верхняя модалка (не последняя в DOM), не закрываем
+                    if (currentModalIndex < openModals.length - 1) {
+                        return;
+                    }
+                }
+                
                 setIsVisible(false);
             }
         };
 
         if (isVisible) {
-            document.addEventListener('mousedown', handleClickOutside);
+            // Добавляем небольшой таймаут, чтобы событие не сработало сразу при открытии
+            setTimeout(() => {
+                document.addEventListener('mousedown', handleClickOutside);
+            }, 0);
         }
 
         return () => {
@@ -36,17 +54,42 @@ export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isOverlay
         };
     }, [isVisible, setIsVisible]);
 
-    const classList = clsx(clasName, styles.modalContainer, styles[`modalContainer__${isVisible? 'visible' : 'hidden'}`])
+    // Останавливаем всплытие кликов внутри модалки
+    const handleModalClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+    };
+
+    const classList = clsx(
+        className, 
+        styles.modalContainer, 
+        styles[`modalContainer__${isVisible? 'visible' : 'hidden'}`]
+    )
     
     return (
         <>
-            <div className={classList} ref={modalRef}>
-                <div className={styles.modal}>
-                    {children}
-                </div>
-                {isCloseButton && <div className={styles.closeBtn} onClick={() => setIsVisible(false)}><Svg name="cross" size="middle"/></div>}
+            <div className={classList} ref={modalRef} onClick={handleModalClick}>
+                {children}
+                {isCloseButton && (
+                    <div className={styles.closeBtn} onClick={() => setIsVisible(false)}>
+                        <Svg name="cross" size="middle"/>
+                    </div>
+                )}
             </div>
-            {isOverlay && <div className={isVisible ? styles.overlay : ''}></div>}
+            {isOverlay && (
+                <div 
+                    className={clsx(
+                        styles.overlay, 
+                        isVisible && styles.overlay__visible
+                    )} 
+                    onClick={() => {
+                        // Проверяем, есть ли другие открытые модалки
+                        const openModals = document.querySelectorAll(`.${styles.modalContainer}.${styles.modalContainer__visible}`);
+                        if (openModals.length <= 1) {
+                            setIsVisible(false);
+                        }
+                    }}
+                />
+            )}
         </>
     )
 }

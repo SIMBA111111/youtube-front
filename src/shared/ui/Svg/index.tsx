@@ -7,6 +7,8 @@ import broadcast from '../../../../public/svg/broadcast.svg'
 import clock from '../../../../public/svg/clock.svg'
 import comments from '../../../../public/svg/comments.svg'
 import cross from '../../../../public/svg/cross.svg'
+import crossedBell from '../../../../public/svg/crossedBell.svg'
+import crossedEye from '../../../../public/svg/crossedEye.svg'
 import dislike from '../../../../public/svg/dislike.svg'
 import download from '../../../../public/svg/download.svg'
 import flag from '../../../../public/svg/flag.svg'
@@ -21,6 +23,7 @@ import myAccount from '../../../../public/svg/myAccount.svg'
 import news from '../../../../public/svg/news.svg'
 import playlist from '../../../../public/svg/playlist.svg'
 import plus from '../../../../public/svg/plus.svg'
+import settings from '../../../../public/svg/settings.svg'
 import share from '../../../../public/svg/share.svg'
 import shortArrowDown from '../../../../public/svg/shortArrowDown.svg'
 import shortArrowLeft from '../../../../public/svg/shortArrowLeft.svg'
@@ -28,6 +31,7 @@ import shortArrowUp from '../../../../public/svg/shortArrowUp.svg'
 import shorts from '../../../../public/svg/shorts.svg'
 import subscriptions from '../../../../public/svg/subscriptions.svg'
 import video from '../../../../public/svg/video.svg'
+import verticalEllipsis from '../../../../public/svg/verticalEllipsis.svg'
 import videogame from '../../../../public/svg/videogame.svg'
 import burger from '../../../../public/svg/burger.svg'
 import mainLogo from '../../../../public/svg/mainLogo.svg'
@@ -80,7 +84,13 @@ export const Svg: React.FC<ISvg> = ({
         
         case 'cross':
             return <img src={cross.src }height={sizes[size]}/> 
-        
+
+        case 'crossedBell':
+            return <img src={crossedBell.src }height={sizes[size]}/> 
+
+        case 'crossedEye':
+            return <img src={crossedEye.src }height={sizes[size]}/> 
+
         case 'dislike':
             return <img src={dislike.src} height={sizes[size]}/> 
 
@@ -123,6 +133,9 @@ export const Svg: React.FC<ISvg> = ({
         case 'plus':
             return <img src={plus.src} height={sizes[size]}/> 
 
+        case 'settings':
+            return <img src={settings.src} height={sizes[size]}/> 
+
         case 'share':
             return <img src={share.src} height={sizes[size]}/>
 
@@ -144,6 +157,9 @@ export const Svg: React.FC<ISvg> = ({
         case 'video':
             return <img src={video.src} height={sizes[size]}/> 
             
+        case 'verticalEllipsis':
+            return <img src={verticalEllipsis.src} height={sizes[size]}/> 
+
         case 'videogame':
             return <img src={videogame.src} height={sizes[size]}/> 
     

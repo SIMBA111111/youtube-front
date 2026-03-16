@@ -1,8 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-
-import { Svg, BackgroundFon, Text, Modal } from '@/shared/ui'
+import { Svg } from '@/shared/ui'
 import { CreateContentBtn, Notifications, VideoSearch } from '@/features'
 
 import styles from './styles.module.scss'
@@ -17,7 +15,7 @@ export const Header = () => {
             </div>
             <div className={styles.headerContainer__block}>
                 <div className={styles.searcher}>
-                    <VideoSearch/>
+                    {/* <VideoSearch/> */}
                 </div>
             </div>
             <div className={styles.headerContainer__block}>

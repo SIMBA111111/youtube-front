@@ -1,0 +1,95 @@
+.notifCard {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s ease;
+    position: relative;
+    background-color: white;
+    width: 100%;
+    
+    // Исправленный hover - без вложенности
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+    
+    // Индикатор непрочитанного уведомления
+    .unreadIndicator {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: #3ea6ff;
+        position: absolute;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    // Аватар канала
+    .channelAvatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+    
+    // Контейнер с текстом
+    .contentContainer {
+        flex: 1;
+        min-width: 0;
+        
+        .title {
+            margin-bottom: 4px;
+            
+            span {
+                font-size: 14px;
+                color: var(--whiteText, #ffffff);
+                line-height: 1.4;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+        
+        .time {
+            font-size: 12px;
+            color: var(--grayText, #aaaaaa);
+        }
+    }
+    
+    // Превью видео
+    .videoPreview {
+        width: 80px;
+        height: 45px;
+        border-radius: 4px;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+}
+
+.modal {
+    border-radius: 16px;
+}
+
+.notifSettings {
+    width: 100%;
+    padding: 10px 0px;
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: var(--grayBackground);
+        }
+    }
+}
