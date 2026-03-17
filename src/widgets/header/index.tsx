@@ -21,7 +21,6 @@ export const Header = () => {
             <div className={styles.headerContainer__block}>
                 <CreateContentBtn/>
                 <Notifications/>
-                
                 <div className={styles.myAccount}>user</div>
             </div>
         </div>

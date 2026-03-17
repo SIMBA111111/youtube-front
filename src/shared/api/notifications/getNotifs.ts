@@ -94,6 +94,38 @@ const NOTIFS = [
             isShort: false
         }
     },
+        {
+        id: 'askdfljalksjd',
+        createdAt: '2026-03-16T11:54:00Z',
+        isViewed: false,
+        channel: {
+            id: 'askldjklajd',
+            name: 'RestoratorGame',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        },
+        video: {
+            id: 'aksdjkasjkd',
+            previewUrl: '/testImages/testVideoPreview.png',
+            videoHash: '8dy)sdy00A8&7h',
+            isShort: false
+        }
+    },
+        {
+        id: 'askdfljalksjd',
+        createdAt: '2026-03-16T11:54:00Z',
+        isViewed: false,
+        channel: {
+            id: 'askldjklajd',
+            name: 'RestoratorGame',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        },
+        video: {
+            id: 'aksdjkasjkd',
+            previewUrl: '/testImages/testVideoPreview.png',
+            videoHash: '8dy)sdy00A8&7h',
+            isShort: false
+        }
+    },
 ]
 
 

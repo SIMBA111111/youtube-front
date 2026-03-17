@@ -1,4 +1,4 @@
-interface IChannelItem {
+export interface IChannelItem {
     id: string
     name: string
     avatarUrl: string
@@ -21,6 +21,4 @@ export interface INotificationItem {
 
 export interface INotifCard {
     notif: INotificationItem
-    hideNotif: (notifId: string) => void
-    offNotifByChannel: (notifId: string) => void
 }

@@ -7,12 +7,17 @@ import styles from './styles.module.scss'
 import { getFormatRelativeTime } from "@/shared/utils/getElapsedTime";
 import { BackgroundFon, Modal, Svg, Text } from "@/shared/ui";
 import { useState } from "react";
+import { handleHideNotif } from "../../lib/handleHideNotif";
+import { handleOffNotifByChannel } from "../../lib/handleOffNotifByChannel";
+import { useToast } from "@/app/providers/toastProvider";
 
 
-export const NotifCard: React.FC<INotifCard> = ({notif, hideNotif, offNotifByChannel}) => {
+export const NotifCard: React.FC<INotifCard> = ({notif}) => {
     const { id, video, channel, createdAt, isViewed } = notif
     
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+    
+    const { openToast } = useToast()
     
     const linkToVideo = video.isShort ? `/shorts/${video.videoHash}` : `/watch/${video.videoHash}`
 
@@ -60,11 +65,11 @@ export const NotifCard: React.FC<INotifCard> = ({notif, hideNotif, offNotifByCha
 
             <Modal isVisible={isOpenModal} setIsVisible={setIsOpenModal} isCloseButton={false} isOverlay={false} className={styles.modal}>
                 <div className={styles.notifSettings} onMouseOver={(e: any) => e.stopPropagation()}>
-                    <div className={styles.notifSettings__item} onClick={() => hideNotif(id)}>
+                    <div className={styles.notifSettings__item} onClick={() => handleHideNotif({id, openToast})}>
                         <Svg name="crossedEye"/>
                         <Text weight={400}>Скрыть уведомление</Text>
                     </div>
-                    <div className={styles.notifSettings__item} onClick={() => offNotifByChannel(id)}>
+                    <div className={styles.notifSettings__item} onClick={() => handleOffNotifByChannel({id, channel, openToast})}>
                         <Svg name="crossedBell"/>
                         <Text weight={400}>Отключить все уведомления о канале "{channel.name}"</Text>
                     </div>

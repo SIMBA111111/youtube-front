@@ -2,6 +2,7 @@ import { Header } from "@/widgets/header";
 
 import 'normalize.css'
 import "./globals.scss";
+import { ToastProvider } from "./providers/toastProvider";
 
 
 export default function RootLayout({
@@ -12,8 +13,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header/>
-        {children}
+        <ToastProvider>
+          <Header/>
+          {children}
+        </ToastProvider>
       </body>
     </html>
   );

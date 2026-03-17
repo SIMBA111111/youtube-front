@@ -4,15 +4,18 @@ import { useEffect, useRef, useState } from "react"
 
 import { BackgroundFon, Modal, Searcher, Svg, Text } from "@/shared/ui"
 
-import styles from './styles.module.scss'
 import { NotifCard } from "@/entities/notifs/ui/card/notifCard"
 import { INotificationItem } from "@/entities/notifs/modal/types"
 import { getNotifs } from "@/shared/api/notifications/getNotifs"
 import Link from "next/link"
 
+import styles from './styles.module.scss'
+
+
 export const Notifications = () => {
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
     const [notifs, setNotifs] = useState<INotificationItem[]>([])
+
 
     useEffect(() => {
         const fetchNotifs = async () => {
@@ -48,14 +51,16 @@ export const Notifications = () => {
                             </div>
                         </Link>
                     </div>
-                    
+
+                    <div className={styles.notifModal__body}>
                     {notifs.length > 0 ? (
                         notifs.map((notif, index) => (
-                            <NotifCard key={index} notif={notif} />
+                            <NotifCard key={index} notif={notif}/>
                         ))
                     ) : (
                         <Text size={16} color='var(--grayText)'>Нет уведомлений</Text>
                     )}
+                    </div>
                 </div>
             </Modal>
         </div>
