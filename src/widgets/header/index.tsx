@@ -6,16 +6,14 @@ import { CreateContentBtn, Notifications, VideoSearch } from '@/features'
 import styles from './styles.module.scss'
 
 export const Header = () => {
-
     return (
         <div className={styles.headerContainer}>
             <div className={styles.headerContainer__block}>
-                <div className={styles.sidebarBtn}><Svg name='burger'/></div>
                 <div className={styles.logo}><Svg name='mainLogo'/></div>
             </div>
             <div className={styles.headerContainer__block}>
                 <div className={styles.searcher}>
-                    {/* <VideoSearch/> */}
+                    <VideoSearch/>
                 </div>
             </div>
             <div className={styles.headerContainer__block}>

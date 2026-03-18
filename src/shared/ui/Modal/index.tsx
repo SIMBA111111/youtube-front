@@ -17,7 +17,7 @@ interface IModal {
     className?: string
 }
 
-export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isOverlay=true,isVisible, setIsVisible, className}) => {
+export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isOverlay=false,isVisible, setIsVisible, className}) => {
     const modalRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
@@ -68,12 +68,12 @@ export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isOverlay
     return (
         <>
             <div className={classList} ref={modalRef} onClick={handleModalClick}>
-                {children}
                 {isCloseButton && (
                     <div className={styles.closeBtn} onClick={() => setIsVisible(false)}>
                         <Svg name="cross" size="middle"/>
                     </div>
                 )}
+                {children}
             </div>
             {isOverlay && (
                 <div 

@@ -1,0 +1,95 @@
+.sidebarContainer {
+    position: absolute;
+    z-index: 99;
+    background-color: rgb(255, 255, 255);
+    top: 0;
+    left: 0;
+    width: 240px;
+
+        &Hidden {
+            width: 100px;
+        }
+}
+
+.sidebarOverlay {
+    position: absolute;
+    pointer-events: none;
+    z-index: 98;
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    opacity: 0.5;
+}
+
+.sidebarBtns {
+    display: flex;
+    margin-top: 16px;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.sidebarBtn {
+    cursor: pointer;
+
+    &__close {
+        cursor: pointer;
+        margin-top: 16px;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.logo {
+}
+
+.channelAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.btns {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    text-align: center;
+    margin-top: 50px;
+    
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+
+        &__open {
+            display: flex;
+            padding: 16px;
+            border-radius: 16px;
+            flex-direction: row;
+            gap: 24px;
+            width: 100%;
+            margin: 8px;
+            align-items: center;
+            margin: auto;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--grayDarkBackground);
+            }
+        }
+    }
+
+    &__open {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        margin-top: 16px;
+        width: 100%;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        height: 100vh;
+    }
+}

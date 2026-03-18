@@ -56,7 +56,7 @@ export const VideoSearch = () => {
                     <Text size={14} color='var(--whiteText)' weight={300}>Голосовой поиск</Text>
                 </div>
             </div>
-            <Modal isVisible={isOpenVoice} setIsVisible={setIsOpenVoice} clasName={styles.voiceModal}>
+            <Modal isVisible={isOpenVoice} setIsVisible={setIsOpenVoice} className={styles.voiceModal} isOverlay={true}>
                     <div className={styles.voiceModal__container}>
                         <Text size={24} weight={300}>Говорите...</Text>
                         <button onClick={() => startRecording()}>старт</button>

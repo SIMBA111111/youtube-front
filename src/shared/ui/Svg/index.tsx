@@ -2,7 +2,7 @@ import arrowDown from '../../../../public/svg/arrowDown.svg'
 import arrowLeft from '../../../../public/svg/arrowLeft.svg'
 import arrowUp from '../../../../public/svg/arrowUp.svg'
 import award from '../../../../public/svg/award.svg'
-import bell from '../../../../public/svg/bell.svg'
+// import bell from '../../../../public/svg/bell.svg'
 import broadcast from '../../../../public/svg/broadcast.svg'
 import clock from '../../../../public/svg/clock.svg'
 import comments from '../../../../public/svg/comments.svg'
@@ -29,7 +29,7 @@ import shortArrowDown from '../../../../public/svg/shortArrowDown.svg'
 import shortArrowLeft from '../../../../public/svg/shortArrowLeft.svg'
 import shortArrowUp from '../../../../public/svg/shortArrowUp.svg'
 import shorts from '../../../../public/svg/shorts.svg'
-import subscriptions from '../../../../public/svg/subscriptions.svg'
+// import subscriptions from '../../../../public/svg/subscriptions.svg'
 import video from '../../../../public/svg/video.svg'
 import verticalEllipsis from '../../../../public/svg/verticalEllipsis.svg'
 import videogame from '../../../../public/svg/videogame.svg'
@@ -59,121 +59,249 @@ export const Svg: React.FC<ISvg> = ({
 
     switch (name) {
         case 'arrowDown':
-            return <img src={arrowDown.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M12 3a1 1 0 00-1 1v13.586l-5.293-5.293a1 1 0 10-1.414 1.414L12 21.414l7.707-7.707a1 1 0 10-1.414-1.414L13 17.586V4a1 1 0 00-1-1Z"></path>
+                    </svg> 
 
         case 'arrowLeft':
-            return <img src={arrowLeft.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M8.793 5.293a1 1 0 000 1.414L14.086 12l-5.293 5.293a1 1 0 101.414 1.414L16.914 12l-6.707-6.707a1 1 0 00-1.414 0Z"></path>
+                    </svg> 
 
         case 'arrowUp':
-            return <img src={arrowUp.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M19.707 10.293 12 2.586l-7.707 7.707a1 1 0 101.414 1.414L11 6.414V20a1 1 0 002 0V6.414l5.293 5.293a1 1 0 101.414-1.414Z"></path>
+                    </svg> 
 
         case 'award':
-            return <img src={award.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M17.5 1h-11A1.5 1.5 0 005 2.5V4H2a1 1 0 00-1 1v3a5 5 0 004.669 4.987 7.01 7.01 0 004.72 3.826l-2.926 4.655A1 1 0 008.31 23h7.38a1 1 0 00.847-1.532l-2.927-4.657a7.01 7.01 0 004.72-3.824A5 5 0 0023 8V5a1 1 0 00-1-1h-3V2.5A1.5 1.5 0 0017.5 1ZM7 10V3h10v7a5 5 0 11-10 0ZM3 8V6h2v4c0 .283.017.565.052.845A3 3 0 013 8Zm16 2V6h2v2a3 3 0 01-2.053 2.845c.034-.277.052-.559.053-.845Zm-8.88 11L12 18.008 13.88 21h-3.76Z"></path>
+                    </svg> 
 
         case 'bell': 
-            return <img src={bell.src} height={sizes[size]}/> 
+            return  <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M16 19a4 4 0 11-8 0H4.765C3.21 19 2.25 17.304 3.05 15.97l1.806-3.01A1 1 0 005 12.446V8a7 7 0 0114 0v4.446c0 .181.05.36.142.515l1.807 3.01c.8 1.333-.161 3.029-1.716 3.029H16ZM12 3a5 5 0 00-5 5v4.446a3 3 0 01-.428 1.543L4.765 17h14.468l-1.805-3.01A3 3 0 0117 12.445V8a5 5 0 00-5-5Zm-2 16a2 2 0 104 0h-4Z"></path>
+                    </svg>
 
         case 'broadcast': 
-            return <img src={broadcast.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M4.222 4.223a11 11 0 000 15.555 1 1 0 101.414-1.414 9 9 0 010-12.727 1 1 0 10-1.414-1.414Zm13.79.353a1 1 0 000 1.414 8.5 8.5 0 010 12.022 1 1 0 001.413 1.414 10.501 10.501 0 000-14.85 1 1 0 00-1.413 0Zm-2.83 2.827a1 1 0 000 1.414 4.501 4.501 0 010 6.365 1.001 1.001 0 001.414 1.414 6.5 6.5 0 000-9.193 1 1 0 00-1.415 0Zm-7.78 0a6.5 6.5 0 000 9.194 1 1 0 001.415-1.415 4.5 4.5 0 010-6.364 1.001 1.001 0 00-1.415-1.415ZM12 10a2 2 0 100 4 2 2 0 000-4Z"></path>
+                    </svg> 
+
+        case 'burger':
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M20 5H4a1 1 0 000 2h16a1 1 0 100-2Zm0 6H4a1 1 0 000 2h16a1 1 0 000-2Zm0 6H4a1 1 0 000 2h16a1 1 0 000-2Z"></path>
+                    </svg>
         
         case 'clock':
-            return <img src={clock.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1Zm0 2a9 9 0 110 18.001A9 9 0 0112 3Zm0 3a1 1 0 00-1 1v5.565l.485.292 3.33 2a1 1 0 001.03-1.714L13 11.435V7a1 1 0 00-1-1Z"></path>
+                    </svg> 
 
         case 'comments':
-            return <img src={comments.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M1 6a4 4 0 014-4h14a4 4 0 014 4v10a4 4 0 01-4 4h-4.8l-5.105 2.836A1.41 1.41 0 017 21.604V20H5a4 4 0 01-4-4V6Zm8 12v2.601l4.229-2.35.453-.251H19a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h4ZM7 8a1 1 0 000 2h10a1 1 0 100-2H7Zm-1 5a1 1 0 001 1h6a1 1 0 000-2H7a1 1 0 00-1 1Z"></path>
+                    </svg>
         
         case 'cross':
-            return <img src={cross.src }height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M17.293 5.293 12 10.586 6.707 5.293a1 1 0 10-1.414 1.414L10.586 12l-5.293 5.293a1 1 0 001.414 1.414L12 13.414l5.293 5.293a1 1 0 001.414-1.414L13.414 12l5.293-5.293a1 1 0 10-1.414-1.414Z"></path>
+                    </svg>
 
         case 'crossedBell':
-            return <img src={crossedBell.src }height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M12 1a7 7 0 00-6.213 3.774l1.719 1.032A5 5 0 0117 8v3.502l2 1.199V8a7 7 0 00-7-7ZM1.141 5.485a1 1 0 00.343 1.372l3.514 2.109v3.48a1 1 0 01-.143.514L3.05 15.97c-.8 1.334.16 3.03 1.716 3.03H8a4 4 0 108 0l6-.001a1 1 0 00.515-1.856l-20-12a1 1 0 00-1.373.342ZM7 12.446v-2.28L18.39 17H4.766l1.806-3.011A3 3 0 007 12.446ZM10 19h4a2 2 0 01-4 0Z"></path>
+                    </svg>
 
         case 'crossedEye':
-            return <img src={crossedEye.src }height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="m6.666 5.303 2.122 1.272c4.486-1.548 10.002.26 12.08 5.426-.2.5-.435.968-.696 1.406l1.717 1.03c.41-.69.752-1.42 1.02-2.178a.77.77 0 000-.516l-.18-.473C19.998 4.436 12.294 2.448 6.667 5.303Zm-5.524.183a1.003 1.003 0 00.343 1.371l1.8 1.08a11.8 11.8 0 00-2.193 3.805.77.77 0 000 .516c2.853 8.041 12.37 9.784 18.12 5.235l2.273 1.364a1 1 0 101.03-1.714l-20-12a1 1 0 00-1.373.343Zm11.064 2.52L12 8c-.248 0-.49.022-.727.066l4.54 2.724a4 4 0 00-3.607-2.785ZM5.04 8.99l3.124 1.874C8.057 11.224 8 11.606 8 12l.005.206a4 4 0 003.79 3.79L12 16c1.05 0 2.057-.414 2.803-1.152l2.54 1.524C12.655 19.48 5.556 18.024 3.133 12A9.6 9.6 0 015.04 8.99ZM10 12v-.033l2.967 1.78a1.99 1.99 0 01-2.307-.262 2 2 0 01-.65-1.28L10 12Z"></path>
+                    </svg>
 
         case 'dislike':
-            return <img src={dislike.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="m11.31 2 .392.007c1.824.06 3.61.534 5.223 1.388l.343.189.27.154c.264.152.56.24.863.26l.13.004H20.5a1.5 1.5 0 011.5 1.5V11.5a1.5 1.5 0 01-1.5 1.5h-1.79l-.158.013a1 1 0 00-.723.512l-.064.145-2.987 8.535a1 1 0 01-1.109.656l-1.04-.174a4 4 0 01-3.251-4.783L10 15H5.938a3.664 3.664 0 01-3.576-2.868A3.682 3.682 0 013 9.15l-.02-.088A3.816 3.816 0 014 5.5v-.043l.008-.227a2.86 2.86 0 01.136-.664l.107-.28A3.754 3.754 0 017.705 2h3.605ZM7.705 4c-.755 0-1.425.483-1.663 1.2l-.032.126a.818.818 0 00-.01.131v.872l-.587.586a1.816 1.816 0 00-.524 1.465l.038.23.02.087.21.9-.55.744a1.686 1.686 0 00-.321 1.18l.029.177c.17.76.844 1.302 1.623 1.302H10a2.002 2.002 0 011.956 2.419l-.623 2.904-.034.208a2.002 2.002 0 001.454 2.139l.206.045.21.035 2.708-7.741A3.001 3.001 0 0118.71 11H20V6.002h-1.47c-.696 0-1.38-.183-1.985-.528l-.27-.155-.285-.157A10.002 10.002 0 0011.31 4H7.705Z"></path>
+                    </svg>
 
         case 'download':
-            return <img src={download.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M12 2a1 1 0 00-1 1v11.586l-4.293-4.293a1 1 0 10-1.414 1.414L12 18.414l6.707-6.707a1 1 0 10-1.414-1.414L13 14.586V3a1 1 0 00-1-1Zm7 18H5a1 1 0 000 2h14a1 1 0 000-2Z"></path>
+                    </svg>
+
+        case 'exit':
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M19 2a2 2 0 012 2v16a2 2 0 01-2 2H9a1 1 0 010-2h10V4H9a1 1 0 010-2h10ZM9.293 7.293a1 1 0 000 1.414L11.586 11H4a1 1 0 000 2h7.586l-2.293 2.293a1 1 0 101.414 1.414L15.414 12l-4.707-4.707a1 1 0 00-1.414 0Z"></path>
+                    </svg>
 
         case 'flag':
-            return <img src={flag.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="m4 2.999-.146.073A1.55 1.55 0 003 4.454v16.545a1 1 0 102 0v-6.491a7.26 7.26 0 016.248.115l.752.376a8.94 8.94 0 008 0l.145-.073c.524-.262.855-.797.855-1.382V4.458a1.21 1.21 0 00-1.752-1.083 7.26 7.26 0 01-6.496 0L12 2.999a8.94 8.94 0 00-8 0Zm7.105 1.79v-.002l.752.376A9.26 9.26 0 0019 5.641v7.62a6.95 6.95 0 01-6.105-.052l-.752-.376A9.261 9.261 0 005 12.355v-7.62a6.94 6.94 0 016.105.054Z"></path>
+                    </svg>
 
         case 'history':
-            return <img src={history.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M8.76 1.487a11 11 0 11-7.54 12.706 1 1 0 011.96-.4 9 9 0 0014.254 5.38A9 9 0 0016.79 4.38 9 9 0 004.518 7H7a1 1 0 010 2H1V3a1 1 0 012 0v2.678a11 11 0 015.76-4.192ZM12 6a1 1 0 00-1 1v5.58l.504.288 3.5 2a1 1 0 10.992-1.736L13 11.42V7a1 1 0 00-1-1Z"></path>
+                    </svg>
 
         case 'home':
-            return <img src={home.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="m11.485 2.143-8 4.8-2 1.2a1 1 0 001.03 1.714L3 9.567V20a2 2 0 002 2h6v-7h2v7h6a2 2 0 002-2V9.567l.485.29a1 1 0 001.03-1.714l-2-1.2-8-4.8a1 1 0 00-1.03 0ZM5 8.366l7-4.2 7 4.2V20h-4v-5.5a1.5 1.5 0 00-1.5-1.5h-3A1.5 1.5 0 009 14.5V20H5V8.366Z"></path>
+                    </svg>
+
+        case 'homeActive':
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="m11.485 2.143-8 4.8-2 1.2a1 1 0 001.03 1.714L3 9.567V20a2 2 0 002 2h5v-8h4v8h5a2 2 0 002-2V9.567l.485.29a1 1 0 001.03-1.714l-2-1.2-8-4.8a1 1 0 00-1.03 0Z"></path>
+                    </svg>
 
         case 'keyboard':
-            return <img src={keyboard.src} height={sizes[size]}/> 
+            return  <svg fill="currentColor" width="20" height="20" viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M28,26H4a2,2,0,0,1-2-2V10A2,2,0,0,1,4,8H28a2,2,0,0,1,2,2V24A2,2,0,0,1,28,26ZM4,10V24H28V10Z"/><rect x="10" y="20" width="11" height="2"/><rect x="6" y="12" width="2" height="2"/><rect x="10" y="12" width="2" height="2"/><rect x="14" y="12" width="2" height="2"/><rect x="18" y="12" width="2" height="2"/><rect x="6" y="20" width="2" height="2"/><rect x="6" y="16" width="2" height="2"/><rect x="10" y="16" width="2" height="2"/><rect x="14" y="16" width="2" height="2"/><rect x="22" y="12" width="4" height="2"/><rect x="22" y="16" width="4" height="2"/><rect x="18" y="16" width="2" height="2"/><rect x="23" y="20" width="3" height="2"/><rect id="_Transparent_Rectangle_" data-name=" Transparent Rectangle " class="cls-1" width="32" height="32"/>
+                    </svg>
         
+        case 'lenguage':
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M10 2.5a1 1 0 00-2 0V4H2a1 1 0 000 2h9.925c-.204 1.334-.833 2.627-1.975 4.15-.287.382-.603.777-.95 1.184-.328-.385-.645-.78-.95-1.184C7.478 9.387 7.035 8.682 6.709 8h-2.17c.415 1.125 1.06 2.216 1.911 3.35.361.48.763.977 1.206 1.49-1.196 1.285-2.645 2.735-4.363 4.453a1 1 0 101.414 1.414l.057-.057C6.38 17.036 7.795 15.619 9 14.33c.748.8 1.577 1.65 2.485 2.565l.846-1.99a105.74 105.74 0 01-1.987-2.066c.443-.512.845-1.008 1.206-1.489 1.342-1.79 2.175-3.474 2.393-5.35H16a1 1 0 100-2h-6V2.5Zm6.33 8.109-4.25 10a1 1 0 101.84.782L14.937 19h5.126l1.017 2.391a1 1 0 101.84-.782l-4.25-10a1 1 0 00-.92-.609h-.5a1 1 0 00-.92.609Zm1.17 2.36L19.213 17h-3.426l1.713-4.031Z"></path>
+                    </svg>
+
         case 'like':
-            return <img src={like.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M9.221 1.795a1 1 0 011.109-.656l1.04.173a4 4 0 013.252 4.784L14 9h4.061a3.664 3.664 0 013.576 2.868A3.68 3.68 0 0121 14.85l.02.087A3.815 3.815 0 0120 18.5v.043l-.01.227a2.82 2.82 0 01-.135.663l-.106.282A3.754 3.754 0 0116.295 22h-3.606l-.392-.007a12.002 12.002 0 01-5.223-1.388l-.343-.189-.27-.154a2.005 2.005 0 00-.863-.26l-.13-.004H3.5a1.5 1.5 0 01-1.5-1.5V12.5A1.5 1.5 0 013.5 11h1.79l.157-.013a1 1 0 00.724-.512l.063-.145 2.987-8.535Zm-1.1 9.196A3 3 0 015.29 13H4v4.998h1.468a4 4 0 011.986.528l.27.155.285.157A10 10 0 0012.69 20h3.606c.754 0 1.424-.483 1.663-1.2l.03-.126a.819.819 0 00.012-.131v-.872l.587-.586c.388-.388.577-.927.523-1.465l-.038-.23-.02-.087-.21-.9.55-.744A1.663 1.663 0 0018.061 11H14a2.002 2.002 0 01-1.956-2.418l.623-2.904a2 2 0 00-1.626-2.392l-.21-.035-2.71 7.741Z"></path>
+                    </svg> 
 
         case 'magnifier':
-            return <img src={magnifier.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M11 2a9 9 0 105.641 16.01.966.966 0 00.152.197l3.5 3.5a1 1 0 101.414-1.414l-3.5-3.5a1 1 0 00-.197-.153A8.96 8.96 0 0020 11a9 9 0 00-9-9Zm0 2a7 7 0 110 14 7 7 0 010-14Z"></path>
+                    </svg> 
 
         case 'movies':
-            return <img src={movies.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M20 3H4a3 3 0 00-2.587 1.485l-.001.003-.01.015-.072.133-.037.077a3.046 3.046 0 00-.264.869l-.002.011-.011.1-.005.063-.005.06A3.004 3.004 0 001 6v12a3 3 0 003 3h16a3 3 0 003-3V6a3 3 0 00-3-3ZM4 5h1.986l2 2-2 2H3v-.686L4.313 7 3.04 5.725A1 1 0 014 5Zm13.315 2-2-2h3.67l2 2-2 2h-3.67l2-2Zm-6.5 0L8.814 5h3.672l2 2-2 2H8.815l2-2ZM3 18v-7h18v7a1 1 0 01-1 1H4a1 1 0 01-1-1Z"></path>
+                    </svg>
+
+        case 'moon':
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M21.861 14.006a8 8 0 01-10.87-10.87c.452-.816-.101-1.976-1-1.721C5.379 2.724 2 6.965 2 11.998c0 6.075 4.925 11 11 11 5.032 0 9.275-3.38 10.584-7.992.255-.9-.905-1.451-1.723-1Zm-1.137 2.616A9 9 0 118.376 4.275 10 10 0 008 6.998c0 5.522 4.477 10 10 10 .943 0 1.857-.131 2.724-.376Z"></path>
+                    </svg>
 
         case 'music':
-            return <img src={music.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M11 2.766v10.99a4.5 4.5 0 101.994 3.976L13 17.5V9.2l5.485 3.292A1 1 0 0020 11.634V6.966a1 1 0 00-.485-.857l-7-4.2A1 1 0 0011 2.766Zm2 4.102V4.533l5 3v2.335l-5-3ZM8.5 15a2.5 2.5 0 110 5.001A2.5 2.5 0 018.5 15Z"></path>
+                    </svg>
 
         case 'myAccount':
-            return <img src={myAccount.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1Zm0 2a9 9 0 016.447 15.276 7 7 0 00-12.895 0A9 9 0 0112 3Zm0 2a4 4 0 100 8 4 4 0 000-8Zm0 2a2 2 0 110 4 2 2 0 010-4Zm-.1 9.001L11.899 16a5 5 0 014.904 3.61A8.96 8.96 0 0112 21a8.96 8.96 0 01-4.804-1.391 5 5 0 014.704-3.608Z"></path>
+                    </svg>
+
+        case 'myAccountActive':
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M12 1C5.925 1 1 5.925 1 12a10.98 10.98 0 004.68 9c1.788 1.258 3.967 2 6.32 2s4.532-.742 6.32-2c.227-.159.447-.325.66-.499v.001A10.98 10.98 0 0023 12c0-6.075-4.925-11-11-11Zm0 4a3.5 3.5 0 110 7 3.5 3.5 0 010-7Zm0 9a7 7 0 016.446 4.276A8.97 8.97 0 0112 21a8.97 8.97 0 01-6.447-2.724 7 7 0 013.768-3.743A6.998 6.998 0 0112 14Z"></path>
+                    </svg>
 
         case 'news':
-            return <img src={news.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M23 17V3H1v14a4 4 0 004 4h14a4 4 0 004-4ZM3 17V5h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2ZM18 7H6a1 1 0 000 2h12a1 1 0 100-2Zm0 4h-3a1 1 0 000 2h3a1 1 0 000-2Zm-7 0H6a1 1 0 00-1 1v4a1 1 0 001 1h5a1 1 0 001-1v-4a1 1 0 00-1-1Zm-4 4v-2h3v2H7Zm11 0h-3a1 1 0 000 2h3a1 1 0 000-2Z"></path>
+                    </svg>
 
         case 'playlist':
-            return <img src={playlist.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M16 15.395a.5.5 0 01.762-.426L22.5 18.5l-5.738 3.531a.5.5 0 01-.762-.425v-6.212ZM14 19H4a1 1 0 110-2h10v2Zm6-8a1 1 0 110 2H4a1 1 0 110-2h16Zm0-6a1 1 0 110 2H4a1 1 0 010-2h16Z"></path>
+                    </svg> 
 
         case 'plus':
-            return <img src={plus.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M12 3a1 1 0 00-1 1v7H4a1 1 0 000 2h7v7a1 1 0 002 0v-7h7a1 1 0 000-2h-7V4a1 1 0 00-1-1Z"></path>
+                    </svg>
 
         case 'settings':
-            return <img src={settings.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M12.844 1h-1.687a2 2 0 00-1.962 1.616 3 3 0 01-3.92 2.263 2 2 0 00-2.38.891l-.842 1.46a2 2 0 00.417 2.507 3 3 0 010 4.525 2 2 0 00-.417 2.507l.843 1.46a2 2 0 002.38.892 3.001 3.001 0 013.918 2.263A2 2 0 0011.157 23h1.686a2 2 0 001.963-1.615 3.002 3.002 0 013.92-2.263 2 2 0 002.38-.892l.842-1.46a2 2 0 00-.418-2.507 3 3 0 010-4.526 2 2 0 00.418-2.508l-.843-1.46a2 2 0 00-2.38-.891 3 3 0 01-3.919-2.263A2 2 0 0012.844 1Zm-1.767 2.347a6 6 0 00.08-.347h1.687a4.98 4.98 0 002.407 3.37 4.98 4.98 0 004.122.4l.843 1.46A4.98 4.98 0 0018.5 12a4.98 4.98 0 001.716 3.77l-.843 1.46a4.98 4.98 0 00-4.123.4A4.979 4.979 0 0012.843 21h-1.686a4.98 4.98 0 00-2.408-3.371 4.999 4.999 0 00-4.12-.399l-.844-1.46A4.979 4.979 0 005.5 12a4.98 4.98 0 00-1.715-3.77l.842-1.459a4.98 4.98 0 004.123-.399 4.981 4.981 0 002.327-3.025ZM16 12a4 4 0 11-7.999 0 4 4 0 018 0Zm-4 2a2 2 0 100-4 2 2 0 000 4Z"></path>
+                    </svg>
 
         case 'share':
-            return <img src={share.src} height={sizes[size]}/>
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M10 3.158V7.51c-5.428.223-8.27 3.75-8.875 11.199-.04.487-.07.975-.09 1.464l-.014.395c-.014.473.578.684.88.32.302-.368.61-.73.925-1.086l.244-.273c1.79-1.967 3-2.677 4.93-2.917a18.011 18.011 0 012-.112v4.346a1 1 0 001.646.763l9.805-8.297 1.55-1.31-1.55-1.31-9.805-8.297A1 1 0 0010 3.158Zm2 6.27v.002-4.116l7.904 6.688L12 18.689v-4.212l-2.023.024c-1.935.022-3.587.17-5.197 1.024a9 9 0 00-1.348.893c.355-1.947.916-3.39 1.63-4.425 1.062-1.541 2.607-2.385 5.02-2.485L12 9.428Z"></path>
+                    </svg>
 
         case 'shortArrowDown':
-            return <img src={shortArrowDown.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M18.707 8.793a1 1 0 00-1.414 0L12 14.086 6.707 8.793a1 1 0 10-1.414 1.414L12 16.914l6.707-6.707a1 1 0 000-1.414Z"></path>
+                    </svg>
 
         case 'shortArrowLeft':
-            return <img src={shortArrowLeft.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M8.793 5.293a1 1 0 000 1.414L14.086 12l-5.293 5.293a1 1 0 101.414 1.414L16.914 12l-6.707-6.707a1 1 0 00-1.414 0Z"></path>
+                    </svg>
 
         case 'shortArrowUp':
-            return <img src={shortArrowUp.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M5.293 15.207a1 1 0 001.414 0L12 9.914l5.293 5.293a1 1 0 101.414-1.414L12 7.086l-6.707 6.707a1 1 0 000 1.414Z"></path>
+                    </svg> 
+
+        case 'shortsActive':
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="m13.974 2.052-8 4.7a4 4 0 00.385 7.097l.942.423-1.327.78a4 4 0 004.052 6.897l8-4.7a4.001 4.001 0 00-.384-7.096L16.7 9.73l1.326-.78a4 4 0 10-4.052-6.897ZM10 15V9l5 3-5 3Z"></path>
+                    </svg>
 
         case 'shorts':
-            return <img src={shorts.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="m13.467 1.19-8 4.7a5 5 0 00-.255 8.46 5 5 0 005.32 8.462l8-4.7a5 5 0 00.258-8.462 5 5 0 001.641-6.464l-.12-.217a5 5 0 00-6.844-1.78m5.12 2.79a2.999 2.999 0 01-1.067 4.107l-1.327.78a1 1 0 00.096 1.775l.943.423a3 3 0 01.288 5.323l-8 4.7a3 3 0 01-3.039-5.173l1.327-.78a1 1 0 00-.097-1.775l-.942-.423a3 3 0 01-.288-5.323l8-4.7a3 3 0 014.106 1.066ZM15 12l-5-3v6l5-3Z"></path>
+                    </svg>
+
+        // case 'subscriptions':
+        //     return <img src={subscriptions.src} height={sizes[size]}/> 
 
         case 'subscriptions':
-            return <img src={subscriptions.src} height={sizes[size]}/> 
+            return  <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]}>
+                        <path d="M18 1H6a2 2 0 00-2 2h16a2 2 0 00-2-2Zm3 4H3a2 2 0 00-2 2v13a2 2 0 002 2h18a2 2 0 002-2V7a2 2 0 00-2-2ZM3 20V7h18v13H3Zm13-6.5L10 10v7l6-3.5Z"/>
+                    </svg>; 
 
-        case 'video':
-            return <img src={video.src} height={sizes[size]}/> 
-            
+        case 'subscriptionsActvie':
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M6 1a2 2 0 00-2 2h16a2 2 0 00-2-2H6ZM1 7v13a2 2 0 002 2h18a2 2 0 002-2V7a2 2 0 00-2-2H3a2 2 0 00-2 2Zm9 10v-7l6 3.5-6 3.5Z"></path>
+                    </svg>
+
         case 'verticalEllipsis':
-            return <img src={verticalEllipsis.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M12 4a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Z"></path>
+                    </svg>
+            
+        case 'video':
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M21 3H3a2 2 0 00-2 2v14a2 2 0 002 2h18a2 2 0 002-2V5a2 2 0 00-2-2ZM3 19V5h18v14H3Zm13-7L9.5 8v8l6.5-4Z"></path>
+                    </svg> 
 
         case 'videogame':
-            return <img src={videogame.src} height={sizes[size]}/> 
-    
-        case 'burger':
-            return <img src={burger.src} height={sizes[size]}/> 
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M15.97 2.615 12 4.998 8.03 2.615a2 2 0 00-2.06 0l-5 3A2 2 0 000 7.33v7.34a2 2 0 00.97 1.715l10 6c.634.38 1.426.38 2.06 0l10-6A1.998 1.998 0 0024 14.67V7.33a2 2 0 00-.97-1.715l-5-3a2 2 0 00-2.06 0ZM12 7.33l5-3 5 3v7.34l-10 6-10-6V7.33l5-3 5 3ZM7 7.5a1 1 0 00-1 1v1.502H4.5a1 1 0 000 2H6V13.5a1 1 0 102 0v-1.498h1.5a1 1 0 000-2H8V8.5a1 1 0 00-1-1Zm11.5 1.502a1.5 1.5 0 100 3 1.5 1.5 0 000-3Zm-4 2a1.5 1.5 0 100 3 1.5 1.5 0 000-3Z"></path>
+                    </svg> 
     
         case 'mainLogo':
-            return <img src={mainLogo.src} height={sizes[size]}/>
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" id="yt-ringo2-svg_yt9" width="93" height="20" viewBox="0 0 93 20" focusable="false" aria-hidden="true">
+                        <g>
+                            <path d="M14.4848 20C14.4848 20 23.5695 20 25.8229 19.4C27.0917 19.06 28.0459 18.08 28.3808 16.87C29 14.65 29 9.98 29 9.98C29 9.98 29 5.34 28.3808 3.14C28.0459 1.9 27.0917 0.94 25.8229 0.61C23.5695 0 14.4848 0 14.4848 0C14.4848 0 5.42037 0 3.17711 0.61C1.9286 0.94 0.954148 1.9 0.59888 3.14C0 5.34 0 9.98 0 9.98C0 9.98 0 14.65 0.59888 16.87C0.954148 18.08 1.9286 19.06 3.17711 19.4C5.42037 20 14.4848 20 14.4848 20Z" fill="#FF0033"></path>
+                            <path d="M19 10L11.5 5.75V14.25L19 10Z" fill="white"></path>
+                        </g>
+                        <g id="youtube-paths_yt9">
+                            <path d="M37.1384 18.8999V13.4399L40.6084 2.09994H38.0184L36.6984 7.24994C36.3984 8.42994 36.1284 9.65994 35.9284 10.7999H35.7684C35.6584 9.79994 35.3384 8.48994 35.0184 7.22994L33.7384 2.09994H31.1484L34.5684 13.4399V18.8999H37.1384Z"></path>
+                            <path d="M44.1003 6.29994C41.0703 6.29994 40.0303 8.04994 40.0303 11.8199V13.6099C40.0303 16.9899 40.6803 19.1099 44.0403 19.1099C47.3503 19.1099 48.0603 17.0899 48.0603 13.6099V11.8199C48.0603 8.44994 47.3803 6.29994 44.1003 6.29994ZM45.3903 14.7199C45.3903 16.3599 45.1003 17.3899 44.0503 17.3899C43.0203 17.3899 42.7303 16.3499 42.7303 14.7199V10.6799C42.7303 9.27994 42.9303 8.02994 44.0503 8.02994C45.2303 8.02994 45.3903 9.34994 45.3903 10.6799V14.7199Z"></path>
+                            <path d="M52.2713 19.0899C53.7313 19.0899 54.6413 18.4799 55.3913 17.3799H55.5013L55.6113 18.8999H57.6012V6.53994H54.9613V16.4699C54.6812 16.9599 54.0312 17.3199 53.4212 17.3199C52.6512 17.3199 52.4113 16.7099 52.4113 15.6899V6.53994H49.7812V15.8099C49.7812 17.8199 50.3613 19.0899 52.2713 19.0899Z"></path>
+                            <path d="M62.8261 18.8999V4.14994H65.8661V2.09994H57.1761V4.14994H60.2161V18.8999H62.8261Z"></path>
+                            <path d="M67.8728 19.0899C69.3328 19.0899 70.2428 18.4799 70.9928 17.3799H71.1028L71.2128 18.8999H73.2028V6.53994H70.5628V16.4699C70.2828 16.9599 69.6328 17.3199 69.0228 17.3199C68.2528 17.3199 68.0128 16.7099 68.0128 15.6899V6.53994H65.3828V15.8099C65.3828 17.8199 65.9628 19.0899 67.8728 19.0899Z"></path>
+                            <path d="M80.6744 6.26994C79.3944 6.26994 78.4744 6.82994 77.8644 7.73994H77.7344C77.8144 6.53994 77.8744 5.51994 77.8744 4.70994V1.43994H75.3244L75.3144 12.1799L75.3244 18.8999H77.5444L77.7344 17.6999H77.8044C78.3944 18.5099 79.3044 19.0199 80.5144 19.0199C82.5244 19.0199 83.3844 17.2899 83.3844 13.6099V11.6999C83.3844 8.25994 82.9944 6.26994 80.6744 6.26994ZM80.7644 13.6099C80.7644 15.9099 80.4244 17.2799 79.3544 17.2799C78.8544 17.2799 78.1644 17.0399 77.8544 16.5899V9.23994C78.1244 8.53994 78.7244 8.02994 79.3944 8.02994C80.4744 8.02994 80.7644 9.33994 80.7644 11.7299V13.6099Z"></path>
+                            <path d="M92.6517 11.4999C92.6517 8.51994 92.3517 6.30994 88.9217 6.30994C85.6917 6.30994 84.9717 8.45994 84.9717 11.6199V13.7899C84.9717 16.8699 85.6317 19.1099 88.8417 19.1099C91.3817 19.1099 92.6917 17.8399 92.5417 15.3799L90.2917 15.2599C90.2617 16.7799 89.9117 17.3999 88.9017 17.3999C87.6317 17.3999 87.5717 16.1899 87.5717 14.3899V13.5499H92.6517V11.4999ZM88.8617 7.96994C90.0817 7.96994 90.1717 9.11994 90.1717 11.0699V12.0799H87.5717V11.0699C87.5717 9.13994 87.6517 7.96994 88.8617 7.96994Z"></path>
+                        </g>
+                    </svg>
 
         case 'micro':
-            return <img src={micro.src} height={sizes[size]}/>
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M18.063 14.5a1 1 0 111.73 1A8.998 8.998 0 0113 19.942V22a1 1 0 11-2 0v-2.058A8.999 8.999 0 014.206 15.5l.866-.5.865-.5a7.002 7.002 0 0012.125 0ZM12 1a5 5 0 015 5v5a5 5 0 01-10 0V6a5 5 0 015-5ZM4.572 14.134a1 1 0 011.365.366l-1.731 1a1 1 0 01.366-1.366ZM12 3a3 3 0 00-3 3v5a3 3 0 106 0V6a3 3 0 00-3-3Z"></path>
+                    </svg>
 
         case 'writing':
-            return <img src={writing.src} height={sizes[size]}/>
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="m17.232 2.354-9.546 9.547a3 3 0 00-.789 1.394l-.866 3.462-.404 1.617 1.616-.404 3.463-.865a3 3 0 001.394-.79l9.546-9.547a2.5 2.5 0 000-3.536l-.878-.878a2.5 2.5 0 00-3.536 0ZM14.758 2H4a2 2 0 00-2 2v16a2 2 0 002 2h16a2 2 0 002-2V9.242l-2 2V20H4V4h8.758l2-2Zm4.597 1.768.877.878a.5.5 0 010 .708l-.732.732L17.915 4.5l.733-.732a.5.5 0 01.707 0ZM9.1 13.315l7.4-7.4L18.086 7.5l-7.4 7.401c-.129.128-.29.22-.465.264l-1.846.46.462-1.846a1 1 0 01.263-.464Z"></path>
+                    </svg>
 
         default:
             break;
