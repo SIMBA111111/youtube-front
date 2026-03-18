@@ -3,8 +3,9 @@ import { Header } from "@/widgets/header";
 import 'normalize.css'
 import "./globals.scss";
 import { ToastProvider } from "./providers/toastProvider";
-import { Sidebar } from "@/widgets/sidebar";
+import { SidebarContainer } from "@/widgets/sidebarContainer";
 import { getChannels } from "@/shared/api/channels/getChannels";
+import { getDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 
 
 export default async function RootLayout({
@@ -22,7 +23,7 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <ToastProvider>
-          <Sidebar channels={channels}/>
+          <SidebarContainer channels={channels}/>
           <Header/>
           {children}
         </ToastProvider>

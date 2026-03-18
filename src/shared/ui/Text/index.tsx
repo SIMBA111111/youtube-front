@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import styles from './styles.module.scss'
 
 
@@ -7,18 +8,23 @@ interface IText {
     size?: number 
     weight?: TWeight
     color?: string
+    className?: string
     children: React.ReactNode
 }
 
 export const Text: React.FC<IText> = ({
     size=16, 
     weight=500, 
-    color='var(--blackText)', 
+    color='var(--blackText)',
+    className, 
     children
 }) => {
+
+    const classesList = clsx(styles.text, className)
+
     return <span
         style={{fontSize: `${size}px`, fontWeight: weight, color: color}}
-        className={styles.text}
+        className={classesList}
     >
         {children}
     </span>

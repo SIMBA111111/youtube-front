@@ -1,30 +1,30 @@
 const CHANNELS = [
     {
-        id: 'asfijas0fduasd',
+        id: 'asfijas0s dffduasd',
         name: 'Test Channel 1',
         username: 'Test Channel 1',
         avatarUrl: '/testImages/testChannelAvatar.png'
     },
     {
-        id: 'asfijas0fduasd',
+        id: 'asfijasdfs0fduasd',
         name: 'Test Channel 2',
         username: 'Test Channel 2',
         avatarUrl: '/testImages/testChannelAvatar.png'
     },
     {
-        id: 'asfijas0fduasd',
+        id: 'asfija  s0fduasd',
         name: 'Test Channel 3',
         username: 'Test Channel 3',
         avatarUrl: '/testImages/testChannelAvatar.png'
     },
     {
-        id: 'asfijas0fduasd',
+        id: 'as fijas0f duasd',
         name: 'Test Channel 4',
         username: 'Test Channel 4',
         avatarUrl: '/testImages/testChannelAvatar.png'
     },
     {
-        id: 'asfijas0fduasd',
+        id: 'asf sdfsdfijas0fduasd',
         name: 'Test Channel 5',
         username: 'Test Channel 5',
         avatarUrl: '/testImages/testChannelAvatar.png'

@@ -1,0 +1,123 @@
+.sidebarContainer {
+    position: absolute;
+    z-index: 99;
+    background-color: rgb(255, 255, 255);
+    top: 0;
+    left: 0;
+    width: 240px; /* чтобы упростить анимацию, задаем фиксированную ширину */
+    height: 100vh;
+    transition: transform 0.2s ease-in-out;
+    transform: translateX(-100%); /* скрыта за левым краем */
+
+    &.open {
+        transform: translateX(0); /* показать */
+    }
+}
+
+.sidebarOverlay {
+    position: absolute;
+    pointer-events: none;
+    z-index: 98;
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    opacity: 0.5;
+}
+
+.sidebarBtns {
+    display: flex;
+    margin-top: 16px;
+    width: 100%;
+    padding: 0px 24px;
+    gap: 16px;
+    align-items: center;
+}
+
+.sidebarBtn {
+    cursor: pointer;
+
+    &__close {
+        cursor: pointer;
+        margin-top: 16px;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.logo {
+}
+
+.channelAvatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.btns {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    text-align: center;
+    margin-top: 50px;
+    
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+
+        &__open {
+            display: flex;
+            padding: 10px 16px;
+            border-radius: 16px;
+            flex-direction: row;
+            gap: 16px;
+            width: 100%;
+            margin: 8px;
+            align-items: center;
+            margin: auto;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--grayDarkBackground);
+            }
+
+            &_active {
+                display: flex;
+                gap: 24px;
+                width: 100%;
+                border-radius: 16px;
+                padding: 10px 16px;
+                align-items: center;
+                background-color: var(--grayDarkBackground);
+            }
+        }
+    }
+
+    &__open {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        margin-top: 16px;
+        width: 100%;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        height: 100vh;
+        padding: 0px 10px;
+    }
+}
+
+
+.divider {
+    padding-bottom: 12px;
+    padding-top: 8px;
+    border-bottom: 1px solid var(--grayDarkBackground);
+}
+
+.navigator {
+    pointer-events: none !important;
+    user-select: none !important;
+}

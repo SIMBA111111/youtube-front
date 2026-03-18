@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "mobx": "^6.15.0",
     "next": "16.1.6",
     "normalize.css": "^8.0.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "sass": "^1.98.0"
+    "sass": "^1.98.0",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@types/node": "^20",

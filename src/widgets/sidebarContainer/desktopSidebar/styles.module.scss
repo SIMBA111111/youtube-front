@@ -2,12 +2,14 @@
     position: absolute;
     z-index: 99;
     background-color: rgb(255, 255, 255);
-    top: 0;
+    top: 40px;
     left: 0;
     width: 240px;
 
         &Hidden {
-            width: 100px;
+            position: absolute;
+            top: 10px;
+            width: 70px;
         }
 }
 
@@ -39,12 +41,9 @@
     }
 }
 
-.logo {
-}
-
 .channelAvatar {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
@@ -53,23 +52,30 @@
 .btns {
     display: flex;
     flex-direction: column;
-    gap: 48px;
+    // gap: 8px;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 40px;
     
+
 
     &__item {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 8px;
+        padding: 20px 8px;
+        border-radius: 8px;
 
-        &__open {
+            &:hover {
+                background-color: var(--grayBackground);
+            }
+
+            &__open {
             display: flex;
-            padding: 16px;
+            padding: 10px 16px;
             border-radius: 16px;
             flex-direction: row;
-            gap: 24px;
+            gap: 16px;
             width: 100%;
             margin: 8px;
             align-items: center;
@@ -77,7 +83,17 @@
             cursor: pointer;
 
             &:hover {
-                background-color: var(--grayDarkBackground);
+                background-color: var(--grayBackground);
+            }
+
+            &_active {
+                display: flex;
+                gap: 24px;
+                width: 100%;
+                border-radius: 16px;
+                padding: 10px 16px;
+                align-items: center;
+                background-color: var(--grayBackground);
             }
         }
     }
@@ -91,5 +107,17 @@
         overflow-y: auto;
         scrollbar-width: thin;
         height: 100vh;
+        padding: 0px 10px;
     }
+}
+
+.divider {
+    padding-bottom: 12px;
+    padding-top: 8px;
+    border-bottom: 1px solid var(--grayDarkBackground);
+}
+
+.navigator {
+    pointer-events: none !important;
+    user-select: none !important;
 }
