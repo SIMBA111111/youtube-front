@@ -24,6 +24,8 @@
 }
 
 .customNotifModal {
+    overflow: auto;
+    scrollbar-width: none;
     right: 50px;
     border-radius: 16px !important;
     border-top-left-radius: 10%;

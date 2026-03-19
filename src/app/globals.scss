@@ -1,8 +1,6 @@
 :root {
-
   --gray: gray;
   --lightGray: rgb(201, 201, 201);
-
 
   // background
   --background: #ffffff;
@@ -19,12 +17,16 @@
   --descriptionText: #606060;
   --placeholderText: #c6c6c6;
 
-
   //border
   --grayBorder: #c6c6c6;
   --blueBorder: #1c62b9;
 
   --shadow: rgba(0, 0, 0, .3);
+  
+  // dimensions
+  --header-height: 60px;
+  --sidebar-width-open: 240px;
+  --sidebar-width-closed: 80px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,12 +39,13 @@
   }
 }
 
-html,
-body {
+html, body {
   width: 100vw;
-  overflow-x: hidden;
-  line-height: 1;
   height: 100vh;
+  overflow: hidden;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -64,12 +67,14 @@ a {
   text-decoration: none;
 }
 
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
 }
 
+// Font faces остаются без изменений
 @font-face {
   font-family: 'Roboto';
   src: url('/fonts/Roboto-ExtraBold.ttf') format('TrueType');

@@ -1,0 +1,48 @@
+.grid {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-rows: var(--header-height) 1fr;
+  transition: grid-template-columns 0.3s ease;
+  
+  &SidebarOpen {
+    grid-template-columns: var(--sidebar-width-open) 1fr;
+    grid-template-areas: 
+      "header header"
+      "sidebar page";
+  }
+  
+  &SidebarClosed {
+    grid-template-columns: var(--sidebar-width-closed) 1fr;
+    grid-template-areas: 
+      "header header"
+      "sidebar page";
+  }
+}
+
+.sidebarWrapper {
+  grid-area: sidebar;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  align-content: start;
+  // overflow-y: auto;
+  background-color: var(--background);
+}
+
+.headerWrapper {
+  grid-area: header;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--background);
+}
+
+.pageWrapper {
+  grid-area: page;
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: var(--background);
+}
