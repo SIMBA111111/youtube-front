@@ -16,19 +16,19 @@ export const CreateContentBtn = () => {
             <BackgroundFon>
                 <div className={styles.createBtn}><Svg name='plus'/>Создать</div>
             </BackgroundFon>
-            <Modal isVisible={isOpenCreateModal} setIsVisible={setIsOpenCreateModal} isCloseButton={false} isOverlay={false}>
+            <Modal isVisible={isOpenCreateModal} setIsVisible={setIsOpenCreateModal} isCloseButton={false} isOverlay={false} className={styles.customModal}>
                 <div className={styles.createModal}>
                     <Link href={'/channel/hash/videos/upload'} className={styles.createModal__item}>
                         <Svg name='video'/>
-                        <Text>Добавить видео</Text>
+                        <Text weight={400} size={14}>Добавить видео</Text>
                     </Link>
                     <Link href={'/channel/hash/livestreaming'} className={styles.createModal__item}>
                         <Svg name='broadcast'/>
-                        <Text>Начать трансляцию</Text>
+                        <Text weight={400} size={14}>Начать трансляцию</Text>
                     </Link>
                     <Link href={'/channel/hash/posts'} className={styles.createModal__item}>
                         <Svg name='writing'/>
-                        <Text>Создать запись</Text>
+                        <Text weight={400} size={14}>Создать запись</Text>
                     </Link>
                 </div>
             </Modal>

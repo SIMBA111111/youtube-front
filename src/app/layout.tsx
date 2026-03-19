@@ -3,12 +3,10 @@ import { Header } from "@/widgets/header";
 import 'normalize.css'
 import "./globals.scss";
 import { ToastProvider } from "./providers/toastProvider";
-import { SidebarContainer } from "@/widgets/sidebarContainer";
 import { getChannels } from "@/shared/api/channels/getChannels";
-import { getDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { PageWrapper } from "@/widgets/pageWrapper";
 import ProgressBarProvider from "./providers/progressProvider";
-
+import { cookies } from "next/headers";
 
 export default async function RootLayout({
   children,
@@ -18,11 +16,13 @@ export default async function RootLayout({
 
   const channels = await getChannels()
   
-  console.log('channels = ', channels);
-  
+  const cookieStore = await cookies()
+  const theme = cookieStore.get('theme')?.value
 
+  const currentTheme = theme ? theme : 'device'  
+  
   return (
-    <html lang="en">
+    <html lang="en" data-theme={currentTheme}>
       <body>
         <ToastProvider>
           <ProgressBarProvider>

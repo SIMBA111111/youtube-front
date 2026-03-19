@@ -1,9 +1,18 @@
 'use client'
 
 import { BurgerButton, Svg } from '@/shared/ui'
-import { CreateContentBtn, Notifications, VideoSearch } from '@/features'
+import { CreateContentBtn, Notifications, UserBtn, VideoSearch } from '@/features'
 
 import styles from './styles.module.scss'
+
+
+    // TO DO тетсовые данные, потом из кук брать их
+    const username = '@SWEET_LIFE'
+    const channelName = 'СЛАДКАЯ ЖИЗНЬ'
+    const avatarUrl = '/testImages/testChannelAvatar.png'
+    const activeTheme = 'dark'
+    const activeLanguage = 'ru'
+
 
 export const Header = () => {
     return (
@@ -20,7 +29,7 @@ export const Header = () => {
             <div className={styles.headerContainer__block}>
                 <CreateContentBtn/>
                 <Notifications/>
-                <div className={styles.myAccount}>user</div>
+                <UserBtn id='aspdjasjd' activeLanguage={activeLanguage} username={username} channelName={channelName} avatarUrl={avatarUrl} activeTheme={activeTheme}/>
             </div>
         </div>
     )

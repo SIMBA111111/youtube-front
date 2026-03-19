@@ -63,8 +63,6 @@
 
         useEffect(() => {
             if (value.length > 2) {
-                console.log('value = ', value);
-                
                 getElementsByName(value).then((data: IElement[] | string) => {
                     console.log('getElementsByName = ', data);
                     
@@ -76,9 +74,6 @@
                 setElements(null);
             }
         }, [value]);
-
-        console.log('elements = ', elements);
-        
 
         return (
             <div className={styles.input__container}>
