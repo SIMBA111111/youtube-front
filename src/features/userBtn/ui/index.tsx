@@ -1,4 +1,3 @@
-// UserBtn.tsx
 'use client'
 
 import { BackgroundFon, Modal, Svg, Text } from "@/shared/ui";
@@ -10,13 +9,21 @@ import { themes } from "@/shared/constants/themes";
 import { languages } from "@/shared/constants/langs";
 import { handleThemeChange } from "../lib/handleThemeChange";
 import { handleLanguageChange } from "../lib/handleLanguageChange";
+import Cookies from 'js-cookie'
 
 type SubModalType = 'theme' | 'language' | null;
 
 export const UserBtn: React.FC<IUserBtn> = (props) => {
-    const { id, username, channelName, avatarUrl, activeTheme, activeLanguage } = props
+    const { id, username, channelName, avatarUrl, 
+        // activeTheme,
+     activeLanguage } = props
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
     const [subModal, setSubModal] = useState<SubModalType>(null)
+
+    const activeTheme = Cookies.get('theme')
+    console.log('activeTheme = ', activeTheme);
+    
+    
 
     return (
         <>
@@ -95,7 +102,7 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                                     className={`${styles.subMenu__item} ${activeTheme === theme.id ? styles.active : ''}`}
                                     onClick={() => handleThemeChange(theme.id)}
                                 >
-                                        <div>{activeTheme === theme.id && <Svg name="check" />}</div>
+                                        <div className={styles.svgColor}>{activeTheme === theme.id && <Svg name="check" />}</div>
                                         <Text weight={400}>{theme.name}</Text>
                                 </div>
                             ))}

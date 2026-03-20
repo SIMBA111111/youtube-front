@@ -99,7 +99,7 @@ export const Svg: React.FC<ISvg> = ({
                     </svg>
 
         case 'check':
-            return <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
                         <path d="M19.793 5.793 8.5 17.086l-4.293-4.293a1 1 0 10-1.414 1.414L8.5 19.914 21.207 7.207a1 1 0 10-1.414-1.414Z"></path>
                     </svg>
 

@@ -105,12 +105,17 @@
     }
 
     &.active {
-      background-color: var(--lightBlue);
+      background-color: var(--grayBackground);
       color: var(--blue);
       
       svg {
         color: var(--blue);
       }
+
+      .svgColor {
+        color: var(--blackText);
+      }
+
     }
   }
 }

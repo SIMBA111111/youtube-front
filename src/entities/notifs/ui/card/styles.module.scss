@@ -7,7 +7,7 @@
     color: inherit;
     transition: background-color 0.2s ease;
     position: relative;
-    background-color: white;
+    background-color: var(--modalBackgroundColor);
     width: 100%;
     
     // Исправленный hover - без вложенности
@@ -20,7 +20,7 @@
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        background-color: #3ea6ff;
+        background-color: var(--blueBorder);
         position: absolute;
         left: 4px;
         top: 50%;

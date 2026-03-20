@@ -4,7 +4,7 @@
     position: absolute;
     width: 100vw;
     height: 100vh;
-    background-color: black;
+    background-color: var(--whiteText);
     opacity: 0.3;
     z-index: 100;
     cursor: auto;
@@ -21,7 +21,7 @@
     flex-direction: column;
     gap: 16px;
     position: absolute;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--modalBackgroundColor);
     box-shadow: 0px 0px 5px var(--gray);
 
     &__visible {
