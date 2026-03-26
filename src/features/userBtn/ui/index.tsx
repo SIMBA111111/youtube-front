@@ -10,18 +10,19 @@ import { languages } from "@/shared/constants/langs";
 import { handleThemeChange } from "../lib/handleThemeChange";
 import { handleLanguageChange } from "../lib/handleLanguageChange";
 import Cookies from 'js-cookie'
+import { Theme, Themes, useTheme } from "@/app/providers/themeProvider";
 
 type SubModalType = 'theme' | 'language' | null;
 
 export const UserBtn: React.FC<IUserBtn> = (props) => {
     const { id, username, channelName, avatarUrl, 
         // activeTheme,
-     activeLanguage } = props
+            activeLanguage } = props
+    const { theme, setTheme } = useTheme();
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
     const [subModal, setSubModal] = useState<SubModalType>(null)
-
-    const activeTheme = Cookies.get('theme')
-    console.log('activeTheme = ', activeTheme);
+    const [currentTheme, setCurrentTheme] = useState<Theme>(theme)
+    
     
     
 
@@ -62,7 +63,7 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                             onClick={() => setSubModal('theme')}
                         >
                             <Svg name="moon"/>
-                            <Text weight={400}>Тема: {activeTheme === 'dark' ? 'Темная' : 'Светлая'}</Text>
+                            <Text weight={400}>Тема: {Themes[currentTheme]}</Text>
                             <Svg name="arrowLeft"/>
                         </div>
 
@@ -99,10 +100,10 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                             {themes.map(theme => (
                                 <div 
                                     key={theme.id}
-                                    className={`${styles.subMenu__item} ${activeTheme === theme.id ? styles.active : ''}`}
-                                    onClick={() => handleThemeChange(theme.id)}
+                                    className={`${styles.subMenu__item} ${currentTheme === theme.id ? styles.active : ''}`}
+                                    onClick={() => handleThemeChange(theme.id, setTheme, setCurrentTheme)}
                                 >
-                                        <div className={styles.svgColor}>{activeTheme === theme.id && <Svg name="check" />}</div>
+                                        <div className={styles.svgColor}>{currentTheme === theme.id && <Svg name="check" />}</div>
                                         <Text weight={400}>{theme.name}</Text>
                                 </div>
                             ))}

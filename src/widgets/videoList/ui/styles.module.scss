@@ -1,0 +1,173 @@
+.container {
+    padding: 20px 16px;
+    max-width: 2560px;
+    margin: 0 auto;
+}
+
+.videoGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; // ← РАВНОЕ РАССТОЯНИЕ ВСЕГДА
+    justify-content: flex-start;
+
+}
+
+.videoCardWrapper {
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 28px;
+
+    &:hover {
+        background-color: rgba(249, 98, 98, 0.1);
+    }
+}
+
+
+// Равные промежутки, карточки растягиваются на доступное место
+@media (min-width: 0px) {
+    .videoCardWrapper {
+        width: 100%;
+    }
+}
+
+@media (min-width: 500px) {
+    .videoCardWrapper {
+        width: calc((100% - 16px) / 1); // ← ОДИНАКОВАЯ ШИРИНА С УЧЕТОМ gap
+    }
+}
+
+@media (min-width: 800px) {
+    .videoCardWrapper {
+        width: calc((100% - 32px) / 2); // ← 2 промежутка по 16px
+    }
+}
+
+@media (min-width: 1100px) {
+    .videoCardWrapper {
+        width: calc((100% - 48px) / 3); // ← 3 промежутка по 16px
+    }
+}
+
+@media (min-width: 1400px) {
+    .videoCardWrapper {
+        width: calc((100% - 64px) / 3); // ← 4 промежутка по 16px
+    }
+}
+
+@media (min-width: 1700px) {
+    .videoCardWrapper {
+        width: calc((100% - 80px) / 4); // ← 5 промежутков по 16px
+    }
+}
+
+@media (min-width: 2000px) {
+    .videoCardWrapper {
+        width: calc((100% - 96px) / 4); // ← 6 промежутков по 16px
+    }
+}
+
+// Альтернативный вариант с минимальной и максимальной шириной карточки
+.videoCardWrapperFixed {
+    flex: 1 1 250px; // Минимальная ширина 250px
+    max-width: 360px; // Максимальная ширина 360px
+    transition: transform 0.2s ease;
+    
+    &:hover {
+        transform: translateY(-4px);
+    }
+}
+
+// Стили для состояния загрузки
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    padding: 40px;
+}
+
+.loadingSpinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top: 4px solid #ff0000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loadingText {
+    font-size: 16px;
+    color: #aaa;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+// Стили для пустого состояния
+.emptyContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    padding: 40px;
+    text-align: center;
+}
+
+.emptyIcon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+}
+
+.emptyTitle {
+    font-size: 24px;
+    font-weight: 500;
+    color: #f1f1f1;
+    margin-bottom: 8px;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+.emptyText {
+    font-size: 16px;
+    color: #aaa;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 16px 8px;
+    }
+    
+    .videoGrid {
+        gap: 12px; // Меньше расстояние на мобильных
+    }
+}
+
+@media (min-width: 500px) and (max-width: 800px) {
+    .container {
+        padding: 18px 12px;
+    }
+    
+    .videoGrid {
+        gap: 14px; // Среднее расстояние на планшетах
+    }
+}
+
+// Для очень широких мониторов можно уменьшить отступы
+@media (min-width: 2000px) {
+    .videoGrid {
+        gap: 14px; // Чуть меньше на широких экранах
+    }
+}
+
+@media (min-width: 2500px) {
+    .videoGrid {
+        gap: 12px; // Еще меньше на очень широких
+    }
+}
