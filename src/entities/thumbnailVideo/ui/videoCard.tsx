@@ -1,89 +1,47 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useRef, useEffect, MouseEvent } from "react";
 import Link from "next/link";
-import * as Vibrant from 'node-vibrant';
 import { IVideo } from "../modal/types";
-
 import styles from "./styles.module.scss";
-import { useRef } from "react";
-import { useEffect } from "react";
+import { getAverageColor } from "@/shared/utils/getAverageColor";
+import { formatDuration } from "@/shared/utils/formatDuration";
+import { formatViews } from "@/shared/utils/formatViews";
+import { formatDate } from "@/shared/utils/formatDate";
+import { handleMenuClick } from "../lib/handlers";
 
 export const ThumbnailVideoCard = ({ video }: { video: IVideo }) => {
     const [isHovered, setIsHovered] = useState(false);
-
-
-    const [backgroundColor, setBackgroundColor] = useState<string>('#0f0f0f');
     const imgRef = useRef<HTMLImageElement>(null);
+    const colorRef = useRef<string>('rgba(249, 98, 98, 0.1)');
 
     useEffect(() => {
-        if (video.previewUrl) {
-            // Анализируем изображение и получаем доминирующий цвет
-            Vibrant.from(video.previewUrl)
-                .getPalette()
-                .then((palette: any) => {
-                    // Берем доминирующий цвет или цвет из палитры
-                    const dominantColor = palette.DarkVibrant || 
-                                         palette.Vibrant || 
-                                         palette.DarkMuted;
-                    
-                    if (dominantColor) {
-                        setBackgroundColor(dominantColor.getHex());
-                    }
-                })
-                .catch((err: any) => {
-                    console.error('Error getting vibrant color:', err);
-                });
+        if (video.previewUrl && imgRef.current) {
+            const img = imgRef.current;
+            
+            const extractAverageColor = () => {
+                try {
+                    const avgColor = getAverageColor(img);
+                    colorRef.current = avgColor;
+                } catch (error) {
+                    console.error('Error extracting average color:', error);
+                    colorRef.current = 'rgb(249, 98, 98)';
+                }
+            };
+            
+            if (img.complete) {
+                extractAverageColor();
+            } else {
+                img.onload = extractAverageColor;
+            }
         }
     }, [video.previewUrl]);
-    
-    // Форматирование времени
-    const formatDuration = (seconds: number): string => {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const secs = Math.floor(seconds % 60);
-        
-        if (hours > 0) {
-            return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        }
-        return `${minutes}:${secs.toString().padStart(2, '0')}`;
-    };
-
-    // Форматирование числа просмотров
-    const formatViews = (views: number): string => {
-        if (views >= 1000000) {
-            return (views / 1000000).toFixed(1).replace('.0', '') + ' млн';
-        }
-        if (views >= 1000) {
-            return (views / 1000).toFixed(1).replace('.0', '') + ' тыс';
-        }
-        return views.toString();
-    };
-
-    // Форматирование даты публикации
-    const formatDate = (dateString: string): string => {
-        const date = new Date(dateString);
-        const now = new Date();
-        const diffMs = now.getTime() - date.getTime();
-        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-        
-        if (diffDays === 0) return 'сегодня';
-        if (diffDays === 1) return 'вчера';
-        if (diffDays < 7) return `${diffDays} дня назад`;
-        if (diffDays < 30) return `${Math.floor(diffDays / 7)} недели назад`;
-        if (diffDays < 365) return `${Math.floor(diffDays / 30)} месяца назад`;
-        return `${Math.floor(diffDays / 365)} года назад`;
-    };
-
-    const handleMenuClick = (e: React.MouseEvent) => {
-        e.preventDefault(); // Предотвращаем переход по ссылке
-        e.stopPropagation(); // Останавливаем всплытие
-        // Здесь можно открыть меню с опциями видео
-        console.log('Open menu for video:', video.videoHash);
-    };
 
     return (
         <Link 
+            style={{ 
+                '--custom-color': colorRef.current
+            } as React.CSSProperties}
             href={`videos/${video.videoHash}`}
             className={styles.card}
             onMouseEnter={() => setIsHovered(true)}
@@ -95,6 +53,7 @@ export const ThumbnailVideoCard = ({ video }: { video: IVideo }) => {
                 <img
                     src={video.previewUrl || '/placeholder-thumbnail.jpg'}
                     alt={video.name}
+                    ref={imgRef}
                     className={styles.thumbnail}
                 />
                 
@@ -121,7 +80,7 @@ export const ThumbnailVideoCard = ({ video }: { video: IVideo }) => {
                 </div>
             </div>
 
-            {/* Информация о видео - используется grid template areas */}
+            {/* Информация о видео */}
             <div className={styles.infoContainer}>
                 {/* Аватар канала */}
                 <img 
@@ -140,7 +99,7 @@ export const ThumbnailVideoCard = ({ video }: { video: IVideo }) => {
                     {video.channel?.name || 'Неизвестный канал'}
                 </p>
                 
-                {/* Статистика: просмотры и дата */}
+                {/* Статистика */}
                 <div className={styles.stats}>
                     <span>{formatViews(video.viewersCount || 0)} просмотров</span>
                     <span className={styles.dot}></span>
@@ -149,10 +108,10 @@ export const ThumbnailVideoCard = ({ video }: { video: IVideo }) => {
                     </span>
                 </div>
 
-                {/* Кнопка меню (три точки) */}
+                {/* Кнопка меню */}
                 <button 
                     className={`${styles.menuButton} ${isHovered ? styles.menuButtonVisible : ''}`}
-                    onClick={handleMenuClick}
+                    onClick={(e: MouseEvent<HTMLButtonElement>) => handleMenuClick(e, video)}
                     aria-label="Меню видео"
                 >
                     <svg className={styles.menuIcon} viewBox="0 0 24 24">

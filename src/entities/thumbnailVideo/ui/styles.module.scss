@@ -5,6 +5,12 @@
     font-family: 'Roboto', Arial, sans-serif;
     text-decoration: none;
     display: block;
+    border-radius: 28px;
+    padding: 12px;
+
+    &:hover {
+        background-color: var(--custom-color);
+    }
 }
 
 .thumbnailContainer {

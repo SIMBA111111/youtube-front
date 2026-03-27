@@ -7,7 +7,6 @@
 .videoGrid {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px; // ← РАВНОЕ РАССТОЯНИЕ ВСЕГДА
     justify-content: flex-start;
 
 }
@@ -16,10 +15,6 @@
     box-sizing: border-box;
     padding: 12px;
     border-radius: 28px;
-
-    &:hover {
-        background-color: rgba(249, 98, 98, 0.1);
-    }
 }
 
 
