@@ -1,14 +1,11 @@
 export const getDeviceIsMobile = () => {
     if (typeof window === 'undefined') {
-        console.log("Speech Recognition недоступен на сервере");
+        console.log("getDeviceIsMobile недоступен на сервере");
         return;
     }
         
-    const mediaQuery = window.matchMedia('(max-width: 1280px)')
+    const tabletMediaQuery = window.matchMedia('(max-width: 1280px)')
+    const mobileMediaQuery = window.matchMedia('(max-width: 768px)')
     
-    if (mediaQuery.matches) {
-        return mediaQuery.matches
-    } else {
-        return false
-    }
+    return {isTablet: tabletMediaQuery.matches || false, isMobile: mobileMediaQuery.matches || false}
 }

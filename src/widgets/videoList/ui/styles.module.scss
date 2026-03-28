@@ -1,75 +1,62 @@
 .container {
-    padding: 20px 16px;
+    padding: 0px 16px;
     max-width: 2560px;
     margin: 0 auto;
 }
 
-.videoGrid {
+.tagList {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    gap: 8px;
+    margin: 0px 0px 20px 12px;
 
+    &__item {
+        padding: 8 12;
+        background-color: var(--grayBackground);
+        border-radius: 8px;
+        cursor: pointer;
+
+        &_active {
+            background-color: black;
+        }
+    }
+}
+
+.videoGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 1280px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    // @media (min-width: 2000px) {
+    //     grid-template-columns: repeat(4, 1fr);
+    // }
 }
 
 .videoCardWrapper {
-    box-sizing: border-box;
-    padding: 12px;
+    // box-sizing: border-box;
+    width: 100%;
     border-radius: 28px;
 }
 
-
-// Равные промежутки, карточки растягиваются на доступное место
-@media (min-width: 0px) {
-    .videoCardWrapper {
-        width: 100%;
-    }
+.shortsTag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-@media (min-width: 500px) {
-    .videoCardWrapper {
-        width: calc((100% - 16px) / 1); // ← ОДИНАКОВАЯ ШИРИНА С УЧЕТОМ gap
-    }
+.videoGridHorts {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 
-@media (min-width: 800px) {
-    .videoCardWrapper {
-        width: calc((100% - 32px) / 2); // ← 2 промежутка по 16px
-    }
-}
+.hortsVideoCardWrapper {
 
-@media (min-width: 1100px) {
-    .videoCardWrapper {
-        width: calc((100% - 48px) / 3); // ← 3 промежутка по 16px
-    }
-}
-
-@media (min-width: 1400px) {
-    .videoCardWrapper {
-        width: calc((100% - 64px) / 3); // ← 4 промежутка по 16px
-    }
-}
-
-@media (min-width: 1700px) {
-    .videoCardWrapper {
-        width: calc((100% - 80px) / 4); // ← 5 промежутков по 16px
-    }
-}
-
-@media (min-width: 2000px) {
-    .videoCardWrapper {
-        width: calc((100% - 96px) / 4); // ← 6 промежутков по 16px
-    }
-}
-
-// Альтернативный вариант с минимальной и максимальной шириной карточки
-.videoCardWrapperFixed {
-    flex: 1 1 250px; // Минимальная ширина 250px
-    max-width: 360px; // Максимальная ширина 360px
-    transition: transform 0.2s ease;
-    
-    &:hover {
-        transform: translateY(-4px);
-    }
 }
 
 // Стили для состояния загрузки
@@ -101,68 +88,4 @@
     font-size: 16px;
     color: #aaa;
     font-family: 'Roboto', Arial, sans-serif;
-}
-
-// Стили для пустого состояния
-.emptyContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 400px;
-    padding: 40px;
-    text-align: center;
-}
-
-.emptyIcon {
-    font-size: 64px;
-    margin-bottom: 16px;
-    opacity: 0.6;
-}
-
-.emptyTitle {
-    font-size: 24px;
-    font-weight: 500;
-    color: #f1f1f1;
-    margin-bottom: 8px;
-    font-family: 'Roboto', Arial, sans-serif;
-}
-
-.emptyText {
-    font-size: 16px;
-    color: #aaa;
-    font-family: 'Roboto', Arial, sans-serif;
-}
-
-@media (max-width: 500px) {
-    .container {
-        padding: 16px 8px;
-    }
-    
-    .videoGrid {
-        gap: 12px; // Меньше расстояние на мобильных
-    }
-}
-
-@media (min-width: 500px) and (max-width: 800px) {
-    .container {
-        padding: 18px 12px;
-    }
-    
-    .videoGrid {
-        gap: 14px; // Среднее расстояние на планшетах
-    }
-}
-
-// Для очень широких мониторов можно уменьшить отступы
-@media (min-width: 2000px) {
-    .videoGrid {
-        gap: 14px; // Чуть меньше на широких экранах
-    }
-}
-
-@media (min-width: 2500px) {
-    .videoGrid {
-        gap: 12px; // Еще меньше на очень широких
-    }
 }

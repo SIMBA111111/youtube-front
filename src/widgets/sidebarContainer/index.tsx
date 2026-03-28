@@ -7,11 +7,11 @@ import { DesktopSidebar } from './desktopSidebar'
 
 
 export const SidebarContainer = ({channels}: {channels: IChannel[]}) => {
-    const isTablet = getDeviceIsMobile()
+    const device = getDeviceIsMobile()
 
     return (
         <>
-            {isTablet ? <TabletSidebar channels={channels}/> : <DesktopSidebar channels={channels}/>}
+            {device?.isTablet ? <TabletSidebar channels={channels}/> : <DesktopSidebar channels={channels}/>}
         </>
     )
 }

@@ -1,4 +1,7 @@
-export const getAverageColor = (img: HTMLImageElement): string => {
+export const getAverageColor = (img: HTMLImageElement | null): string => {
+    if(!img)
+        return ''
+
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     

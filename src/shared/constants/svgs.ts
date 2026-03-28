@@ -40,6 +40,7 @@ export const svgs = {
     shortArrowLeft: 'shortArrowLeft',
     shortArrowUp: 'shortArrowUp',
     shorts: 'shorts',
+    shortsRed: 'shortsRed',
     shortsActive: 'shortsActive',
     subscriptions: 'subscriptions',
     subscriptionsActvie: 'subscriptionsActvie',

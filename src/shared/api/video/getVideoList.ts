@@ -4,7 +4,7 @@ const VIDEOS = [
         name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
         videoHash: '895asd5a8s5d',
         isShort: false,
-        previewUrl: '/testImages/preview.png',
+        previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,
         duration: 300,
@@ -80,10 +80,255 @@ const VIDEOS = [
         }
     },
     {
-        id: '5',
+        id: '51',
         name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
         videoHash: 'e354y746',
         isShort: false,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+
+    {
+        id: '52',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: false,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+
+    {
+        id: '53',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: false,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+
+    {
+        id: '54',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: false,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+
+    {
+        id: '55',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: false,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+
+    {
+        id: '56',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: false,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+    {
+        id: '6',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: true,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+    {
+        id: '7',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: true,
+        previewUrl: '/testImages/pr.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+    {
+        id: '8',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: true,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+    {
+        id: '9',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: true,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+    {
+        id: '10',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: true,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/pr.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+    {
+        id: '12',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: true,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        },
+    },
+    {
+        id: '13',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: true,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        },
+    },
+    {
+        id: '14',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: true,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        },
+    },
+    {
+        id: '15',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: true,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        },
+    },
+    {
+        id: '16',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,

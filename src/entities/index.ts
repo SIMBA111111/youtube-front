@@ -1,0 +1,1 @@
+export { ThumbnailShortVideoCard } from './thumbnailShortVideo/ui'
