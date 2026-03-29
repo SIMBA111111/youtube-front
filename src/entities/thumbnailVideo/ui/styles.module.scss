@@ -1,3 +1,9 @@
+.cardContainer {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
 .card {
     width: 100%;
     cursor: pointer;
@@ -37,6 +43,21 @@
     object-fit: cover;
 }
 
+.soundBadge {
+    position: absolute;
+    // bottom: 8px;
+    border: none;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    padding: 6px 6px 4px 6px;
+    border-radius: 28px;
+    font-weight: 500;
+    z-index: 1000;
+    cursor: pointer;
+}
+
 .durationBadge {
     position: absolute;
     bottom: 8px;
@@ -47,7 +68,6 @@
     padding: 2px 6px;
     border-radius: 4px;
     font-weight: 500;
-    backdrop-filter: blur(4px);
 }
 
 .progressBar {
@@ -67,6 +87,27 @@
     
     &.progressFillActive {
         width: 100%;
+    }
+}
+
+.modalContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal {
+    border-radius: 12px;
+    overflow: hidden;
+
+    &__item {
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &:hover {
+            background-color: var(--grayBackground);
+        }
     }
 }
 
@@ -136,22 +177,12 @@
     align-items: center;
     justify-content: center;
     border: none;
-    background: transparent;
+    color: var(--blackText);
+    background-color: none;
     cursor: pointer;
     border-radius: 50%;
-    transition: background-color 0.2s ease;
     
     &:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
-}
-
-.menuIcon {
-    width: 20px;
-    height: 20px;
-    fill: #606060;
-    
-    circle {
-        fill: #606060;
+        // background-color: rgba(0, 0, 0, 0.05);
     }
 }

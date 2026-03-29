@@ -34,6 +34,8 @@ export const svgs = {
     news: 'news',
     playlist: 'playlist',
     plus: 'plus',
+    soundOn: 'soundOn',
+    soundOff: 'soundOff',
     settings: 'settings',
     share: 'share',
     shortArrowDown: 'shortArrowDown',
@@ -48,4 +50,7 @@ export const svgs = {
     video: 'video',
     videogame: 'videogame',
     writing: 'writing',
+    replay: 'replay',
+    block: 'block',
+    brick: 'brick',
 }

@@ -5,10 +5,11 @@ import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Svg, Text } from "@/shared/ui";
 
-import styles from "./styles.module.scss";
 import { getDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { getVideos } from "@/shared/api/video/getVideoList";
-import { ThumbnailShortVideoCard } from "@/entities";
+import { ThumbnailShortVideoCard, VideoTags } from "@/entities";
+import styles from "./styles.module.scss";
+
 
 interface ITAG {
     id: string
@@ -56,18 +57,13 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
         
         handleGetVideos()
     })
-
-    // const videoCount = getVideosCount(device)
     
 
     return (
         <div className={styles.container}>
             <div className={styles.tagList}>
                 {tags.map((tag: ITAG) => {
-                    const isActive = activeTag == tag.id
-                    return <div key={tag.id} onClick={() => setActiveTag(tag.id)} className={`${styles.tagList__item} ${isActive ? styles.tagList__item_active : ''}`}>
-                                <Text color={isActive ? 'white' : ''}>{tag.name}</Text>
-                            </div>
+                    return <VideoTags id={tag.id} name={tag.name} activeTag={activeTag} setActiveTag={setActiveTag}/>
                     })}
             </div>
             <div className={styles.videoGrid}>

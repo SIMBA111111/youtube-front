@@ -26,7 +26,7 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
         <div style={{'--custom-color': getAverageColor(colorRef.current)} as React.CSSProperties} className={styles.shortContainer}>
             <img ref={colorRef} src={previewUrl} alt="preview" className={styles.img}/>
             <Text>{name}</Text>
-            <Text>{formatViews(viewersCount)}</Text>
+            <Text weight={300}>{formatViews(viewersCount)} просмотров</Text>
         </div>
     )
 }

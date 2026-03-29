@@ -16,7 +16,7 @@
         cursor: pointer;
 
         &_active {
-            background-color: black;
+            background-color: var(--blackText);
         }
     }
 }
