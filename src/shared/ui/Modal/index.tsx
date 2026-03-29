@@ -81,8 +81,9 @@ export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isOverlay
                         styles.overlay, 
                         isVisible && styles.overlay__visible
                     )} 
-                    onClick={() => {
-                        // Проверяем, есть ли другие открытые модалки
+                    onClick={(e: React.MouseEvent) => {
+                        e.stopPropagation()
+                        e.preventDefault();
                         const openModals = document.querySelectorAll(`.${styles.modalContainer}.${styles.modalContainer__visible}`);
                         if (openModals.length <= 1) {
                             setIsVisible(false);
