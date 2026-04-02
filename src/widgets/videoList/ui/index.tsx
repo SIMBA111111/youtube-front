@@ -62,8 +62,8 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
     return (
         <div className={styles.container}>
             <div className={styles.tagList}>
-                {tags.map((tag: ITAG) => {
-                    return <VideoTags id={tag.id} name={tag.name} activeTag={activeTag} setActiveTag={setActiveTag}/>
+                {tags.map((tag: ITAG, index) => {
+                    return <VideoTags key={index} id={tag.id} name={tag.name} activeTag={activeTag} setActiveTag={setActiveTag}/>
                     })}
             </div>
             <div className={styles.videoGrid}>

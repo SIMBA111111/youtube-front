@@ -9,6 +9,8 @@ export default async function MainPage() {
   const tags = await getTags()
 
   return (
-    <VideoList tags={tags} videoList={videos}/>
+    <div className={styles.page}>
+      <VideoList tags={tags} videoList={videos}/>
+    </div>
   );
 }
