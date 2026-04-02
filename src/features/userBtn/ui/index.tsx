@@ -8,23 +8,27 @@ import { useState } from "react";
 import { themes } from "@/shared/constants/themes";
 import { languages } from "@/shared/constants/langs";
 import { handleThemeChange } from "../lib/handleThemeChange";
-import { handleLanguageChange } from "../lib/handleLanguageChange";
 import Cookies from 'js-cookie'
 import { Theme, Themes, useTheme } from "@/app/providers/themeProvider";
+import { useTranslation } from "react-i18next";
+import '../../../shared/i18s/i18s'
 
 type SubModalType = 'theme' | 'language' | null;
 
 export const UserBtn: React.FC<IUserBtn> = (props) => {
-    const { id, username, channelName, avatarUrl, 
-        // activeTheme,
-            activeLanguage } = props
+    const { id, username, channelName, avatarUrl } = props
     const { theme, setTheme } = useTheme();
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
     const [subModal, setSubModal] = useState<SubModalType>(null)
     const [currentTheme, setCurrentTheme] = useState<Theme>(theme)
+    const { t, i18n } = useTranslation();
     
-    
-    
+    const handleLanguageChange = async (lang: string) => {
+        Cookies.set('lang', lang);
+        await i18n.changeLanguage(lang);
+    };
+
+    const activeLanguage = Cookies.get('lang')
 
     return (
         <>
@@ -43,7 +47,6 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                 className={styles.userModal}
             >
                 {/* Информация о канале всегда видна */}
-
 
                 {/* Основное меню (скрывается когда открыта вложенная модалка) */}
                 {!subModal && (<>
@@ -114,11 +117,10 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                 {subModal === 'language' && (
                     <div className={styles.subMenu}>
                         <div className={styles.subMenu__header} onClick={() => setSubModal(null)}>
-                            
                             <BackgroundFon bacgroundColor="">
                                 <Svg name="arrowLeftFull" />
                             </BackgroundFon>
-                            <Text weight={400}>Язык интерфейса</Text>
+                            <Text weight={400}>{t('Interface Language')}</Text>
                         </div>
                         <Text size={14} color="gray" weight={400} className={styles.warningText}>Кнопки и текст на экране в этом браузере</Text>
                         <div className={styles.subMenu__list}>
@@ -126,7 +128,7 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                                 <div 
                                     key={lang.id}
                                     className={`${styles.subMenu__item} ${activeLanguage === lang.id ? styles.active : ''}`}
-                                    onClick={() => handleLanguageChange(lang.id)}
+                                    onClick={() => handleLanguageChange(lang.id)} // ✅ ТОЛЬКО ОДИН АРГУМЕНТ
                                 >
                                     <div>{activeLanguage === lang.id && <Svg name="check" />}</div>
                                     <Text weight={400}>{lang.name}</Text>
