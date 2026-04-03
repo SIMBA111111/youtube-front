@@ -5,7 +5,7 @@ import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Svg, Text } from "@/shared/ui";
 
-import { getDeviceIsMobile, useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
+import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { getVideos } from "@/shared/api/video/getVideoList";
 import { ThumbnailShortVideoCard, VideoTags } from "@/entities";
 import styles from "./styles.module.scss";
@@ -47,7 +47,7 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
     const [videoList, setVideoList] = useState<IVideo[]>([])
     const device = useDeviceIsMobile()
 
-    console.log(device);
+    console.log(videoList);
     
 
     useEffect(() => {
@@ -65,13 +65,16 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
             <div className={styles.tagList}>
                 {tags.map((tag: ITAG, index) => {
                     return <VideoTags key={index} id={tag.id} name={tag.name} activeTag={activeTag} setActiveTag={setActiveTag}/>
-                    })}
+                })}
             </div>
             <div className={styles.videoGrid}>
-                {videoList.slice(0, getVideosCount(device)).map((video: IVideo) => (
-                    <div key={video.id} className={styles.videoCardWrapper}>
-                        <ThumbnailVideoCard video={video} />
-                    </div>
+                {videoList
+                    .filter((video: IVideo) => !video.isShort) 
+                    .slice(0, getVideosCount(device))
+                    .map((video: IVideo) => (
+                        <div key={video.id} className={styles.videoCardWrapper}>
+                            <ThumbnailVideoCard video={video} />
+                        </div>
                 ))}
             </div>
 
@@ -92,10 +95,13 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
             </div>
 
             <div className={styles.videoGrid}>
-                {videoList.slice(getVideosCount(device) * 2 , getVideosCount(device) * 3 - 1).map((video: IVideo) => (
-                    <div key={video.id} className={styles.videoCardWrapper}>
-                        <ThumbnailVideoCard video={video} />
-                    </div>
+                {videoList.slice(getVideosCount(device), getVideosCount(device) * 2)
+                    .filter((video: IVideo) => !video.isShort) 
+                    .slice(0, getShortsCount(device))
+                    .map((video: IVideo) => (
+                        <div key={video.id} className={styles.videoCardWrapper}>
+                            <ThumbnailVideoCard video={video} />
+                        </div>
                 ))}
             </div>
 
@@ -116,10 +122,13 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
             </div>
 
             <div className={styles.videoGrid}>
-                {videoList.slice(getVideosCount(device) * 4).map((video: IVideo) => (
-                    <div key={video.id} className={styles.videoCardWrapper}>
-                        <ThumbnailVideoCard video={video} />
-                    </div>
+                {videoList
+                    .filter((video: IVideo) => video.isShort) 
+                    .slice(getVideosCount(device) * 2)
+                    .map((video: IVideo) => (
+                        <div key={video.id} className={styles.videoCardWrapper}>
+                            <ThumbnailVideoCard video={video} />
+                        </div>
                 ))}
             </div>
         </div>

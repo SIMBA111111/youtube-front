@@ -19,3 +19,9 @@
     object-fit: fill;
     border-radius: 12px;
 }
+
+.shortVideoName {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
