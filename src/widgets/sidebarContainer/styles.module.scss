@@ -1,0 +1,19 @@
+.desktopSidebar {
+    display: block;
+}   
+    
+.tabletSidebar {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+
+    .desktopSidebar {
+        display: none;
+    }   
+    
+    .tabletSidebar {
+        display: block;
+    }   
+}
+

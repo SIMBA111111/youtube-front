@@ -28,7 +28,7 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
         await i18n.changeLanguage(lang);
     };
 
-    const activeLanguage = Cookies.get('lang')
+    const activeLanguage = Cookies.get('lang') || navigator.language.slice(0, 2)
 
     return (
         <>
@@ -46,8 +46,6 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                 isOverlay={false} 
                 className={styles.userModal}
             >
-                {/* Информация о канале всегда видна */}
-
                 {/* Основное меню (скрывается когда открыта вложенная модалка) */}
                 {!subModal && (<>
                     <div className={styles.channel}>
@@ -75,7 +73,7 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                             onClick={() => setSubModal('language')}
                         >
                             <Svg name="lenguage"/>
-                            <Text weight={400}>Язык интерфейса: {activeLanguage}</Text>
+                            <Text weight={400}>Язык интерфейса: {languages.find((lang) => lang.id === activeLanguage)?.name}</Text>
                             <Svg name="arrowLeft"/>
                         </div>
 
@@ -128,7 +126,7 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                                 <div 
                                     key={lang.id}
                                     className={`${styles.subMenu__item} ${activeLanguage === lang.id ? styles.active : ''}`}
-                                    onClick={() => handleLanguageChange(lang.id)} // ✅ ТОЛЬКО ОДИН АРГУМЕНТ
+                                    onClick={() => handleLanguageChange(lang.id)}
                                 >
                                     <div>{activeLanguage === lang.id && <Svg name="check" />}</div>
                                     <Text weight={400}>{lang.name}</Text>

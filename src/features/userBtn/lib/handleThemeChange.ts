@@ -1,4 +1,4 @@
-import { Themes, useTheme, type Theme } from '@/app/providers/themeProvider';
+import { Themes, type Theme } from '@/app/providers/themeProvider';
 import { Dispatch, SetStateAction } from 'react';
 
 export const handleThemeChange = (theme: string, setTheme: (theme: Theme) => void, setCurrentTheme: Dispatch<SetStateAction<Theme>>) => {

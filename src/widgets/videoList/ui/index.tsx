@@ -5,7 +5,7 @@ import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Svg, Text } from "@/shared/ui";
 
-import { getDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
+import { getDeviceIsMobile, useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { getVideos } from "@/shared/api/video/getVideoList";
 import { ThumbnailShortVideoCard, VideoTags } from "@/entities";
 import styles from "./styles.module.scss";
@@ -45,18 +45,19 @@ const getShortsCount = (device: any) => {
 export const VideoList = ({tags}: {tags: ITAG[]}) => {
     const [activeTag, setActiveTag] = useState<string>(tags[0].id)
     const [videoList, setVideoList] = useState<IVideo[]>([])
-    const device = getDeviceIsMobile()
+    const device = useDeviceIsMobile()
+
+    console.log(device);
+    
 
     useEffect(() => {
         const handleGetVideos = async () => {
                 const res = await getVideos()
                 setVideoList(res)
-
-
             }
         
         handleGetVideos()
-    })
+    }, [])
     
 
     return (
