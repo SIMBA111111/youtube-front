@@ -1,0 +1,127 @@
+.comment {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    &_avatar {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
+
+    &_content {
+        flex: 1;
+    }
+
+    &_header {
+        display: flex;
+        align-items: end;
+        gap: 8px;
+        margin-bottom: 4px;
+    }
+
+    &_username {
+        font-size: 13px;
+        color: var(--whiteText);
+    }
+
+    &_text {
+        margin-bottom: 8px;
+        font-size: 14px;
+        line-height: 1.4;
+        color: var(--whiteText);
+    }
+
+    &_actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+}
+
+.action_btn {
+    box-sizing: border-box;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 18px;
+    transition: background 0.2s;
+    color: var(--grayText);
+
+    &_text {
+        padding-top: 4px;
+    }
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    &.active {
+        color: var(--primary);
+    }
+
+    svg {
+        fill: currentColor;
+    }
+}
+
+.reply_btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 18px;
+    color: var(--grayText);
+    transition: background 0.2s;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.show_replies_btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 8px;
+    padding: 8px 12px;
+    color: var(--blackText);
+
+    svg {
+        transition: transform 0.2s;
+    }
+
+    &:hover {
+        background: fixed;
+        background-color: var(--foregroundRGB);
+        border-radius: 28px;
+    }
+}
+
+.avatar_placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--grayBg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--whiteText);
+}

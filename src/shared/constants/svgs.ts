@@ -53,4 +53,5 @@ export const svgs = {
     replay: 'replay',
     block: 'block',
     brick: 'brick',
+    order: 'order',
 }

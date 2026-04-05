@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@bprogress/next": "^3.2.12",
+    "@webitch/player": "^0.1.2",
     "@webitch/short-player": "^0.1.8",
     "clsx": "^2.1.1",
     "colorthief": "^3.3.1",

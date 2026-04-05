@@ -1,0 +1,12 @@
+.order {
+    position: relative;
+    width: 20%;
+
+    &_text {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        width: fit-content;
+        cursor: pointer;
+    }
+}

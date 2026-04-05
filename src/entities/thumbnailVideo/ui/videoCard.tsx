@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect, MouseEvent } from "react";
 import Link from "next/link";
 import { IVideo } from "../modal/types";
-import styles from "./styles.module.scss";
 import { getAverageColor } from "@/shared/utils/getAverageColor";
 import { formatDuration } from "@/shared/utils/formatDuration";
 import { formatViews } from "@/shared/utils/formatViews";
@@ -12,6 +11,7 @@ import { formatDate } from "@/shared/utils/formatDate";
 import { Modal, Svg, Text } from "@/shared/ui";
 import { useRouter } from "next/navigation";
 import { handleHideChannel, handleHideVideo, handleMenuClick, handleReport, handleShareVideo, handleViewLater } from "../lib/handlers";
+import styles from "./styles.module.scss";
 
 export const ThumbnailVideoCard = ({ video }: { video: IVideo }) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -57,7 +57,7 @@ export const ThumbnailVideoCard = ({ video }: { video: IVideo }) => {
         <Link 
             onClick={(e: React.MouseEvent) => handleRoute(e)}
             className={styles.cardContainer}
-            href={`videos/${video.videoHash}`}
+            href={`watch?v=${video.videoHash}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}>
             <div 

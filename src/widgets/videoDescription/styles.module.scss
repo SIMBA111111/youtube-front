@@ -1,0 +1,150 @@
+.description {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 
+        "channel rating"
+        "videoDescription videoDescription";
+    gap: 16px;
+    margin-top: 15px;
+}
+
+.channel {
+    grid-area: channel;
+    display: flex;
+    gap: 12px;
+
+    &Info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 5px 0px;
+
+        &_name {
+            cursor: pointer;
+        }
+    }
+
+    &_img {
+        height: 48px;
+        width: 48px;
+        border-radius: 28px;
+        cursor: pointer;
+    }
+
+    &_btn {
+        border: none;
+        width: fit-content;
+        margin: 4px 0px;
+        padding: 0px 16px;
+        border-radius: 24px;
+        background-color: var(--blackText);
+        // background-color: rgba(var(--blackTextRGBA), 0.9);
+
+        cursor: pointer;
+    
+        &:hover {
+            background-color: rgba(var(--blackTextRGBA), 0.8);
+        }
+
+        &_text {
+            color: var(--whiteText);
+        }
+    }
+}
+
+.rating {
+    grid-area: rating;
+    display: flex;
+    gap: 8px;
+    margin: 4px 0px;
+
+    &_likeDislike {
+        display: flex;
+    }
+
+
+    &_like {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        cursor: pointer;
+        padding: 8 12;
+        border-top-left-radius : 28px;
+        border-bottom-left-radius : 28px;
+        background-color: var(--foregroundRGB);
+
+        &:hover {
+            background-color: var(--foregroundRGBHover);
+        }
+    }
+
+
+    &_divider {
+        border-left: 1px solid var(--foregroundRGB);
+    }
+
+    &_dislike {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        cursor: pointer;
+        padding: 8 12;
+        border-top-right-radius : 28px;
+        border-bottom-right-radius : 28px;
+        background-color: var(--foregroundRGB);
+
+        &:hover {
+            background-color: var(--foregroundRGBHover);
+        }
+    }
+
+    &_share {
+        display: flex;
+        align-items: center;
+        background-color: var(--foregroundRGB);
+        padding: 8 12;
+        border-radius: 28px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--foregroundRGBHover);
+        }
+    }
+
+    &_settings {
+        display: flex;
+        align-items: center;
+        background-color: var(--foregroundRGB);
+        padding: 8 8;
+        border-radius: 28px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--foregroundRGBHover);
+        }
+    }
+}
+
+
+.videoDescription {
+    width: 100%;
+    grid-area: videoDescription;
+    padding: 12px;
+    background-color: var(--foregroundRGB);
+    border-radius: 12px;
+
+    &_info {
+        display: flex;
+        gap: 8px;
+    }
+
+    &_text {
+        margin-top: 8px;
+    }
+
+    .hashTags {
+        display: flex;
+        gap: 4px;
+    }
+
+}

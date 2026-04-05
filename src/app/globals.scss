@@ -5,6 +5,8 @@
   // background
   --background: #ffffff;
   --foreground: #030303;
+  --foregroundRGB: rgba(0, 0, 0, 0.1);
+  --foregroundRGBHover: rgba(0, 0, 0, 0.15);
   --grayBackground: #f2f2f2;
   --grayDarkBackground: #e5e5e5;
   --lightBlackBackground: #606060;
@@ -13,6 +15,7 @@
 
   //text
   --blackText: #030303;
+  --blackTextRGBA: 0, 0, 0;
   --whiteText: #ffffff;
   --descriptionText: #606060;
   --placeholderText: #909090;
@@ -37,6 +40,8 @@
   // background
   --background: #0f0f0f;
   --foreground: #f1f1f1;
+  --foregroundRGB: rgba(255, 255, 255, 0.2);
+  --foregroundRGBHover: rgba(255, 255, 255, 0.3);
   --grayBackground: #272727;
   --grayDarkBackground: #3f3f3f;
   --lightBlackBackground: #717171;
@@ -46,6 +51,7 @@
   //text
   --blackText: #ffffff;
   --whiteText: #000000;
+  --blackTextRGBA: 255, 255, 255;
   --descriptionText: #aaaaaa;
   --placeholderText: #717171;
   --modalBackgroundColor: #808080;

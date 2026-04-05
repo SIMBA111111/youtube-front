@@ -1,0 +1,19 @@
+.stillBtn {
+    background: none;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--blackText);
+}
+
+.visibleText {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 12px;
+    line-height: 24px;
+}
+
+.hiddenText {
+    line-height: 24px;
+}
