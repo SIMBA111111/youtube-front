@@ -38,11 +38,13 @@ export const Comments: React.FC<IComments> = ({
                         key={comment.id}
                         id={comment.id}
                         channel={comment.channel}
+                        video={comment.video}
                         dislikes={comment.dislikes}
                         likes={comment.likes}
                         comment={comment.comment}   
                         datePublication={comment.datePublication}
                         relatedCommentsCount={comment.relatedCommentsCount}
+                        isReplyTo={comment.isReplyTo}
                     />
                 ))}
             </div>

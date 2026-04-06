@@ -4,8 +4,9 @@ import { useState } from "react"
 import { Accordion, Svg, Text } from "@/shared/ui"
 import { formatViews } from "@/shared/utils/formatViews"
 import { formatDate } from "@/shared/utils/formatDate"
-import styles from './styles.module.scss'
 import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideoHash"
+import { getRepliesCommentsById } from "@/shared/api/comments/getRepliesCommentsById"
+import styles from './styles.module.scss'
 
 export interface ICommentCard {
     id: string
@@ -18,16 +19,22 @@ export interface ICommentCard {
         username: string
         avatarUrl?: string
     }
+    video: {
+        id: string
+    }
+    isReplyTo: string
     relatedCommentsCount: number 
 }
 
-export const CommentCard: React.FC<IComments> = ({
+export const CommentCard: React.FC<ICommentCard> = ({
     id,
     comment,
     likes,
     dislikes,
     datePublication,
     channel,
+    video,
+    isReplyTo,
     relatedCommentsCount
 }) => {
     const [isLiked, setIsLiked] = useState(false)
@@ -35,7 +42,7 @@ export const CommentCard: React.FC<IComments> = ({
     const [likesCount, setLikesCount] = useState(likes)
     const [dislikesCount, setDislikesCount] = useState(dislikes)
     const [showReplies, setShowReplies] = useState(false)
-    const [relatedComments, setRelatedComments] = useState([])
+    const [relatedComments, setRelatedComments] = useState<any>([])
 
     const handleLike = () => {
         if (isLiked) {
@@ -66,7 +73,8 @@ export const CommentCard: React.FC<IComments> = ({
     }
 
     const handleShowReplies = async () => {
-        const res = await getCommentsByVideoHash('sadfasdf')
+        // const res = await getCommentsByVideoHash('sadfasdf')
+        const res = await getRepliesCommentsById('sadfasdf')
         setRelatedComments(res)
         setShowReplies(true)
     }
@@ -142,11 +150,13 @@ export const CommentCard: React.FC<IComments> = ({
                                     key={comment.id}
                                     id={comment.id}
                                     channel={comment.channel}
+                                    video={video}
                                     dislikes={comment.dislikes}
                                     likes={comment.likes}
                                     comment={comment.comment}   
                                     datePublication={comment.datePublication}
                                     relatedCommentsCount={comment.relatedCommentsCount}
+                                    isReplyTo={isReplyTo}
                                 />
                             ))}
                         </div>

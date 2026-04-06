@@ -10,6 +10,10 @@ const COMMENTS = [
             username: 'Алексей Петров',
             avatarUrl: '/testImages/pr.png'
         },
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         relatedCommentsCount: 8
     },
     {
@@ -23,6 +27,10 @@ const COMMENTS = [
             username: 'Мария Иванова',
             avatarUrl: '/testImages/testChannelAvatar.png'
         },
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         relatedCommentsCount: 3
     },
     {
@@ -31,6 +39,10 @@ const COMMENTS = [
         likes: 534,
         dislikes: 2,
         datePublication: '2025-03-14T18:45:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch3',
             username: 'Дмитрий Сидоров',
@@ -44,6 +56,10 @@ const COMMENTS = [
         likes: 2103,
         dislikes: 8,
         datePublication: '2025-03-14T09:20:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch4',
             username: 'Елена Смирнова',
@@ -57,6 +73,10 @@ const COMMENTS = [
         likes: 67,
         dislikes: 23,
         datePublication: '2025-03-13T22:10:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch5',
             username: 'Павел Козлов',
@@ -70,6 +90,10 @@ const COMMENTS = [
         likes: 445,
         dislikes: 1,
         datePublication: '2025-03-13T15:30:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch6',
             username: 'Анна Морозова',
@@ -83,6 +107,10 @@ const COMMENTS = [
         likes: 321,
         dislikes: 4,
         datePublication: '2025-03-12T11:00:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch7',
             username: 'Артем Волков',
@@ -96,6 +124,10 @@ const COMMENTS = [
         likes: 678,
         dislikes: 3,
         datePublication: '2025-03-12T08:45:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch8',
             username: 'Ольга Новикова',
@@ -109,6 +141,10 @@ const COMMENTS = [
         likes: 234,
         dislikes: 1,
         datePublication: '2025-03-11T19:20:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch9',
             username: 'Игорь Соколов',
@@ -122,6 +158,10 @@ const COMMENTS = [
         likes: 89,
         dislikes: 34,
         datePublication: '2025-03-11T14:10:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch10',
             username: 'Татьяна Кузнецова',
@@ -135,6 +175,10 @@ const COMMENTS = [
         likes: 1567,
         dislikes: 0,
         datePublication: '2025-03-10T23:30:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch11',
             username: 'Максим Андреев',
@@ -148,6 +192,10 @@ const COMMENTS = [
         likes: 423,
         dislikes: 2,
         datePublication: '2025-03-10T17:55:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch12',
             username: 'Наталья Павлова',
@@ -161,6 +209,10 @@ const COMMENTS = [
         likes: 512,
         dislikes: 8,
         datePublication: '2025-03-09T13:40:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch13',
             username: 'Владимир Степанов',
@@ -174,6 +226,10 @@ const COMMENTS = [
         likes: 891,
         dislikes: 1,
         datePublication: '2025-03-09T10:15:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch14',
             username: 'Ксения Федорова',
@@ -187,6 +243,10 @@ const COMMENTS = [
         likes: 178,
         dislikes: 0,
         datePublication: '2025-03-08T20:00:00Z',
+        video: {
+            id: 's'
+        },
+        isReplyTo: '1',
         channel: {
             id: 'ch15',
             username: 'Николай Тимофеев',

@@ -1,9 +1,10 @@
 import { Player } from '@webitch/player'
 import { getVideoByHash } from '@/shared/api/video/getVideoByHash';
-import { VideoDescription } from '@/widgets';
+import { RecommentedVideos, VideoDescription } from '@/widgets';
 import { Text } from '@/shared/ui';
 import { getCommentsByVideoHash } from '@/shared/api/comments/getCommentsByVideoHash';
 import { Comments } from '@/widgets/Comments';
+import { getRecommentedVideos } from '@/shared/api/video/getRecommentedVideos';
 import styles from "./styles.module.scss";
 
 
@@ -17,6 +18,7 @@ export default async function WatchVideo ({
 
     const videoData = await getVideoByHash(videoHash)
     const videoComments = await getCommentsByVideoHash(videoHash)
+    const recommentedVideos = await getRecommentedVideos(videoHash)
 
     return (
         <div className={styles.page}>
@@ -45,7 +47,7 @@ export default async function WatchVideo ({
                 </div>
             </div>
             <div className={styles.recommendations}>
-                рекомандации
+                <RecommentedVideos videos={recommentedVideos}/>
             </div>
         </div>
     )
