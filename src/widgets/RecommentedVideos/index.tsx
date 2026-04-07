@@ -4,6 +4,8 @@ import styles from "./styles.module.scss"
 import { formatDuration } from "@/shared/utils/formatDuration"
 import { formatViews } from "@/shared/utils/formatViews"
 import { formatDate } from "@/shared/utils/formatDate"
+import { getEllipsisText } from "@/shared/utils/getEllipsisText"
+import { Text } from "@/shared/ui"
 
 interface IRecommentedVideos {
     videos: IVideo[]
@@ -21,35 +23,35 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({ videos }) => {
                             fill
                             className={styles.thumbnailImage}
                         />
-                        <span className={styles.duration}>
+                        <Text color="var(--whiteText)" size={12} className={styles.duration}>
                             {formatDuration(video.duration)}
-                        </span>
+                        </Text>
                         
                         {video.isShort && (
-                            <span className={styles.shortsBadge}>
+                            <Text color="var(--whiteText)" size={12} className={styles.shortsBadge}>
                                 SHORTS
-                            </span>
+                            </Text>
                         )}
                     </div>
 
                     <div className={styles.info}>
                         <div className={styles.header}>
-                            <h3 className={styles.title}>
-                                {video.name}
-                            </h3>
+                            <Text className={styles.title}>
+                                {getEllipsisText(video.name, 90)}
+                            </Text>
                             {/* <button className={styles.menuButton}>
                                 че это
                             </button> */}
                         </div>
                         
-                        <p className={styles.channelName}>
+                        <Text weight={400} size={14} className={styles.channelName}>
                             {video.channel.name}
-                        </p>
+                        </Text>
                         
                         <div className={styles.metadata}>
-                            <span>{formatViews(video.viewersCount)} просмотров</span>
-                            <span>•</span>
-                            <span>{formatDate(video.datePublication || '')}</span>
+                            <Text weight={400} size={14}>{formatViews(video.viewersCount)} просмотров</Text>
+                            <div>•</div>
+                            <Text weight={400} size={14}>{formatDate(video.datePublication || '')}</Text>
                         </div>
                     </div>
                 </div>

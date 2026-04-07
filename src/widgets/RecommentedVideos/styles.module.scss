@@ -86,6 +86,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin-bottom: 4px;
+    text-wrap: wrap;
+    word-break: break-all;
     
     @media (prefers-color-scheme: dark) {
         color: #ffffff;
