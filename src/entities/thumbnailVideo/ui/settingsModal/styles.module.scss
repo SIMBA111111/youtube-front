@@ -1,0 +1,23 @@
+.modalContainer {
+    z-index: 999 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal {
+    z-index: 999 !important;
+    border-radius: 12px;
+    overflow: hidden;
+
+    &__item {
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &:hover {
+            background-color: var(--grayBackground);
+            border-radius: 12px;
+        }
+    }
+}

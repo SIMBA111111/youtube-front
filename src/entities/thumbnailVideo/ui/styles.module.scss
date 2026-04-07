@@ -1,6 +1,9 @@
+.wrap {
+    position: relative;
+}
+
 .cardContainer {
     position: relative;
-    z-index: 1;
     width: 100%;
 }
 
@@ -12,9 +15,26 @@
     display: block;
     border-radius: 12px;
     padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    &_Row {
+        width: 100%;
+        cursor: pointer;
+        font-family: 'Roboto', Arial, sans-serif;
+        text-decoration: none;
+        display: block;
+        border-radius: 12px;
+        padding: 12px;
+        display: flex;
+        gap: 12px;
+    }
 
     &:hover {
         background-color: var(--custom-color);
+        border-radius: 12px;
+
     }
 }
 
@@ -25,13 +45,25 @@
     border-radius: 12px;
     overflow: hidden;
     background-color: #0f0f0f;
-    margin-bottom: 12px;
+
+    &_Row {
+        border-radius: 12px;
+        position: relative;
+        height: 94px;
+        width: 184px;
+    }
 }
 
 .thumbnail {
     width: 100%;
     height: 100%;
     object-fit: cover;
+
+    &_Row {
+        border-radius: 12px;
+        height: 94px;
+        width: 184px;
+    }
 }
 
 .videoPreview {
@@ -41,11 +73,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 12px;
 }
 
 .soundBadge {
     position: absolute;
-    // bottom: 8px;
     border: none;
     top: 20px;
     right: 20px;
@@ -54,7 +86,6 @@
     padding: 6px 6px 4px 6px;
     border-radius: 28px;
     font-weight: 500;
-    z-index: 1000;
     cursor: pointer;
 }
 
@@ -91,11 +122,13 @@
 }
 
 .modalContainer {
+    z-index: 999 !important;
     display: flex;
     flex-direction: column;
 }
 
 .modal {
+    z-index: 999 !important;
     border-radius: 12px;
     overflow: hidden;
 
@@ -107,20 +140,53 @@
 
         &:hover {
             background-color: var(--grayBackground);
+            border-radius: 12px;
         }
     }
 }
 
-// Используем grid template areas для расположения элементов
+.ellipsis {
+    height: 32px;
+    padding: 4px 4px;
+    margin: -6px -4px;
+
+    &:hover {
+        background-color: var(--foregroundRGB);
+        border-radius: 50px;
+    }
+}
+
+.modalPosition {
+    position: absolute;
+    width: 400px;
+    top: 30px;
+    right: 0px;
+}
+
+
 .infoContainer {
     display: grid;
     grid-template-areas: 
-        "avatar title menu"
-        "avatar channelName menu"
-        "avatar stats menu";
-    grid-template-columns: 36px 1fr 32px;
+        "avatar title"
+        "avatar channelName"
+        "avatar stats ";
+    grid-template-columns: 36px 1fr;
     gap: 4px 12px;
     align-items: start;
+
+    &_Row {
+        display: flex;
+        flex-direction: column;
+        // grid-template-areas: 
+        //     "title title"
+        //     "channelName channelName"
+        //     "stats stats";
+        grid-template-columns: 1fr 36px;
+        gap: 6px;
+        align-items: center;
+        width: 100%;
+        z-index: 4;
+    }
 }
 
 .channelAvatar {
@@ -130,6 +196,13 @@
     border-radius: 50%;
     background-color: #717171;
     object-fit: cover;
+}
+
+.header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .title {
@@ -143,6 +216,7 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    word-break: break-all;
 }
 
 .channelName {
@@ -151,6 +225,8 @@
     color: #606060;
     margin: 0;
     line-height: 1.4;
+    display: flex;
+    width: 100%;
 }
 
 .stats {
@@ -160,6 +236,8 @@
     gap: 4px;
     font-size: 14px;
     color: #606060;
+    width: 100%;
+
 }
 
 .dot {
@@ -181,8 +259,9 @@
     background-color: none;
     cursor: pointer;
     border-radius: 50%;
+    padding: 6px;
     
     &:hover {
-        // background-color: rgba(0, 0, 0, 0.05);
+        background-color: rgba(0, 0, 0, 0.05);
     }
 }

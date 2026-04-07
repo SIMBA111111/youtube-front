@@ -11,9 +11,19 @@ import { formatDate } from "@/shared/utils/formatDate";
 import { Modal, Svg, Text } from "@/shared/ui";
 import { useRouter } from "next/navigation";
 import { handleHideChannel, handleHideVideo, handleMenuClick, handleReport, handleShareVideo, handleViewLater } from "../lib/handlers";
+import { getEllipsisText } from "@/shared/utils/getEllipsisText";
 import styles from "./styles.module.scss";
+import { SettigsVideoModal } from "./settingsModal";
 
-export const ThumbnailVideoCard = ({ video }: { video: IVideo }) => {
+interface IThumbnailVideoCard {
+    video: IVideo
+    isRow?: boolean
+}
+
+export const ThumbnailVideoCard:React.FC<IThumbnailVideoCard> = ({ 
+    video,
+    isRow = false
+}) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isSoundOn, setIsSoundOn] = useState(false);
     const [isOpenModal, setIsOpenModal] = useState(false);
@@ -54,123 +64,110 @@ export const ThumbnailVideoCard = ({ video }: { video: IVideo }) => {
     } 
 
     return (
-        <Link 
-            onClick={(e: React.MouseEvent) => handleRoute(e)}
-            className={styles.cardContainer}
-            href={`watch?v=${video.videoHash}`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}>
-            <div 
-                style={{ 
-                    '--custom-color': colorRef.current
-                } as React.CSSProperties}
-                className={styles.card}
-
+        <div className={styles.wrap}>
+            <Link 
+                onClick={(e: React.MouseEvent) => handleRoute(e)}
+                className={styles.cardContainer}
+                href={`watch?v=${video.videoHash}`}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
             >
-                {/* Контейнер для превью */}
-                <div className={styles.thumbnailContainer}>
-                    {/* Превью изображение */}
-                    <img
-                        src={video.previewUrl || '/placeholder-thumbnail.jpg'}
-                        alt={video.name}
-                        ref={imgRef}
-                        className={styles.thumbnail}
-                    />
-                    
-                    {/* Видеопревью при наведении */}
-                    {isHovered && video.videoPreviewUrl && (
-                        <video
-                            className={styles.videoPreview}
-                            src={video.videoPreviewUrl}
-                            autoPlay
-                            muted = {!isSoundOn}
-                            loop
-                            playsInline
-                        />
-                    )}
-                    
-                    {/* Длительность видео */}
-                    <div className={styles.durationBadge}>
-                        {formatDuration(video.duration)}
-                    </div>
-                    
-                    {/* Прогресс-бар */}
-                    <div className={styles.progressBar}>
-                        <div className={`${styles.progressFill} ${isHovered ? styles.progressFillActive : ''}`}></div>
-                    </div>
-                </div>
+                <div 
+                    style={{ 
+                        '--custom-color': colorRef.current
+                    } as React.CSSProperties}
+                    className={isRow ? styles.card_Row : styles.card}
 
-                {/* Информация о видео */}
-                <div className={styles.infoContainer}>
-                    {/* Аватар канала */}
-                    <img 
-                        src={video.channel?.avatarUrl || '/default-avatar.png'} 
-                        alt={video.channel?.name || 'Channel'}
-                        className={styles.channelAvatar}
-                    />
-                    
-                    {/* Заголовок видео */}
-                    <h3 className={styles.title}>
-                        {video.name}
-                    </h3>
-                    
-                    {/* Название канала */}
-                    <p className={styles.channelName}>
-                        {video.channel?.name || 'Неизвестный канал'}
-                    </p>
-                    
-                    {/* Статистика */}
-                    <div className={styles.stats}>
-                        <span>{formatViews(video.viewersCount || 0)} просмотров</span>
-                        <span className={styles.dot}></span>
-                        <span>
-                            {video.datePublication ? formatDate(video.datePublication) : 'давно'}
-                        </span>
-                    </div>
-
-                    {/* Кнопка меню */}
-                    <button 
-                        className={styles.menuButton}
-                        onClick={(e: MouseEvent<HTMLButtonElement>) => handleMenuClick(e, setIsOpenModal)}
-                    >
-                        <Svg name="verticalEllipsis" />
-                    </button>
-
-                    <Modal isVisible={isOpenModal} setIsVisible={setIsOpenModal} isCloseButton={false} className={styles.modal}>
-                        <div className={styles.modalContainer}>
-                            <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleViewLater(e, video, 'user')}>
-                                <Svg name='clock'/>
-                                <Text>Смотреть позже</Text>
-                            </div>
-                            <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleShareVideo(e, video, 'user')}>
-                                <Svg name='replay'/>
-                                <Text>Поделиться</Text>
-                            </div>
-                            <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleHideVideo(e, video, 'user')}>
-                                <Svg name='block'/>
-                                <Text>Не интересует</Text>
-                            </div>
-                            <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleHideChannel(e, video, 'user')}>
-                                <Svg name='brick'/>
-                                <Text>Не рекомендовать видео с этого канала</Text>
-                            </div>
-                            <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleReport(e, video, 'user')}>
-                                <Svg name='flag'/>
-                                <Text>Пожаловаться</Text>
-                            </div>
-                        </div>
-                    </Modal>
-                </div>
-            </div>
-
-            {isHovered && 
-                <button 
-                    className={styles.soundBadge} 
-                    onClick={(e) => handleSound(e)}
                 >
-                    {isSoundOn ? <Svg name={'soundOn'}/> : <Svg name={'soundOff'}/>}
-                </button>
+                    {/* Контейнер для превью */}
+                    <div className={isRow ? styles.thumbnailContainer_Row : styles.thumbnailContainer}>
+                        {/* Превью изображение */}
+                        <img
+                            src={video.previewUrl || '/placeholder-thumbnail.jpg'}
+                            alt={video.name}
+                            ref={imgRef}
+                            className={isRow ? styles.thumbnail_Row : styles.thumbnail}
+                        />
+                        
+                        {/* Видеопревью при наведении */}
+                        {isHovered && video.videoPreviewUrl && (
+                            <video
+                                className={styles.videoPreview}
+                                src={video.videoPreviewUrl}
+                                autoPlay
+                                muted = {!isSoundOn}
+                                loop
+                                playsInline
+                            />
+                        )}
+                        
+                        {/* Длительность видео */}
+                        <div className={styles.durationBadge}>
+                            {formatDuration(video.duration)}
+                        </div>
+                        
+                        {/* Прогресс-бар */}
+                        <div className={styles.progressBar}>
+                            <div className={`${styles.progressFill} ${isHovered ? styles.progressFillActive : ''}`}></div>
+                        </div>
+                    </div>
+
+                    {/* Информация о видео */}
+                    <div className={isRow ? styles.infoContainer_Row : styles.infoContainer}>
+                        {/* Аватар канала */}
+                        {!isRow && <img 
+                            src={video.channel?.avatarUrl || '/default-avatar.png'} 
+                            alt={video.channel?.name || 'Channel'}
+                            className={styles.channelAvatar}
+                        />}
+                        
+                        <div className={styles.header}>
+                            <h3 className={styles.title}>
+                                {getEllipsisText(video.name, 90)}
+                            </h3>
+
+                            <div className={styles.ellipsis} onClick={(e: MouseEvent) => handleMenuClick(e, setIsOpenModal)}>
+                                <Svg name="verticalEllipsis" />
+                            </div>
+                            {!isRow &&
+                                <div className={styles.modalPosition}>
+                                    <SettigsVideoModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} video={video} />
+                                </div>
+                            }
+                        </div>
+                        
+                        {/* Название канала */}
+                        <p className={styles.channelName}>
+                            <Text size={isRow ? 12 : 14} color="var(--gray)">{video.channel?.name}</Text>
+                        </p>
+                        
+                        {/* Статистика */}
+                        <div className={styles.stats}>
+                            <Text size={isRow ? 12 : 14} color="var(--gray)">{formatViews(video.viewersCount || 0)} просмотров</Text>
+                            <span className={styles.dot}></span>
+                            <Text size={isRow ? 12 : 14} color="var(--gray)">
+                                {video.datePublication ? formatDate(video.datePublication) : 'давно'}
+                            </Text>
+                        </div>
+
+                    </div>
+                </div>
+
+                {isHovered && !isRow && 
+                    <button 
+                        className={styles.soundBadge} 
+                        onClick={(e) => handleSound(e)}
+                    >
+                        {isSoundOn ? <Svg name={'soundOn'}/> : <Svg name={'soundOff'}/>}
+                    </button>
+                }
+            </Link>
+
+            {isRow &&                                
+                <div className={styles.modalPosition}>
+                    <SettigsVideoModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} video={video} />
+                </div>
             }
-        </Link>
+        </div>
     );
 };
