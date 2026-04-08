@@ -4,14 +4,74 @@
     gap: 12px;
 }
 
+.shortVideoWrapper {
+    position: relative;
+}
+
+.swiper {
+    margin-left: 10px;
+    width: 95%;
+    height: auto; // или конкретная высота, например 360px
+    overflow: hidden;
+    display: flex;
+
+    :global(.swiper-wrapper) {
+        display: flex !important;
+        flex-direction: row !important;
+    }
+}
 
 .videoCardWrapper {
     height: 94px;
 }
 
+.slide {
+    width: auto !important; // важно для Swiper
+    height: auto;
+}
 
 
 
+.shortVideoCardWrapper {
+    width: 180px;
+    height: 360px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.navButtons {
+    position: absolute;
+    top: 30%;
+    // right: 20px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.navButton {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(62, 62, 62, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(96, 96, 96, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        background: rgba(186, 181, 181, 0.4);
+        transform: scale(1.05);
+    }
+    
+    &:active {
+        transform: scale(0.95);
+    }
+}
 
 
 

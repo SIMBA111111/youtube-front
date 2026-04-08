@@ -1,14 +1,15 @@
 'use client'
 
-import { Svg, Text } from "@/shared/ui"
-import { IThumbnailShortVideo } from "../modal/types"
+import Link from "next/link"
 
+import { Svg, Text } from "@/shared/ui"
 import { formatViews } from "@/shared/utils/formatViews"
 import { useRef, useState } from "react"
 import { getAverageColor } from "@/shared/utils/getAverageColor"
-import styles from './styles.module.scss'
-import Link from "next/link"
 import { SettigsVideoModal } from "@/entities/thumbnailVideo/ui/settingsModal"
+
+import { IThumbnailShortVideo } from "../modal/types"
+import styles from './styles.module.scss'
 
 export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
     id,
@@ -21,6 +22,7 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
     channel,
     datePublication,
     isShort,
+    isRow
 }) => {
     const [isHovered, setIsHovered] = useState(false);
     const colorRef = useRef<HTMLImageElement>(null)

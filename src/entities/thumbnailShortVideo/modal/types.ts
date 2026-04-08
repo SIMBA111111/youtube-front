@@ -11,4 +11,5 @@ export interface IThumbnailShortVideo {
     channel: IChannel
     datePublication?: string
     isShort: boolean
+    isRow: boolean
 }
