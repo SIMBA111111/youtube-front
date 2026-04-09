@@ -22,7 +22,7 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
     channel,
     datePublication,
     isShort,
-    isRow
+    isRow = false
 }) => {
     const [isHovered, setIsHovered] = useState(false);
     const colorRef = useRef<HTMLImageElement>(null)
