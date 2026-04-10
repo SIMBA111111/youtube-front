@@ -43,11 +43,11 @@ export default async function WatchVideo ({
                     />
                 </div>
                 <div className={styles.comments}>
-                    <Comments videoComments={videoComments}/>
+                    <Comments initComments={videoComments} videoHash={videoHash}/>
                 </div>
             </div>
             <div className={styles.recommendations}>
-                <RecommentedVideos videos={recommentedVideos}/>
+                <RecommentedVideos initVideos={recommentedVideos}/>
             </div>
         </div>
     )
