@@ -39,5 +39,11 @@
     cursor: pointer;
     height: fit-content;
     text-align: end;
-    padding: 12px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    height: fit-content;
+    align-items: center;
 }

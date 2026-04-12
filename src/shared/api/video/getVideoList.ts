@@ -181,6 +181,22 @@ const VIDEOS = [
         }
     },
     {
+        id: '561',
+        name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
+        videoHash: 'e354y746',
+        isShort: false,
+        previewUrl: '/testImages/testChannelAvatar.png',
+        videoPreviewUrl: '/videos/qqq.mp4',
+        viewersCount: 12903,
+        duration: 300,
+        datePublication: '2026-03-22T13:33:12',
+        channel: {
+            id: 'as fijas0f duasd',
+            name: 'Test Channel 4',
+            avatarUrl: '/testImages/testChannelAvatar.png'
+        }
+    },
+    {
         id: '6',
         name: 'SHORT11111111111111111111111111111111111111111111111111',
         videoHash: 'e354y746',

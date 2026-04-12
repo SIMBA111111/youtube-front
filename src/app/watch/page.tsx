@@ -1,7 +1,7 @@
 import { Player } from '@webitch/player'
 import { getVideoByHash } from '@/shared/api/video/getVideoByHash';
 import { RecommentedVideos, VideoDescription } from '@/widgets';
-import { Text } from '@/shared/ui';
+import { Text, VideoThumbnailSkeleton } from '@/shared/ui';
 import { getCommentsByVideoHash } from '@/shared/api/comments/getCommentsByVideoHash';
 import { Comments } from '@/widgets/Comments';
 import { getRecommentedVideos } from '@/shared/api/video/getRecommentedVideos';
@@ -40,6 +40,7 @@ export default async function WatchVideo ({
                         isSubscribed={videoData.isSubscribed}
                         videoDescription={videoData.videoDescription}
                         hashtags={videoData.hashtags}
+                        videoHash={videoHash}
                     />
                 </div>
                 <div className={styles.comments}>

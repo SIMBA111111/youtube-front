@@ -1,45 +1,4 @@
-import arrowDown from '../../../../public/svg/arrowDown.svg'
-import arrowLeft from '../../../../public/svg/arrowLeft.svg'
-import arrowUp from '../../../../public/svg/arrowUp.svg'
-import award from '../../../../public/svg/award.svg'
-// import bell from '../../../../public/svg/bell.svg'
-import broadcast from '../../../../public/svg/broadcast.svg'
-import clock from '../../../../public/svg/clock.svg'
-import comments from '../../../../public/svg/comments.svg'
-import cross from '../../../../public/svg/cross.svg'
-import crossedBell from '../../../../public/svg/crossedBell.svg'
-import crossedEye from '../../../../public/svg/crossedEye.svg'
-import dislike from '../../../../public/svg/dislike.svg'
-import download from '../../../../public/svg/download.svg'
-import flag from '../../../../public/svg/flag.svg'
-import history from '../../../../public/svg/history.svg'
-import home from '../../../../public/svg/home.svg'
-import keyboard from '../../../../public/svg/keyboard.svg'
-import like from '../../../../public/svg/like.svg'
-import magnifier from '../../../../public/svg/magnifier.svg'
-import movies from '../../../../public/svg/movies.svg'
-import music from '../../../../public/svg/music.svg'
-import myAccount from '../../../../public/svg/myAccount.svg'
-import news from '../../../../public/svg/news.svg'
-import playlist from '../../../../public/svg/playlist.svg'
-import plus from '../../../../public/svg/plus.svg'
-import settings from '../../../../public/svg/settings.svg'
-import share from '../../../../public/svg/share.svg'
-import shortArrowDown from '../../../../public/svg/shortArrowDown.svg'
-import shortArrowLeft from '../../../../public/svg/shortArrowLeft.svg'
-import shortArrowUp from '../../../../public/svg/shortArrowUp.svg'
-import shorts from '../../../../public/svg/shorts.svg'
-// import subscriptions from '../../../../public/svg/subscriptions.svg'
-import video from '../../../../public/svg/video.svg'
-import verticalEllipsis from '../../../../public/svg/verticalEllipsis.svg'
-import videogame from '../../../../public/svg/videogame.svg'
-import burger from '../../../../public/svg/burger.svg'
-import mainLogo from '../../../../public/svg/mainLogo.svg'
-import micro from '../../../../public/svg/micro.svg'
-import writing from '../../../../public/svg/writing.svg'
-
 import { svgs } from "@/shared/constants/svgs"
-import { log } from 'console'
 
 const sizes = {
     small: 16,
@@ -47,13 +6,20 @@ const sizes = {
     big: 32,
 }
 
+const colors = {
+    white: 'var(--whiteText)',
+    black: 'var(--blackText)'
+}
+
 interface ISvg {
     name: keyof typeof svgs
+    color?: keyof typeof colors
     size?: keyof typeof sizes
 }
 
 export const Svg: React.FC<ISvg> = ({
     name, 
+    color = 'black', 
     size='middle'
 }) => {
 
@@ -74,7 +40,7 @@ export const Svg: React.FC<ISvg> = ({
                     </svg> 
 
         case 'arrowLeftFull':
-            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+            return <svg fill={colors[color]} xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
                         <path d="M10.293 4.293 2.586 12l7.707 7.706a1 1 0 101.414-1.413L6.414 13H20a1 1 0 000-2H6.414l5.293-5.292a1 1 0 00-1.414-1.415Z"></path>
                     </svg>
 
@@ -133,6 +99,11 @@ export const Svg: React.FC<ISvg> = ({
                         <path d="m11.31 2 .392.007c1.824.06 3.61.534 5.223 1.388l.343.189.27.154c.264.152.56.24.863.26l.13.004H20.5a1.5 1.5 0 011.5 1.5V11.5a1.5 1.5 0 01-1.5 1.5h-1.79l-.158.013a1 1 0 00-.723.512l-.064.145-2.987 8.535a1 1 0 01-1.109.656l-1.04-.174a4 4 0 01-3.251-4.783L10 15H5.938a3.664 3.664 0 01-3.576-2.868A3.682 3.682 0 013 9.15l-.02-.088A3.816 3.816 0 014 5.5v-.043l.008-.227a2.86 2.86 0 01.136-.664l.107-.28A3.754 3.754 0 017.705 2h3.605ZM7.705 4c-.755 0-1.425.483-1.663 1.2l-.032.126a.818.818 0 00-.01.131v.872l-.587.586a1.816 1.816 0 00-.524 1.465l.038.23.02.087.21.9-.55.744a1.686 1.686 0 00-.321 1.18l.029.177c.17.76.844 1.302 1.623 1.302H10a2.002 2.002 0 011.956 2.419l-.623 2.904-.034.208a2.002 2.002 0 001.454 2.139l.206.045.21.035 2.708-7.741A3.001 3.001 0 0118.71 11H20V6.002h-1.47c-.696 0-1.38-.183-1.985-.528l-.27-.155-.285-.157A10.002 10.002 0 0011.31 4H7.705Z"></path>
                     </svg>
 
+        case 'filledDislike':
+            return <svg fill={colors[color]} width={sizes[size]} height={sizes[size]} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.956 14.534c.065.936.952 1.659 1.908 1.42l.261-.065c.463-.116.874-.456 1.012-.966.22-.816.533-2.512.062-4.51.136.02.29.036.443.051.713.065 1.669.072 2.516-.21.518-.173.994-.68 1.2-1.272.184-.532.16-1.162-.234-1.733.058-.119.103-.242.138-.363.077-.27.113-.568.113-.856 0-.29-.036-.587-.113-.856a2 2 0 0 0-.16-.404c.169-.387.107-.82-.003-1.149a3.2 3.2 0 0 0-.488-.9c.054-.153.076-.313.076-.466 0-.305-.089-.625-.253-.912C13.1.757 12.437.28 11.5.28H8c-.605 0-1.07.08-1.466.218a4.8 4.8 0 0 0-.97.484l-.048.03c-.504.307-.999.61-2.068.723C2.682 1.815 2 2.434 2 3.28v4c0 .85.685 1.433 1.357 1.616.849.232 1.574.787 2.132 1.41.56.627.914 1.28 1.039 1.639.199.575.356 1.54.428 2.59z"/>
+                    </svg>
+
         case 'download':
             return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
                         <path d="M12 2a1 1 0 00-1 1v11.586l-4.293-4.293a1 1 0 10-1.414 1.414L12 18.414l6.707-6.707a1 1 0 10-1.414-1.414L13 14.586V3a1 1 0 00-1-1Zm7 18H5a1 1 0 000 2h14a1 1 0 000-2Z"></path>
@@ -144,7 +115,7 @@ export const Svg: React.FC<ISvg> = ({
                     </svg>
 
         case 'flag':
-            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+            return <svg fill={colors[color]} xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
                         <path d="m4 2.999-.146.073A1.55 1.55 0 003 4.454v16.545a1 1 0 102 0v-6.491a7.26 7.26 0 016.248.115l.752.376a8.94 8.94 0 008 0l.145-.073c.524-.262.855-.797.855-1.382V4.458a1.21 1.21 0 00-1.752-1.083 7.26 7.26 0 01-6.496 0L12 2.999a8.94 8.94 0 00-8 0Zm7.105 1.79v-.002l.752.376A9.26 9.26 0 0019 5.641v7.62a6.95 6.95 0 01-6.105-.052l-.752-.376A9.261 9.261 0 005 12.355v-7.62a6.94 6.94 0 016.105.054Z"></path>
                     </svg>
 
@@ -175,7 +146,12 @@ export const Svg: React.FC<ISvg> = ({
 
         case 'like':
             return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
-                        <path d="M9.221 1.795a1 1 0 011.109-.656l1.04.173a4 4 0 013.252 4.784L14 9h4.061a3.664 3.664 0 013.576 2.868A3.68 3.68 0 0121 14.85l.02.087A3.815 3.815 0 0120 18.5v.043l-.01.227a2.82 2.82 0 01-.135.663l-.106.282A3.754 3.754 0 0116.295 22h-3.606l-.392-.007a12.002 12.002 0 01-5.223-1.388l-.343-.189-.27-.154a2.005 2.005 0 00-.863-.26l-.13-.004H3.5a1.5 1.5 0 01-1.5-1.5V12.5A1.5 1.5 0 013.5 11h1.79l.157-.013a1 1 0 00.724-.512l.063-.145 2.987-8.535Zm-1.1 9.196A3 3 0 015.29 13H4v4.998h1.468a4 4 0 011.986.528l.27.155.285.157A10 10 0 0012.69 20h3.606c.754 0 1.424-.483 1.663-1.2l.03-.126a.819.819 0 00.012-.131v-.872l.587-.586c.388-.388.577-.927.523-1.465l-.038-.23-.02-.087-.21-.9.55-.744A1.663 1.663 0 0018.061 11H14a2.002 2.002 0 01-1.956-2.418l.623-2.904a2 2 0 00-1.626-2.392l-.21-.035-2.71 7.741Z"></path>
+                        <path color={color} d="M9.221 1.795a1 1 0 011.109-.656l1.04.173a4 4 0 013.252 4.784L14 9h4.061a3.664 3.664 0 013.576 2.868A3.68 3.68 0 0121 14.85l.02.087A3.815 3.815 0 0120 18.5v.043l-.01.227a2.82 2.82 0 01-.135.663l-.106.282A3.754 3.754 0 0116.295 22h-3.606l-.392-.007a12.002 12.002 0 01-5.223-1.388l-.343-.189-.27-.154a2.005 2.005 0 00-.863-.26l-.13-.004H3.5a1.5 1.5 0 01-1.5-1.5V12.5A1.5 1.5 0 013.5 11h1.79l.157-.013a1 1 0 00.724-.512l.063-.145 2.987-8.535Zm-1.1 9.196A3 3 0 015.29 13H4v4.998h1.468a4 4 0 011.986.528l.27.155.285.157A10 10 0 0012.69 20h3.606c.754 0 1.424-.483 1.663-1.2l.03-.126a.819.819 0 00.012-.131v-.872l.587-.586c.388-.388.577-.927.523-1.465l-.038-.23-.02-.087-.21-.9.55-.744A1.663 1.663 0 0018.061 11H14a2.002 2.002 0 01-1.956-2.418l.623-2.904a2 2 0 00-1.626-2.392l-.21-.035-2.71 7.741Z"></path>
+                    </svg> 
+
+        case 'filledLike':
+            return <svg fill={colors[color]} width={sizes[size]} height={sizes[size]} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" >
+                        <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
                     </svg> 
 
         case 'magnifier':
@@ -239,7 +215,7 @@ export const Svg: React.FC<ISvg> = ({
                     </svg>
 
         case 'share':
-            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+            return <svg fill={colors[color]} xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
                         <path d="M10 3.158V7.51c-5.428.223-8.27 3.75-8.875 11.199-.04.487-.07.975-.09 1.464l-.014.395c-.014.473.578.684.88.32.302-.368.61-.73.925-1.086l.244-.273c1.79-1.967 3-2.677 4.93-2.917a18.011 18.011 0 012-.112v4.346a1 1 0 001.646.763l9.805-8.297 1.55-1.31-1.55-1.31-9.805-8.297A1 1 0 0010 3.158Zm2 6.27v.002-4.116l7.904 6.688L12 18.689v-4.212l-2.023.024c-1.935.022-3.587.17-5.197 1.024a9 9 0 00-1.348.893c.355-1.947.916-3.39 1.63-4.425 1.062-1.541 2.607-2.385 5.02-2.485L12 9.428Z"></path>
                     </svg>
 
@@ -290,7 +266,7 @@ export const Svg: React.FC<ISvg> = ({
                     </svg>
 
         case 'verticalEllipsis':
-            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+            return <svg fill={colors[color]} xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
                         <path d="M12 4a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Z"></path>
                     </svg>
             
@@ -337,7 +313,7 @@ export const Svg: React.FC<ISvg> = ({
                     </svg>
 
         case 'block':
-            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+            return <svg fill={colors[color]} xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
                         <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1Zm0 2a9 9 0 018.246 12.605L4.755 6.661A8.99 8.99 0 0112 3ZM3.754 8.393l15.491 8.944A9 9 0 013.754 8.393Z"></path>
                     </svg>
 
@@ -350,6 +326,15 @@ export const Svg: React.FC<ISvg> = ({
             return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" height={sizes[size]} focusable="false" aria-hidden="true">
                         <path d="M21 5H3a1 1 0 000 2h18a1 1 0 100-2Zm-6 6H3a1 1 0 000 2h12a1 1 0 000-2Zm-6 6H3a1 1 0 000 2h6a1 1 0 000-2Z"></path>
                     </svg>
+
+        case 'describe':
+            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+                        <path d="M12 2a5 5 0 100 10 5 5 0 000-10Zm0 2a3 3 0 110 6 3 3 0 010-6Zm0 9a8 8 0 00-8 8 1 1 0 102 0 6 6 0 018.296-5.543l.171.075 1.485-1.485A8 8 0 0012 13Zm9.293 3.293L19.5 18.086l-1.793-1.793a1 1 0 10-1.414 1.414l1.793 1.793-1.793 1.793a1 1 0 001.414 1.414l1.793-1.793 1.793 1.793a1 1 0 101.414-1.414L20.914 19.5l1.793-1.793a1 1 0 00-1.414-1.414Z"></path>
+                    </svg>
+
+
+
+
 
         default:
             break;

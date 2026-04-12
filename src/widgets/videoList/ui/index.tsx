@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
-import { Svg, Text } from "@/shared/ui";
+import { Svg, Text, VideoThumbnailSkeleton } from "@/shared/ui";
 import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { getVideos } from "@/shared/api/video/getVideoList";
 import { ThumbnailShortVideoCard, VideoTags } from "@/entities";
@@ -40,7 +40,6 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
     const [activeTag, setActiveTag] = useState<string>(tags[0].id)
     const [videoList, setVideoList] = useState<IVideo[]>([])
     const [isLoading, setIsLoading] = useState(false)
-    const [page, setPage] = useState(1)
     const device = useDeviceIsMobile()
     const observerRef = useRef<IntersectionObserver | null>(null)
     const loadingRef = useRef<HTMLDivElement | null>(null)
@@ -48,8 +47,10 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
     // Первая загрузка
     useEffect(() => {
         const loadFirstVideos = async () => {
-            const res = await getVideos()
-            setVideoList(res)
+            setTimeout(async () => {
+                const res = await getVideos()
+                setVideoList(res)
+            },  3000)
         }
         loadFirstVideos()
     }, [])
@@ -69,19 +70,19 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
             const entry = entries[0]
             
             if (entry.isIntersecting && !isLoading) {
-                console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ', page + 1)
+                console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
                 setIsLoading(true)
                 
                 try {
-                    const newVideos = await getVideos()
-                    console.log('ПОЛУЧЕНО НОВЫХ ВИДЕО:', newVideos.length)
-                    
-                    setVideoList(prev => [...prev, ...newVideos])
-                    setPage(prev => prev + 1)
+                    setTimeout(async () => {
+                        const newVideos = await getVideos()
+                        console.log('ПОЛУЧЕНО НОВЫХ ВИДЕО:', newVideos.length)
+                        setVideoList(prev => [...prev, ...newVideos])
+                        setIsLoading(false) // Важно: выключаем загрузку после получения данных
+                    }, 3000)
                 } catch (error) {
                     console.error('ОШИБКА ЗАГРУЗКИ:', error)
-                } finally {
-                    setIsLoading(false)
+                    setIsLoading(false) // Важно: выключаем загрузку при ошибке
                 }
             }
         }
@@ -95,9 +96,20 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
                 observerRef.current = null
             }
         }
-    }, [isLoading, page]) // Добавил зависимости
+    }, []) // Добавил зависимости
 
-    console.log('videoList length:', videoList.length)
+    
+    if(videoList?.length <= 0) {
+        return (
+            <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }} className={styles.videoGrid}>
+                {(isLoading || videoList?.length <= 0) && Array.from({length: 12}, (_, index) => {
+                        return <div key={index} className={styles.videoCardWrapper}>
+                            <VideoThumbnailSkeleton />
+                        </div>
+                }) }   
+            </div>
+        )   
+    }
 
     return (
         <div className={styles.container} id='videoListContainer'>
@@ -173,8 +185,12 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
             </div>
 
             {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
-            <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }}>
-                {isLoading && <div style={{ textAlign: 'center' }}>ЗАГРУЗКА...</div>}
+            <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }} className={styles.videoGrid}>
+                {(isLoading || videoList?.length <= 0) && Array.from({length: 12}, (_, index) => {
+                      return <div key={index} className={styles.videoCardWrapper}>
+                            <VideoThumbnailSkeleton />
+                        </div>
+                }) }   
             </div>
         </div>
     )

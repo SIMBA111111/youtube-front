@@ -9,7 +9,7 @@ import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard"
 import { ThumbnailShortVideoCard } from "@/entities"
 
 import styles from "./styles.module.scss"
-import { Svg } from "@/shared/ui"
+import { Spinner, Svg } from "@/shared/ui"
 import { getShortVideos } from "@/shared/api/video/getShortVideos"
 import { getVideos } from "@/shared/api/video/getVideoList"
 
@@ -37,22 +37,21 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({ initVideos }) 
             const entry = entries[0]
             
             if (entry.isIntersecting && !isLoading) {
-                console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
+                // console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
                 setIsLoading(true)
                 
                 try {
-                    const res = await getVideos()
-                    console.log('ПОЛУЧЕНО НОВЫХ ВИДЕО:', res.length)
-                    
-                    console.log('arr: ', [...videoList, ...res]);
-                    
+                    setTimeout(async () => {
+                        const res = await getVideos()
+                        // console.log('ПОЛУЧЕНО НОВЫХ ВИДЕО:', res.length)
+                        setVideoList(prev => [...prev, ...res])
+                        setIsLoading(false)
 
-                    setVideoList(prev => [...prev, ...res])
-                    // setPage(prev => prev + 1)
+                    }, 3000)
+
                 } catch (error) {
-                    console.error('ОШИБКА ЗАГРУЗКИ:', error)
-                } finally {
                     setIsLoading(false)
+                    console.error('ОШИБКА ЗАГРУЗКИ:', error)
                 }
             }
         }
@@ -87,9 +86,9 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({ initVideos }) 
 
     return (
         <div className={styles.container}>
-            {videoList.filter((video: IVideo[]) => !video.isShort).map((video: IVideo) => {
+            {videoList.filter((video: IVideo[]) => !video.isShort).map((video: IVideo, index) => {
                 return (
-                    <div key={video.id} className={styles.videoCardWrapper}>
+                    <div key={index} className={styles.videoCardWrapper}>
                         <ThumbnailVideoCard key={video.id} video={video} isRow/>
                     </div>
                 )
@@ -113,8 +112,8 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({ initVideos }) 
                 >
                 {videoList.filter((video: IVideo[]) => video.isShort).map((short, index) => (
                     <SwiperSlide key={index} className={styles.slide}>
-                        <div key={short.id} className={styles.shortVideoCardWrapper}>
-                            <ThumbnailShortVideoCard key={short.id} {...short} isRow/>
+                        <div className={styles.shortVideoCardWrapper}>
+                            <ThumbnailShortVideoCard {...short} isRow/>
                         </div>
                     </SwiperSlide>
                 ))}
@@ -139,7 +138,7 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({ initVideos }) 
                 </div>
             </div>
             <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }}>
-                {isLoading && <div style={{ textAlign: 'center' }}>ЗАГРУЗКА...</div>}
+                {isLoading && <div className={styles.recommendedVideoLoader}><Spinner/></div>}
             </div>
         </div>
     )

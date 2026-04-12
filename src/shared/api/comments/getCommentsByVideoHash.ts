@@ -257,5 +257,9 @@ const COMMENTS = [
 ]
 export const getCommentsByVideoHash = async (videoHash: string) => {
     
+    setTimeout(() => {
+
+    }, 3000)
+
     return COMMENTS
 }

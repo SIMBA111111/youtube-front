@@ -1,23 +1,25 @@
 "use client"
 
-import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from "react"
+import React, { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from "react"
 import clsx from "clsx"
 
 import { Svg } from "../Svg"
 
 import styles from './styles.module.scss'
+import { Text } from "../Text"
 
 
 interface IModal {
     children: ReactNode
+    title?: React.ReactNode
     isCloseButton?: boolean
     isOverlay?: boolean
     isVisible: boolean
-    setIsVisible: Dispatch<SetStateAction<boolean>>
+    setIsVisible: (e: boolean) => void
     className?: string
 }
 
-export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isOverlay=false,isVisible, setIsVisible, className}) => {
+export const Modal: React.FC<IModal> = ({children, title, isCloseButton=true, isOverlay=false,isVisible, setIsVisible, className}) => {
     const modalRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
@@ -68,11 +70,20 @@ export const Modal: React.FC<IModal> = ({children, isCloseButton=true, isOverlay
     return (
         <>
             <div className={classList} ref={modalRef} onClick={handleModalClick}>
-                {isCloseButton && (
-                    <div className={styles.closeBtn} onClick={() => setIsVisible(false)}>
-                        <Svg name="cross" size="middle"/>
+                {(isCloseButton || title) && (
+                    <div className={styles.header}>
+                        {title && (
+                            <Text color="var(--blackText)" size={28}>{title}</Text>
+                            
+                        )}
+                        {isCloseButton && (
+                            <div className={styles.closeBtn} onClick={() => setIsVisible(false)}>
+                                <Svg name="cross" size="middle"/>
+                            </div>
+                        )}
                     </div>
                 )}
+                
                 {children}
             </div>
             {isOverlay && (

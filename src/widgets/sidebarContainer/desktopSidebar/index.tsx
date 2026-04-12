@@ -5,19 +5,22 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 import { Svg, Text } from '@/shared/ui'
-
 import { IChannel } from '@/entities/channels/modal/types'
 import { SIDEBAR_NAVIGATION, SIDEBAR_YOU } from '@/shared/constants/sidebar'
 import { useSidebarStore } from '@/shared/store/sidebar'
 
 import styles from './styles.module.scss'
+import { IThumbnailShortVideo } from '@/entities/thumbnailShortVideo/modal/types'
 
 
-export const DesktopSidebar = ({channels}: {channels: IChannel[]}) => {
+export const DesktopSidebar = ({channels, randomShortVideo}: {channels: IChannel[], randomShortVideo: IThumbnailShortVideo}) => {
     const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false)
     const pathname = usePathname()
 
     const {isOpen, openSideBar, closeSideBar} = useSidebarStore()
+
+    console.log('randomShortVideo = ', randomShortVideo);
+    
 
     return (
         <>
@@ -30,7 +33,7 @@ export const DesktopSidebar = ({channels}: {channels: IChannel[]}) => {
                                 <Text weight={400} size={12}>Главная</Text>
                             </Link>
 
-                            <Link href={'/shorts'} className={styles.btns__item}>
+                            <Link href={`/shorts/${randomShortVideo?.videoHash}`} className={styles.btns__item}>
                                 {pathname === '/shorts' ? <Svg name='shortsActive' /> : <Svg name='shorts' /> }
                                 <Text weight={400} size={12}>Shorts</Text>
                             </Link>
@@ -59,7 +62,7 @@ export const DesktopSidebar = ({channels}: {channels: IChannel[]}) => {
                                     <Text weight={400} size={14}>Главная</Text>
                                 </Link>
 
-                                <Link href={'/shorts'} className={pathname === '/shorts' ? styles.btns__item__open_active : styles.btns__item__open}>
+                                <Link href={`/shorts/${randomShortVideo?.videoHash}`} className={pathname === '/shorts' ? styles.btns__item__open_active : styles.btns__item__open}>
                                     {pathname === '/shorts' ? <Svg name='shortsActive' /> : <Svg name='shorts' /> }
                                     <Text weight={400} size={14}>Shorts</Text>
                                 </Link>

@@ -1,6 +1,7 @@
 :root {
   --gray: gray;
   --lightGray: rgb(201, 201, 201);
+  --backgroungGray: #ffffff;
 
   // background
   --background: #ffffff;
@@ -36,6 +37,7 @@
 [data-theme="dark"] {
   --gray: #909090;
   --lightGray: #717171;
+  --backgroungGray: #212121;
 
   // background
   --background: #0f0f0f;

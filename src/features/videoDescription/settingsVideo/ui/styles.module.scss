@@ -1,0 +1,67 @@
+.settingsButton {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.customPopover {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0px;
+    background-color: var(--lightGray);
+
+    &_item {
+        background: none;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--lightBlackBackground);
+        }
+    }
+}
+
+.customModal {
+    padding: 20px;
+    width: 400px;
+    top: 30%;
+    left: 35%;
+    background-color: var(--backgroungGray);
+    height: 400px;
+    border-radius: 12px;
+
+    &_content {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        overflow: hidden;
+
+        &_text {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: scroll;
+        }
+
+        &_btn {
+            border: none;
+            border-radius: 28px;
+            padding: 8px 0px;
+            width: 100%;
+        }
+    }
+}
+
+.optionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

@@ -1,0 +1,46 @@
+.rating {
+    grid-area: rating;
+    display: flex;
+    gap: 8px;
+    margin: 4px 0px;
+
+    &_likeDislike {
+        display: flex;
+    }
+
+
+    &_like {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        cursor: pointer;
+        padding: 8 12;
+        border-top-left-radius : 28px;
+        border-bottom-left-radius : 28px;
+        background-color: var(--foregroundRGB);
+
+        &:hover {
+            background-color: var(--foregroundRGBHover);
+        }
+    }
+
+
+    &_divider {
+        border-left: 1px solid var(--foregroundRGB);
+    }
+
+    &_dislike {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        cursor: pointer;
+        padding: 8 12;
+        border-top-right-radius : 28px;
+        border-bottom-right-radius : 28px;
+        background-color: var(--foregroundRGB);
+
+        &:hover {
+            background-color: var(--foregroundRGBHover);
+        }
+    }
+}

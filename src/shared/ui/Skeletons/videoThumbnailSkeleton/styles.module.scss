@@ -1,0 +1,46 @@
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.video {
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 1.5 / 1;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgb(219, 219, 219), rgb(78, 78, 78));
+    animation: videoAnim 1s infinite alternate;
+
+    &Name {
+        background-color: gray;
+        height: 24px;
+        width: 100%;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgb(219, 219, 219), rgb(78, 78, 78));
+        animation: videoAnim 0.5s infinite alternate;
+    }
+
+    &Info {
+        height: 24px;
+        width: 100%;
+        background-color: gray;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgb(219, 219, 219), rgb(78, 78, 78));
+        animation: videoAnim 1s infinite alternate;
+    }
+}
+
+@keyframes videoAnim {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.01);
+        opacity: 0.7;
+    }
+}

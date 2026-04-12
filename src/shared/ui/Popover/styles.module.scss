@@ -1,7 +1,114 @@
-.text {
-    font-family: 'Roboto';
-    width: fit-content;
-    height: fit-content;
-    padding: 0;
-    margin: 0;
+// Popover.module.scss
+.trigger {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.popover {
+    position: fixed;
+    z-index: 1000;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+// Стрелка
+.arrow {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: white;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    z-index: 1;
+}
+
+
+// Анимация
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.popover.animate {
+    animation: fadeIn 0.2s ease-out;
+}
+
+// Для top позиции анимация снизу
+.popover.top.animate {
+    animation: fadeInBottom 0.2s ease-out;
+}
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+// Для left/right анимация сбоку
+.popover.left.animate {
+    animation: fadeInRight 0.2s ease-out;
+}
+
+.popover.right.animate {
+    animation: fadeInLeft 0.2s ease-out;
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+// Темная тема
+@media (prefers-color-scheme: dark) {
+    .popover {
+        background: #1a1a1a;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .arrow {
+        background: #1a1a1a;
+    }
+    
+    .content {
+        background: #1a1a1a;
+        color: white;
+    }
 }

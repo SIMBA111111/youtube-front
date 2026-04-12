@@ -1,9 +1,13 @@
 import React from "react"
 import { IChannel } from "@/entities/channels/modal/types"
-import styles from './styles.module.scss'
-import { EllipsisText, Svg, Text } from "@/shared/ui"
+import { EllipsisText, Popover, Svg, Text } from "@/shared/ui"
 import { formatViews } from "@/shared/utils/formatViews"
 import { formatDate } from "@/shared/utils/formatDate"
+import { SubscribeButton } from "@/features"
+import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui"
+import { ShareVideo } from "@/features/videoDescription/shareVideo/ui"
+import styles from './styles.module.scss'
+import { SettingsVideo } from "@/features/videoDescription/settingsVideo/ui"
 
 interface IVideoDescription {
     id: string
@@ -13,10 +17,13 @@ interface IVideoDescription {
     datePublication?: string
     videoDescription: string
     hashtags: string
+    isLiked: string,
+    isDisliked: string,
     likeCount: number
     dislikeCount: number
     subscribersCount: number
     isSubscribed: boolean
+    videoHash: string
 }
 
 export const VideoDescription: React.FC<IVideoDescription> = ({
@@ -29,8 +36,11 @@ export const VideoDescription: React.FC<IVideoDescription> = ({
     hashtags,
     likeCount,
     dislikeCount,
+    isLiked,
+    isDisliked,
     subscribersCount,
-    isSubscribed
+    isSubscribed = true,
+    videoHash
 }) => {
 
     return (
@@ -41,35 +51,21 @@ export const VideoDescription: React.FC<IVideoDescription> = ({
                     <Text className={styles.channelInfo_name}>{channel.name}</Text>
                     <Text size={12} weight={400}>{formatViews(subscribersCount)} подписчиков</Text>
                 </div>
-                <button className={styles.channel_btn}>
-                    {isSubscribed ? 
-                        <Text className={styles.channle_btn_text} color="var(--whiteText)">Отписаться</Text> 
-                        : 
-                        <Text className={styles.channle_btn_text} color="var(--whiteText)">Подписаться</Text>
-                    }
-                </button>
+                <SubscribeButton isSubscribed={isSubscribed} notificationSetting={channel.notificationSetting}/>
             </div>
             
             <div className={styles.rating}>
-                <div className={styles.rating_likeDislike}>
-                    <div className={styles.rating_like}>
-                        <Svg name="like"/>
-                        <Text weight={400}>{formatViews(likeCount)}</Text>
-                    </div>
-                    <div className={styles.rating_divider}></div>
-                    <div className={styles.rating_dislike}>
-                        <Svg name="dislike"/>
-                        <Text weight={400}>{formatViews(dislikeCount)}</Text>
-                    </div>
+                <EvaluateVideo 
+                    isLiked={isLiked} 
+                    isDisliked={isDisliked} 
+                    likeCount={likeCount} 
+                    dislikeCount={dislikeCount}
+                />
 
-                </div>
-                <div className={styles.rating_share}>
-                    <Svg name="share"/>
-                    <Text weight={400}>Поделиться</Text>
-                </div>
+                <ShareVideo videoHash={videoHash} />
 
                 <div className={styles.rating_settings}>
-                    <Svg name="verticalEllipsis"/>
+                    <SettingsVideo videoHash={videoHash} />
                 </div>
             </div>
             

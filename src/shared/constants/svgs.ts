@@ -54,4 +54,7 @@ export const svgs = {
     block: 'block',
     brick: 'brick',
     order: 'order',
+    describe: 'describe',
+    filledDislike: 'filledDislike',
+    filledLike: 'filledLike'
 }

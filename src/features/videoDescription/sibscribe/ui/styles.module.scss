@@ -1,0 +1,60 @@
+.subscribeButton {
+    grid-area: channel;
+    display: flex;
+    gap: 12px;
+
+    &_btn {
+        border: none;
+        width: fit-content;
+        margin: 4px 0px;
+        padding: 0px 4px 0px 8px;
+        border-radius: 24px;
+        background-color: var(--foregroundRGB);
+        color: var(--blackText);
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--foregroundRGBHover);
+        }
+
+        &_text {
+            color: var(--whiteText);
+        }
+    }
+}
+
+
+.unsibscribe {
+    display: flex;
+    gap: 8px;
+}
+
+
+.popover {
+    background-color: var(--lightGray) !important;
+    border: none;
+    padding: 8px 0px !important;
+
+    &_items {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &_item {
+        display: flex;
+        align-items: center;
+        color: var(--blackText);
+        gap: 6px;
+        cursor: pointer;
+        padding: 8px;
+        background-color: var(--lightBlackBackground);
+
+        &:hover {
+            background-color: var(--grayBackground);
+        }
+
+        &_active {
+            background-color: var(--lightBlackBackground);
+        }
+    }
+}

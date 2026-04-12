@@ -5,6 +5,7 @@ import { AddComment, CommentFilter } from "@/features"
 import { useEffect, useRef, useState } from "react"
 import styles from "./styles.module.scss";
 import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideoHash";
+import { CommentSkeleton, VideoThumbnailSkeleton } from "@/shared/ui";
 
 interface IComments {
     initComments: ICommentCard[]
@@ -50,16 +51,14 @@ export const Comments: React.FC<IComments> = ({
                 setIsLoading(true)
                 
                 try {
-                    const res = await getCommentsByVideoHash(videoHash)
-                    console.log('ПОЛУЧЕНО НОВЫХ КОММЕНТОВ:', res.length)
-                    
-                    console.log('arr: ', [...commentsList, ...res]);
-                    
-
-                    setCommentsList((prev: ICommentCard[]) => [...prev, ...res])
+                    setTimeout(async () => {
+                        const res = await getCommentsByVideoHash(videoHash)
+                        console.log('ПОЛУЧЕНО НОВЫХ КОММЕНТОВ:', res.length)
+                        setCommentsList((prev: ICommentCard[]) => [...prev, ...res])
+                        setIsLoading(false)
+                    }, 3000)
                 } catch (error) {
                     console.error('ОШИБКА ЗАГРУЗКИ:', error)
-                } finally {
                     setIsLoading(false)
                 }
             }
@@ -76,20 +75,20 @@ export const Comments: React.FC<IComments> = ({
         }
     }, [isLoading]) // Добавил зависимости
 
-    console.log('commentsList = ', commentsList);
+    console.log('isLoading = ', isLoading);
     
 
     return (
         <div className={styles.comments}>
             <div className={styles.comments_header}>
-                <h2>{commentsList.length} комментария</h2>
+                <h2>{commentsList?.length} комментария</h2>
                 <CommentFilter filter={filter} setFilter={setFilter}/>
             </div>
             <AddComment/>
             <div className={styles.comments_comments}>
-                {commentsList.map((comment: ICommentCard) => (
+                {commentsList?.map((comment: ICommentCard, index) => (
                     <CommentCard                         
-                        key={comment.id}
+                        key={index}
                         id={comment.id}
                         channel={comment.channel}
                         video={comment.video}
@@ -102,8 +101,14 @@ export const Comments: React.FC<IComments> = ({
                     />
                 ))}
             </div>
-            <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }}>
-                {isLoading && <div style={{ textAlign: 'center' }}>ЗАГРУЗКА...</div>}
+            
+            {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
+            <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }} className={styles.comments_comments}>
+                {(isLoading || commentsList?.length <= 0) && Array.from({length: 12}, (_, index) => {
+                      return <div key={index} className={styles.videoCardWrapper}>
+                            <CommentSkeleton />
+                        </div>
+                }) }   
             </div>
         </div>
     )

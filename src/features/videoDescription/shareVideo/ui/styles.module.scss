@@ -1,0 +1,21 @@
+.rating {
+    grid-area: rating;
+    display: flex;
+    gap: 8px;
+    margin: 4px 0px;
+
+    &_share {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background-color: var(--foregroundRGB);
+        padding: 8 12;
+        border-radius: 28px;
+        cursor: pointer;
+        border: none;
+
+        &:hover {
+            background-color: var(--foregroundRGBHover);
+        }
+    }    
+}
