@@ -28,7 +28,7 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
                     <Svg name="shortArrowDown" />
                     <Popover isOpen={popoverIsVisible} onClose={() => setPopoverIsVisible(false)} offset={20} className={styles.popover}>
                         <div className={styles.popover_items}>
-                            <div className={`${styles.popover_item} ${notificationSetting === notificationSettings.NOONE ? styles.popover_item_active : ''}`}>
+                            <div className={`${styles.popover_item} ${notificationSetting === notificationSettings.All ? styles.popover_item_active : ''}`}>
                                 <Svg name='bell' />
                                 <Text weight={400}>Все</Text>
                             </div>

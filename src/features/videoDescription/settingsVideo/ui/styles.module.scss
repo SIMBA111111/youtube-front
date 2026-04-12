@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: column;
     padding: 8px 0px;
-    background-color: var(--lightGray);
+    background-color: var(--grayDarkBackground);
 
     &_item {
         background: none;
@@ -24,38 +24,7 @@
         cursor: pointer;
 
         &:hover {
-            background-color: var(--lightBlackBackground);
-        }
-    }
-}
-
-.customModal {
-    padding: 20px;
-    width: 400px;
-    top: 30%;
-    left: 35%;
-    background-color: var(--backgroungGray);
-    height: 400px;
-    border-radius: 12px;
-
-    &_content {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        overflow: hidden;
-
-        &_text {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            overflow-y: scroll;
-        }
-
-        &_btn {
-            border: none;
-            border-radius: 28px;
-            padding: 8px 0px;
-            width: 100%;
+            background-color: var(--lightGray);
         }
     }
 }

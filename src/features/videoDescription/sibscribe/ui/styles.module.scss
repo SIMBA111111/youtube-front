@@ -31,7 +31,7 @@
 
 
 .popover {
-    background-color: var(--lightGray) !important;
+    background-color: var(--grayDarkBackground) !important;
     border: none;
     padding: 8px 0px !important;
 
@@ -47,10 +47,10 @@
         gap: 6px;
         cursor: pointer;
         padding: 8px;
-        background-color: var(--lightBlackBackground);
+        background-color: var(--grayDarkBackground);
 
         &:hover {
-            background-color: var(--grayBackground);
+            background-color: var(--lightGray);
         }
 
         &_active {
