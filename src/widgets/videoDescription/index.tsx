@@ -46,9 +46,10 @@ export const VideoDescription: React.FC<IVideoDescription> = ({
     return (
         <div className={styles.description}>
             <div className={styles.channel}>
-                <img src={channel.avatarUrl} alt="avatarUrl" className={styles.channel_img}/>
+                <Link href={`/channel/${channel.id}`}><img src={channel.avatarUrl} alt="avatarUrl" className={styles.channel_img}/></Link>
+                
                 <div className={styles.channelInfo}>
-                    <Text className={styles.channelInfo_name}>{channel.name}</Text>
+                    <Link href={`/channel/${channel.id}`} className={styles.channelInfo_name}>{channel.name}</Link>
                     <Text size={12} weight={400}>{formatViews(subscribersCount)} подписчиков</Text>
                 </div>
                 <SubscribeButton isSubscribed={isSubscribed} notificationSetting={channel.notificationSetting}/>

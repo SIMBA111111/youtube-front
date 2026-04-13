@@ -56,5 +56,12 @@ export const svgs = {
     order: 'order',
     describe: 'describe',
     filledDislike: 'filledDislike',
-    filledLike: 'filledLike'
+    filledLike: 'filledLike',
+    letter: 'letter',
+    youTube: 'youTube',
+    globe: 'globe',
+    info: 'info',
+    viewers: 'viewers',
+    vidoeCount: 'vidoeCount',
+    stoncks: 'stoncks',
 }

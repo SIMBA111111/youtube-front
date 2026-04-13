@@ -6,11 +6,13 @@ import styles from './styles.module.scss'
 interface IEllipsisText {
     text: string
     symbolCount: number
+    customHandler?: () => void
 }
 
 export const EllipsisText:React.FC<IEllipsisText> = ({
     text,
-    symbolCount
+    symbolCount,
+    customHandler
 }) => {
     const [isOpenText, setIsOpenText] = useState(false)
 
@@ -18,6 +20,14 @@ export const EllipsisText:React.FC<IEllipsisText> = ({
 
     if (text.length < symbolCount) {
         return text
+    }
+
+    const handleClick = () => {
+        if(customHandler) {
+            customHandler()
+        } else {
+            setIsOpenText(true)
+        }
     }
 
     return (
@@ -30,7 +40,7 @@ export const EllipsisText:React.FC<IEllipsisText> = ({
                 :
                 <div className={styles.hiddenText}>
                     {slicedText}
-                    <span className={styles.stillBtn} onClick={() => setIsOpenText(true)}>...ещё</span>
+                    <span className={styles.stillBtn} onClick={() => handleClick()}>...ещё</span>
                 </div>
             }
         </div>
