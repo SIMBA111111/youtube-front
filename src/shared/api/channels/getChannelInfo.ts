@@ -4,12 +4,14 @@ const CHANNEL_INFO = {
     username: '@restor',
     avatarUrl: '/testImages/pr.png',
     bannerUrl: '/testImages/pr.png',
-    description: 'версус',
+    description: 'версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус',
+    email: 'fakowdude@gmail.com',
     subscribersCount: 41703,
     videosCount: 92,
     viewersCount: 6982374,
     country: 'RU',
     createdAt: '05-05-2020T12:12:12',
+    isSubscribed: true,
     links: [
         {
             id: 'oaijdfiojad',

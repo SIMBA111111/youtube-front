@@ -29,6 +29,16 @@
   align-content: start;
   overflow-y: auto;
   background-color: var(--background);
+
+  &::-webkit-scrollbar {
+      width: 6px; /* ширина скроллбара */
+      background: transparent; /* прозрачный фон */
+  }
+
+  &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+  }
 }
 
 .headerWrapper {

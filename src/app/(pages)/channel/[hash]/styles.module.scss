@@ -1,0 +1,117 @@
+.pageContainer {
+    max-width: 1280px;
+    padding: 0 24px;
+    margin: 0 auto;
+    color: #f1f1f1;
+
+    .channelBanner {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        background-color: #272727;
+        border-radius: 8px; // YouTube не использует скругление для баннера
+    }
+
+    .channel {
+        display: flex;
+        gap: 24px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #303030;
+        margin-top: 16px;
+
+        &Avatar {
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            background-color: #181818;
+            object-fit: cover;
+        }
+
+        &Info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+
+            &_description {
+                display: flex;
+                gap: 12px;
+            }
+
+            &_btns {
+                display: flex;
+                gap: 12px;
+                margin-top: 8px;
+
+                button {
+                    padding: 10px 16px;
+                    border-radius: 18px;
+                    border: none;
+                    cursor: pointer;
+                    transition: all 0.1s ease;
+
+                    &.channelInfo_btns_subscribe {
+                        background-color: #f1f1f1;
+                        color: #0f0f0f;
+
+                        &:hover {
+                            background-color: #e5e5e5;
+                        }
+                    }
+
+                    &.channelInfo_btns_community {
+                        background-color: #272727;
+                        color: #f1f1f1;
+
+                        &:hover {
+                            background-color: #3f3f3f;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Адаптив для планшетов и телефонов
+@media (max-width: 768px) {
+    .pageContainer {
+        padding: 0 16px;
+
+        .channelBanner {
+            height: 120px;
+        }
+
+        .channel {
+            margin-top: -32px;
+            gap: 16px;
+
+            &Avatar {
+                width: 80px;
+                height: 80px;
+                border-width: 3px;
+            }
+
+            &Info {
+                > div:first-child {
+                    font-size: 18px;
+                    line-height: 24px;
+                }
+
+                &_description {
+                    flex-wrap: wrap;
+                    gap: 8px;
+                    font-size: 12px;
+                }
+
+                &_btns {
+                    button {
+                        padding: 8px 12px;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}

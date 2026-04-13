@@ -36,8 +36,8 @@ const getShortsCount = (device: any) => {
     }
 }
 
-export const VideoList = ({tags}: {tags: ITAG[]}) => {
-    const [activeTag, setActiveTag] = useState<string>(tags[0].id)
+export const VideoList = ({tags}: {tags?: ITAG[]}) => {
+    const [activeTag, setActiveTag] = useState<string>(tags?.[0].id || '')
     const [videoList, setVideoList] = useState<IVideo[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const device = useDeviceIsMobile()
@@ -113,11 +113,11 @@ export const VideoList = ({tags}: {tags: ITAG[]}) => {
 
     return (
         <div className={styles.container} id='videoListContainer'>
-            <div className={styles.tagList}>
+            {tags && tags.length > 0 && <div className={styles.tagList}>
                 {tags.map((tag: ITAG, index) => {
                     return <VideoTags key={index} id={tag.id} name={tag.name} activeTag={activeTag} setActiveTag={setActiveTag}/>
                 })}
-            </div>
+            </div>}
             
             <div className={styles.videoGrid}>
                 {videoList

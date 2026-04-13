@@ -61,7 +61,6 @@
     gap: 48px;
     text-align: center;
     margin-top: 50px;
-    
 
     &__item {
         display: flex;
@@ -85,6 +84,16 @@
                 background-color: var(--grayDarkBackground);
             }
 
+                    &::-webkit-scrollbar {
+            width: 8px; /* ширина скроллбара */
+            background: transparent; /* прозрачный фон */
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
             &_active {
                 display: flex;
                 gap: 24px;
@@ -104,9 +113,18 @@
         margin-top: 16px;
         width: 100%;
         overflow-y: auto;
-        scrollbar-width: thin;
         height: 100vh;
         padding: 0px 10px;
+
+        &::-webkit-scrollbar {
+            width: 4px; /* ширина скроллбара */
+            background: transparent; /* прозрачный фон */
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #474747;
+            border-radius: 4px;
+        }
     }
 }
 

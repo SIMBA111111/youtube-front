@@ -6,8 +6,8 @@ import { formatDate } from "@/shared/utils/formatDate"
 import { SubscribeButton } from "@/features"
 import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui"
 import { ShareVideo } from "@/features/videoDescription/shareVideo/ui"
-import styles from './styles.module.scss'
 import { SettingsVideo } from "@/features/videoDescription/settingsVideo/ui"
+import styles from './styles.module.scss'
 
 interface IVideoDescription {
     id: string
@@ -46,10 +46,10 @@ export const VideoDescription: React.FC<IVideoDescription> = ({
     return (
         <div className={styles.description}>
             <div className={styles.channel}>
-                <Link href={`/channel/${channel.id}`}><img src={channel.avatarUrl} alt="avatarUrl" className={styles.channel_img}/></Link>
+                <a href={`/channel/${channel.id}`}><img src={channel.avatarUrl} alt="avatarUrl" className={styles.channel_img}/></a>
                 
                 <div className={styles.channelInfo}>
-                    <Link href={`/channel/${channel.id}`} className={styles.channelInfo_name}>{channel.name}</Link>
+                    <a href={`/channel/${channel.id}`} className={styles.channelInfo_name}>{channel.name}</a>
                     <Text size={12} weight={400}>{formatViews(subscribersCount)} подписчиков</Text>
                 </div>
                 <SubscribeButton isSubscribed={isSubscribed} notificationSetting={channel.notificationSetting}/>

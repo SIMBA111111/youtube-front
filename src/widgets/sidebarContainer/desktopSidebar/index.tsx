@@ -19,9 +19,6 @@ export const DesktopSidebar = ({channels, randomShortVideo}: {channels: IChannel
 
     const {isOpen, openSideBar, closeSideBar} = useSidebarStore()
 
-    console.log('randomShortVideo = ', randomShortVideo);
-    
-
     return (
         <>
             {!isOpen &&

@@ -78,7 +78,7 @@ export const Modal: React.FC<IModal> = ({children, title, isCloseButton=true, is
                         )}
                         {isCloseButton && (
                             <div className={styles.closeBtn} onClick={() => setIsVisible(false)}>
-                                <Svg name="cross" size="middle"/>
+                                <Svg name="cross" size="middle" color="black"/>
                             </div>
                         )}
                     </div>

@@ -2,17 +2,20 @@
 
 import { useState } from 'react'
 import styles from './styles.module.scss'
+import clsx from 'clsx'
 
 interface IEllipsisText {
     text: string
     symbolCount: number
     customHandler?: () => void
+    className?: string
 }
 
 export const EllipsisText:React.FC<IEllipsisText> = ({
     text,
     symbolCount,
-    customHandler
+    customHandler,
+    className
 }) => {
     const [isOpenText, setIsOpenText] = useState(false)
 
@@ -38,7 +41,7 @@ export const EllipsisText:React.FC<IEllipsisText> = ({
                     <button className={styles.stillBtn} onClick={() => setIsOpenText(false)}>Свернуть</button>
                 </div>
                 :
-                <div className={styles.hiddenText}>
+                <div className={clsx(styles.hiddenText, className)}>
                     {slicedText}
                     <span className={styles.stillBtn} onClick={() => handleClick()}>...ещё</span>
                 </div>
