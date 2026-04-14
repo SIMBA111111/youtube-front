@@ -1,0 +1,116 @@
+.descriptionText {
+    color: var(--gray) !important;
+}
+
+.customModal {
+    padding: 20px;
+    height: 600px;
+    width: 600px;
+    overflow: hidden;
+    border-radius: 12px;
+    top: 100;
+
+    &_header {
+        margin-top: 12px;
+    }
+
+    &_body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            width: 8px; /* ширина скроллбара */
+            background: transparent; /* прозрачный фон */
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+    }
+    
+    &_links {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    
+    
+        &_item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+
+            &_info {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 10px;
+            }
+        }
+    }
+
+    &_additional {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 10px;
+
+        &_item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+
+
+    &_buttons {
+        display: flex;
+        gap: 16px;
+
+        &_btn {
+            border-radius: 29px;
+            border: none;
+            width: fit-content;
+            background-color: var(--grayDarkBackground);
+            padding: 6 12;
+            cursor: pointer;
+
+            &_text {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            &:hover {
+                background-color: var(--gray);
+            }
+        }
+    }
+}
+
+
+.customPopover {
+    background-color: var(--grayDarkBackground);
+    padding: 8 0;
+
+    &_body {
+        display: flex;
+        flex-direction: column;
+
+        &_item {
+            width: 100%;
+            padding: 8 20;
+            cursor: pointer;
+            border-radius: 8px;
+
+            &:hover {
+                background-color: var(--gray);
+            }
+        }
+    }
+}

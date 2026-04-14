@@ -1,0 +1,14 @@
+.playlist {
+    position: relative;
+    display: flex;
+
+    &_videoCount {
+        background-color: var(--foregroundRGB);
+    }
+
+    &_info {
+        display: flex;
+        flex-direction: column;
+    }
+}
+

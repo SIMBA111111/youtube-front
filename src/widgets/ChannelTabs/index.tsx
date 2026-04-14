@@ -3,20 +3,28 @@
 import React, { useEffect, useState } from "react";
 import { Tabs } from "@/shared/ui/Tab";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import styles from "./styles.module.scss";
 import { VideoList } from "../videoList/ui";
 import { ChannelVideoList } from "@/features/ChannelVideoList/ui";
 import { ChannelShortVideoList } from "@/features/ChannelShortVideoList/ui";
+import { ChannelPlaylists } from "@/features/ChannelPlaylists/ui";
+import { ChannelCommunity } from "@/features/ChannelCommunity/ui";
+import { ChannelMainTab } from "@/features/ChannelMainTab/ui";
+import { IPlaylist } from "@/entities/playlist/ui";
+import styles from "./styles.module.scss";
 
 interface IChannelTabs {
     videoList: IVideo[]
     shortVideoList: IVideo[]
+    playlists: IPlaylist[]
+    communityPosts: IVideo[]
     channelHash: string
 }
 
 export const ChannelTabs: React.FC<IChannelTabs> = ({
     videoList,
     shortVideoList,
+    playlists,
+    communityPosts,
     channelHash
 }) => {
 
@@ -25,10 +33,12 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
             <Tabs.Root defaultActiveTabId="videos" onTabChange={(id) => console.log('Tab changed:', id)}>
                 <Tabs.List />
                 
+                <Tabs.Tab id="main" label="Главная">
+                    <ChannelMainTab communityPosts={communityPosts} playlists={playlists} videoList={videoList} channelHash={channelHash}/>
+                </Tabs.Tab>
+
                 <Tabs.Tab id="videos" label="Видео">
-                    <div style={{color: '#000'}}>
-                        <ChannelVideoList initVideoList={videoList} channelHash={channelHash}/>
-                    </div>
+                    <ChannelVideoList initVideoList={videoList} channelHash={channelHash}/>
                 </Tabs.Tab>
                 
                 <Tabs.Tab id="shorts" label="Shorts">
@@ -36,11 +46,11 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
                 </Tabs.Tab>
                 
                 <Tabs.Tab id="playlists" label="Плейлисты">
-                    <div style={{color: '#000'}}>Список плейлистов...</div>
+                    <ChannelPlaylists playlists={playlists} />
                 </Tabs.Tab>
                 
                 <Tabs.Tab id="community" label="Сообщество">
-                    <div style={{color: '#000'}}>Посты сообщества...</div>
+                    <ChannelCommunity communityPosts={communityPosts}/>
                 </Tabs.Tab>
             </Tabs.Root>
         </div>
