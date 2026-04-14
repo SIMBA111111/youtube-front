@@ -52,7 +52,18 @@
 .pageWrapper {
   grid-area: page;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+      width: 8px; /* ширина скроллбара */
+      background: transparent; /* прозрачный фон */
+  }
+
+  &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+  }
+
   padding: 20px 0px;
   background-color: var(--background);
 }

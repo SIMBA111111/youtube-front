@@ -6,6 +6,8 @@ import { EllipsisChannelText } from "@/features/channelDescriptionText/ui";
 import styles from "./styles.module.scss";
 import { getVideoListByChannelHash } from "@/shared/api/video/getVideoListByChannelHash";
 import { getShortVideoListByChannelHash } from "@/shared/api/video/getShortVideoListByChannelHash";
+import { getPostsByChannelHash } from "@/shared/api/posts/getPostsByChannelHash";
+import { getShortPlaylistsByChannelHash } from "@/shared/api/playlists/getShortPlaylistsByChannelHash";
 
 export default async function ChannelMain ({
   searchParams,
@@ -17,6 +19,8 @@ export default async function ChannelMain ({
     const channelInfo = await getChannelInfo(channelHash)
     const videoList = await getVideoListByChannelHash(channelHash)
     const shortVideoList = await getShortVideoListByChannelHash(channelHash)
+    const playlists = await getShortPlaylistsByChannelHash(channelHash)
+    const postList = await getPostsByChannelHash(channelHash)
 
     return (
         <div className={styles.pageContainer}>
@@ -47,7 +51,13 @@ export default async function ChannelMain ({
                     </div>
                 </div>
             </div>
-            <ChannelTabs videoList={videoList} channelHash={channelHash} shortVideoList={shortVideoList}/>
+            <ChannelTabs 
+                videoList={videoList} 
+                channelHash={channelHash} 
+                shortVideoList={shortVideoList} 
+                communityPosts={postList} 
+                playlists={playlists}
+            />
         </div>
     )
 }

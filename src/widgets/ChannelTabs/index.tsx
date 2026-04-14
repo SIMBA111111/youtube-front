@@ -31,11 +31,11 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
     return (
         <div>
             <Tabs.Root defaultActiveTabId="videos" onTabChange={(id) => console.log('Tab changed:', id)}>
-                <Tabs.List />
+                <Tabs.List classNameList={styles.tabHeader} classNameItem={styles.tabHeader_item} classNameActiveItem={styles.tabHeader_item_active}/>
                 
-                <Tabs.Tab id="main" label="Главная">
+                {/* <Tabs.Tab id="main" label="Главная" className={styles.tabHeader_item}>
                     <ChannelMainTab communityPosts={communityPosts} playlists={playlists} videoList={videoList} channelHash={channelHash}/>
-                </Tabs.Tab>
+                </Tabs.Tab> */}
 
                 <Tabs.Tab id="videos" label="Видео">
                     <ChannelVideoList initVideoList={videoList} channelHash={channelHash}/>
@@ -49,7 +49,7 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
                     <ChannelPlaylists playlists={playlists} />
                 </Tabs.Tab>
                 
-                <Tabs.Tab id="community" label="Сообщество">
+                <Tabs.Tab id="community" label="Записи">
                     <ChannelCommunity communityPosts={communityPosts}/>
                 </Tabs.Tab>
             </Tabs.Root>

@@ -8,11 +8,18 @@ import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { getVideos } from "@/shared/api/video/getVideoList";
 import { getVideoListByChannelHash } from "@/shared/api/video/getVideoListByChannelHash";
 import styles from "./styles.module.scss";
+import { handleFilter } from "../lib/handleFilter";
 
+export enum FiltersEnum {
+    NEWS='NEWS',
+    FAME='FAME',
+    OLD='OLD'
+}
 
 export const ChannelVideoList = ({initVideoList, channelHash}: {initVideoList: IVideo[], channelHash: string}) => {
     const [videoList, setVideoList] = useState<IVideo[]>(initVideoList)
     const [isLoading, setIsLoading] = useState(false)
+    const [activeFilter, setActiveFilter] = useState(FiltersEnum.NEWS)
     const device = useDeviceIsMobile()
     const observerRef = useRef<IntersectionObserver | null>(null)
     const loadingRef = useRef<HTMLDivElement | null>(null)
@@ -74,6 +81,18 @@ export const ChannelVideoList = ({initVideoList, channelHash}: {initVideoList: I
 
     return (
         <div className={styles.container} id='videoListContainer'>
+            <div className={styles.filter}>
+                <button className={activeFilter === FiltersEnum.NEWS ? styles.filter_button_active : styles.filter_button} onClick={() => handleFilter(channelHash, FiltersEnum.NEWS, setActiveFilter)}>
+                    <Text color={activeFilter === FiltersEnum.NEWS ? "var(--whiteText)" : "var(--blackText)"} weight={500} size={14}>Новые</Text>
+                </button>
+                <button className={activeFilter === FiltersEnum.FAME? styles.filter_button_active : styles.filter_button} onClick={() => handleFilter(channelHash, FiltersEnum.FAME, setActiveFilter)}>
+                    <Text color={activeFilter === FiltersEnum.FAME ? "var(--whiteText)" : "var(--blackText)"} weight={500} size={14}>Популярные</Text>
+                </button>
+                <button className={activeFilter === FiltersEnum.OLD? styles.filter_button_active : styles.filter_button} onClick={() => handleFilter(channelHash, FiltersEnum.OLD, setActiveFilter)}>
+                    <Text color={activeFilter === FiltersEnum.OLD ? "var(--whiteText)" : "var(--blackText)"} weight={500} size={14}>Старые</Text>
+                </button>
+            </div>
+
             <div className={styles.videoGrid}>
                 {videoList
                     .map((video: IVideo) => (

@@ -10,7 +10,7 @@ interface PopoverProps {
     onClose?: () => void;
     offset?: number;
     className?: string;
-    closeOnScroll?: boolean; // закрывать при скролле
+    closeOnScroll?: boolean;
 }
 
 export const Popover = ({
@@ -19,19 +19,16 @@ export const Popover = ({
     onClose,
     offset = 8,
     className = "",
-    closeOnScroll = true, // по умолчанию закрываем при скролле
+    closeOnScroll = true,
 }: PopoverProps) => {
     const [internalIsOpen, setInternalIsOpen] = useState(false);
-    const [position, setPosition] = useState<"top" | "bottom" | "left" | "right">("bottom");
     const [popoverStyle, setPopoverStyle] = useState({});
     
     const triggerRef = useRef<HTMLDivElement>(null);
     const popoverRef = useRef<HTMLDivElement>(null);
-    const scrollTimeoutRef = useRef<NodeJS.Timeout>(null);
 
     const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
 
-    // Закрытие поповера
     const handleClose = useCallback(() => {
         if (externalIsOpen === undefined) {
             setInternalIsOpen(false);
@@ -39,7 +36,7 @@ export const Popover = ({
         onClose?.();
     }, [externalIsOpen, onClose]);
 
-    // Автоматическое определение позиции
+    // Исправленный расчет позиции с учетом границ экрана
     const calculatePosition = useCallback(() => {
         if (!triggerRef.current || !popoverRef.current) return;
 
@@ -48,86 +45,134 @@ export const Popover = ({
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
+        let finalStyle = {};
+        let bestPosition: "top" | "bottom" | "left" | "right" = "bottom";
+
+        // Сначала проверяем, куда лучше всего встать
         const spaceTop = triggerRect.top;
         const spaceBottom = viewportHeight - triggerRect.bottom;
         const spaceLeft = triggerRect.left;
         const spaceRight = viewportWidth - triggerRect.right;
 
-        let bestPosition: "top" | "bottom" | "left" | "right" = "bottom";
-        let bestStyle = {};
-
+        // Пытаемся найти позицию, где поповер полностью помещается
         const positions = [
-            { pos: "bottom" as const, fits: spaceBottom >= popoverRect.height + offset, space: spaceBottom },
-            { pos: "top" as const, fits: spaceTop >= popoverRect.height + offset, space: spaceTop },
-            { pos: "right" as const, fits: spaceRight >= popoverRect.width + offset, space: spaceRight },
-            { pos: "left" as const, fits: spaceLeft >= popoverRect.width + offset, space: spaceLeft },
+            { 
+                pos: "bottom" as const, 
+                fits: spaceBottom >= popoverRect.height + offset,
+                priority: 3
+            },
+            { 
+                pos: "top" as const, 
+                fits: spaceTop >= popoverRect.height + offset,
+                priority: 3
+            },
+            { 
+                pos: "right" as const, 
+                fits: spaceRight >= popoverRect.width + offset,
+                priority: 2
+            },
+            { 
+                pos: "left" as const, 
+                fits: spaceLeft >= popoverRect.width + offset,
+                priority: 2
+            },
         ];
 
         const fittingPosition = positions.find(p => p.fits);
-        const selectedPosition = fittingPosition || positions.reduce((prev, curr) => 
-            curr.space > prev.space ? curr : prev
-        );
         
-        bestPosition = selectedPosition.pos;
-
-        switch (bestPosition) {
-            case "bottom":
-                bestStyle = {
-                    top: triggerRect.bottom + offset,
-                    left: triggerRect.left + triggerRect.width / 2,
-                    transform: "translateX(-50%)",
-                };
-                break;
-            case "top":
-                bestStyle = {
-                    bottom: viewportHeight - triggerRect.top + offset,
-                    left: triggerRect.left + triggerRect.width / 2,
-                    transform: "translateX(-50%)",
-                };
-                break;
-            case "right":
-                bestStyle = {
-                    left: triggerRect.right + offset,
-                    top: triggerRect.top + triggerRect.height / 2,
-                    transform: "translateY(-50%)",
-                };
-                break;
-            case "left":
-                bestStyle = {
-                    right: viewportWidth - triggerRect.left + offset,
-                    top: triggerRect.top + triggerRect.height / 2,
-                    transform: "translateY(-50%)",
-                };
-                break;
+        if (fittingPosition) {
+            bestPosition = fittingPosition.pos;
+        } else {
+            // Если нигде не помещается, выбираем где больше места
+            const spaces = {
+                bottom: spaceBottom,
+                top: spaceTop,
+                right: spaceRight,
+                left: spaceLeft
+            };
+            bestPosition = Object.keys(spaces).reduce((a, b) => 
+                spaces[a as keyof typeof spaces] > spaces[b as keyof typeof spaces] ? a : b
+            ) as "top" | "bottom" | "left" | "right";
         }
 
-        setPosition(bestPosition);
-        setPopoverStyle(bestStyle);
+        // Расчет позиции с учетом границ экрана
+        switch (bestPosition) {
+            case "bottom": {
+                let left = triggerRect.left + triggerRect.width / 2;
+                // Корректировка, чтобы не выходил за левый край
+                const minLeft = offset;
+                // Корректировка, чтобы не выходил за правый край
+                const maxLeft = viewportWidth - popoverRect.width - offset;
+                left = Math.max(minLeft, Math.min(maxLeft, left - popoverRect.width / 2));
+                
+                finalStyle = {
+                    top: triggerRect.bottom + offset,
+                    left: left,
+                };
+                break;
+            }
+            case "top": {
+                let left = triggerRect.left + triggerRect.width / 2;
+                const minLeft = offset;
+                const maxLeft = viewportWidth - popoverRect.width - offset;
+                left = Math.max(minLeft, Math.min(maxLeft, left - popoverRect.width / 2));
+                
+                finalStyle = {
+                    bottom: viewportHeight - triggerRect.top + offset,
+                    left: left,
+                };
+                break;
+            }
+            case "right": {
+                let top = triggerRect.top + triggerRect.height / 2;
+                const minTop = offset;
+                const maxTop = viewportHeight - popoverRect.height - offset;
+                top = Math.max(minTop, Math.min(maxTop, top - popoverRect.height / 2));
+                
+                finalStyle = {
+                    left: triggerRect.right + offset,
+                    top: top,
+                };
+                break;
+            }
+            case "left": {
+                let top = triggerRect.top + triggerRect.height / 2;
+                const minTop = offset;
+                const maxTop = viewportHeight - popoverRect.height - offset;
+                top = Math.max(minTop, Math.min(maxTop, top - popoverRect.height / 2));
+                
+                finalStyle = {
+                    right: viewportWidth - triggerRect.left + offset,
+                    top: top,
+                };
+                break;
+            }
+        }
+
+        setPopoverStyle(finalStyle);
     }, [offset]);
 
     // Закрытие при скролле
     useEffect(() => {
         if (!isOpen || !closeOnScroll) return;
 
-        let scrollTimeout: NodeJS.Timeout;
-        
         const handleScroll = () => {
-            // Сразу закрываем поповер при скролле
             handleClose();
         };
 
-        // Слушаем скролл на всех возможных элементах
         window.addEventListener("scroll", handleScroll, true);
-        document.addEventListener("scroll", handleScroll, true);
         
-        // Также слушаем скролл на всех скроллящихся элементах
-        const allElements = document.querySelectorAll("*");
+        // Находим все скроллящиеся элементы
         const scrollableElements: Element[] = [];
+        const allElements = document.querySelectorAll("*");
         
         allElements.forEach((el) => {
-            const hasScroll = window.getComputedStyle(el).overflowY === "scroll" ||
-                            window.getComputedStyle(el).overflowY === "auto";
-            if (hasScroll) {
+            const style = window.getComputedStyle(el);
+            const hasScroll = style.overflowY === "scroll" || 
+                            style.overflowY === "auto" ||
+                            style.overflowX === "scroll" ||
+                            style.overflowX === "auto";
+            if (hasScroll && el !== triggerRef.current) {
                 scrollableElements.push(el);
                 el.addEventListener("scroll", handleScroll);
             }
@@ -135,14 +180,13 @@ export const Popover = ({
 
         return () => {
             window.removeEventListener("scroll", handleScroll, true);
-            document.removeEventListener("scroll", handleScroll, true);
             scrollableElements.forEach(el => {
                 el.removeEventListener("scroll", handleScroll);
             });
         };
     }, [isOpen, closeOnScroll, handleClose]);
 
-    // Закрытие при клике вне
+    // Закрытие при клике вне и ресайзе
     useEffect(() => {
         if (!isOpen) return;
 
@@ -157,14 +201,20 @@ export const Popover = ({
             }
         };
 
+        const handleResize = () => {
+            calculatePosition();
+        };
+
         calculatePosition();
         
         document.addEventListener("mousedown", handleClickOutside);
-        window.addEventListener("resize", handleClose); // закрываем при ресайзе
+        window.addEventListener("resize", handleResize);
+        window.addEventListener("scroll", handleResize);
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
-            window.removeEventListener("resize", handleClose);
+            window.removeEventListener("resize", handleResize);
+            window.removeEventListener("scroll", handleResize);
         };
     }, [isOpen, calculatePosition, handleClose]);
 
@@ -182,18 +232,32 @@ export const Popover = ({
         return () => document.removeEventListener("keydown", handleEscape);
     }, [isOpen, handleClose]);
 
+    // Пересчет позиции при изменении контента
+    useEffect(() => {
+        if (isOpen) {
+            const observer = new ResizeObserver(() => {
+                calculatePosition();
+            });
+            
+            if (popoverRef.current) {
+                observer.observe(popoverRef.current);
+            }
+            
+            return () => observer.disconnect();
+        }
+    }, [isOpen, calculatePosition]);
+
     return (
         <>
-            <div ref={triggerRef} className={styles.popoverContainer} />
+            <div ref={triggerRef} className={`${styles.popoverTrigger}`} />
 
             {isOpen && createPortal(
                 <div
                     ref={popoverRef}
-                    className={`${styles.popover} ${styles[position]}`}
+                    className={`${styles.popover} ${className}`}
                     style={popoverStyle}
                 >
-                    <div className={`${styles.arrow} ${styles[position]}`} />
-                    <div className={`${styles.content} ${className}`}>{children}</div>
+                    {children}
                 </div>,
                 document.body
             )}

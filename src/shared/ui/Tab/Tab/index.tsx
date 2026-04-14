@@ -8,9 +8,10 @@ interface TabProps {
   id: string;
   label: ReactNode;
   children: ReactNode;
+  className?: string
 }
 
-export const Tab = ({ id, label, children }: TabProps) => {
+export const Tab = ({ id, label, children, className }: TabProps) => {
   const { registerTab, unregisterTab, activeTabId } = useTabsContext();
 
   useEffect(() => {
@@ -20,5 +21,5 @@ export const Tab = ({ id, label, children }: TabProps) => {
 
   if (activeTabId !== id) return null;
 
-  return <>{children}</>;
+  return <div className={className}>{children}</div>;
 };

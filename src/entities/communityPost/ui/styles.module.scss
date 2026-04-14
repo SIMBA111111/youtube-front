@@ -1,0 +1,227 @@
+.communityPost {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+    padding: 16px;
+    margin-bottom: 16px;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.postHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.postAuthor {
+    flex: 1;
+}
+
+.authorName {
+    font-size: 14px;
+    font-weight: 500;
+    color: #0f0f0f;
+    margin-bottom: 2px;
+}
+
+.postDate {
+    font-size: 12px;
+    color: #606060;
+}
+
+.menuButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #606060;
+    transition: background 0.2s;
+
+    &:hover {
+        background: #f2f2f2;
+    }
+}
+
+.postContent {
+    margin-bottom: 16px;
+}
+
+.postText {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #0f0f0f;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.postImages {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.singleImage {
+    grid-template-columns: 1fr;
+    
+    .imageWrapper {
+        max-height: 500px;
+        
+        img {
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+        }
+    }
+}
+
+.multipleImages {
+    grid-template-columns: repeat(2, 1fr);
+    
+    .imageWrapper {
+        aspect-ratio: 16 / 9;
+        
+        img {
+            object-fit: cover;
+        }
+    }
+}
+
+.imageWrapper {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f2f2f2;
+    
+    img {
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        transition: transform 0.2s;
+        
+        &:hover {
+            transform: scale(1.02);
+        }
+    }
+}
+
+.postVideo {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    margin-top: 12px;
+    
+    img {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+    }
+    
+    &:hover .videoOverlay {
+        opacity: 1;
+    }
+}
+
+.videoOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    color: white;
+}
+
+.videoInfo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 12px;
+    color: white;
+}
+
+.videoTitle {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.videoViews {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.postActions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-top: 8px;
+    border-top: 1px solid #e5e5e5;
+}
+
+.actionButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 18px;
+    color: #606060;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    
+    &:hover {
+        background: #f2f2f2;
+    }
+    
+    &.liked {
+        color: #065fd4;
+        
+        svg {
+            fill: #065fd4;
+        }
+    }
+    
+    svg {
+        fill: currentColor;
+    }
+}
+
+// Адаптив
+@media (max-width: 768px) {
+    .communityPost {
+        padding: 12px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+    
+    .multipleImages {
+        grid-template-columns: 1fr;
+    }
+    
+    .postActions {
+        gap: 16px;
+    }
+    
+    .actionButton {
+        padding: 6px 8px;
+    }
+}
