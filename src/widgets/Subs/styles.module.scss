@@ -5,9 +5,28 @@
     }
 }
 
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.channels {
+    background-color: var(--grayDarkBackground);
+    border: none;
+    padding: 10 16;
+    border-radius: 28px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--gray);
+    }
+}
+
 .videoGrid {
     display: grid;
     grid-template-columns: repeat(4, minmax(150px, 1fr));
+    margin-top: 30px;
 
     @media (max-width: 1280px) {
         grid-template-columns: repeat(3, minmax(150px, 1fr));
@@ -22,12 +41,21 @@
     // }
 }
 
-
-.shortsTag {
+.shorts {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin: 50 0 20 0;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    &Tag {
+        display: flex;
+        align-items: center;
+    }
+
+    &Link {
+        display: flex;
+        align-items: center;
+    }
 }
 
 .videoGridHorts {

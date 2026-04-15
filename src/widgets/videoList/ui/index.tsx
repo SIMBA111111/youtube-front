@@ -8,32 +8,12 @@ import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { getVideos } from "@/shared/api/video/getVideoList";
 import { ThumbnailShortVideoCard, VideoTags } from "@/entities";
 import styles from "./styles.module.scss";
+import { getVideosCount } from "@/shared/utils/getVideosCount";
+import { getShortsCount } from "@/shared/utils/getShortsCount";
 
 interface ITAG {
     id: string
     name: string
-}
-
-const getVideosCount = (device: any) => {
-    switch (true) {
-        case device.isMobile === true:
-            return 1
-        case device.isTablet === true:
-            return 2
-        default:
-            return 3
-    }
-}
-
-const getShortsCount = (device: any) => {
-    switch (true) {
-        case device.isMobile === true:
-            return 2
-        case device.isTablet === true:
-            return 3
-        default:
-            return 5
-    }
 }
 
 export const VideoList = ({tags}: {tags?: ITAG[]}) => {
@@ -138,7 +118,6 @@ export const VideoList = ({tags}: {tags?: ITAG[]}) => {
             <div className={styles.videoGridHorts}>
                 {videoList
                     .filter((video: IVideo) => video.isShort) 
-                    .slice(0, getShortsCount(device))
                     .map((video: IVideo) => (
                         <div key={video.id} className={styles.hortsVideoCardWrapper}>
                             <ThumbnailShortVideoCard {...video} />

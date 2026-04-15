@@ -1,0 +1,9 @@
+.accordion_content {
+    display: grid;
+    display: none;
+    transition: display 0.3s ease;
+    
+    &.open {
+        display: block;
+    }
+}

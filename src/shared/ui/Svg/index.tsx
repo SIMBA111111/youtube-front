@@ -220,7 +220,7 @@ export const Svg: React.FC<ISvg> = ({
                     </svg>
 
         case 'shortArrowDown':
-            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+            return <svg fill={colors[color]} xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
                         <path d="M18.707 8.793a1 1 0 00-1.414 0L12 14.086 6.707 8.793a1 1 0 10-1.414 1.414L12 16.914l6.707-6.707a1 1 0 000-1.414Z"></path>
                     </svg>
 
@@ -230,7 +230,7 @@ export const Svg: React.FC<ISvg> = ({
                     </svg>
 
         case 'shortArrowUp':
-            return <svg fill='currentColor' xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
+            return <svg fill={colors[color]} xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true">
                         <path d="M5.293 15.207a1 1 0 001.414 0L12 9.914l5.293 5.293a1 1 0 101.414-1.414L12 7.086l-6.707 6.707a1 1 0 000 1.414Z"></path>
                     </svg> 
 
