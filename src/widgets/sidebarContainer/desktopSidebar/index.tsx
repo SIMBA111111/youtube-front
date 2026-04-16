@@ -29,7 +29,7 @@ export const DesktopSidebar = ({channels, randomShortVideo}: {channels: IChannel
                     <div className={styles.sidebarContainerHidden}>
                         <div className={styles.btns}>
                             <Link href={'/'} className={styles.btns__item}>
-                                {pathname === '/' ? <Svg name='homeActive' /> : <Svg name='home' /> }
+                                {pathname === '/' ? <Svg name='homeActive'/> : <Svg name='home' /> }
                                 <Text weight={400} size={12}>Главная</Text>
                             </Link>
 

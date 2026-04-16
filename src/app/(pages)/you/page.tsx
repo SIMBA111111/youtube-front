@@ -21,11 +21,15 @@ export default async function Subscriptions() {
       <div className={styles.myChannel}>
         <img src={me.avatarUrl} alt="avatarUrl" className={styles.myChannel_avatar}/>
         <div className={styles.myChannel_info}>
-          <Text size={20} weight={600}>{me.name}</Text>
-          <Text color="var(--gray)">{me.username}</Text>
+          <Text size={36} weight={600}>{me.name}</Text>
+          <div>
+          <a href={`/channel/${me.id}`} className={styles.myChannel_info_username}>{me.username} • Перейти на канал</a>
+          </div>
         </div>
       </div>
-      <MyChannelActions likedPlaylists={likedPlaylists} likedVideoList={likedVideoList} vieweredVideoList={vieweredVideoList} />
+      <MyChannelActions items={vieweredVideoList} title="История" link="/feed/history"/>
+      <MyChannelActions items={likedPlaylists} title="Плейлисты" link="/feed/playlists"/>
+      <MyChannelActions items={likedVideoList} title="Понравившиеся" link="/feed/liked"/>
     </div>
   );
 }

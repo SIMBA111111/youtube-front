@@ -1,11 +1,11 @@
 .swiperContainer {
   position: relative;
-  margin: 20px 0;
 }
 
 .swiper {
   overflow: hidden !important;
-  padding: 8px 0;
+  padding: 16px !important; 
+  margin-left: -16px !important;
   
   :global(.swiper-wrapper) {
     display: flex;
@@ -18,20 +18,26 @@
 }
 
 .slide {
-  width: 280px !important; // Фиксированная ширина
-  flex-shrink: 0 !important; // Запрещаем сжатие
-  
+  width: 220px !important; // Фиксированная ширина
+  overflow: visible !important;
+  backface-visibility: visible !important;
+  height: fit-content !important;
+
   @media (max-width: 768px) {
     width: 240px !important;
   }
 }
 
 .shortVideoCardWrapper {
-  width: 280px; // Такая же ширина как у слайда
+  width: 359px;
   flex-shrink: 0;
   
   &:hover {
     transform: scale(1.02);
+  }
+
+  &PlayList {
+    margin-right: 20px;
   }
 }
 
@@ -111,13 +117,48 @@
   }
   
   &Link {
-    color: #065fd4;
-    font-size: 14px;
-    font-weight: 500;
+    color: var(--blackText);
     text-decoration: none;
-    
+    border-radius: 100px;
+    border: 1px solid var(--grayDarkBackground);
+    padding: 10 14;
+    font-size: 14;
+    font-family: Roboto;
+    font-weight: 600;
     &:hover {
-      text-decoration: underline;
+      background-color: var(--grayHoverBackground);
     }
+  }
+
+  &Nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &_arrow {
+      display: flex;
+      border-radius: 100px;
+      border: 1px solid var(--grayDarkBackground);
+      padding: 4;
+      cursor: pointer;
+      background: none;
+
+      &:hover {
+        background-color: var(--grayHoverBackground);
+      }
+    }
+  }
+}
+
+.disabled {
+  border: 1px solid var(--grayDarkBackground);
+  cursor: default;
+
+  > svg {
+    fill: var(--grayHoverBackground);
+  }
+
+  &:hover {
+    background-color: transparent;
   }
 }

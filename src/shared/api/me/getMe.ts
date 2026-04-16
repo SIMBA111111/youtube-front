@@ -2,7 +2,7 @@ const ME = {
     id: 'pldkfpolskf',
     name: 'Name',
     username: 'UserName',
-    avatarUrl:'/testImages/testChannelAvatar.png'
+    avatarUrl:'/testImages/pr.png'
 }
 
 export const getMe = () => {
