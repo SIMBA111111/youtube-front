@@ -2,11 +2,11 @@
 
 import { IChannel } from "@/entities/channels/modal/types"
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
 
 import styles from "./styles.module.scss";
 import { Text } from "@/shared/ui";
+import { formatDistanceToNow } from "date-fns";
+import { ru } from "date-fns/locale";
 
 export interface IPlaylist {
     playlistPreview: string

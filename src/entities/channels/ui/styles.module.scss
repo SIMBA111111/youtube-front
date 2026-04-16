@@ -1,0 +1,27 @@
+.channelCard {
+    display: flex;
+    height: fit-content;
+}
+
+.avatar {
+    height: 164px;
+    width: 164px;
+    border-radius: 100px;
+}
+
+.info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: space-between;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+

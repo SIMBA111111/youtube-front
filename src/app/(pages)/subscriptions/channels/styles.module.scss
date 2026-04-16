@@ -1,0 +1,12 @@
+.mainPage__container {
+    max-width: 1640px;
+    margin: auto;
+    height: 100%;
+}
+
+.channelList {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}

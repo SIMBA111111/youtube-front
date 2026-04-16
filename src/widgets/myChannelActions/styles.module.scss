@@ -1,0 +1,123 @@
+.swiperContainer {
+  position: relative;
+  margin: 20px 0;
+}
+
+.swiper {
+  overflow: hidden !important;
+  padding: 8px 0;
+  
+  :global(.swiper-wrapper) {
+    display: flex;
+  }
+  
+  :global(.swiper-slide) {
+    width: auto !important;
+    height: auto;
+  }
+}
+
+.slide {
+  width: 280px !important; // Фиксированная ширина
+  flex-shrink: 0 !important; // Запрещаем сжатие
+  
+  @media (max-width: 768px) {
+    width: 240px !important;
+  }
+}
+
+.shortVideoCardWrapper {
+  width: 280px; // Такая же ширина как у слайда
+  flex-shrink: 0;
+  
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.navButtons {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.navButton {
+  position: absolute;
+  pointer-events: auto;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.8);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.05);
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+  }
+}
+
+.navButtonPrev {
+  left: -20px;
+  transform: translateY(-50%);
+  
+  svg {
+    transform: rotate(-90deg);
+  }
+}
+
+.navButtonNext {
+  right: -20px;
+  transform: translateY(-50%);
+  
+  svg {
+    transform: rotate(90deg);
+  }
+}
+
+.section {
+  margin-bottom: 48px;
+  
+  &Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 0 8px;
+  }
+  
+  &Title {
+    font-size: 20px;
+    font-weight: 600;
+    
+    @media (max-width: 768px) {
+      font-size: 18px;
+    }
+  }
+  
+  &Link {
+    color: #065fd4;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

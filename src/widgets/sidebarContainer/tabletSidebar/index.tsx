@@ -77,7 +77,7 @@ export const TabletSidebar = ({channels, randomShortVideo}: {channels: IChannel[
                     </div>
 
                     <div className={styles.divider}>
-                        <Link href={'/'} className={styles.btns__item__open}>
+                        <Link href={'/you'} className={styles.btns__item__open}>
                             <Text>Вы</Text>
                             <Svg name='arrowLeft' size='small'/>
                         </Link>

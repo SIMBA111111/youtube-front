@@ -25,6 +25,7 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
             <button className={styles.subscribeButton_btn} onClick={() => setPopoverIsVisible(prev => !prev)}>
                 <div className={styles.unsibscribe}>
                     <Svg name="bell" />
+                    <Text className={styles.unsibscribe_text}>Вы подписаны</Text>
                     <Svg name="shortArrowDown" />
                     <Popover isOpen={popoverIsVisible} onClose={() => setPopoverIsVisible(false)} offset={20} className={styles.popover}>
                         <div className={styles.popover_items}>

@@ -1,3 +1,5 @@
+import { notificationSettings } from "@/features/videoDescription/sibscribe/ui"
+
 export interface ILink {
     id: string
     name: string
@@ -18,4 +20,5 @@ export interface IChannel {
     country?: string
     createdAt?: string
     links: ILink[]
+    notificationSetting?: notificationSettings
 }

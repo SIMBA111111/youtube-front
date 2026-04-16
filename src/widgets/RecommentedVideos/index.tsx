@@ -8,10 +8,10 @@ import { IVideo } from "@/entities/thumbnailVideo/modal/types"
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard"
 import { ThumbnailShortVideoCard } from "@/entities"
 
-import styles from "./styles.module.scss"
 import { Spinner, Svg } from "@/shared/ui"
 import { getShortVideos } from "@/shared/api/video/getShortVideos"
 import { getVideos } from "@/shared/api/video/getVideoList"
+import styles from "./styles.module.scss"
 
 interface IRecommentedVideos {
     initVideos: IVideo[]

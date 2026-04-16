@@ -4,17 +4,20 @@ import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
-import { Svg, Text } from '@/shared/ui'
+import { Popover, Svg, Text } from '@/shared/ui'
 import { IChannel } from '@/entities/channels/modal/types'
 import { SIDEBAR_NAVIGATION, SIDEBAR_YOU } from '@/shared/constants/sidebar'
 import { useSidebarStore } from '@/shared/store/sidebar'
+import { IThumbnailShortVideo } from '@/entities/thumbnailShortVideo/modal/types'
+import { Menu } from '@/shared/ui/Menu'
 
 import styles from './styles.module.scss'
-import { IThumbnailShortVideo } from '@/entities/thumbnailShortVideo/modal/types'
 
 
 export const DesktopSidebar = ({channels, randomShortVideo}: {channels: IChannel[], randomShortVideo: IThumbnailShortVideo}) => {
-    const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false)
+    // const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false)
+    const [isOpenedSubsPopover, setIsOpenedSubsPopover] = useState<boolean>(false)
+    const [isOpenedYouPopover, setIsOpenedYouPopover] = useState<boolean>(false)
     const pathname = usePathname()
 
     const {isOpen, openSideBar, closeSideBar} = useSidebarStore()
@@ -35,13 +38,21 @@ export const DesktopSidebar = ({channels, randomShortVideo}: {channels: IChannel
                                 <Text weight={400} size={12}>Shorts</Text>
                             </Link>
 
-                            <Link href={'/subscriptions'} className={styles.btns__item}>
+                            <Link href={'/subscriptions'} className={styles.btns__item} onMouseEnter={() => setIsOpenedSubsPopover(true)}>
                                 {pathname === '/subscriptions' ? <Svg name='subscriptionsActvie' /> : <Svg name='subscriptions' /> }
                                 <Text weight={400} size={12}>Подписки</Text>
                             </Link>
+                            <Menu isOpen={isOpenedSubsPopover} onClose={() => setIsOpenedSubsPopover(false)}>
+                                {channels.map((channel: IChannel) => (
+                                    <Link key={channel.id} href={`/channel/${channel.username}`} className={styles.btns__item__open}>
+                                        <img src={channel.avatarUrl} alt="" className={styles.channelAvatar}/>
+                                        <Text weight={400} size={14}>{channel.name}</Text>
+                                    </Link>
+                                ))}
+                            </Menu>
 
-                            <Link href={'/myAccount'} className={styles.btns__item}>
-                                {pathname === '/myAccount' ? <Svg name='myAccountActive' /> : <Svg name='myAccount' /> }
+                            <Link href={'/you'} className={styles.btns__item}>
+                                {pathname === '/you' ? <Svg name='myAccountActive' /> : <Svg name='myAccount' /> }
                                 <Text weight={400} size={12}>Вы</Text>
                             </Link>
                         </div>

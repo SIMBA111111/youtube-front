@@ -21,7 +21,7 @@ export const Subs = ({videoList} : {videoList: IVideo[]}) => {
 
       <div className={styles.header}>
         <Text size={20} weight={500}>Самые актуальные</Text>
-        <button className={styles.channels}><Text weight={500}>Каналы, на которые вы подписаны</Text></button>      
+        <Link href={'/subscriptions/channels'} className={styles.channels}><Text weight={500}>Каналы, на которые вы подписаны</Text></Link>      
       </div>
 
       <HorizontalCollaps>
