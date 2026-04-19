@@ -11,6 +11,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-12T13:33:12',
+        dateViewed: '2026-04-19T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -27,6 +28,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-02-22T13:33:12',
+        dateViewed: '2026-04-19T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -43,6 +45,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-19T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -59,6 +62,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-19T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -75,6 +79,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2023-03-22T13:33:12',
+        dateViewed: '2026-04-19T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -91,6 +96,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-19T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -108,6 +114,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-19T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -124,7 +131,8 @@ const VIDEOS = [
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,
         duration: 300,
-        datePublication: '2026-03-22T13:33:12',
+        datePublication: '2026-04-18T13:33:12',
+        dateViewed: '2026-03-12T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -142,6 +150,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-18T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -159,6 +168,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-17T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -176,6 +186,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-17T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -192,6 +203,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-17T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -203,11 +215,12 @@ const VIDEOS = [
         name: 'SHORT11111111111111111111111111111111111111111111111111',
         videoHash: 'e354y746',
         isShort: true,
-        previewUrl: '/testImages/testChannelAvatar.png',
+        previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-17T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -224,6 +237,7 @@ const VIDEOS = [
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-03-12T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -235,11 +249,12 @@ const VIDEOS = [
         name: 'SHORT33333333333333333333333333333333333333333333333333333333333333333',
         videoHash: 'e354y746',
         isShort: true,
-        previewUrl: '/testImages/testChannelAvatar.png',
+        previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-16T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -251,11 +266,12 @@ const VIDEOS = [
         name: 'SHORT4444444444444444444444444444444444444444444444444444444444444444444444444',
         videoHash: 'e354y746',
         isShort: true,
-        previewUrl: '/testImages/testChannelAvatar.png',
+        previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-16T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -267,11 +283,12 @@ const VIDEOS = [
         name: 'SHORT5555555555555555555555555555555555555555555555555555555555555555555555555',
         videoHash: 'e354y746',
         isShort: true,
-        previewUrl: '/testImages/testChannelAvatar.png',
+        previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/pr.mp4',
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-15T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -283,11 +300,12 @@ const VIDEOS = [
         name: 'SHORT666666666666666666666666666666666666666666666666666666666666666666666',
         videoHash: 'e354y746',
         isShort: true,
-        previewUrl: '/testImages/testChannelAvatar.png',
+        previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-14T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -299,11 +317,12 @@ const VIDEOS = [
         name: 'SHORT77777777777777777777777777777777777777777777777777777777777777777777777',
         videoHash: 'e354y746',
         isShort: true,
-        previewUrl: '/testImages/testChannelAvatar.png',
+        previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-13T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -315,11 +334,12 @@ const VIDEOS = [
         name: 'SHORT8888888888888888888888888888888888888888888888888888888888888888888888888',
         videoHash: 'e354y746',
         isShort: true,
-        previewUrl: '/testImages/testChannelAvatar.png',
+        previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-12T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -331,11 +351,12 @@ const VIDEOS = [
         name: 'SHORT99999999999999999999999999999999999999999999999999999999999999999999999',
         videoHash: 'e354y746',
         isShort: true,
-        previewUrl: '/testImages/testChannelAvatar.png',
+        previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-10T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -347,11 +368,12 @@ const VIDEOS = [
         name: 'SHORT101010101010101010101010101010101010101010101010101010101010101',
         videoHash: 'e354y746',
         isShort: true,
-        previewUrl: '/testImages/testChannelAvatar.png',
+        previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
         viewersCount: 12903,
         duration: 300,
         datePublication: '2026-03-22T13:33:12',
+        dateViewed: '2026-04-09T13:33:12',
         channel: {
             id: 'as fijas0f duasd',
             name: 'Test Channel 4',
@@ -360,7 +382,13 @@ const VIDEOS = [
     },
 ]
 
-export const getVideos = async () => {
+interface IVideoFilter {
+    isShort?: boolean | null
+    tags?: string[]
+    order?: 'ASC' | 'DESC'
+}
+
+export const getHistoryVideos = async (filter?: IVideoFilter) => {
     try {
         // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/videos`, {
         //     credentials: "include"

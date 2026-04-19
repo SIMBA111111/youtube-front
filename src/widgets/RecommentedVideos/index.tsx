@@ -73,15 +73,15 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({ initVideos }) 
     const swiperRef = useRef(null);
 
     const handleNext = () => {
-    if (swiperRef.current && swiperRef.current.swiper) {
-        swiperRef.current.swiper.slideNext();
-    }
+        if (swiperRef.current && swiperRef.current.swiper) {
+            swiperRef.current.swiper.slideNext();
+        }
     };
 
     const handlePrev = () => {
-    if (swiperRef.current && swiperRef.current.swiper) {
-        swiperRef.current.swiper.slidePrev();
-    }
+        if (swiperRef.current && swiperRef.current.swiper) {
+            swiperRef.current.swiper.slidePrev();
+        }
     };
 
     return (

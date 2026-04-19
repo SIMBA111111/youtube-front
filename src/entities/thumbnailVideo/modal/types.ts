@@ -1,4 +1,5 @@
 import { IChannel } from "@/entities/channels/modal/types"
+import { ITag } from "@/entities/videoTags/ui"
 
 export interface IVideo {
     id: string
@@ -10,5 +11,10 @@ export interface IVideo {
     viewersCount: number
     channel: IChannel
     datePublication?: string
+    tags?: ITag[]
     isShort: boolean
+}
+
+export interface IVideoViewed extends IVideo {
+    dateViewed: string
 }

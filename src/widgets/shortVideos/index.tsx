@@ -17,18 +17,8 @@ export const ShortsSwiper = ({videos} : {videos: IVideo[]}) => {
   const currentItemRef = useRef(1);
   const [shortVideos, setShortVideos] = useState(videos)
 
-  useEffect(() => {
-    const handleGetNewVideos = async () => {
-      const res = await getShortVideos()
-    }
-  }, [])
-
   const handleIncrementCounter = async (swiper) => {
     currentItemRef.current = swiper.activeIndex
-
-    console.log('currentItemRef.current = ', currentItemRef.current);
-    console.log('swiper ', swiper);
-    
 
     if(currentItemRef.current > shortVideos.length - 5) {
       const res = await getShortVideos()
@@ -47,9 +37,6 @@ export const ShortsSwiper = ({videos} : {videos: IVideo[]}) => {
       swiperRef.current.swiper.slidePrev();
     }
   };
-
-  console.log('shortVideos = ', shortVideos);
-  
 
   return (
     <div className={styles.mainPage__container}>

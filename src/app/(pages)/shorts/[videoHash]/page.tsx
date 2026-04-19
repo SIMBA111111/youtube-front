@@ -11,7 +11,7 @@ import { Svg } from "@/shared/ui";
 import styles from "./styles.module.scss";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import { ShortsSwiper } from "@/widgets/shortVideos/page";
+import { ShortsSwiper } from "@/widgets/shortVideos";
 
 export default async function Shorts() {
   const res = await getShortVideos()

@@ -4,8 +4,9 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 12px;
+    padding: 6px;
     border-radius: 12px;
+    user-select: none;
 
     &:hover {
         background-color: var(--custom-color);

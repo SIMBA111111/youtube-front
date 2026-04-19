@@ -1,0 +1,24 @@
+.tagList {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    margin-bottom: 24px;
+}
+
+.videoShortList {
+    border-bottom: 1px solid var(--grayHoverBackground);
+}
+
+.videoList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.date {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}

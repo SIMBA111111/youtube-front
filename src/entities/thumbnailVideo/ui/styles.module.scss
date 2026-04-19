@@ -13,7 +13,7 @@
     font-family: 'Roboto', Arial, sans-serif;
     text-decoration: none;
     display: block;
-    border-radius: 12px;
+    border-radius: 6px;
     padding: 12px;
     margin: -12px;
     display: flex;
@@ -26,15 +26,16 @@
         font-family: 'Roboto', Arial, sans-serif;
         text-decoration: none;
         display: block;
-        border-radius: 12px;
+        border-radius: 6px;
         padding: 12px;
+        margin: -12px;
         display: flex;
         gap: 12px;
     }
 
     &:hover {
         background-color: var(--custom-color);
-        border-radius: 12px;
+        border-radius: 6px;
 
     }
 }
@@ -43,15 +44,16 @@
     position: relative;
     width: 100%;
     aspect-ratio: 16/9;
-    border-radius: 12px;
+    border-radius: 6px;
     overflow: hidden;
     background-color: #0f0f0f;
 
     &_Row {
-        border-radius: 12px;
+        border-radius: 6px;
         position: relative;
         height: 94px;
         width: 184px;
+        overflow: hidden;
     }
 }
 
@@ -61,7 +63,7 @@
     object-fit: cover;
 
     &_Row {
-        border-radius: 12px;
+        border-radius: 6px;
         height: 94px;
         width: 184px;
     }
@@ -74,7 +76,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 6px;
 }
 
 .soundBadge {
@@ -130,7 +132,7 @@
 
 .modal {
     z-index: 999 !important;
-    border-radius: 12px;
+    border-radius: 6px;
     overflow: hidden;
 
     &__item {
@@ -141,7 +143,7 @@
 
         &:hover {
             background-color: var(--grayBackground);
-            border-radius: 12px;
+            border-radius: 6px;
         }
     }
 }

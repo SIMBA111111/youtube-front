@@ -58,7 +58,7 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
             </div>
             
             <div className={styles.header}>
-                <Text className={styles.shortVideoName}>{name}</Text>
+                <Text size={14} weight={600} className={styles.shortVideoName}>{name}</Text>
                 <div className={styles.ellipsis} onClick={(e: MouseEvent) => handleMenuClick(e)}>
                     <Svg name="verticalEllipsis" />
                 </div>
@@ -66,7 +66,7 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
                     <SettigsVideoModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} />
                 </div>
             </div>
-            <Text weight={300}>{formatViews(viewersCount)} просмотров</Text>
+            <Text color="var(--gray)" size={12}>{formatViews(viewersCount)} просмотров</Text>
         </Link>
     )
 }
