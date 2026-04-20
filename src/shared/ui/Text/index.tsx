@@ -14,7 +14,7 @@ interface IText {
 }
 
 export const Text: React.FC<IText> = ({
-    size=16, 
+    size=14, 
     lineHeight,
     weight=400, 
     color='var(--blackText)',

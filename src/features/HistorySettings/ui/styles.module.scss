@@ -1,0 +1,54 @@
+.historySettings {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    &_btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4 12;
+
+        &:hover {
+            background-color: var(--grayDarkBackground);
+            padding: 4 12;
+            border-radius: 28px;
+            width: fit-content;
+        }
+    }
+}
+
+.modal {
+    padding: 20px;
+    border-radius: 12px;
+
+    &_btns {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+        justify-content: flex-end;
+
+        &_btn {
+            background: none;
+            border: none;
+            padding: 6 12;
+            border-radius: 28px;
+            cursor: pointer;
+        }
+
+        &_cancel {
+            &:hover {
+                background-color: var(--grayDarkBackground);
+            }
+        }
+
+        &_blue {
+            &:hover {
+                background-color: rgba($color: #82d5fc, $alpha: .4);
+            }
+        }
+    }
+}

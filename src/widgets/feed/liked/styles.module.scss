@@ -1,0 +1,38 @@
+.tagList {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    margin-bottom: 24px;
+}
+
+.videoShortList {
+    border-bottom: 1px solid var(--grayHoverBackground);
+}
+
+.videoList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.video {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    width: 100%;
+}
+
+.videoGridHorts {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(150px, 1fr));
+
+    @media (max-width: 1280px) {
+        grid-template-columns: repeat(3, minmax(150px, 1fr));
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+    }
+}

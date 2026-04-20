@@ -65,4 +65,6 @@ export const svgs = {
     viewers: 'viewers',
     vidoeCount: 'vidoeCount',
     stoncks: 'stoncks',
+    trash: 'trash',
+    pause: 'pause',
 }

@@ -59,13 +59,13 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
         return Array.from(groupedVideos.entries()).map(([date, items]) => {
             const shorts = items.filter((i) => i.isShort)
             const fullVideos = items.filter((i) => !i.isShort)
-        
+
             return (
                 <div key={date} className={styles.date}>
                     <Text size={20} weight={500}>{date}</Text>
                     {shorts && shorts.length > 0 && (
                         <div className={styles.videoShortList}>
-                            <ShortsSwiper videos={videos.filter(v => v.isShort)} />
+                            <ShortsSwiper videos={shorts} />
                         </div>
                     )}
                     {fullVideos.map((video) => (

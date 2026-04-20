@@ -372,6 +372,16 @@ export const Svg: React.FC<ISvg> = ({
                         <path d="M1.283 18.719a1 1 0 001.415 0l6.056-6.056 3.621 3.62a1 1 0 001.414 0l7.221-7.22v3.268a1 1 0 002 0V5.65h-6.682a1 1 0 100 2h3.267l-6.513 6.514-3.62-3.622a1 1 0 00-1.416 0l-6.763 6.764a1 1 0 000 1.413Z"></path>
                     </svg>
 
+        case 'trash':
+            return <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true">
+                        <path d="M19 3h-4V2a1 1 0 00-1-1h-4a1 1 0 00-1 1v1H5a2 2 0 00-2 2h18a2 2 0 00-2-2ZM6 19V7H4v12a4 4 0 004 4h8a4 4 0 004-4V7h-2v12a2 2 0 01-2 2H8a2 2 0 01-2-2Zm4-11a1 1 0 00-1 1v8a1 1 0 102 0V9a1 1 0 00-1-1Zm4 0a1 1 0 00-1 1v8a1 1 0 002 0V9a1 1 0 00-1-1Z"></path>
+                    </svg>
+
+        case 'pause':
+            return <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true">
+                        <path d="M9 3H7a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2Zm8 0h-2a2 2 0 00-2 2v14a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2ZM7 19V5h2v14H7Zm8 0V5h2v14h-2Z"></path>
+                    </svg>
+
         default:
             break;
     }

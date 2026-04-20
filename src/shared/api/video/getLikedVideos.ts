@@ -384,11 +384,10 @@ const VIDEOS = [
 
 interface IVideoFilter {
     isShort?: boolean | null
-    tags?: string[]
     order?: 'ASC' | 'DESC'
 }
 
-export const getHistoryVideos = async (filter?: IVideoFilter) => {
+export const getLikedVideos = async (filter?: IVideoFilter) => {
     try {
         // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/videos`, {
         //     credentials: "include"

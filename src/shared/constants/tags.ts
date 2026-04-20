@@ -20,3 +20,18 @@ export const HISTORY_TAGS = [
         name: 'Музыка'
     },
 ]
+
+export const LIKED_TAGS = [
+    {
+        id: '1',
+        name: 'Все'
+    },
+    {
+        id: '2',
+        name: 'Видео'
+    },
+    {
+        id: '3',
+        name: 'Shorts'
+    },
+]

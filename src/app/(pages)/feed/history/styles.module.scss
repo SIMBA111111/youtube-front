@@ -1,4 +1,8 @@
-.mainPage__container {
+.mainPage {
     margin: auto;
     width: 1440px;
+
+    &_body {
+        display: flex;
+    }
 }
