@@ -1,5 +1,3 @@
-import { ITag } from "@/entities/videoTags/ui";
-
 const VIDEOS = [
     {
         id: '0',
