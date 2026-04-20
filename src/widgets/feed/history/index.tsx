@@ -1,22 +1,24 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { IVideo, IVideoViewed } from "@/entities/thumbnailVideo/modal/types";
 import { ITag, VideoTags } from "@/entities/videoTags/ui";
 import { HISTORY_TAGS } from "@/shared/constants/tags";
-import { ShortsSwiper, Text } from "@/shared/ui";
+import { ShortsSwiper, Spinner, Text, VideoThumbnailSkeleton } from "@/shared/ui";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { getHistoryVideos } from "@/shared/api/video/getHistoryVideos";
+import { splitEntitiesByDays } from "@/shared/utils/splitEntitiesByDays";
 
 import styles from "./styles.module.scss";
-import { splitEntitiesByDays } from "@/shared/utils/splitEntitiesByDays";
 
 
 export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
     const [activeTag, setActiveTag] = useState<string>(HISTORY_TAGS[0].id);
     const [videos, setVideos] = useState<IVideoViewed[]>(initVideos);
     const [isLoading, setIsLoading] = useState(false);
+    const observerRef = useRef<IntersectionObserver | null>(null)
+    const loadingRef = useRef<HTMLDivElement | null>(null)
 
     useEffect(() => {
         const handleVideos = async () => {
@@ -45,10 +47,63 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
         handleVideos();
     }, [activeTag]);
 
+
+    // Настройка observer - ТОЛЬКО ОДИН РАЗ
+    useEffect(() => {
+        if (!loadingRef.current) return
+        if (observerRef.current) return
+
+        const options = {
+            root: null,
+            rootMargin: "100px",
+            threshold: 1
+        }
+
+        const callback = async (entries: IntersectionObserverEntry[]) => {
+            const entry = entries[0]
+            
+            if (entry.isIntersecting && !isLoading) {
+                console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
+                setIsLoading(true)
+                
+                try {
+                    setTimeout(async () => {
+                        let isShort: boolean | null = null;
+                        if (activeTag === HISTORY_TAGS[2].id) {
+                            isShort = true;
+                        } else if (activeTag === HISTORY_TAGS[1].id) {
+                            isShort = false;
+                        }
+                        
+                        const newVideos = await getHistoryVideos({ 
+                            tags: [activeTag], 
+                            isShort: isShort 
+                        });
+                        setVideos(prev => [...prev, ...newVideos])
+                        setIsLoading(false) // Важно: выключаем загрузку после получения данных
+                    }, 3000)
+                } catch (error) {
+                    console.error('ОШИБКА ЗАГРУЗКИ:', error)
+                    setIsLoading(false) // Важно: выключаем загрузку при ошибке
+                }
+            }
+        }
+
+        observerRef.current = new IntersectionObserver(callback, options)
+        observerRef.current.observe(loadingRef.current)
+
+        return () => {
+            if (observerRef.current) {
+                observerRef.current.disconnect()
+                observerRef.current = null
+            }
+        }
+    }, []) // Добавил зависимости
+
     const groupedVideos = splitEntitiesByDays(videos);
 
     const renderVideoList = () => {
-        if (isLoading) {
+        if (isLoading && videos.length === 0) {
             return <Text>Загрузка...</Text>;
         }
 
@@ -78,7 +133,7 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
     };
 
     const renderShortsList = () => {
-        if (isLoading) {
+        if (isLoading && videos.length === 0) {
             return <Text>Загрузка...</Text>;
         }
 
@@ -97,7 +152,7 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
     };
 
     return (
-        <div>
+        <div className={styles.container}>
             <div className={styles.tagList}>
                 {HISTORY_TAGS.map((tag: ITag) => (
                     <VideoTags 
@@ -139,6 +194,14 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
                     {renderVideoList()}
                 </div>
             )}
+
+            <div ref={loadingRef}>
+                {(isLoading &&
+                        <div className={styles.spinner}>
+                            <Spinner />
+                        </div>
+                )}
+            </div>
         </div>
     );
 };

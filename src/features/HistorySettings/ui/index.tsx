@@ -18,11 +18,11 @@ export const HistorySettings = () => {
             <div className={styles.historySettings}>
                 <button className={styles.historySettings_btn} onClick={() => setOpenedModal('clearHistory')}>
                     <Svg name="trash" />
-                    <Text size={14} weight={600}>Очистить историю просмотра</Text>
+                    <Text size={14} weight={500} className={styles.historySettings_text}>Очистить историю просмотра</Text>
                 </button> 
                 <button className={styles.historySettings_btn} onClick={() => setOpenedModal('dontSave')}>
                     <Svg name="pause" />
-                    <Text size={14} weight={600}>Не сохранять историю</Text>
+                    <Text size={14} weight={500} className={styles.historySettings_text}>Не сохранять историю</Text>
                 </button> 
             </div>
             <Modal 

@@ -1,8 +1,24 @@
 .mainPage {
     margin: auto;
-    width: 1440px;
+    width: 1000px;
 
     &_body {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 20px;
+        align-items: start;
+        width: 720px;
+
+        &_videos {
+            width: inherit;
+            
+        }
+
+        &_settings {
+            // width: fit-content;
+            position: sticky;
+            top: 10px;
+            margin-top: 100px;
+        }
     }
 }

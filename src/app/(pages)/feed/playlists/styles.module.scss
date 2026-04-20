@@ -1,0 +1,16 @@
+.mainPage {
+    max-width: 1440px;
+    margin: auto;
+}
+
+.plalist_list {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+    &_item {
+         width: 180px;
+    }
+}

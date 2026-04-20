@@ -1,12 +1,11 @@
 'use client'
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from 'swiper';
 
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import { HISTORY_TAGS } from "@/shared/constants/tags";
 import { ThumbnailShortVideoCard } from "@/entities";
 import { Svg } from "@/shared/ui";
 
@@ -45,7 +44,7 @@ export const ShortsSwiper = ({videos}: {videos : IVideo[]}) => {
                     ref={swiperRef}
                     direction="horizontal" 
                     className={styles.swiper} 
-                    slidesPerView={4} 
+                    slidesPerView={4}
                     modules={[Navigation]}
                     onSlideChange={updateNavigationState}
                     onSwiper={(swiper: SwiperType) => {

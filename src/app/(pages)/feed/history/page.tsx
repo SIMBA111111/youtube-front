@@ -1,9 +1,8 @@
 import { Text } from "@/shared/ui";
-import styles from "./styles.module.scss";
-import { getVideos } from "@/shared/api/video/getVideoList";
 import { History } from "@/widgets/feed/history";
 import { getHistoryVideos } from "@/shared/api/video/getHistoryVideos";
 import { HistorySettings } from "@/features/HistorySettings/ui";
+import styles from "./styles.module.scss";
 
 export default async function HistoryPage() {
 
@@ -14,8 +13,12 @@ export default async function HistoryPage() {
       <Text size={36} weight={600}>История просмотра</Text>
 
       <div className={styles.mainPage_body}>
-        <History initVideos={videos} />
-        <HistorySettings />
+        <div className={styles.mainPage_body_videos}>
+          <History initVideos={videos} />
+        </div>
+        <div className={styles.mainPage_body_settings}>
+          <HistorySettings />
+        </div>
       </div>
     </div>
   );
