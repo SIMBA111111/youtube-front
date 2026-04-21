@@ -7,7 +7,7 @@ import { time } from "console";
 
 interface PopoverProps {
     children: ReactNode;
-    isOpen?: boolean;
+    isOpened?: any;
     onClose?: () => void;
     offset?: number;
     className?: string;
@@ -16,7 +16,7 @@ interface PopoverProps {
 
 export const Menu = ({
     children,
-    isOpen: externalIsOpen,
+    isOpened: externalIsOpen,
     onClose,
     offset = 8,
     className = "",
@@ -29,9 +29,6 @@ export const Menu = ({
     const popoverRef = useRef<HTMLDivElement>(null);
 
     const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
-
-    console.log('isOpen = ', isOpen);
-  
 
     const handleClose = useCallback(() => {
         if (externalIsOpen === undefined) {
@@ -50,35 +47,35 @@ export const Menu = ({
         const viewportHeight = window.innerHeight;
 
         let finalStyle = {};
-        let bestPosition: "top" | "bottom" | "left" | "right" = "bottom";
+        let bestPosition: "top" | "bottom" | "left" | "right" = "left";
 
-        // Сначала проверяем, куда лучше всего встать
+        // Проверяем доступное пространство
         const spaceTop = triggerRect.top;
         const spaceBottom = viewportHeight - triggerRect.bottom;
         const spaceLeft = triggerRect.left;
         const spaceRight = viewportWidth - triggerRect.right;
 
-        // Пытаемся найти позицию, где поповер полностью помещается
+        // Приоритет: left (слева) → right (справа) → bottom (снизу) → top (сверху)
         const positions = [
             { 
-                pos: "bottom" as const, 
-                fits: spaceBottom >= popoverRect.height + offset,
-                priority: 3
-            },
-            { 
-                pos: "top" as const, 
-                fits: spaceTop >= popoverRect.height + offset,
-                priority: 3
+                pos: "left" as const, 
+                fits: spaceLeft >= popoverRect.width + offset,
+                priority: 4
             },
             { 
                 pos: "right" as const, 
                 fits: spaceRight >= popoverRect.width + offset,
+                priority: 3
+            },
+            { 
+                pos: "bottom" as const, 
+                fits: spaceBottom >= popoverRect.height + offset,
                 priority: 2
             },
             { 
-                pos: "left" as const, 
-                fits: spaceLeft >= popoverRect.width + offset,
-                priority: 2
+                pos: "top" as const, 
+                fits: spaceTop >= popoverRect.height + offset,
+                priority: 1
             },
         ];
 
@@ -89,10 +86,10 @@ export const Menu = ({
         } else {
             // Если нигде не помещается, выбираем где больше места
             const spaces = {
-                bottom: spaceBottom,
-                top: spaceTop,
+                left: spaceLeft,
                 right: spaceRight,
-                left: spaceLeft
+                bottom: spaceBottom,
+                top: spaceTop
             };
             bestPosition = Object.keys(spaces).reduce((a, b) => 
                 spaces[a as keyof typeof spaces] > spaces[b as keyof typeof spaces] ? a : b
@@ -101,11 +98,33 @@ export const Menu = ({
 
         // Расчет позиции с учетом границ экрана
         switch (bestPosition) {
+            case "left": {
+                let top = triggerRect.top + triggerRect.height / 2;
+                const minTop = offset;
+                const maxTop = viewportHeight - popoverRect.height - offset;
+                top = Math.max(minTop, Math.min(maxTop, top - popoverRect.height / 2));
+                
+                finalStyle = {
+                    right: viewportWidth - triggerRect.left + offset,
+                    top: top,
+                };
+                break;
+            }
+            case "right": {
+                let top = triggerRect.top + triggerRect.height / 2;
+                const minTop = offset;
+                const maxTop = viewportHeight - popoverRect.height - offset;
+                top = Math.max(minTop, Math.min(maxTop, top - popoverRect.height / 2));
+                
+                finalStyle = {
+                    left: triggerRect.right + offset,
+                    top: top,
+                };
+                break;
+            }
             case "bottom": {
                 let left = triggerRect.left + triggerRect.width / 2;
-                // Корректировка, чтобы не выходил за левый край
                 const minLeft = offset;
-                // Корректировка, чтобы не выходил за правый край
                 const maxLeft = viewportWidth - popoverRect.width - offset;
                 left = Math.max(minLeft, Math.min(maxLeft, left - popoverRect.width / 2));
                 
@@ -127,30 +146,6 @@ export const Menu = ({
                 };
                 break;
             }
-            case "right": {
-                let top = triggerRect.top + triggerRect.height / 2;
-                const minTop = offset;
-                const maxTop = viewportHeight - popoverRect.height - offset;
-                top = Math.max(minTop, Math.min(maxTop, top - popoverRect.height / 2));
-                
-                finalStyle = {
-                    left: triggerRect.right + offset,
-                    top: top,
-                };
-                break;
-            }
-            case "left": {
-                let top = triggerRect.top + triggerRect.height / 2;
-                const minTop = offset;
-                const maxTop = viewportHeight - popoverRect.height - offset;
-                top = Math.max(minTop, Math.min(maxTop, top - popoverRect.height / 2));
-                
-                finalStyle = {
-                    right: viewportWidth - triggerRect.left + offset,
-                    top: top,
-                };
-                break;
-            }
         }
 
         setPopoverStyle(finalStyle);
@@ -160,52 +155,20 @@ export const Menu = ({
     useEffect(() => {
         if (!isOpen) return;
 
-        const handleClickOutside = (event: MouseEvent) => {
-            if (
-                triggerRef.current &&
-                !triggerRef.current.contains(event.target as Node) &&
-                popoverRef.current &&
-                !popoverRef.current.contains(event.target as Node)
-            ) {
-                handleClose();
-            }
-        };
-
         const handleResize = () => {
             calculatePosition();
         };
 
         calculatePosition();
         
-        document.addEventListener("mousedown", handleClickOutside);
         window.addEventListener("resize", handleResize);
         window.addEventListener("scroll", handleResize);
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
             window.removeEventListener("resize", handleResize);
             window.removeEventListener("scroll", handleResize);
         };
     }, [isOpen, calculatePosition, handleClose]);
-
-
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            const timeout = setTimeout(() => {
-                handleClose()
-            }, delay)
-            
-            if (popoverRef.current?.contains(e.target as Node)) {
-                clearTimeout(timeout)
-            }
-        }
-
-        document.addEventListener('mousemove', handleMouseMove)
-
-        return (
-            document.removeEventListener('mousemove', (e) => handleMouseMove(e))
-        )
-    }, [isOpen])
 
 
     // Пересчет позиции при изменении контента

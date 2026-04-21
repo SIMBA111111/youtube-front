@@ -13,14 +13,28 @@ import { Menu } from '@/shared/ui/Menu'
 
 import styles from './styles.module.scss'
 
+type menuItems = 'subs' | 'you' | null
 
 export const DesktopSidebar = ({channels, randomShortVideo}: {channels: IChannel[], randomShortVideo: IThumbnailShortVideo}) => {
     // const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false)
-    const [isOpenedSubsPopover, setIsOpenedSubsPopover] = useState<boolean>(false)
-    const [isOpenedYouPopover, setIsOpenedYouPopover] = useState<boolean>(false)
+    const [isOpenedMenu, setIsOpenedMenu] = useState<menuItems>(null)
     const pathname = usePathname()
+    const timeoutRef = useRef<NodeJS.Timeout>(null)
 
     const {isOpen, openSideBar, closeSideBar} = useSidebarStore()
+
+    const handleMouseEnter = (menuItem: menuItems) => {
+        if(timeoutRef.current) {
+            clearTimeout(timeoutRef.current)
+        }
+        setIsOpenedMenu(menuItem)
+    }
+
+    const handleMouseLeave = (menuItem: menuItems) => {
+        timeoutRef.current = setTimeout(() => {
+            setIsOpenedMenu(null)
+        }, 1000)
+    }
 
     return (
         <>
@@ -38,22 +52,66 @@ export const DesktopSidebar = ({channels, randomShortVideo}: {channels: IChannel
                                 <Text weight={400} size={12}>Shorts</Text>
                             </Link>
 
-                            <Link href={'/subscriptions'} className={styles.btns__item} onMouseEnter={() => setIsOpenedSubsPopover(true)}>
+                            <Link 
+                                href={'/subscriptions'} 
+                                className={styles.btns__item} 
+                                onMouseEnter={() => handleMouseEnter('subs')}
+                                onMouseLeave={() => handleMouseLeave('subs')}
+                            >
                                 {pathname === '/subscriptions' ? <Svg name='subscriptionsActvie' /> : <Svg name='subscriptions' /> }
                                 <Text weight={400} size={12}>Подписки</Text>
+                                <Menu isOpened={isOpenedMenu === 'subs'} onClose={() => setIsOpenedMenu(null)} offset={50}>
+                                    {channels.map((channel: IChannel) => (
+                                        <Link key={channel.id} href={`/channel/${channel.username}`} className={styles.btns__item__open}>
+                                            <img src={channel.avatarUrl} alt="" className={styles.channelAvatar}/>
+                                            <Text weight={400} size={14}>{channel.name}</Text>
+                                        </Link>
+                                    ))}
+                                </Menu>
                             </Link>
-                            <Menu isOpen={isOpenedSubsPopover} onClose={() => setIsOpenedSubsPopover(false)}>
-                                {channels.map((channel: IChannel) => (
-                                    <Link key={channel.id} href={`/channel/${channel.username}`} className={styles.btns__item__open}>
-                                        <img src={channel.avatarUrl} alt="" className={styles.channelAvatar}/>
-                                        <Text weight={400} size={14}>{channel.name}</Text>
-                                    </Link>
-                                ))}
-                            </Menu>
 
-                            <Link href={'/you'} className={styles.btns__item}>
+                            <Link 
+                                href={'/you'} 
+                                className={styles.btns__item}
+                                onMouseEnter={() => handleMouseEnter('you')}
+                                onMouseLeave={() => handleMouseLeave('you')}
+                            >
                                 {pathname === '/you' ? <Svg name='myAccountActive' /> : <Svg name='myAccount' /> }
                                 <Text weight={400} size={12}>Вы</Text>
+                                <Menu 
+                                    isOpened={isOpenedMenu === 'you'}
+                                    onClose={() => setIsOpenedMenu(null)} 
+                                    offset={50}
+                                    className={styles.youMenu_container}
+                                >
+                                    <Text size={18} weight={600} className={styles.youMenu_header}>Вы</Text>
+                                    <div className={styles.youMenu}>
+                                        <div className={styles.youMenu_item}>
+                                            <Svg name='history' />
+                                            <Text>История</Text>
+                                        </div>
+                                        <div className={styles.youMenu_item}>
+                                            <Svg name='playlist' />
+                                            <Text>Плейлисты</Text>
+                                        </div>
+                                        <div className={styles.youMenu_item}>
+                                            <Svg name='clock' />
+                                            <Text>Смотреть позже</Text>
+                                        </div>
+                                        <div className={styles.youMenu_item}>
+                                            <Svg name='like' />
+                                            <Text>Понравившиеся</Text>
+                                        </div>
+                                        <div className={styles.youMenu_item}>
+                                            <Svg name='video' />
+                                            <Text>Ваши видео</Text>
+                                        </div>
+                                        <div className={styles.youMenu_item}>
+                                            <Svg name='download' />
+                                            <Text>Скачанное</Text>
+                                        </div>
+                                    </div>
+                                </Menu>
                             </Link>
                         </div>
                     </div>

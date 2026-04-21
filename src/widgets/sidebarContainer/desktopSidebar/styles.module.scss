@@ -121,3 +121,26 @@
     pointer-events: none !important;
     user-select: none !important;
 }
+
+.youMenu {
+    display: flex;
+    flex-direction: column;
+
+    &_container {
+        padding: 10 0;
+    }
+
+    &_header {
+        padding: 8 12;
+    }
+
+    &_item {
+        display: flex;
+        align-items: center;
+        padding: 8 12;
+
+        &:hover {
+            background-color: var(--grayDarkBackground);
+        }
+    }
+}
