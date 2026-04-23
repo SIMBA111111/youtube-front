@@ -12,29 +12,27 @@ import { useSidebarStore } from '@/shared/store/sidebar'
 
 import styles from './styles.module.scss'
 import { IThumbnailShortVideo } from '@/entities/thumbnailShortVideo/modal/types'
+import { useDeviceIsMobile } from '@/shared/hooks/getDeviceIsMobile'
 
 
 
 export const TabletSidebar = ({channels, randomShortVideo}: {channels: IChannel[], randomShortVideo: IThumbnailShortVideo}) => {
     const sidebarContainerRef = useRef<HTMLDivElement>(null)
     const pathname = usePathname()
-
-    const {isOpen, openSideBar, closeSideBar} = useSidebarStore()
+    const {isOpen, closeSideBar} = useSidebarStore()
+    const {isMobile} = useDeviceIsMobile()
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             event.stopPropagation()
             event.preventDefault()
-            if (sidebarContainerRef.current && !sidebarContainerRef.current.contains(event.target as Node)) {
+            if (isMobile && sidebarContainerRef.current && !sidebarContainerRef.current.contains(event.target as Node)) {
                 closeSideBar();
             }
         };
 
         if (isOpen) {
-            // Добавляем небольшой таймаут, чтобы событие не сработало сразу при открытии
-            setTimeout(() => {
-                document.addEventListener('mousedown', handleClickOutside);
-            }, 0);
+            document.addEventListener('mousedown', handleClickOutside);
         }
 
         return () => {
@@ -52,12 +50,12 @@ export const TabletSidebar = ({channels, randomShortVideo}: {channels: IChannel[
                 </div>
                 <div className={styles.btns__open}>
                     <div className={styles.divider}>
-                        <Link href={'/'} onClick={(() => closeSideBar())} className={pathname === '/' ? styles.btns__item__open_active : styles.btns__item__open}>
+                        <Link href={'/'} onClick={() => closeSideBar()} className={pathname === '/' ? styles.btns__item__open_active : styles.btns__item__open}>
                             {pathname === '/' ? <Svg name='homeActive' /> : <Svg name='home' /> }
                             <Text weight={400} size={14}>Главная</Text>
                         </Link>
 
-                        <Link href={`/shorts/${randomShortVideo?.videoHash}`} onClick={(() => closeSideBar())} className={pathname === '/shorts' ? styles.btns__item__open_active : styles.btns__item__open}>
+                        <Link href={`/shorts/${randomShortVideo?.videoHash}`} onClick={() => closeSideBar()} className={pathname === '/shorts' ? styles.btns__item__open_active : styles.btns__item__open}>
                             {pathname === '/shorts' ? <Svg name='shortsActive' /> : <Svg name='shorts' /> }
                             <Text weight={400} size={14}>Shorts</Text>
                         </Link>
@@ -69,7 +67,7 @@ export const TabletSidebar = ({channels, randomShortVideo}: {channels: IChannel[
                             <Svg name='arrowLeft' size='small'/>
                         </Link>
                         {channels.map((channel: IChannel) => (
-                            <Link key={channel.id} onClick={(() => closeSideBar())} href={`/channel/${channel.username}`} className={styles.btns__item__open}>
+                            <Link key={channel.id} onClick={() => closeSideBar()} href={`/channel/${channel.username}`} className={styles.btns__item__open}>
                                 <img src={channel.avatarUrl} alt="" className={styles.channelAvatar}/>
                                 <Text weight={400} size={14}>{channel.name}</Text>
                             </Link>
@@ -83,7 +81,7 @@ export const TabletSidebar = ({channels, randomShortVideo}: {channels: IChannel[
                         </Link>
                         
                         {SIDEBAR_YOU.map((el: any) => (
-                            <Link key={el.id} href={el.href} onClick={(() => closeSideBar())} className={styles.btns__item__open}>
+                            <Link key={el.id} href={el.href} onClick={() => closeSideBar()} className={styles.btns__item__open}>
                                 <Svg name={el.svgName} />
                                 <Text weight={400} size={14}>{el.name}</Text>
                             </Link>
@@ -96,7 +94,7 @@ export const TabletSidebar = ({channels, randomShortVideo}: {channels: IChannel[
                         </div>
 
                         {SIDEBAR_NAVIGATION.map((el: any) => (
-                            <Link key={el.id} href={el.href} onClick={(() => closeSideBar())} className={styles.btns__item__open}>
+                            <Link key={el.id} href={el.href} onClick={() => closeSideBar()} className={styles.btns__item__open}>
                                 <Svg name={el.svgName} />
                                 <Text weight={400} size={14}>{el.name}</Text>
                             </Link>

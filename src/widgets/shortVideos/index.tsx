@@ -1,21 +1,24 @@
 "use client"
 
-import { ShortPlayer } from "@webitch/short-player";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Mousewheel, Pagination, Navigation } from 'swiper/modules';
 import { useEffect, useRef, useState } from 'react';
+import Cookie from 'js-cookie'
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Svg } from "@/shared/ui";
-import styles from "./styles.module.scss";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
+import { ShortPlayer } from "@webitch/short-player";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import styles from "./styles.module.scss";
+
 
 export const ShortsSwiper = ({videos} : {videos: IVideo[]}) => {
   const swiperRef = useRef(null);
   const currentItemRef = useRef(1);
   const [shortVideos, setShortVideos] = useState(videos)
+  const theme = Cookie.get('theme')
 
   const handleIncrementCounter = async (swiper) => {
     currentItemRef.current = swiper.activeIndex
@@ -63,7 +66,7 @@ export const ShortsSwiper = ({videos} : {videos: IVideo[]}) => {
                 <ShortPlayer 
                   duration={30} 
                   playlistUrl="/videos/long-video/longVideo.m3u8" 
-                  theme="dark"
+                  theme={theme}
                 />
               </div>
             </SwiperSlide>

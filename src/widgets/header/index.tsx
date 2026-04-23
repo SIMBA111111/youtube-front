@@ -2,6 +2,7 @@
 
 import { BurgerButton, Svg } from '@/shared/ui'
 import { CreateContentBtn, Notifications, UserBtn, VideoSearch } from '@/features'
+import Cookies from 'js-cookie'
 
 import styles from './styles.module.scss'
 
@@ -10,11 +11,12 @@ import styles from './styles.module.scss'
     const username = '@SWEET_LIFE'
     const channelName = 'СЛАДКАЯ ЖИЗНЬ'
     const avatarUrl = '/testImages/testChannelAvatar.png'
-    const activeTheme = 'dark'
     const activeLanguage = 'ru'
 
 
 export const Header = () => {
+    const theme = Cookies.get('theme')
+
     return (
         <div className={styles.headerContainer}>
             <div className={styles.headerContainer__block}>
@@ -29,7 +31,7 @@ export const Header = () => {
             <div className={styles.headerContainer__block}>
                 <CreateContentBtn/>
                 <Notifications/>
-                <UserBtn id='aspdjasjd' activeLanguage={activeLanguage} username={username} channelName={channelName} avatarUrl={avatarUrl} activeTheme={activeTheme}/>
+                <UserBtn id='aspdjasjd' activeLanguage={activeLanguage} username={username} channelName={channelName} avatarUrl={avatarUrl} activeTheme={'light'}/>
             </div>
         </div>
     )

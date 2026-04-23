@@ -30,6 +30,9 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
 
     const activeLanguage = Cookies.get('lang') || navigator.language.slice(0, 2)
 
+    console.log('currentTheme = ', currentTheme);
+    
+
     return (
         <>
             <img 

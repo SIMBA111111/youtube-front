@@ -16,12 +16,11 @@ import styles from './styles.module.scss'
 type menuItems = 'subs' | 'you' | null
 
 export const DesktopSidebar = ({channels, randomShortVideo}: {channels: IChannel[], randomShortVideo: IThumbnailShortVideo}) => {
-    // const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false)
     const [isOpenedMenu, setIsOpenedMenu] = useState<menuItems>(null)
     const pathname = usePathname()
     const timeoutRef = useRef<NodeJS.Timeout>(null)
 
-    const {isOpen, openSideBar, closeSideBar} = useSidebarStore()
+    const {isOpen} = useSidebarStore()
 
     const handleMouseEnter = (menuItem: menuItems) => {
         if(timeoutRef.current) {
@@ -86,30 +85,30 @@ export const DesktopSidebar = ({channels, randomShortVideo}: {channels: IChannel
                                 >
                                     <Text size={18} weight={600} className={styles.youMenu_header}>Вы</Text>
                                     <div className={styles.youMenu}>
-                                        <div className={styles.youMenu_item}>
+                                        <Link href={'/feed/history'} className={styles.youMenu_item}>
                                             <Svg name='history' />
                                             <Text>История</Text>
-                                        </div>
-                                        <div className={styles.youMenu_item}>
+                                        </Link>
+                                        <Link href={'/feed/playlists'} className={styles.youMenu_item}>
                                             <Svg name='playlist' />
                                             <Text>Плейлисты</Text>
-                                        </div>
-                                        <div className={styles.youMenu_item}>
+                                        </Link>
+                                        <Link href={'/feed/see-later'} className={styles.youMenu_item}>
                                             <Svg name='clock' />
                                             <Text>Смотреть позже</Text>
-                                        </div>
-                                        <div className={styles.youMenu_item}>
+                                        </Link>
+                                        <Link href={'/feed/liked'} className={styles.youMenu_item}>
                                             <Svg name='like' />
                                             <Text>Понравившиеся</Text>
-                                        </div>
-                                        <div className={styles.youMenu_item}>
+                                        </Link>
+                                        <Link href={'/feed/my-videos'} className={styles.youMenu_item}>
                                             <Svg name='video' />
                                             <Text>Ваши видео</Text>
-                                        </div>
-                                        <div className={styles.youMenu_item}>
+                                        </Link>
+                                        <Link href={'/feed/dowloaded'} className={styles.youMenu_item}>
                                             <Svg name='download' />
                                             <Text>Скачанное</Text>
-                                        </div>
+                                        </Link>
                                     </div>
                                 </Menu>
                             </Link>
