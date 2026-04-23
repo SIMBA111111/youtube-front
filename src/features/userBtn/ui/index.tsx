@@ -12,6 +12,7 @@ import Cookies from 'js-cookie'
 import { Theme, Themes, useTheme } from "@/app/providers/themeProvider";
 import { useTranslation } from "react-i18next";
 import '../../../shared/i18s/i18s'
+import { logout } from "@/shared/api/auth/logout";
 
 type SubModalType = 'theme' | 'language' | null;
 
@@ -85,7 +86,7 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                             <Text weight={400}>Настройки</Text>
                         </Link>
 
-                        <div className={styles.settings__item}>
+                        <div className={styles.settings__item} onClick={() => {logout()}}>
                             <Svg name="exit"/>
                             <Text weight={400}>Выйти</Text>
                         </div>
