@@ -1,0 +1,16 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .text {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin: auto;
+    }
+}
+
+.link {
+    color: rgb(76, 153, 240);
+}

@@ -1,23 +1,24 @@
 'use client'
 
-import { BackgroundFon, Modal, Svg, Text } from "@/shared/ui";
-import { IUserBtn } from "../model/types";
-import styles from './styles.module.scss'
+import Cookies from 'js-cookie'
+import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { useState } from "react";
+
 import { themes } from "@/shared/constants/themes";
 import { languages } from "@/shared/constants/langs";
-import { handleThemeChange } from "../lib/handleThemeChange";
-import Cookies from 'js-cookie'
 import { Theme, Themes, useTheme } from "@/app/providers/themeProvider";
-import { useTranslation } from "react-i18next";
+import { BackgroundFon, Modal, Svg, Text } from "@/shared/ui";
+import { IUserBtn } from "@/features/userBtn/model/types";
+import { handleThemeChange } from "@/features/userBtn/lib/handleThemeChange";
+
 import '../../../shared/i18s/i18s'
-import { logout } from "@/shared/api/auth/logout";
+import styles from './styles.module.scss'
 
 type SubModalType = 'theme' | 'language' | null;
 
-export const UserBtn: React.FC<IUserBtn> = (props) => {
-    const { id, username, channelName, avatarUrl } = props
+
+export const UnauthoredSettingsBtn: React.FC= () => {
     const { theme, setTheme } = useTheme();
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
     const [subModal, setSubModal] = useState<SubModalType>(null)
@@ -34,12 +35,9 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
 
     return (
         <>
-            <img 
-                src={avatarUrl} 
-                alt="" 
-                className={styles.headerAvatar} 
-                onClick={() => setIsOpenModal(true)}
-            />
+            <button className={styles.settingBtn} onClick={() => setIsOpenModal(true)}>
+                <Svg name='verticalEllipsis'/>
+            </button>
             
             <Modal 
                 isVisible={isOpenModal} 
@@ -50,25 +48,13 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
             >
                 {/* Основное меню (скрывается когда открыта вложенная модалка) */}
                 {!subModal && (<>
-                    {jwt && (
-                        <div className={styles.channel}>
-                            <img src={avatarUrl} alt="" className={styles.modalAvatar}/>
-                            <div className={styles.channelData}>
-                                <Text>{channelName}</Text>
-                                <Text>{username}</Text>
-                                <Link href={'/'}>
-                                    <Text color="blue">Посмотреть канал</Text>
-                                </Link>
-                            </div>
-                        </div>
-                    )}
                     <div className={styles.settings}>
                         <div 
                             className={styles.settings__item}
                             onClick={() => setSubModal('theme')}
                         >
                             <Svg name="moon"/>
-                            <Text>Тема: {Themes[currentTheme]}</Text>
+                            <Text weight={400}>Тема: {Themes[currentTheme]}</Text>
                             <Svg name="arrowLeft"/>
                         </div>
 
@@ -77,19 +63,14 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                             onClick={() => setSubModal('language')}
                         >
                             <Svg name="lenguage"/>
-                            <Text>Язык интерфейса: {languages.find((lang) => lang.id === activeLanguage)?.name}</Text>
+                            <Text weight={400}>Язык интерфейса: {languages.find((lang) => lang.id === activeLanguage)?.name}</Text>
                             <Svg name="arrowLeft"/>
                         </div>
 
                         <Link href={'/account'} className={styles.settings__item}>
                             <Svg name="settings"/>
-                            <Text>Настройки</Text>
+                            <Text weight={400}>Настройки</Text>
                         </Link>
-
-                        <div className={styles.settings__item} onClick={() => {logout()}}>
-                            <Svg name="exit"/>
-                            <Text>Выйти</Text>
-                        </div>
                     </div>
                 </>)}
 

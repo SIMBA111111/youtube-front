@@ -1,7 +1,7 @@
 'use client'
 
 import { BurgerButton, Svg } from '@/shared/ui'
-import { CreateContentBtn, LoginBtn, Notifications, UserBtn, VideoSearch } from '@/features'
+import { CreateContentBtn, LoginBtn, Notifications, UnauthoredSettingsBtn, UserBtn, VideoSearch } from '@/features'
 import Cookies from 'js-cookie'
 
 import styles from './styles.module.scss'
@@ -17,8 +17,6 @@ import styles from './styles.module.scss'
 export const Header = () => {
     const theme = Cookies.get('theme')
     const jwt = Cookies.get('jwt')
-
-
 
     return (
         <div className={styles.headerContainer}>
@@ -37,10 +35,13 @@ export const Header = () => {
                     <>
                         <CreateContentBtn/>
                         <Notifications/>
-                        <UserBtn id='aspdjasjd' activeLanguage={activeLanguage} username={username} channelName={channelName} avatarUrl={avatarUrl} activeTheme={'light'}/>
+                        <UserBtn id='aspdjasjd' activeLanguage={activeLanguage} username={username} channelName={channelName} avatarUrl={avatarUrl} activeTheme={theme as string}/>
                     </>
                 ) : (
-                    <LoginBtn />
+                    <>
+                        <UnauthoredSettingsBtn/>
+                        <LoginBtn />
+                    </>
                 )
             }   
             </div>

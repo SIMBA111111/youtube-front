@@ -20,13 +20,13 @@ export const TabletSidebar = ({channels, randomShortVideo}: {channels: IChannel[
     const sidebarContainerRef = useRef<HTMLDivElement>(null)
     const pathname = usePathname()
     const {isOpen, closeSideBar} = useSidebarStore()
-    const {isMobile} = useDeviceIsMobile()
+    const {isTablet, isMobile} = useDeviceIsMobile()
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             event.stopPropagation()
             event.preventDefault()
-            if (isMobile && sidebarContainerRef.current && !sidebarContainerRef.current.contains(event.target as Node)) {
+            if ((isTablet || isMobile) && sidebarContainerRef.current && !sidebarContainerRef.current.contains(event.target as Node)) {
                 closeSideBar();
             }
         };
