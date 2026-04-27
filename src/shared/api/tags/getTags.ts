@@ -44,18 +44,13 @@ const TAGS = [
 
 export const getTags = async () => {
     try {
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notifs`, {
-        //     credentials: "include"
-        // })
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tags`)
 
-        // if (res.status === 200) {
-        //     return await res.json()
-        // } else {
-        //     return 'getNotifs non 200 status'
-        // }
-
-        return TAGS
-
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return console.error('getTags non 200 status');
+        }
     } catch (error) {
         new Error(`Error getTags: ${error}`);
         return []

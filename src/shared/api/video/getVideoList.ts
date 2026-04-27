@@ -360,24 +360,19 @@ const VIDEOS = [
 
 export const getVideos = async (jwt: string = '', tag: string = '') => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos`, {
-        body: tag,
-        headers: { 
-            'Content-Type': 'application/json', 
-            'Authorization': `Bearer ${jwt}` 
-        }})
-
-        console.log('res +_+_+_+_', res);
-        
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos?tagId=${tag}`, {
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${jwt}` 
+            },
+            credentials: 'include'
+        })
 
         if (res.status === 200) {
             return await res.json()
         } else {
             return false
         }
-
-        return VIDEOS
-
     } catch (error) {
         new Error(`Error getVideos: ${error}`);
         return []

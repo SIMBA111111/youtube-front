@@ -10,7 +10,7 @@ export interface ITag {
 interface IVideoTags {
     id: string
     name: string
-    setActiveTag: Dispatch<SetStateAction<string>>
+    setActiveTag: (tagId: string) => void
     activeTag: string
 }
 
