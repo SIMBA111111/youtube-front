@@ -58,15 +58,15 @@ export const ThumbnailVideoCard:React.FC<IThumbnailVideoCard> = ({
         setIsSoundOn((prev: boolean) => !prev)
     } 
 
-    const handleRoute = (e: React.MouseEvent) => {
-        e.stopPropagation()
-        router.push(`videos/${video.videoHash}`)
-    } 
+    // const handleRoute = (e: React.MouseEvent) => {
+    //     e.stopPropagation()
+    //     router.push(`videos/${video.videoHash}`)
+    // } 
 
     return (
         <div className={styles.wrap}>
             <Link 
-                onClick={(e: React.MouseEvent) => handleRoute(e)}
+                // onClick={(e: React.MouseEvent) => handleRoute(e)}
                 className={styles.cardContainer}
                 href={`watch?v=${video.videoHash}`}
                 onMouseEnter={() => setIsHovered(true)}

@@ -6,17 +6,13 @@ import Cookies from 'js-cookie'
 
 import styles from './styles.module.scss'
 
-
     // TO DO тетсовые данные, потом из кук брать их
-    const username = '@SWEET_LIFE'
-    const channelName = 'СЛАДКАЯ ЖИЗНЬ'
-    const avatarUrl = '/testImages/testChannelAvatar.png'
     const activeLanguage = 'ru'
-
 
 export const Header = () => {
     const theme = Cookies.get('theme')
     const jwt = Cookies.get('jwt')
+    const parsedChannelData = Cookies.get('channelData') ? JSON.parse(Cookies.get('channelData') || '') : null
 
     return (
         <div className={styles.headerContainer}>
@@ -31,11 +27,18 @@ export const Header = () => {
             </div>
             <div className={styles.headerContainer__block}>
             {
-                jwt ? (
+                jwt && parsedChannelData ? (
                     <>
                         <CreateContentBtn/>
                         <Notifications/>
-                        <UserBtn id='aspdjasjd' activeLanguage={activeLanguage} username={username} channelName={channelName} avatarUrl={avatarUrl} activeTheme={theme as string}/>
+                        <UserBtn
+                            id={parsedChannelData.id}
+                            activeLanguage={activeLanguage} 
+                            username={parsedChannelData.username} 
+                            channelName={parsedChannelData.name} 
+                            avatarUrl={parsedChannelData.avatarUrl} 
+                            activeTheme={theme as string}
+                        />
                     </>
                 ) : (
                     <>

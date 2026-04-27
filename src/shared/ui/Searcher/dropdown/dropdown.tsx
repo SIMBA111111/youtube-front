@@ -72,7 +72,7 @@ export const SearcherDropDown: React.FC<ISelectorDropDown> = ({
                     className={styles.dropdownElement}
                 >
                     <Svg name='magnifier' size='small'/>
-                    {el.value}
+                    <span className={styles.dropdownElement_text}>{el.value}</span>
                 </div>
             ))}
         </div>

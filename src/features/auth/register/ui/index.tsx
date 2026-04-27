@@ -4,19 +4,21 @@ import React, { useState } from "react"
 import { handleRegisterFormData } from "../lib/handlers"
 import { register } from "@/shared/api/auth/register"
 import styles from './styles.module.scss'
+import { useToast } from "@/app/providers/toastProvider"
 
 export const RegisterForm = () => {
     const [registerData, setRegisterData] = useState({
-        fullname: '',
-        email: '',
-        phoneNumber: '',
+        name: '',
         username: '',
+        email: '',
         password: '',
     })
     
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const {openToast} = useToast()
+    
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
-        await register(registerData)
+        await register(registerData, openToast)
     }
     
     return (
@@ -29,9 +31,9 @@ export const RegisterForm = () => {
                         <input 
                             className={styles.input}
                             type="text" 
-                            placeholder="Полное имя" 
+                            placeholder="Имя канала" 
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                handleRegisterFormData(e, 'fullname', setRegisterData)
+                                handleRegisterFormData(e, 'name', setRegisterData)
                             }
                         />
                     </div>
@@ -47,7 +49,7 @@ export const RegisterForm = () => {
                         />
                     </div>
                     
-                    <div className={styles.inputGroup}>
+                    {/* <div className={styles.inputGroup}>
                         <input 
                             className={styles.input}
                             type="tel" 
@@ -56,7 +58,7 @@ export const RegisterForm = () => {
                                 handleRegisterFormData(e, 'phoneNumber', setRegisterData)
                             }
                         />
-                    </div>
+                    </div> */}
                     
                     <div className={styles.inputGroup}>
                         <input 

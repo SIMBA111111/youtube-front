@@ -358,17 +358,23 @@ const VIDEOS = [
     },
 ]
 
-export const getVideos = async () => {
+export const getVideos = async (jwt: string = '', tag: string = '') => {
     try {
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/videos`, {
-        //     credentials: "include"
-        // })
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos`, {
+        body: tag,
+        headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': `Bearer ${jwt}` 
+        }})
 
-        // if (res.status === 200) {
-        //     return await res.json()
-        // } else {
-        //     return 'getNotifs non 200 status'
-        // }
+        console.log('res +_+_+_+_', res);
+        
+
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return false
+        }
 
         return VIDEOS
 

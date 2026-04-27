@@ -1,4 +1,4 @@
-export const login = async (loginData: { username: string; password: string; }) => {
+export const login = async (loginData: { username: string; password: string; }, openToast: (text: string) => void) => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
             body: JSON.stringify(loginData),
@@ -10,6 +10,10 @@ export const login = async (loginData: { username: string; password: string; }) 
         const result = await res.json() 
         console.log('result = ', result);
         
+        if (res.status === 201) {
+            openToast('Успешная авторизация!')
+            window.location.replace('/')
+        }
 
     } catch (error) {
         

@@ -1,23 +1,26 @@
 'use client'
 
-import { BackgroundFon, Modal, Svg, Text } from "@/shared/ui";
-import { IUserBtn } from "../model/types";
-import styles from './styles.module.scss'
+import Cookies from 'js-cookie'
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { useState } from "react";
+
 import { themes } from "@/shared/constants/themes";
 import { languages } from "@/shared/constants/langs";
-import { handleThemeChange } from "../lib/handleThemeChange";
-import Cookies from 'js-cookie'
-import { Theme, Themes, useTheme } from "@/app/providers/themeProvider";
-import { useTranslation } from "react-i18next";
-import '../../../shared/i18s/i18s'
 import { logout } from "@/shared/api/auth/logout";
+import { BackgroundFon, Modal, Svg, Text } from "@/shared/ui";
+import { Theme, Themes, useTheme } from "@/app/providers/themeProvider";
+
+import { handleThemeChange } from "../lib/handleThemeChange";
+import { IUserBtn } from "../model/types";
+import '../../../shared/i18s/i18s'
+
+import styles from './styles.module.scss'
+
 
 type SubModalType = 'theme' | 'language' | null;
 
-export const UserBtn: React.FC<IUserBtn> = (props) => {
-    const { id, username, channelName, avatarUrl } = props
+export const UserBtn: React.FC<IUserBtn> = ({id, username, channelName, avatarUrl}) => {
     const { theme, setTheme } = useTheme();
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
     const [subModal, setSubModal] = useState<SubModalType>(null)
@@ -35,7 +38,7 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
     return (
         <>
             <img 
-                src={avatarUrl} 
+                src={avatarUrl ?? 'defaultImages/defaultAvatar.png'} 
                 alt="" 
                 className={styles.headerAvatar} 
                 onClick={() => setIsOpenModal(true)}
@@ -52,7 +55,7 @@ export const UserBtn: React.FC<IUserBtn> = (props) => {
                 {!subModal && (<>
                     {jwt && (
                         <div className={styles.channel}>
-                            <img src={avatarUrl} alt="" className={styles.modalAvatar}/>
+                            <img src={avatarUrl ?? 'defaultImages/defaultAvatar.png'} alt="" className={styles.modalAvatar}/>
                             <div className={styles.channelData}>
                                 <Text>{channelName}</Text>
                                 <Text>{username}</Text>

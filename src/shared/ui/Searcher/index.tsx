@@ -64,7 +64,7 @@
         useEffect(() => {
             if (value.length > 2) {
                 getElementsByName(value).then((data: IElement[] | string) => {
-                    console.log('getElementsByName = ', data);
+                    console.log('data = ', data);
                     
                     if (Array.isArray(data)) {
                         setElements(data);

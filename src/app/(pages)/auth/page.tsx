@@ -1,12 +1,10 @@
-import { redirect } from 'next/navigation'
-
 import { AUTH_STAGES } from "@/shared/constants/authStages";
 import { LoginForm } from "@/features/auth/login/ui";
 import { RegisterForm } from "@/features/auth/register/ui";
 import { Text } from "@/shared/ui";
+import { ROUTES } from '@/shared/constants/routes';
 
 import styles from "./styles.module.scss";
-import { ROUTES } from '@/shared/constants/routes';
 
 
 export default async function AuthPage({

@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import { login } from "@/shared/api/auth/login"
 import { handleLoginFormData } from "../lib/handlers"
+import { useToast } from "@/app/providers/toastProvider"
 import styles from './styles.module.scss'
 
 export const LoginForm = () => {
@@ -10,10 +11,12 @@ export const LoginForm = () => {
         username: '',
         password: '',
     })
+
+    const {openToast} = useToast()
     
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
-        await login(loginData)
+        await login(loginData, openToast)
     }
     
     return (

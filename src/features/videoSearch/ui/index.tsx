@@ -6,7 +6,7 @@ import { BackgroundFon, Modal, Searcher, Svg, Text } from "@/shared/ui"
 import { IElement } from "@/shared/ui/Searcher"
 import { voiceSearchHook } from "@/shared/hooks"
 
-import { getVideoTitlesByName } from '../api/getElementByName'
+import { getVideoListByName } from '../api/getVideoListByName'
 
 import styles from './styles.module.scss'
 
@@ -34,7 +34,7 @@ export const VideoSearch = () => {
                 <Searcher 
                     selectedElement={selectedElement}
                     setSelectedElement={setSelectedElement}
-                    getElementsByName={getVideoTitlesByName}
+                    getElementsByName={getVideoListByName}
                     placeholder="Введите запрос"
                     addonRight={
                         <div className={styles.addonRight}>
