@@ -8,35 +8,33 @@ import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideo
 import { getRepliesCommentsById } from "@/shared/api/comments/getRepliesCommentsById"
 import styles from './styles.module.scss'
 
-export interface ICommentCard {
+export interface IComment {
     id: string
-    comment: string
+    text: string
     likes: number
     dislikes: number
     datePublication: string
+    parentCommentId: string
     channel: {
         id: string
         username: string
         avatarUrl?: string
     }
-    video: {
-        id: string
-    }
-    isReplyTo: string
-    relatedCommentsCount: number 
+    repliesCount: number 
+}
+
+export interface ICommentCard {
+    comment: IComment
+    videoHash: string
 }
 
 export const CommentCard: React.FC<ICommentCard> = ({
-    id,
     comment,
-    likes,
-    dislikes,
-    datePublication,
-    channel,
-    video,
-    isReplyTo,
-    relatedCommentsCount
+    videoHash
 }) => {
+    console.log('comment = ', comment);
+    
+    const { text, likes, dislikes, datePublication, parentCommentId, channel, repliesCount } = comment
     const [isLiked, setIsLiked] = useState(false)
     const [isDisliked, setIsDisliked] = useState(false)
     const [likesCount, setLikesCount] = useState(likes)
@@ -102,7 +100,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
                 </div>
 
                 <div className={styles.comment_text}>
-                    <Text>{comment}</Text>
+                    <Text>{text}</Text>
                 </div>
 
                 <div className={styles.comment_actions}>
@@ -127,12 +125,12 @@ export const CommentCard: React.FC<ICommentCard> = ({
                     </button>
                 </div>
 
-                {relatedCommentsCount > 0 && (
+                {repliesCount > 0 && (
                     <Accordion 
                          header={
                             !showReplies && <button className={styles.show_replies_btn} onClick={() => handleShowReplies()}>
                                 <Text size={14}>
-                                    {`${formatViews(relatedCommentsCount)} ответ${relatedCommentsCount % 10 === 1 && relatedCommentsCount !== 11 ? '' : 'ов'}`}
+                                    {`${formatViews(repliesCount)} ответ${repliesCount % 10 === 1 && repliesCount !== 11 ? '' : 'ов'}`}
                                 </Text>
                                 <Svg name="shortArrowDown" />
                             </button>
@@ -145,18 +143,11 @@ export const CommentCard: React.FC<ICommentCard> = ({
                         }
                     >
                         <div className={styles.comments_comments}>
-                            {relatedComments.map((comment: ICommentCard) => (
+                            {relatedComments.map((comment: IComment) => (
                                 <CommentCard                         
                                     key={comment.id}
-                                    id={comment.id}
-                                    channel={comment.channel}
-                                    video={video}
-                                    dislikes={comment.dislikes}
-                                    likes={comment.likes}
-                                    comment={comment.comment}   
-                                    datePublication={comment.datePublication}
-                                    relatedCommentsCount={comment.relatedCommentsCount}
-                                    isReplyTo={isReplyTo}
+                                    comment={comment}
+                                    videoHash={videoHash}
                                 />
                             ))}
                         </div>

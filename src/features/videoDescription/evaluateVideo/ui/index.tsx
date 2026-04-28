@@ -3,8 +3,8 @@ import { formatViews } from "@/shared/utils/formatViews"
 import styles from './styles.module.scss'
 
 interface IEvaluateVideo {
-    isLiked: string,
-    isDisliked: string,
+    isLiked: boolean,
+    isDisliked: boolean,
     likeCount: number
     dislikeCount: number
 }

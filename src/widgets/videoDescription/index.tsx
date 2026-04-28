@@ -17,12 +17,13 @@ interface IVideoDescription {
     datePublication?: string
     videoDescription: string
     hashtags: string
-    isLiked: string,
-    isDisliked: string,
+    isLiked: boolean,
+    isDisliked: boolean,
     likeCount: number
     dislikeCount: number
     subscribersCount: number
     isSubscribed: boolean
+    notificationSettings: boolean
     videoHash: string
 }
 
@@ -39,7 +40,8 @@ export const VideoDescription: React.FC<IVideoDescription> = ({
     isLiked,
     isDisliked,
     subscribersCount,
-    isSubscribed = true,
+    isSubscribed,
+    notificationSettings,
     videoHash
 }) => {
 
@@ -52,7 +54,7 @@ export const VideoDescription: React.FC<IVideoDescription> = ({
                     <a href={`/channel/${channel.id}`} className={styles.channelInfo_name}>{channel.name}</a>
                     <Text size={12} weight={400}>{formatViews(subscribersCount)} подписчиков</Text>
                 </div>
-                <SubscribeButton isSubscribed={isSubscribed} notificationSetting={channel.notificationSetting}/>
+                <SubscribeButton isSubscribed={isSubscribed} notificationSetting={notificationSettings}/>
             </div>
             
             <div className={styles.rating}>

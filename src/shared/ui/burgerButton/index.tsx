@@ -6,7 +6,6 @@ import { MouseEvent } from 'react';
 
 export const BurgerButton = () => {
     const {isOpen, toggleSideBar} = useSidebarStore()
-    console.log('isOpen: ', isOpen);
     
     // BurgerButton
     const handleToggleSideBar = (e: MouseEvent) => {

@@ -1,11 +1,12 @@
+import { cookies } from "next/headers";
 
-import { ToastProvider } from "./providers/toastProvider";
 import { getChannels } from "@/shared/api/channels/getChannels";
 import { PageWrapper } from "@/widgets/pageWrapper";
+import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
+
 import ProgressBarProvider from "./providers/progressProvider";
-import { cookies } from "next/headers";
 import { ThemeProvider } from "./providers/themeProvider";
-import { Header } from "@/widgets/header";
+import { ToastProvider } from "./providers/toastProvider";
 
 import 'normalize.css'
 import "./globals.scss";
@@ -17,8 +18,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const channels = await getChannels()
-  
   const cookieStore = await cookies()
   const theme = cookieStore.get('theme')?.value
 
@@ -30,7 +29,7 @@ export default async function RootLayout({
         <ThemeProvider initialTheme={currentTheme as any}>
           <ToastProvider>
             <ProgressBarProvider>
-              <PageWrapper channels={channels}>
+              <PageWrapper>
                 {children}
               </PageWrapper>
             </ProgressBarProvider>

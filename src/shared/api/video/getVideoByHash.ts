@@ -21,20 +21,19 @@ const VIDEO = {
     }
 }
 
-export const getVideoByHash = async (videoHash: string): Promise<any> => {
+export const getVideoByHash = async (videoHash: string, channelId: string | null = ''): Promise<any> => {
     try {
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/videos`, {
-        //     credentials: "include"
-        // })
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/video/${videoHash}`, {
+            method: 'POST',
+            body: JSON.stringify({channelId}),
+            headers: { 'Content-Type': 'application/json' },
+        })
 
-        // if (res.status === 200) {
-        //     return await res.json()
-        // } else {
-        //     return 'getNotifs non 200 status'
-        // }
-
-        return VIDEO
-
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return 'getVideoByHash non 200 status'
+        }
     } catch (error) {
         new Error(`Error getVideoByHash: ${error}`);
         return []

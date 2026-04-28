@@ -1,16 +1,13 @@
 'use client'
 
-import { CommentCard, ICommentCard } from "@/entities/comments/ui"
+import { CommentCard, IComment, ICommentCard } from "@/entities/comments/ui"
 import { AddComment, CommentFilter } from "@/features"
 import { useEffect, useRef, useState } from "react"
 import styles from "./styles.module.scss";
 import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideoHash";
 import { CommentSkeleton, VideoThumbnailSkeleton } from "@/shared/ui";
 
-interface IComments {
-    initComments: ICommentCard[]
-    videoHash: string
-}
+
 
 export type commentFilter = 'famous' | "new"
 
@@ -19,6 +16,10 @@ export interface IFilter {
     value: commentFilter
 }
 
+interface IComments {
+    initComments: IComment[]
+    videoHash: string
+}
 
 export const Comments: React.FC<IComments> = ({
     initComments,
@@ -47,16 +48,22 @@ export const Comments: React.FC<IComments> = ({
             const entry = entries[0]
             
             if (entry.isIntersecting && !isLoading) {
-                console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
+                // console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
                 setIsLoading(true)
                 
                 try {
-                    setTimeout(async () => {
-                        const res = await getCommentsByVideoHash(videoHash)
-                        console.log('ПОЛУЧЕНО НОВЫХ КОММЕНТОВ:', res.length)
-                        setCommentsList((prev: ICommentCard[]) => [...prev, ...res])
+                    // setTimeout(async () => {
+                        const res = await getCommentsByVideoHash(videoHash, 20, 40)
+                        console.log('ПОЛУЧЕНО НОВЫХ КОММЕНТОВ:', res)
+                        if (res.total === 0) {
+                            observerRef.current?.disconnect()
+                            setIsLoading(false)
+                            loadingRef.current = null
+                            return
+                        }
+                        setCommentsList((prev: IComment[]) => [...prev, ...res.comments])
                         setIsLoading(false)
-                    }, 3000)
+                    // }, 3000)
                 } catch (error) {
                     console.error('ОШИБКА ЗАГРУЗКИ:', error)
                     setIsLoading(false)
@@ -75,9 +82,6 @@ export const Comments: React.FC<IComments> = ({
         }
     }, [isLoading]) // Добавил зависимости
 
-    console.log('isLoading = ', isLoading);
-    
-
     return (
         <div className={styles.comments}>
             <div className={styles.comments_header}>
@@ -86,18 +90,11 @@ export const Comments: React.FC<IComments> = ({
             </div>
             <AddComment/>
             <div className={styles.comments_comments}>
-                {commentsList?.map((comment: ICommentCard, index) => (
+                {commentsList?.map((comment: IComment, index) => (
                     <CommentCard                         
-                        key={index}
-                        id={comment.id}
-                        channel={comment.channel}
-                        video={comment.video}
-                        dislikes={comment.dislikes}
-                        likes={comment.likes}
-                        comment={comment.comment}   
-                        datePublication={comment.datePublication}
-                        relatedCommentsCount={comment.relatedCommentsCount}
-                        isReplyTo={comment.isReplyTo}
+                        key={comment.id}
+                        comment={comment}
+                        videoHash={videoHash}
                     />
                 ))}
             </div>

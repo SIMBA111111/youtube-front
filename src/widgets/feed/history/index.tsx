@@ -67,7 +67,7 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
                 setIsLoading(true)
                 
                 try {
-                    setTimeout(async () => {
+                    // setTimeout(async () => {
                         let isShort: boolean | null = null;
                         if (activeTag === HISTORY_TAGS[2].id) {
                             isShort = true;
@@ -81,7 +81,7 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
                         });
                         setVideos(prev => [...prev, ...newVideos])
                         setIsLoading(false) // Важно: выключаем загрузку после получения данных
-                    }, 3000)
+                    // }, 3000)
                 } catch (error) {
                     console.error('ОШИБКА ЗАГРУЗКИ:', error)
                     setIsLoading(false) // Важно: выключаем загрузку при ошибке

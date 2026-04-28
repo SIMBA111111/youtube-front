@@ -1,46 +1,16 @@
-const CHANNELS = [
-    {
-        id: '1',
-        name: 'asdasd',
-        username: 'asdasd',
-        avatarUrl: '/testImages/testChannelAvatar.png',
-        description: 'ajisdfias dihaisd hihd iuahsduih iashdih aihsd ihads aosj opafhaopsf aposfh paoishdf paoshdp iahsdio haspdioh asidh paoishdaohs d',
-        subscribersCount: 235643
-    },
-    {
-        id: '2',
-        name: 'asdasd',
-        username: 'asdasd',
-        avatarUrl: '/testImages/testChannelAvatar.png',
-        description: 'ajisdfias dihaisd hihd iuahsduih iashdih aihsd ihads aosj opafhaopsf aposfh paoishdf paoshdp iahsdio haspdioh asidh paoishdaohs d',
-        subscribersCount: 235643
-    },
-    {
-        id: '3',
-        name: 'asdasd',
-        username: 'asdasd',
-        avatarUrl: '/testImages/testChannelAvatar.png',
-        description: 'ajisdfias dihaisd hihd iuahsduih iashdih aihsd ihads aosj opafhaopsf aposfh paoishdf paoshdp iahsdio haspdioh asidh paoishdaohs d',
-        subscribersCount: 235643
-    },
-    {
-        id: '4',
-        name: 'asdasd',
-        username: 'asdasd',
-        avatarUrl: '/testImages/testChannelAvatar.png',
-        description: 'ajisdfias dihaisd hihd iuahsduih iashdih aihsd ihads aosj opafhaopsf aposfh paoishdf paoshdp iahsdio haspdioh asidh paoishdaohs d',
-        subscribersCount: 235643
-    },
-    {
-        id: '5',
-        name: 'asdasd',
-        username: 'asdasd',
-        avatarUrl: '/testImages/testChannelAvatar.png',
-        description: 'ajisdfias dihaisd hihd iuahsduih iashdih aihsd ihads aosj opafhaopsf aposfh paoishdf paoshdp iahsdio haspdioh asidh paoishdaohs d',
-        subscribersCount: 235643
-    },
-]
+export const getMySubsChannels = async (offset = 0, limit = 20) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/my-channels?offset=${offset}&limit=${limit}`, {
+            credentials: 'include'
+        })
 
-export const getMySubsChannels = () => {
-    return CHANNELS
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return console.error('getMySubsChannels non 200 status');
+        }
+    } catch (error) {
+        new Error(`Error getMySubsChannels: ${error}`);
+        return []
+    }
 }

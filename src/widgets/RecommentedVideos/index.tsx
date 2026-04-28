@@ -12,12 +12,15 @@ import { Spinner, Svg } from "@/shared/ui"
 import { getShortVideos } from "@/shared/api/video/getShortVideos"
 import { getVideos } from "@/shared/api/video/getVideoList"
 import styles from "./styles.module.scss"
+import { getRecommentedVideos } from "@/shared/api/video/getRecommentedVideos"
 
 interface IRecommentedVideos {
     initVideos: IVideo[]
+    videoHash: string
+    myChannelId?: string
 }
 
-export const RecommentedVideos: React.FC<IRecommentedVideos> = ({ initVideos }) => {
+export const RecommentedVideos: React.FC<IRecommentedVideos> = ({ initVideos, videoHash, myChannelId }) => {
     const [videoList, setVideoList] = useState<IVideo[]>(initVideos)
     const [isLoading, setIsLoading] = useState(false)
     const observerRef = useRef<IntersectionObserver | null>(null)
@@ -41,13 +44,20 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({ initVideos }) 
                 setIsLoading(true)
                 
                 try {
-                    setTimeout(async () => {
-                        const res = await getVideos()
+                    // setTimeout(async () => {
+                        const res = await getRecommentedVideos(videoHash, 20, 40, myChannelId)
+
+                        if(res.total === 0) {
+                            observerRef.current?.disconnect()
+                            setIsLoading(false)
+                            loadingRef.current = null
+                            return
+                        }
                         // console.log('ПОЛУЧЕНО НОВЫХ ВИДЕО:', res.length)
-                        setVideoList(prev => [...prev, ...res])
+                        setVideoList(prev => [...prev, ...res.videos])
                         setIsLoading(false)
 
-                    }, 3000)
+                    // }, 3000)
 
                 } catch (error) {
                     setIsLoading(false)

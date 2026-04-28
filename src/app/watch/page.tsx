@@ -5,7 +5,9 @@ import { Text, VideoThumbnailSkeleton } from '@/shared/ui';
 import { getCommentsByVideoHash } from '@/shared/api/comments/getCommentsByVideoHash';
 import { Comments } from '@/widgets/Comments';
 import { getRecommentedVideos } from '@/shared/api/video/getRecommentedVideos';
+
 import styles from "./styles.module.scss";
+import { cookies } from 'next/headers';
 
 
 export default async function WatchVideo ({
@@ -13,12 +15,13 @@ export default async function WatchVideo ({
 }: {
   searchParams: Promise<{ [key: string]: string }>
 }) {
-    
     const { v: videoHash } = await searchParams
+    const cookie = await cookies()
+    const channelData = JSON.parse(cookie.get('channelData')?.value || '')
 
-    const videoData = await getVideoByHash(videoHash)
-    const videoComments = await getCommentsByVideoHash(videoHash)
-    const recommentedVideos = await getRecommentedVideos(videoHash)
+    const videoData = await getVideoByHash(videoHash, channelData?.id)
+    const videoComments = await getCommentsByVideoHash(videoHash, 0, 20)
+    const recommentedVideos = await getRecommentedVideos(videoHash, 0, 20, channelData?.id)
 
     return (
         <div className={styles.page}>
@@ -29,26 +32,29 @@ export default async function WatchVideo ({
                 <div className={styles.description}>
                     <Text weight={600} size={18}>{videoData.name}</Text>
                     <VideoDescription
-                        id={videoData.id} 
+                        id={videoData.video.id} 
                         channel={videoData.channel} 
-                        dislikeCount={videoData.dislikeCount} 
-                        likeCount={videoData.likeCount} 
-                        name={videoData.name}
-                        viewersCount={videoData.viewersCount} 
-                        datePublication={videoData.datePublication}
-                        subscribersCount={videoData.subscribersCount}
-                        isSubscribed={videoData.isSubscribed}
-                        videoDescription={videoData.videoDescription}
-                        hashtags={videoData.hashtags}
+                        dislikeCount={videoData.video.dislike_count} 
+                        likeCount={videoData.video.likes_count} 
+                        name={videoData.video.name}
+                        viewersCount={videoData.video.viewerscount} 
+                        datePublication={videoData.video.date_publication}
+                        subscribersCount={videoData.channel.subscribers_count}
+                        isSubscribed={videoData.isSubscribed ? true : false}
+                        isLiked={videoData.stat.liked}
+                        isDisliked={videoData.stat.liked}
+                        notificationSettings={videoData.isSubscribed.notification_settings}
+                        videoDescription={videoData.video.videoDescription || ''}
+                        hashtags={videoData.video.videoDescription || ''}
                         videoHash={videoHash}
                     />
                 </div>
                 <div className={styles.comments}>
-                    <Comments initComments={videoComments} videoHash={videoHash}/>
+                    <Comments initComments={videoComments.comments} videoHash={videoHash}/>
                 </div>
             </div>
             <div className={styles.recommendations}>
-                <RecommentedVideos initVideos={recommentedVideos}/>
+                <RecommentedVideos initVideos={recommentedVideos.videos} videoHash={videoHash} myChannelId={channelData?.id}/>
             </div>
         </div>
     )

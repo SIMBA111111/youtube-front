@@ -46,12 +46,12 @@ export const VideoList = ({tags, initVideos, jwt}: {tags?: ITAG[], initVideos: a
                 setIsLoading(true)
                 
                 try {
-                    setTimeout(async () => {
+                    // setTimeout(async () => {
                         const newVideos = await getVideos(jwt, activeTag)
                         console.log('ПОЛУЧЕНО НОВЫХ ВИДЕО:', newVideos.length)
                         setVideoList(prev => [...prev, ...mapVideoList(newVideos.videos)])
                         setIsLoading(false) // Важно: выключаем загрузку после получения данных
-                    }, 2000)
+                    // }, 2000)
                 } catch (error) {
                     console.error('ОШИБКА ЗАГРУЗКИ:', error)
                     setIsLoading(false) // Важно: выключаем загрузку при ошибке

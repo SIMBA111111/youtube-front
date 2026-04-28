@@ -60,9 +60,9 @@ export const DesktopSidebar = ({channels, randomShortVideo}: {channels: IChannel
                                 {pathname === '/subscriptions' ? <Svg name='subscriptionsActvie' /> : <Svg name='subscriptions' /> }
                                 <Text weight={400} size={12}>Подписки</Text>
                                 <Menu isOpened={isOpenedMenu === 'subs'} onClose={() => setIsOpenedMenu(null)} offset={50}>
-                                    {channels.map((channel: IChannel) => (
+                                    {channels?.map((channel: IChannel) => (
                                         <Link key={channel.id} href={`/channel/${channel.username}`} className={styles.btns__item__open}>
-                                            <img src={channel.avatarUrl} alt="" className={styles.channelAvatar}/>
+                                            <img src={channel.avatarUrl ?? '/defaultImages/defaultAvatar.png' } alt="" className={styles.channelAvatar}/>
                                             <Text weight={400} size={14}>{channel.name}</Text>
                                         </Link>
                                     ))}
