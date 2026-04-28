@@ -32,8 +32,6 @@ export const CommentCard: React.FC<ICommentCard> = ({
     comment,
     videoHash
 }) => {
-    console.log('comment = ', comment);
-    
     const { text, likes, dislikes, datePublication, parentCommentId, channel, repliesCount } = comment
     const [isLiked, setIsLiked] = useState(false)
     const [isDisliked, setIsDisliked] = useState(false)

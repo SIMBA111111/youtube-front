@@ -27,12 +27,12 @@ export default async function WatchVideo ({
         <div className={styles.page}>
             <div className={styles.video}>
                 <div className={styles.player}>
-                    <Player playlistUrl='/videos/long-video/longVideo.m3u8' duration={30} />
+                    {/* <Player playlistUrl='/videos/long-video/longVideo.m3u8' duration={30} /> */}
                 </div>
                 <div className={styles.description}>
                     <Text weight={600} size={18}>{videoData.name}</Text>
                     <VideoDescription
-                        id={videoData.video.id} 
+                        videoId={videoData.video.id} 
                         channel={videoData.channel} 
                         dislikeCount={videoData.video.dislike_count} 
                         likeCount={videoData.video.likes_count} 

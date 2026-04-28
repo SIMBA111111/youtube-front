@@ -8,13 +8,14 @@ import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui"
 import { ShareVideo } from "@/features/videoDescription/shareVideo/ui"
 import { SettingsVideo } from "@/features/videoDescription/settingsVideo/ui"
 import styles from './styles.module.scss'
+import { cookies } from "next/headers"
 
 interface IVideoDescription {
-    id: string
+    videoId: string
     name: string
     viewersCount: number
     channel: IChannel
-    datePublication?: string
+    datePublication: string
     videoDescription: string
     hashtags: string
     isLiked: boolean,
@@ -27,8 +28,8 @@ interface IVideoDescription {
     videoHash: string
 }
 
-export const VideoDescription: React.FC<IVideoDescription> = ({
-    id,
+export const VideoDescription: React.FC<IVideoDescription> = async ({
+    videoId,
     name,
     viewersCount,
     channel,
@@ -44,6 +45,10 @@ export const VideoDescription: React.FC<IVideoDescription> = ({
     notificationSettings,
     videoHash
 }) => {
+    const cookie = await cookies()
+    const meId = JSON.parse(cookie.get('channelData')?.value || '')?.id || ''
+    console.log('meId = ', meId);
+    
 
     return (
         <div className={styles.description}>
@@ -54,7 +59,13 @@ export const VideoDescription: React.FC<IVideoDescription> = ({
                     <a href={`/channel/${channel.id}`} className={styles.channelInfo_name}>{channel.name}</a>
                     <Text size={12} weight={400}>{formatViews(subscribersCount)} подписчиков</Text>
                 </div>
-                <SubscribeButton isSubscribed={isSubscribed} notificationSetting={notificationSettings}/>
+                <SubscribeButton 
+                    isSubscribed={isSubscribed} 
+                    notificationSetting={notificationSettings} 
+                    meId={meId} 
+                    videoId={videoId}
+                    channelId={channel.id}    
+                />
             </div>
             
             <div className={styles.rating}>
@@ -63,6 +74,8 @@ export const VideoDescription: React.FC<IVideoDescription> = ({
                     isDisliked={isDisliked} 
                     likeCount={likeCount} 
                     dislikeCount={dislikeCount}
+                    userId={meId} 
+                    videoId={videoId}
                 />
 
                 <ShareVideo videoHash={videoHash} />
