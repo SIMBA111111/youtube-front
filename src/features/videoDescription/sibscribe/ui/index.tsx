@@ -40,14 +40,14 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
                         <div className={styles.popover_items}>
                             <button 
                                 className={`${styles.popover_item} ${notificationSetting ? styles.popover_item_active : ''}`}
-                                onClick={() => handleNotificationSettings(videoId, meId, true, setPopoverIsVisible)}
+                                onClick={() => handleNotificationSettings(channelId, meId, true, setPopoverIsVisible)}
                             >
                                 <Svg name='bell' />
                                 <Text weight={400}>Все</Text>
                             </button>
                             <button 
                                 className={`${styles.popover_item} ${!notificationSetting ? styles.popover_item_active : ''}`}
-                                onClick={() => handleNotificationSettings(videoId, meId, false, setPopoverIsVisible)}    
+                                onClick={() => handleNotificationSettings(channelId, meId, false, setPopoverIsVisible)}    
                             >
                                 <Svg name='crossedBell' />
                                 <Text weight={400}>Никакие</Text>

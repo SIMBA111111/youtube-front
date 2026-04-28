@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import styles from "./styles.module.scss";
 import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideoHash";
 import { CommentSkeleton, VideoThumbnailSkeleton } from "@/shared/ui";
+import { IChannel } from "@/entities/channels/modal/types";
 
 
 
@@ -19,11 +20,13 @@ export interface IFilter {
 interface IComments {
     initComments: IComment[]
     videoHash: string
+    me: IChannel
 }
 
 export const Comments: React.FC<IComments> = ({
     initComments,
-    videoHash
+    videoHash,
+    me
 }) => {
     const [filter, setFilter] = useState<IFilter>({
         id: '1',
@@ -71,8 +74,11 @@ export const Comments: React.FC<IComments> = ({
             }
         }
 
-        observerRef.current = new IntersectionObserver(callback, options)
-        observerRef.current.observe(loadingRef.current)
+        if(initComments.length > 0) {
+            observerRef.current = new IntersectionObserver(callback, options)
+            observerRef.current.observe(loadingRef.current)
+        }
+
 
         return () => {
             if (observerRef.current) {
@@ -82,15 +88,17 @@ export const Comments: React.FC<IComments> = ({
         }
     }, [isLoading]) // Добавил зависимости
 
+
+
     return (
         <div className={styles.comments}>
             <div className={styles.comments_header}>
                 <h2>{commentsList?.length} комментария</h2>
                 <CommentFilter filter={filter} setFilter={setFilter}/>
             </div>
-            <AddComment/>
+            <AddComment me={me} videoHash={videoHash}/>
             <div className={styles.comments_comments}>
-                {commentsList?.map((comment: IComment, index) => (
+                {commentsList?.map((comment: IComment) => (
                     <CommentCard                         
                         key={comment.id}
                         comment={comment}
@@ -101,11 +109,11 @@ export const Comments: React.FC<IComments> = ({
             
             {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
             <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }} className={styles.comments_comments}>
-                {(isLoading || commentsList?.length <= 0) && Array.from({length: 12}, (_, index) => {
-                      return <div key={index} className={styles.videoCardWrapper}>
-                            <CommentSkeleton />
-                        </div>
-                }) }   
+                {(isLoading && commentsList?.length <= 0) && Array.from({length: 12}, (_, index) => {
+                    return <div key={index} className={styles.videoCardWrapper}>
+                        <CommentSkeleton />
+                    </div>
+                })}   
             </div>
         </div>
     )

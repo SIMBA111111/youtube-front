@@ -47,13 +47,11 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
 }) => {
     const cookie = await cookies()
     const meId = JSON.parse(cookie.get('channelData')?.value || '')?.id || ''
-    console.log('meId = ', meId);
-    
 
     return (
         <div className={styles.description}>
             <div className={styles.channel}>
-                <a href={`/channel/${channel.id}`}><img src={channel.avatarUrl} alt="avatarUrl" className={styles.channel_img}/></a>
+                <a href={`/channel/${channel.id}`}><img src={channel.avatarUrl ?? '/defaultImages/defaultAvatar.png'} alt="avatarUrl" className={styles.channel_img}/></a>
                 
                 <div className={styles.channelInfo}>
                     <a href={`/channel/${channel.id}`} className={styles.channelInfo_name}>{channel.name}</a>
