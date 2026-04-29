@@ -10,14 +10,15 @@ import { ChannelPlaylists } from "@/features/ChannelPlaylists/ui";
 import { ChannelCommunity } from "@/features/ChannelCommunity/ui";
 import { ChannelMainTab } from "@/features/ChannelMainTab/ui";
 import { IPlaylist } from "@/entities/playlist/ui";
+import { IChannelCommunityPost } from "@/entities/communityPost/ui";
 import styles from "./styles.module.scss";
 
 interface IChannelTabs {
     videoList: IVideo[]
     shortVideoList: IVideo[]
     playlists: IPlaylist[]
-    communityPosts: IVideo[]
-    channelHash: string
+    communityPosts: IChannelCommunityPost[]
+    channelUsername: string
 }
 
 export const ChannelTabs: React.FC<IChannelTabs> = ({
@@ -25,7 +26,7 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
     shortVideoList,
     playlists,
     communityPosts,
-    channelHash
+    channelUsername
 }) => {
 
     return (
@@ -38,12 +39,12 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
                 </Tabs.Tab> */}
 
                 <Tabs.Tab id="videos" label="Видео">
-                    <ChannelVideoList initVideoList={videoList} channelHash={channelHash}/>
+                    <ChannelVideoList initVideoList={videoList} channelUsername={channelUsername}/>
                 </Tabs.Tab>
                 
-                <Tabs.Tab id="shorts" label="Shorts">
+                {/* <Tabs.Tab id="shorts" label="Shorts">
                     <ChannelShortVideoList initShortVideoList={shortVideoList} channelHash={channelHash}/>
-                </Tabs.Tab>
+                </Tabs.Tab> */}
                 
                 <Tabs.Tab id="playlists" label="Плейлисты">
                     <ChannelPlaylists playlists={playlists} />

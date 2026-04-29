@@ -24,7 +24,7 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
     notificationSetting,
     meId,
     videoId,
-    channelId
+    channelId,
 }) => {
     const [popoverIsVisible, setPopoverIsVisible] = useState<boolean>(false)
 

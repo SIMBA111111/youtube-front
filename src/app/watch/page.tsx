@@ -54,7 +54,7 @@ export default async function WatchVideo ({
                     />
                 </div>
                 <div className={styles.comments}>
-                    <Comments initComments={videoComments.comments} videoHash={videoHash}/>
+                    <Comments initComments={videoComments.comments} me={channelData} videoHash={videoHash} videoId={videoData.video.id}/>
                 </div>
             </div>
             <div className={styles.recommendations}>

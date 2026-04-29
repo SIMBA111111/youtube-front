@@ -53,10 +53,10 @@ export const ChannelCommunityPost: React.FC<IChannelCommunityPost> = ({
         <div className={styles.communityPost}>
             {/* Шапка поста */}
             <div className={styles.postHeader}>
-                <img src={channel?.avatarUrl} alt={channel.name} />
+                <img src={channel?.avatarUrl} alt={channel?.name} />
                 <div className={styles.postAuthor}>
-                    <Text className={styles.authorName}>{channel.name}</Text>
-                    <Text className={styles.postDate}>{formatDate(date_publish)}</Text>
+                    <Text className={styles.authorName}>{channel?.name}</Text>
+                    <Text className={styles.postDate}>{formatDate('2026-04-04T12:12:12')}</Text>
                 </div>
                 <button className={styles.menuButton}>
                     <Svg name="dots" width={20} height={20} />

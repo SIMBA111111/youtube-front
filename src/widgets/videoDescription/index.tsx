@@ -51,10 +51,10 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
     return (
         <div className={styles.description}>
             <div className={styles.channel}>
-                <a href={`/channel/${channel.id}`}><img src={channel.avatarUrl ?? '/defaultImages/defaultAvatar.png'} alt="avatarUrl" className={styles.channel_img}/></a>
+                <a href={`/channel/${channel.username}`}><img src={channel.avatarUrl ?? '/defaultImages/defaultAvatar.png'} alt="avatarUrl" className={styles.channel_img}/></a>
                 
                 <div className={styles.channelInfo}>
-                    <a href={`/channel/${channel.id}`} className={styles.channelInfo_name}>{channel.name}</a>
+                    <a href={`/channel/${channel.username}`} className={styles.channelInfo_name}>{channel.name}</a>
                     <Text size={12} weight={400}>{formatViews(subscribersCount)} подписчиков</Text>
                 </div>
                 <SubscribeButton 

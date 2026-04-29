@@ -1,3 +1,9 @@
+.container {
+    display: flex;
+    gap: 12px;
+    align-items: start;
+}
+
 .btn {
     background: none;
     border: none;
@@ -6,8 +12,10 @@
 
 .inputContainer {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 8px;
+    width: 100%;
 }
 
 .input {
@@ -24,6 +32,10 @@
         font-size: 14px;
         font-weight: 400;
     }
+
+    &.active {
+        border-bottom: 1px solid black;
+    }    
 }
 
 .headerAvatar {
@@ -31,4 +43,43 @@
   height: 24px;
   border-radius: 50%;
   cursor: pointer;
+
+  &Big {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    &_btns {
+        display: flex;
+        gap: 12px;
+
+        &_1 {
+            background: none;
+            border: none;
+            padding: 8 12;
+            border-radius: 28px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--grayDarkBackground);
+            }
+        }
+
+        &_2 {
+            background: none;
+            border: none;
+            cursor: pointer;
+            background-color: var(--blueBorder);
+            padding: 8 12;
+            border-radius: 28px;
+        }
+    }
 }

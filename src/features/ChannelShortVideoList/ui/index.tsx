@@ -6,7 +6,7 @@ import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Svg, Text, VideoThumbnailSkeleton } from "@/shared/ui";
 import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { getVideos } from "@/shared/api/video/getVideoList";
-import { getVideoListByChannelHash } from "@/shared/api/video/getVideoListByChannelHash";
+import { getVideoListByChannelHash } from "@/shared/api/video/getVideoListByChannelUsername";
 import styles from "./styles.module.scss";
 import { ThumbnailShortVideoCard } from "@/entities";
 

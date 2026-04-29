@@ -199,6 +199,20 @@ const VIDEOS = [
 
 ]
 
-export const getVideoListByChannelHash = async (videoHash: string) => {
-    return VIDEOS
+export const getVideoListByChannelUsername = async (channelUsername: string, limit: number = 20, offset: number = 0) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-videos/${channelUsername}?limit=${limit}&offset=${offset}`)
+
+        console.log(res.status);
+        
+
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return false
+        }
+    } catch (error) {
+        new Error(`Error getVideoListByChannelUsername: ${error}`);
+        return []
+    }
 }

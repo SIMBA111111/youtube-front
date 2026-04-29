@@ -28,6 +28,21 @@ const CHANNEL_INFO = {
     ]
 }
 
-export const getChannelInfo = async (hash: string) => {
-    return CHANNEL_INFO 
+export const getChannelInfoByUsername = async (channelUsername: string) => {
+    
+    console.log('getChannelInfoByUsername');
+    console.log('channelUsername = ', channelUsername);
+    
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-info/${channelUsername}`)
+
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return console.error('getChannelInfo non 200 status');
+        }
+    } catch (error) {
+        new Error(`Error getChannelInfo: ${error}`);
+        return []
+    }
 }

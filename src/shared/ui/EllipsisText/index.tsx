@@ -12,14 +12,14 @@ interface IEllipsisText {
 }
 
 export const EllipsisText:React.FC<IEllipsisText> = ({
-    text,
+    text = '',
     symbolCount,
     customHandler,
     className
 }) => {
     const [isOpenText, setIsOpenText] = useState(false)
 
-    const slicedText = text.slice(0, symbolCount)
+    const slicedText = text?.slice(0, symbolCount)
 
     if (text.length < symbolCount) {
         return text

@@ -27,14 +27,14 @@ interface IEllipsisChannelText {
 export const EllipsisChannelText: React.FC<IEllipsisChannelText> = ({
     id,
     name,
-    description,
+    description = '',
     email,
     subscribersCount,
     videosCount,
     viewersCount,
     country,
     createdAt,
-    links
+    links = []
 }) => {
 
     const [isOpenedModal, setIsOpenedModal] = useState<boolean>(false)
@@ -56,7 +56,7 @@ export const EllipsisChannelText: React.FC<IEllipsisChannelText> = ({
                     <Text lineHeight={20} color="var(--gray)">{description}</Text>
                     <Text size={20} color="var(--blackText)" weight={700} className={styles.customModal_header}>Ссылки</Text>
                     <div className={styles.customModal_links}>
-                        {links.map((link: ILink) => (
+                        {links?.map((link: ILink) => (
                             <div className={styles.customModal_links_item} key={link.id}>
                                 <Svg name="bell" color="black"/>
                                 <div className={styles.customModal_links_item_info}>

@@ -1,4 +1,4 @@
-import { handleSubscription } from "@/shared/api/channels/handleSubscription";
+import { updateSubscription } from "@/shared/api/channels/updateSubscription";
 import { Dispatch, SetStateAction } from "react";
 
 export const handleSubscribe = async (
@@ -7,6 +7,6 @@ export const handleSubscribe = async (
     isSubscribed: boolean, 
     setPopoverIsVisible: Dispatch<SetStateAction<boolean>>
 ) => {
-    const res = await handleSubscription(channelId, meId, isSubscribed)
+    const res = await updateSubscription(channelId, meId, isSubscribed)
     setPopoverIsVisible(false)
 }

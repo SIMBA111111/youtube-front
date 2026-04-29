@@ -1,4 +1,3 @@
-export const getPostsByChannelHash = (channelHash: string) => {
     const mockPosts = [
         {
             id: "post1",
@@ -80,7 +79,18 @@ export const getPostsByChannelHash = (channelHash: string) => {
             commentsCount: 143
         }
     ];
+    
+export const getPostsByUsername = async (channelUsername: string, limit: number = 20, offset: number = 0) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/posts/by-username/${channelUsername}?limit=${limit}&offset=${offset}`)
 
-    // Фильтруем посты по channelHash
-    return mockPosts;
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return false
+        }
+    } catch (error) {
+        new Error(`Error getPostsByUsername: ${error}`);
+        return []
+    }
 };

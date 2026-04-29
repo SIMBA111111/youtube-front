@@ -1,4 +1,4 @@
-import { handleNotifSetting } from "@/shared/api/channels/handleNotifSetting";
+import { updateNotifSetting } from "@/shared/api/channels/updateNotifSetting";
 import { Dispatch, SetStateAction } from "react";
 
 export const handleNotificationSettings = async (
@@ -7,6 +7,6 @@ export const handleNotificationSettings = async (
     isNotifSetting: boolean, 
     setPopoverIsVisible: Dispatch<SetStateAction<boolean>>
 ) => {
-    const res = await handleNotifSetting(channelId, meId, isNotifSetting)
+    const res = await updateNotifSetting(channelId, meId, isNotifSetting)
     setPopoverIsVisible(false)
 }

@@ -40,12 +40,12 @@ export const Playlist: React.FC<IPlaylist> = ({
                             <path d="M8 5v14l11-7z"/>
                         </svg>
                     </div> */}
-                    <Text size={12} color="var(--whiteText)" className={styles.videoCount}>{videos.length} видео</Text>
+                    <Text size={12} color="var(--whiteText)" className={styles.videoCount}>{videos?.length} видео</Text>
                 </div>
             </div>
             <div className={styles.playlistInfo}>
                 <Text size={14} className={styles.text}>{playlistName}</Text>
-                <Text size={12} color="var(--gray)" className={styles.text}>Обновлен {formatDate(updatedAt)}</Text>
+                <Text size={12} color="var(--gray)" className={styles.text}>Обновлен {formatDate('2026-04-04T12:12:12')}</Text>
                 <Text size={12} color="var(--descriptionText)" weight={500} className={styles.text}>Посмотреть весь плейлист</Text>
             </div>
         </div>

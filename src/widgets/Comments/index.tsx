@@ -20,12 +20,14 @@ export interface IFilter {
 interface IComments {
     initComments: IComment[]
     videoHash: string
+    videoId: string
     me: IChannel
 }
 
 export const Comments: React.FC<IComments> = ({
     initComments,
     videoHash,
+    videoId,
     me
 }) => {
     const [filter, setFilter] = useState<IFilter>({
@@ -96,7 +98,7 @@ export const Comments: React.FC<IComments> = ({
                 <h2>{commentsList?.length} комментария</h2>
                 <CommentFilter filter={filter} setFilter={setFilter}/>
             </div>
-            <AddComment me={me} videoHash={videoHash}/>
+            <AddComment me={me} videoId={videoId}/>
             <div className={styles.comments_comments}>
                 {commentsList?.map((comment: IComment) => (
                     <CommentCard                         

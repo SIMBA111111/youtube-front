@@ -1,4 +1,4 @@
-export const handleNotifSetting = async (channelId: string, userId: string, isNotifSetting: boolean) => {
+export const updateNotifSetting = async (channelId: string, userId: string, isNotifSetting: boolean) => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notif-setting`, {
             method: 'PUT',

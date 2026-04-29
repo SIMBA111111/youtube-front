@@ -41,6 +41,17 @@ const REPLIES_COMMENTS = [
 ]
 
 
-export const getRepliesCommentsById = (commentId: string) => {
-    return REPLIES_COMMENTS
+export const getRepliesCommentsById = async (parentCommentId: string) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/replies-comments/${parentCommentId}`)
+
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return console.error('getRepliesCommentsById non 200 status');
+        }
+    } catch (error) {
+        new Error(`Error getRepliesCommentsById: ${error}`);
+        return []
+    }
 }

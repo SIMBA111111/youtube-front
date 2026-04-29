@@ -40,7 +40,7 @@ export const ChannelPlaylists: React.FC<IChannelMain> = ({
             </button>
 
             <div className={styles.playlistsContainer}>
-                {playlists.map((playlist, index) => (
+                {playlists?.map((playlist, index) => (
                     <Playlist key={index} {...playlist} />
                 ))}
             </div>

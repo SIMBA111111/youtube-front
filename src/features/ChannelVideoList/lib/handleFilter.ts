@@ -1,6 +1,6 @@
 import { FiltersEnum } from "../ui";
 
-export const handleFilter = (channelHash: string, filter: FiltersEnum, setActiveFilter: (filter: FiltersEnum) => void) => {
+export const handleFilter = (channelUsername: string, filter: FiltersEnum, setActiveFilter: (filter: FiltersEnum) => void) => {
     setActiveFilter(filter)
     console.log('filter = ', filter);
 

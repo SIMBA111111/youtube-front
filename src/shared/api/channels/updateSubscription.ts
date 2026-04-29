@@ -1,4 +1,4 @@
-export const handleSubscription = async (channelId: string, userId: string, isSubscribed: boolean) => {
+export const updateSubscription = async (channelId: string, userId: string, isSubscribed: boolean) => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/subscribe`, {
             method: 'PUT',

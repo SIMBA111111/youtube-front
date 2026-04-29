@@ -9,14 +9,9 @@ export const updateViewVideo = async ({
 }: IUpdateViewVideo
 ) => {
     try {
-        console.log('updateViewVideo');
-        
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/view/video/${videoId}?userId=${userId}`)
 
-        console.log(res);
-        
-
-        if (res.status === 200) {
+        if (res.status === 203) {
             return await res.json()
         } else {
             return false
