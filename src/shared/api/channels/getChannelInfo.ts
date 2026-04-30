@@ -29,10 +29,7 @@ const CHANNEL_INFO = {
 }
 
 export const getChannelInfoByUsername = async (channelUsername: string) => {
-    
     console.log('getChannelInfoByUsername');
-    console.log('channelUsername = ', channelUsername);
-    
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-info/${channelUsername}`)
 

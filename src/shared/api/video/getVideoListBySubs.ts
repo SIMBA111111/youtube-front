@@ -228,9 +228,27 @@ const VIDEOS = [
             avatarUrl: '/testImages/testChannelAvatar.png'
         }
     },
-
 ]
 
-export const getVideoListBySubs = async ({onlyShorts, onlyFull}: {onlyShorts: boolean, onlyFull: boolean}) => {
-    return VIDEOS
+interface IGetVideoListBySubs {
+    meId: string, 
+    onlyShorts: boolean, 
+    onlyFull: boolean
+    offset: number
+    limit: number
+}
+
+export const getVideoListBySubs = async ({meId, onlyShorts, onlyFull, limit, offset}: IGetVideoListBySubs) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos/my-subs/${meId}?limit=${limit}&offset=${offset}&onlyShorts=${onlyShorts}&onlyFull=${onlyFull}`)
+
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return false
+        }
+    } catch (error) {
+        new Error(`Error getVideoListBySubs: ${error}`);
+        return []
+    }
 }

@@ -199,6 +199,22 @@ const VIDEOS = [
 ]
 
 
-export const getMyLikedVideoList = async() => {
-    return VIDEOS
+export const getMyLikedVideoList = async (jwt: string, meId: string) => {
+    console.log('getMyLikedVideoList');
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-liked-videos/${meId}`, {
+            headers: { 
+                'Authorization': `Bearer ${jwt}` 
+            },
+        })
+
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return console.error('getMyLikedVideoList non 200 status');
+        }
+    } catch (error) {
+        new Error(`Error getMyLikedVideoList: ${error}`);
+        return []
+    }
 }

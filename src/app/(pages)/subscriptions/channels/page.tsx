@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+
 import { Text } from "@/shared/ui";
 import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
 import { IChannel } from "@/entities/channels/modal/types";
@@ -7,15 +9,22 @@ import styles from "./styles.module.scss";
 
 
 export default async function SubsChannels() {
+  const cookie = await cookies()
 
-  const channelList = await getMySubsChannels()
+  const channelData = JSON.parse(cookie.get('channelData')?.value || '') || {}
+  const meId = channelData.id || ''
+
+  const channelList = await getMySubsChannels(meId)
+
+  console.log('channelList = ', channelList);
+  
 
   return (
     <div className={styles.mainPage__container}>
       <Text size={24} weight={700}>Каналы, на которые вы подписаны</Text>
 
       <div className={styles.channelList}>
-        {channelList.map((channel: IChannel) => (
+        {channelList.channels.map((channel: IChannel) => (
           <ChannelCard 
             id={channel.id} 
             name={channel.name} 

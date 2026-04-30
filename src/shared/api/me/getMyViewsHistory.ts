@@ -198,6 +198,22 @@ const VIDEOS = [
     },
 ]
 
-export const getMyViewersHistory = async () => {
-    return VIDEOS
+export const getMyViewsHistory = async (jwt: string, meId: string) => {
+    console.log('getMyViewsHistory');
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-view-history/${meId}`, {
+            headers: { 
+                'Authorization': `Bearer ${jwt}` 
+            },
+        })
+
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return console.error('getMyViewsHistory non 200 status');
+        }
+    } catch (error) {
+        new Error(`Error getMyViewsHistory: ${error}`);
+        return []
+    }
 }

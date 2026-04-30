@@ -4,7 +4,7 @@ import { Modal, Popover, RadioButton, Svg, Text } from "@/shared/ui"
 import { handleCopyVideoURL } from "../lib/handlers"
 import { useToast } from "@/app/providers/toastProvider"
 import { useEffect, useState } from "react"
-import { getReportReasons } from "@/shared/api/video/getReportReasons"
+import { getReportReasons } from "@/shared/api/reports/getReportReasons"
 import styles from './styles.module.scss'
 import { ReportModal } from "../modals"
 

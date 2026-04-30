@@ -9,21 +9,23 @@ import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
 
 export interface IPlaylist {
+    id: string
     playlistPreview: string
     playlistName: string
-    channel: IChannel
+    channelId: string
     createdAt: string
     updatedAt: string
-    videos: IVideo[]
+    videoCount: number
 }
 
 export const Playlist: React.FC<IPlaylist> = ({
+    id,
     playlistPreview,
     playlistName,
-    channel,
+    channelId,
     createdAt,
     updatedAt,
-    videos
+    videoCount
 }) => {
 
     const formatDate = (date: string) => {
@@ -40,7 +42,7 @@ export const Playlist: React.FC<IPlaylist> = ({
                             <path d="M8 5v14l11-7z"/>
                         </svg>
                     </div> */}
-                    <Text size={12} color="var(--whiteText)" className={styles.videoCount}>{videos?.length} видео</Text>
+                    <Text size={12} color="var(--whiteText)" className={styles.videoCount}>{videoCount} видео</Text>
                 </div>
             </div>
             <div className={styles.playlistInfo}>

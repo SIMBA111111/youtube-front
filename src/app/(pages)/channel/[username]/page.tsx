@@ -4,7 +4,7 @@ import { formatViews } from "@/shared/utils/formatViews";
 import { ChannelTabs } from "@/widgets/ChannelTabs";
 import { EllipsisChannelText } from "@/features/channelDescriptionText/ui";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
-import { getShortVideoListByUsername } from "@/shared/api/video/getShortVideoListByChannelHash";
+import { getShortVideoListByUsername } from "@/shared/api/video/getShortVideoListByChannelUsername";
 import { getPostsByUsername } from "@/shared/api/posts/getPostsByChannelHash";
 import { getPlaylistsByUsername } from "@/shared/api/playlists/getPlaylistsByChannelHash";
 import styles from "./styles.module.scss";
@@ -25,8 +25,8 @@ export default async function ChannelMain ({
     // console.log('channelInfo ============= ', channelInfo);
     // console.log('videoList ============= ', videoList);
     // console.log('shortVideoList ============= ', shortVideoList);
-    console.log('playlists ============= ', playlists);
-    console.log('postList ============= ', postList);
+    // console.log('playlists ============= ', playlists);
+    // console.log('postList ============= ', postList);
     
 
     return (

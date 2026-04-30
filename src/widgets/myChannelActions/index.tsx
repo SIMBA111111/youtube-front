@@ -104,7 +104,7 @@ export const MyChannelActions: React.FC<IMyChannelActions> = ({
                                             channel={item.channel} 
                                             playlistName={item.playlistName} 
                                             playlistPreview={item.playlistPreview} 
-                                            videos={item.videos} 
+                                            videoCount={item.videoCount} 
                                             updatedAt={item.updatedAt}
                                             createdAt={item.updatedAt}
                                         />
