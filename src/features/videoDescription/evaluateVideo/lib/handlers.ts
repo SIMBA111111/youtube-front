@@ -12,3 +12,8 @@ export const handleDislikeVideo = async (userId: string, videoId: string, isDisl
 
     await updateEvaluateVideo({isLiked: false, isDisliked: !isDisliked, userId: userId, videoId: videoId})
 }
+
+
+export const handleRefreshVideoData = () => {
+    
+}

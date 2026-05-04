@@ -28,6 +28,15 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
 }) => {
     const [popoverIsVisible, setPopoverIsVisible] = useState<boolean>(false)
 
+    if(channelId === meId) {
+        return (
+            <button 
+                className={styles.subscribeButton}
+            >
+                <Text className={styles.subscribeButton_btn_text} color="var(--whiteText)">Ваше видео</Text>
+            </button>
+        ) 
+    }
 
     if(isSubscribed) {
         return (

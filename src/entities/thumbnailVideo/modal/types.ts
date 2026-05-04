@@ -9,6 +9,9 @@ export interface IVideo {
     previewUrl: string
     videoPreviewUrl: string
     viewersCount: number
+    likeCount: number
+    dislikeCount: number
+    masterM3u8Url: string
     channel: IChannel
     datePublication?: string
     tags?: ITag[]

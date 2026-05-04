@@ -49,7 +49,8 @@ export const VideoList = ({tags, initVideos, jwt}: {tags?: ITAG[], initVideos: a
                     // setTimeout(async () => {
                         const newVideos = await getVideos(jwt, activeTag)
                         console.log('ПОЛУЧЕНО НОВЫХ ВИДЕО:', newVideos.length)
-                        setVideoList(prev => [...prev, ...mapVideoList(newVideos.videos)])
+
+                        setVideoList(prev => [...prev, newVideos.videos].flat())
                         setIsLoading(false) // Важно: выключаем загрузку после получения данных
                     // }, 2000)
                 } catch (error) {
@@ -74,6 +75,8 @@ export const VideoList = ({tags, initVideos, jwt}: {tags?: ITAG[], initVideos: a
         setActiveTag(tagId)
         setVideoList([])
     }
+    
+    console.log('videoList === ', videoList);
     
 
     return (

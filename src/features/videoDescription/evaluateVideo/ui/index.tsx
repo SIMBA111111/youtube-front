@@ -22,6 +22,11 @@ export const EvaluateVideo: React.FC<IEvaluateVideo> = ({
     userId,
     videoId
 }) => {
+    console.log('isLiked = ', isLiked);
+    console.log('isDisliked = ', isDisliked);
+    
+    
+
     return (
         <div className={styles.rating_likeDislike}>
             <div className={styles.rating_like} onClick={() => handleLikeVideo(userId, videoId, isLiked)}>

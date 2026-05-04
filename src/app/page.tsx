@@ -14,6 +14,9 @@ export default async function MainPage() {
   const videos = await getVideos(jwt?.value)
   const tags = await getTags()
 
+  console.log('videos = ', videos);
+  
+
   return (
     <div className={styles.page}>
       <VideoList tags={tags.tags} initVideos={videos.videos} jwt={jwt?.value || ''}/>

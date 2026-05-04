@@ -31,27 +31,28 @@ export const ThumbnailVideoCard:React.FC<IThumbnailVideoCard> = ({
     const colorRef = useRef<string>('rgba(249, 98, 98, 0.1)');
     const router = useRouter()
 
-    useEffect(() => {
-        if (video.previewUrl && imgRef.current) {
-            const img = imgRef.current;
+    // useEffect(() => {
+    //     if (video.previewUrl && imgRef.current) {
+    //         const img = imgRef.current;
+    //         img.crossOrigin = 'Anonymous'
+
+    //         const extractAverageColor = () => {
+    //             try {
+    //                 const avgColor = getAverageColor(img);
+    //                 colorRef.current = avgColor;
+    //             } catch (error) {
+    //                 console.error('Error extracting average color:', error);
+    //                 colorRef.current = 'rgb(249, 98, 98)';
+    //             }
+    //         };
             
-            const extractAverageColor = () => {
-                try {
-                    const avgColor = getAverageColor(img);
-                    colorRef.current = avgColor;
-                } catch (error) {
-                    console.error('Error extracting average color:', error);
-                    colorRef.current = 'rgb(249, 98, 98)';
-                }
-            };
-            
-            if (img.complete) {
-                extractAverageColor();
-            } else {
-                img.onload = extractAverageColor;
-            }
-        }
-    }, [video.previewUrl]);
+    //         if (img.complete) {
+    //             extractAverageColor();
+    //         } else {
+    //             img.onload = extractAverageColor;
+    //         }
+    //     }
+    // }, [video.previewUrl]);
 
     const handleSound = (e: React.MouseEvent) => {
         e.stopPropagation()

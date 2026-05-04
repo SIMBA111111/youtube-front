@@ -1,4 +1,6 @@
 import React from "react"
+import { cookies } from "next/headers"
+
 import { IChannel } from "@/entities/channels/modal/types"
 import { EllipsisText, Popover, Svg, Text } from "@/shared/ui"
 import { formatViews } from "@/shared/utils/formatViews"
@@ -7,8 +9,8 @@ import { SubscribeButton } from "@/features"
 import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui"
 import { ShareVideo } from "@/features/videoDescription/shareVideo/ui"
 import { SettingsVideo } from "@/features/videoDescription/settingsVideo/ui"
+
 import styles from './styles.module.scss'
-import { cookies } from "next/headers"
 
 interface IVideoDescription {
     videoId: string
@@ -47,6 +49,9 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
 }) => {
     const cookie = await cookies()
     const meId = JSON.parse(cookie.get('channelData')?.value || '')?.id || ''
+
+    // console.log('isSubscribed = ', isSubscribed);
+    // console.log('channel = ', channel);
 
     return (
         <div className={styles.description}>
