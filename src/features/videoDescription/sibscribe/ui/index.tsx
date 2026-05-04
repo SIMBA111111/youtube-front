@@ -27,6 +27,8 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
     channelId,
 }) => {
     const [popoverIsVisible, setPopoverIsVisible] = useState<boolean>(false)
+    const [isSub, setIsSub] = useState<boolean>(isSubscribed)
+    const [isNotifSettings, setIsnotifSettings] = useState<boolean>(notificationSetting)
 
     if(channelId === meId) {
         return (
@@ -38,7 +40,7 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
         ) 
     }
 
-    if(isSubscribed) {
+    if(isSub) {
         return (
             <button className={styles.subscribeButton_btn} onClick={() => setPopoverIsVisible(prev => !prev)}>
                 <div className={styles.unsibscribe}>
@@ -48,22 +50,22 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
                     <Popover isOpen={popoverIsVisible} onClose={() => setPopoverIsVisible(false)} offset={20} className={styles.popover}>
                         <div className={styles.popover_items}>
                             <button 
-                                className={`${styles.popover_item} ${notificationSetting ? styles.popover_item_active : ''}`}
-                                onClick={() => handleNotificationSettings(channelId, meId, true, setPopoverIsVisible)}
+                                className={`${styles.popover_item} ${isNotifSettings ? styles.popover_item_active : ''}`}
+                                onClick={() => handleNotificationSettings(channelId, meId, true, setIsnotifSettings, setPopoverIsVisible)}
                             >
                                 <Svg name='bell' />
                                 <Text weight={400}>Все</Text>
                             </button>
                             <button 
-                                className={`${styles.popover_item} ${!notificationSetting ? styles.popover_item_active : ''}`}
-                                onClick={() => handleNotificationSettings(channelId, meId, false, setPopoverIsVisible)}    
+                                className={`${styles.popover_item} ${!isNotifSettings ? styles.popover_item_active : ''}`}
+                                onClick={() => handleNotificationSettings(channelId, meId, false, setIsnotifSettings, setPopoverIsVisible)}    
                             >
                                 <Svg name='crossedBell' />
                                 <Text weight={400}>Никакие</Text>
                             </button>
                             <button 
                                 className={styles.popover_item} 
-                                onClick={() => handleSubscribe(channelId, meId, isSubscribed, setPopoverIsVisible)}
+                                onClick={() => handleSubscribe(channelId, meId, isSub, setIsSub, setPopoverIsVisible)}
                             >
                                 <Svg name='describe' />
                                 <Text weight={400}>Отменить подписку</Text>
@@ -77,7 +79,7 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
         return (
             <button 
                 className={styles.subscribeButton}
-                onClick={() => handleSubscribe(channelId, meId, isSubscribed, setPopoverIsVisible)}
+                onClick={() => handleSubscribe(channelId, meId, isSub, setIsSub, setPopoverIsVisible)}
             >
                 <Text className={styles.subscribeButton_btn_text} color="var(--whiteText)">Подписаться</Text>
             </button>

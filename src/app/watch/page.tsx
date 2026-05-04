@@ -35,27 +35,18 @@ export default async function WatchVideo ({
     const cookie = await cookies()
     const channelData = JSON.parse(cookie.get('channelData')?.value || '')
 
-    let videoData: IVideoPage = {}
-
-    const handleGetVideoData = async () => {
-        videoData = await getVideoByHash(videoHash, channelData?.id)
-    }
-
-    await handleGetVideoData()
+    const videoData = await getVideoByHash(videoHash, channelData?.id)
 
     const videoComments = await getCommentsByVideoHash(videoHash, 0, 20)
     const recommentedVideos = await getRecommentedVideos(videoHash, 0, 20, channelData?.id)
 
     const res = await updateViewVideo({videoId: videoData.video?.id, userId: channelData?.id})
 
-    console.log('videoData =-=-=-=-=-=-=-=-== ', videoData);
-    
-
     return (
         <div className={styles.page}>
             <div className={styles.video}>
                 <div className={styles.player}>
-                    <Player playlistUrl={videoData.video?.masterM3u8Url} duration={30} />
+                    <Player playlistUrl={videoData.video?.masterM3u8Url} duration={videoData.video?.duration} />
                 </div>
                 <div className={styles.description}>
                     <Text weight={600} size={18}>{videoData.name}</Text>
@@ -68,9 +59,9 @@ export default async function WatchVideo ({
                         viewersCount={videoData.video?.viewersCount} 
                         datePublication={videoData.video?.datePublication}
                         subscribersCount={videoData.channel?.subscribersCount}
-                        isSubscribed={videoData.isSubscribed ? true : false}
-                        isLiked={videoData.stat?.isLiked}
-                        isDisliked={videoData.stat?.isDisliked}
+                        isSubscribed={'id' in videoData.isSubscribed ? true : false}
+                        isLiked={videoData.stat?.liked}
+                        isDisliked={videoData.stat?.disliked}
                         notificationSettings={videoData.isSubscribed?.notification_settings || false}
                         videoDescription={videoData.video?.description || ''}
                         hashtags={videoData.video?.videoDescription || ''}

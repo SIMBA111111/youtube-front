@@ -12,6 +12,7 @@
     grid-area: channel;
     display: flex;
     gap: 12px;
+    align-items: center;
 
     &Info {
         display: flex;
@@ -60,7 +61,8 @@
     grid-area: rating;
     display: flex;
     gap: 8px;
-    margin: 4px 0px;
+    // margin: 4px 0px;
+    align-items: center;
 
     &_share {
         display: flex;
@@ -100,6 +102,10 @@
     &_info {
         display: flex;
         gap: 8px;
+
+        &_days {
+            white-space: nowrap;
+        }
     }
 
     &_text {

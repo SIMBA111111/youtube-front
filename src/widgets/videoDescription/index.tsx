@@ -45,7 +45,7 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
     subscribersCount,
     isSubscribed,
     notificationSettings,
-    videoHash
+    videoHash,
 }) => {
     const cookie = await cookies()
     const meId = JSON.parse(cookie.get('channelData')?.value || '')?.id || ''
@@ -90,8 +90,8 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
             
             <div className={styles.videoDescription}>
                 <div className={styles.videoDescription_info}>
-                    <Text>{viewersCount} просмотров</Text>
-                    <Text>{formatDate(datePublication)}</Text>
+                    <Text className={styles.videoDescription_info_days}>{viewersCount} просмотров</Text>
+                    <Text className={styles.videoDescription_info_days}>{formatDate(datePublication)}</Text>
                     <div className={styles.hashTags}>
                         {hashtags.split(', ').map((hashtag: string, index: number) => {
                             return <Text key={index} color="var(--gray)">#{hashtag}</Text>

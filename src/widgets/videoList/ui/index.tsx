@@ -108,10 +108,10 @@ export const VideoList = ({tags, initVideos, jwt}: {tags?: ITAG[], initVideos: a
                 <>
                     <div className={styles.videoGrid}>
                         {videoList
-                            ?.filter((video: IVideo) => !video.isShort) 
+                            ?.filter((video: IVideo) => !video?.isShort) 
                             ?.slice(0, getVideosCount(device))
                             ?.map((video: IVideo) => (
-                                <div key={video.id} className={styles.videoCardWrapper}>
+                                <div key={video?.id} className={styles.videoCardWrapper}>
                                     <ThumbnailVideoCard video={video} />
                                 </div>
                         ))}
@@ -124,9 +124,9 @@ export const VideoList = ({tags, initVideos, jwt}: {tags?: ITAG[], initVideos: a
                     
                     <div className={styles.videoGridHorts}>
                         {videoList
-                            ?.filter((video: IVideo) => video.isShort) 
+                            ?.filter((video: IVideo) => video?.isShort) 
                             ?.map((video: IVideo) => (
-                                <div key={video.id} className={styles.hortsVideoCardWrapper}>
+                                <div key={video?.id} className={styles.hortsVideoCardWrapper}>
                                     <ThumbnailShortVideoCard {...video} />
                                 </div>
                             ))}
@@ -134,10 +134,10 @@ export const VideoList = ({tags, initVideos, jwt}: {tags?: ITAG[], initVideos: a
 
                     <div className={styles.videoGrid}>
                         {videoList
-                            .filter((video: IVideo) => !video.isShort) 
+                            .filter((video: IVideo) => !video?.isShort) 
                             .slice(getVideosCount(device), getVideosCount(device) * 2)
                             .map((video: IVideo) => (
-                                <div key={video.id} className={styles.videoCardWrapper}>
+                                <div key={video?.id} className={styles.videoCardWrapper}>
                                     <ThumbnailVideoCard video={video} />
                                 </div>
                             ))}
@@ -150,10 +150,10 @@ export const VideoList = ({tags, initVideos, jwt}: {tags?: ITAG[], initVideos: a
                     
                     <div className={styles.videoGridHorts}>
                         {videoList
-                            .filter((video: IVideo) => video.isShort) 
+                            .filter((video: IVideo) => video?.isShort) 
                             .slice(getShortsCount(device), getShortsCount(device) * 2)
                             .map((video: IVideo) => (
-                                <div key={video.id} className={styles.hortsVideoCardWrapper}>
+                                <div key={video?.id} className={styles.hortsVideoCardWrapper}>
                                     <ThumbnailShortVideoCard {...video} />
                                 </div>
                             ))}
@@ -161,7 +161,7 @@ export const VideoList = ({tags, initVideos, jwt}: {tags?: ITAG[], initVideos: a
 
                     <div className={styles.videoGrid}>
                         {videoList
-                            .filter((video: IVideo) => !video.isShort) 
+                            .filter((video: IVideo) => !video?.isShort) 
                             .slice(getVideosCount(device) * 2)
                             .map((video: IVideo, index) => (
                                 <div key={index} className={styles.videoCardWrapper}>
