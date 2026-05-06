@@ -41,7 +41,7 @@ const REPLIES_COMMENTS = [
 ]
 
 
-export const getRepliesCommentsById = async (parentCommentId: string) => {
+export const getRepliesCommentsById = async (parentCommentId: string, userId: string) => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/replies-comments/${parentCommentId}`)
 

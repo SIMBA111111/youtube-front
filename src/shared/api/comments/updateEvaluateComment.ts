@@ -1,21 +1,21 @@
-interface IUpdateEvaluateVideo {
+interface IUpdateEvaluateComment {
     isLiked: boolean
     isDisliked: boolean
     userId: string
-    videoId: string
+    commentId: string
 }
 
-export const updateEvaluateVideo = async ({
+export const updateEvaluateComment = async ({
     isLiked, 
     isDisliked, 
     userId, 
-    videoId
-}: IUpdateEvaluateVideo
+    commentId
+}: IUpdateEvaluateComment
 ) => {
     try {
-        console.log('updateEvaluateVideo');
+        console.log('updateEvaluateComment');
         
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/mark/video/${videoId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comment/mark/${commentId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({userId, isLiked, isDisliked}),
@@ -28,7 +28,7 @@ export const updateEvaluateVideo = async ({
             return false
         }
     } catch (error) {
-        new Error(`Error updateEvaluateVideo: ${error}`);
+        new Error(`Error updateEvaluateComment: ${error}`);
         return []
     }
 }   

@@ -4,9 +4,10 @@ import { useState } from "react"
 import { Accordion, Svg, Text } from "@/shared/ui"
 import { formatViews } from "@/shared/utils/formatViews"
 import { formatDate } from "@/shared/utils/formatDate"
-import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideoHash"
 import { getRepliesCommentsById } from "@/shared/api/comments/getRepliesCommentsById"
 import styles from './styles.module.scss'
+import { handleLikeComment } from "../lib/handleLikeComment"
+import { handleDislikeComment } from "../lib/handleDislikeComment"
 
 export interface IComment {
     id: string
@@ -26,11 +27,13 @@ export interface IComment {
 export interface ICommentCard {
     comment: IComment
     videoHash: string
+    userId: string
 }
 
 export const CommentCard: React.FC<ICommentCard> = ({
     comment,
-    videoHash
+    videoHash,
+    userId
 }) => {
     const { text, likes, dislikes, datePublication, parentCommentId, channel, repliesCount } = comment
     const [isLiked, setIsLiked] = useState(false)
@@ -70,7 +73,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
 
     const handleShowReplies = async () => {
         // const res = await getCommentsByVideoHash('sadfasdf')
-        const res = await getRepliesCommentsById('sadfasdf')
+        const res = await getRepliesCommentsById('sadfasdf', userId)
         setRelatedComments(res)
         setShowReplies(true)
     }
@@ -104,17 +107,17 @@ export const CommentCard: React.FC<ICommentCard> = ({
                 <div className={styles.comment_actions}>
                     <button 
                         className={`${styles.action_btn} ${isLiked ? styles.active : ''}`}
-                        onClick={handleLike}
+                        onClick={() => handleLikeComment(isLiked, userId, comment.id, setLikesCount, setIsLiked)}
                     >
-                        <Svg name="like" />
+                        {isLiked ? <Svg name="filledLike" /> : <Svg name="like" />}
                         <Text size={12} className={styles.action_btn_text}>{formatViews(likesCount)}</Text>
                     </button>
 
                     <button 
                         className={`${styles.action_btn} ${isDisliked ? styles.active : ''}`}
-                        onClick={handleDislike}
+                        onClick={() => handleDislikeComment(isDisliked, userId, comment.id, setDislikesCount, setIsDisliked)}
                     >
-                        <Svg name="dislike" />
+                        {isDisliked ? <Svg name="filledDislike" /> : <Svg name="dislike" />}
                         <Text size={12} className={styles.action_btn_text}>{formatViews(dislikesCount)}</Text>
                     </button>
 
@@ -146,6 +149,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
                                     key={comment.id}
                                     comment={comment}
                                     videoHash={videoHash}
+                                    userId={userId}
                                 />
                             ))}
                         </div>

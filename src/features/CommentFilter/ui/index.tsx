@@ -14,11 +14,11 @@ interface ICommetFilter {
 const FILTERS = [
     {
         id: '1',
-        value: 'Сначала популярные'
+        value: 'famous'
     },
     {
         id: '2',
-        value: 'Новые'
+        value: 'new'
     }
 ]
 

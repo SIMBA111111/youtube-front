@@ -4,7 +4,6 @@ import { Player } from '@webitch/player'
 import { getVideoByHash } from '@/shared/api/video/getVideoByHash';
 import { RecommentedVideos, VideoDescription } from '@/widgets';
 import { Text, VideoThumbnailSkeleton } from '@/shared/ui';
-import { getCommentsByVideoHash } from '@/shared/api/comments/getCommentsByVideoHash';
 import { Comments } from '@/widgets/Comments';
 import { getRecommentedVideos } from '@/shared/api/video/getRecommentedVideos';
 import { updateViewVideo } from '@/shared/api/video/updateViewVideo';
@@ -33,14 +32,20 @@ export default async function WatchVideo ({
 }) {
     const { v: videoHash } = await searchParams
     const cookie = await cookies()
-    const channelData = JSON.parse(cookie.get('channelData')?.value || '')
+    const channelData = cookie.get('channelData')?.value || ''
+    let myChannelData 
+    if (channelData) {
+       myChannelData = JSON.parse(channelData)
+    } else {
+        myChannelData = {}
+    }
 
-    const videoData = await getVideoByHash(videoHash, channelData?.id)
+    const videoData = await getVideoByHash(videoHash, myChannelData?.id)
 
-    const videoComments = await getCommentsByVideoHash(videoHash, 0, 20)
-    const recommentedVideos = await getRecommentedVideos(videoHash, 0, 20, channelData?.id)
+    const recommentedVideos = await getRecommentedVideos(videoHash, 0, 20, myChannelData?.id)
 
-    const res = await updateViewVideo({videoId: videoData.video?.id, userId: channelData?.id})
+    const res = await updateViewVideo({videoId: videoData.video?.id, userId: myChannelData?.id})
+    const isSubscribed = videoData?.isSubscribed ? 'id' in videoData.isSubscribed : false;
 
     return (
         <div className={styles.page}>
@@ -59,7 +64,7 @@ export default async function WatchVideo ({
                         viewersCount={videoData.video?.viewersCount} 
                         datePublication={videoData.video?.datePublication}
                         subscribersCount={videoData.channel?.subscribersCount}
-                        isSubscribed={'id' in videoData.isSubscribed ? true : false}
+                        isSubscribed={isSubscribed}
                         isLiked={videoData.stat?.liked}
                         isDisliked={videoData.stat?.disliked}
                         notificationSettings={videoData.isSubscribed?.notification_settings || false}
@@ -69,7 +74,7 @@ export default async function WatchVideo ({
                     />
                 </div>
                 <div className={styles.comments}>
-                    <Comments initComments={videoComments.comments} me={channelData} videoHash={videoHash} videoId={videoData.video?.id}/>
+                    <Comments me={myChannelData} videoHash={videoHash} videoId={videoData.video?.id}/>
                 </div>
             </div>
             <div className={styles.recommendations}>

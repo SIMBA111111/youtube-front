@@ -8,8 +8,6 @@ import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideo
 import { CommentSkeleton, VideoThumbnailSkeleton } from "@/shared/ui";
 import { IChannel } from "@/entities/channels/modal/types";
 
-
-
 export type commentFilter = 'famous' | "new"
 
 export interface IFilter {
@@ -18,14 +16,12 @@ export interface IFilter {
 }
 
 interface IComments {
-    initComments: IComment[]
     videoHash: string
     videoId: string
     me: IChannel
 }
 
 export const Comments: React.FC<IComments> = ({
-    initComments,
     videoHash,
     videoId,
     me
@@ -35,40 +31,69 @@ export const Comments: React.FC<IComments> = ({
         value: 'famous'
     })
     const [isLoading, setIsLoading] = useState(false)
-    const [commentsList, setCommentsList] = useState(initComments)
+    const [commentsList, setCommentsList] = useState([])
+    const [pagination, setPagination] = useState({offset: 0, limit: 20})
     const observerRef = useRef<IntersectionObserver | null>(null)
     const loadingRef = useRef<HTMLDivElement | null>(null)
-    
+
+    // Сброс состояния при смене фильтра
+    useEffect(() => {
+        // Сбрасываем список на начальные комментарии (или пустой массив)
+        setCommentsList([])
+        // Сбрасываем пагинацию
+        setPagination({offset: 0, limit: 20})
+        // Отключаем старый observer
+        if (observerRef.current) {
+            observerRef.current.disconnect()
+            observerRef.current = null
+        }
+        // Сбрасываем флаг загрузки
+        setIsLoading(false)
+    }, [filter.value])
+
+    // Настройка IntersectionObserver
     useEffect(() => {
         if (!loadingRef.current) return
-        if (observerRef.current) return
+        
+        // Если уже есть observer - не создаём новый
+        if (observerRef.current) {
+            observerRef.current.disconnect()
+            observerRef.current = null
+        }
 
         const options = {
             root: null,
             rootMargin: "100px",
-            threshold: 1
+            threshold: 0.1 // Лучше 0.1 чем 1.0, чтобы срабатывало чуть раньше
         }
 
         const callback = async (entries: IntersectionObserverEntry[]) => {
             const entry = entries[0]
             
             if (entry.isIntersecting && !isLoading) {
-                // console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
                 setIsLoading(true)
                 
                 try {
-                    // setTimeout(async () => {
-                        const res = await getCommentsByVideoHash(videoHash, 20, 40)
-                        console.log('ПОЛУЧЕНО НОВЫХ КОММЕНТОВ:', res)
-                        if (res.total === 0) {
-                            observerRef.current?.disconnect()
-                            setIsLoading(false)
-                            loadingRef.current = null
-                            return
+                    const res = await getCommentsByVideoHash(
+                        videoHash, 
+                        pagination.offset, 
+                        pagination.limit, 
+                        filter.value,
+                        me.id
+                    )
+                    
+                    if (!res.comments || res.comments.length === 0) {
+                        if (observerRef.current) {
+                            observerRef.current.disconnect()
+                            observerRef.current = null
                         }
-                        setCommentsList((prev: IComment[]) => [...prev, ...res.comments])
                         setIsLoading(false)
-                    // }, 3000)
+                        return
+                    }
+                    
+                    setCommentsList((prev: IComment[]) => [...prev, ...res.comments])
+                    setPagination(prev => ({offset: prev.offset + 20, limit: prev.limit + 20}))
+                    setIsLoading(false)
                 } catch (error) {
                     console.error('ОШИБКА ЗАГРУЗКИ:', error)
                     setIsLoading(false)
@@ -76,11 +101,8 @@ export const Comments: React.FC<IComments> = ({
             }
         }
 
-        if(initComments.length > 0) {
-            observerRef.current = new IntersectionObserver(callback, options)
-            observerRef.current.observe(loadingRef.current)
-        }
-
+        observerRef.current = new IntersectionObserver(callback, options)
+        observerRef.current.observe(loadingRef.current)
 
         return () => {
             if (observerRef.current) {
@@ -88,9 +110,7 @@ export const Comments: React.FC<IComments> = ({
                 observerRef.current = null
             }
         }
-    }, [isLoading]) // Добавил зависимости
-
-
+    }, [isLoading, filter.value, videoHash, pagination.offset, pagination.limit])
 
     return (
         <div className={styles.comments}>
@@ -105,17 +125,20 @@ export const Comments: React.FC<IComments> = ({
                         key={comment.id}
                         comment={comment}
                         videoHash={videoHash}
+                        userId={me.id}
                     />
                 ))}
             </div>
             
-            {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
-            <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }} className={styles.comments_comments}>
-                {(isLoading && commentsList?.length <= 0) && Array.from({length: 12}, (_, index) => {
-                    return <div key={index} className={styles.videoCardWrapper}>
-                        <CommentSkeleton />
-                    </div>
-                })}   
+            {/* ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
+            <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }}>
+                {(isLoading && commentsList?.length === 0) && 
+                    Array.from({length: 12}, (_, index) => (
+                        <div key={index} className={styles.videoCardWrapper}>
+                            <CommentSkeleton />
+                        </div>
+                    ))
+                }
             </div>
         </div>
     )

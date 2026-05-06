@@ -48,7 +48,18 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
     videoHash,
 }) => {
     const cookie = await cookies()
-    const meId = JSON.parse(cookie.get('channelData')?.value || '')?.id || ''
+    // const meId = JSON.parse(cookie.get('channelData')?.value || '')?.id || ''
+
+    const myChannelData = cookie.get('channelData')?.value || ''
+    let meId
+    if (myChannelData) {
+        meId = JSON.parse(myChannelData)?.id || ''
+    } else {
+        meId = ''
+    }
+
+    console.log('channel = ', channel);
+    
 
     // console.log('isSubscribed = ', isSubscribed);
     // console.log('channel = ', channel);
