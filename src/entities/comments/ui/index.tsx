@@ -16,6 +16,8 @@ export interface IComment {
     dislikes: number
     datePublication: string
     parentCommentId: string
+    isLiked: boolean
+    isDisliked: boolean
     channel: {
         id: string
         username: string
@@ -35,41 +37,13 @@ export const CommentCard: React.FC<ICommentCard> = ({
     videoHash,
     userId
 }) => {
-    const { text, likes, dislikes, datePublication, parentCommentId, channel, repliesCount } = comment
-    const [isLiked, setIsLiked] = useState(false)
-    const [isDisliked, setIsDisliked] = useState(false)
+    const { text, likes, dislikes, datePublication, parentCommentId, channel, repliesCount, isLiked, isDisliked } = comment
+    const [isLikedMe, setIsLiked] = useState(isLiked)
+    const [isDislikedMe, setIsDisliked] = useState(isDisliked)
     const [likesCount, setLikesCount] = useState(likes)
     const [dislikesCount, setDislikesCount] = useState(dislikes)
     const [showReplies, setShowReplies] = useState(false)
     const [relatedComments, setRelatedComments] = useState<any>([])
-
-    const handleLike = () => {
-        if (isLiked) {
-            setLikesCount(likesCount - 1)
-            setIsLiked(false)
-        } else {
-            setLikesCount(likesCount + 1)
-            setIsLiked(true)
-            if (isDisliked) {
-                setDislikesCount(dislikesCount - 1)
-                setIsDisliked(false)
-            }
-        }
-    }
-
-    const handleDislike = () => {
-        if (isDisliked) {
-            setDislikesCount(dislikesCount - 1)
-            setIsDisliked(false)
-        } else {
-            setDislikesCount(dislikesCount + 1)
-            setIsDisliked(true)
-            if (isLiked) {
-                setLikesCount(likesCount - 1)
-                setIsLiked(false)
-            }
-        }
-    }
 
     const handleShowReplies = async () => {
         // const res = await getCommentsByVideoHash('sadfasdf')
@@ -106,18 +80,18 @@ export const CommentCard: React.FC<ICommentCard> = ({
 
                 <div className={styles.comment_actions}>
                     <button 
-                        className={`${styles.action_btn} ${isLiked ? styles.active : ''}`}
-                        onClick={() => handleLikeComment(isLiked, userId, comment.id, setLikesCount, setIsLiked)}
+                        className={`${styles.action_btn} ${isLikedMe ? styles.active : ''}`}
+                        onClick={() => handleLikeComment(isLikedMe, userId, comment.id, setLikesCount, setDislikesCount, setIsLiked, setIsDisliked)}
                     >
-                        {isLiked ? <Svg name="filledLike" /> : <Svg name="like" />}
+                        {isLikedMe ? <Svg name="filledLike" /> : <Svg name="like" />}
                         <Text size={12} className={styles.action_btn_text}>{formatViews(likesCount)}</Text>
                     </button>
 
                     <button 
-                        className={`${styles.action_btn} ${isDisliked ? styles.active : ''}`}
-                        onClick={() => handleDislikeComment(isDisliked, userId, comment.id, setDislikesCount, setIsDisliked)}
+                        className={`${styles.action_btn} ${isDislikedMe ? styles.active : ''}`}
+                        onClick={() => handleDislikeComment(isDislikedMe, userId, comment.id, setDislikesCount, setLikesCount, setIsDisliked, setIsLiked)}
                     >
-                        {isDisliked ? <Svg name="filledDislike" /> : <Svg name="dislike" />}
+                        {isDislikedMe ? <Svg name="filledDislike" /> : <Svg name="dislike" />}
                         <Text size={12} className={styles.action_btn_text}>{formatViews(dislikesCount)}</Text>
                     </button>
 

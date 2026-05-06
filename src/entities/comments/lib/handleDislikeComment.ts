@@ -6,18 +6,20 @@ export const handleDislikeComment = async (
     userId: string, 
     commentId: string, 
     setDislikesCount: Dispatch<SetStateAction<number>>,
-    setIsDisliked: (value: boolean) => void
+    setLikesCount: Dispatch<SetStateAction<number>>,
+    setIsDisliked: (value: boolean) => void,
+    setIsLiked: (value: boolean) => void
 ) => {
     try {   
-        console.log('isDisliked = ', isDisliked);
-        
         const res = await updateEvaluateComment({isLiked: false, isDisliked: !isDisliked, userId, commentId})
         if(res.success) {
             setDislikesCount(res.comment.dislike_count)
-            setIsDisliked(res.stat.disliked)
+            setLikesCount(res.comment.like_count)
+            setIsDisliked(res.stats.disliked)
+            setIsLiked(res.stats.liked)
         }
 
     } catch (error) {
-        console.log('Error handleDislikeComment');
+        console.log('Error handleDislikeComment = ', error);
     }
 } 

@@ -21,6 +21,12 @@ interface IComments {
     me: IChannel
 }
 
+const options = {
+    root: null,
+    rootMargin: "100px",
+    threshold: 0.1 // Лучше 0.1 чем 1.0, чтобы срабатывало чуть раньше
+}
+
 export const Comments: React.FC<IComments> = ({
     videoHash,
     videoId,
@@ -31,75 +37,71 @@ export const Comments: React.FC<IComments> = ({
         value: 'famous'
     })
     const [isLoading, setIsLoading] = useState(false)
-    const [commentsList, setCommentsList] = useState([])
+    const [commentsList, setCommentsList] = useState<IComment[]>([])
+    const [hasMore, setHasMore] = useState(true) // Добавьте этот флаг
     const [pagination, setPagination] = useState({offset: 0, limit: 20})
     const observerRef = useRef<IntersectionObserver | null>(null)
     const loadingRef = useRef<HTMLDivElement | null>(null)
 
+    const callback = async (entries: IntersectionObserverEntry[]) => {
+        const entry = entries[0]
+        
+        if (entry.isIntersecting && !isLoading && hasMore) { // Добавьте hasMore
+            setIsLoading(true)
+            
+            try {
+                const res = await getCommentsByVideoHash(
+                    videoHash, 
+                    pagination.offset, 
+                    pagination.limit, 
+                    filter.value,
+                    me.id
+                )
+
+                if (!res.comments || res.comments.length === 0) {
+                    setHasMore(false) // Больше нет данных
+                    setIsLoading(false)
+                    observerRef.current.disconnect()
+                    observerRef.current = null
+                    return
+                }
+                
+                setCommentsList((prev: IComment[]) => [...prev, ...res.comments])
+                setPagination(prev => ({offset: prev.offset + 20, limit: prev.limit + 20}))
+                setIsLoading(false)
+
+                if (res.comments.length < 20) {
+                    setHasMore(false) // Больше нет данных
+                    setIsLoading(false)
+                    observerRef.current.disconnect()
+                    observerRef.current = null
+                    return
+                }
+
+            } catch (error) {
+                console.error('ОШИБКА ЗАГРУЗКИ:', error)
+                setIsLoading(false)
+            }
+        }
+    }
+
     // Сброс состояния при смене фильтра
     useEffect(() => {
-        // Сбрасываем список на начальные комментарии (или пустой массив)
         setCommentsList([])
-        // Сбрасываем пагинацию
         setPagination({offset: 0, limit: 20})
+        setHasMore(true) // Сбросить флаг
+        setIsLoading(false)
+        
         // Отключаем старый observer
         if (observerRef.current) {
             observerRef.current.disconnect()
             observerRef.current = null
         }
-        // Сбрасываем флаг загрузки
-        setIsLoading(false)
     }, [filter.value])
 
     // Настройка IntersectionObserver
     useEffect(() => {
-        if (!loadingRef.current) return
-        
-        // Если уже есть observer - не создаём новый
-        if (observerRef.current) {
-            observerRef.current.disconnect()
-            observerRef.current = null
-        }
-
-        const options = {
-            root: null,
-            rootMargin: "100px",
-            threshold: 0.1 // Лучше 0.1 чем 1.0, чтобы срабатывало чуть раньше
-        }
-
-        const callback = async (entries: IntersectionObserverEntry[]) => {
-            const entry = entries[0]
-            
-            if (entry.isIntersecting && !isLoading) {
-                setIsLoading(true)
-                
-                try {
-                    const res = await getCommentsByVideoHash(
-                        videoHash, 
-                        pagination.offset, 
-                        pagination.limit, 
-                        filter.value,
-                        me.id
-                    )
-                    
-                    if (!res.comments || res.comments.length === 0) {
-                        if (observerRef.current) {
-                            observerRef.current.disconnect()
-                            observerRef.current = null
-                        }
-                        setIsLoading(false)
-                        return
-                    }
-                    
-                    setCommentsList((prev: IComment[]) => [...prev, ...res.comments])
-                    setPagination(prev => ({offset: prev.offset + 20, limit: prev.limit + 20}))
-                    setIsLoading(false)
-                } catch (error) {
-                    console.error('ОШИБКА ЗАГРУЗКИ:', error)
-                    setIsLoading(false)
-                }
-            }
-        }
+        if (!loadingRef.current || !hasMore) return
 
         observerRef.current = new IntersectionObserver(callback, options)
         observerRef.current.observe(loadingRef.current)
@@ -110,7 +112,8 @@ export const Comments: React.FC<IComments> = ({
                 observerRef.current = null
             }
         }
-    }, [isLoading, filter.value, videoHash, pagination.offset, pagination.limit])
+    }, [hasMore, filter.value]) // Добавьте зависимости
+
 
     return (
         <div className={styles.comments}>
@@ -132,14 +135,20 @@ export const Comments: React.FC<IComments> = ({
             
             {/* ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
             <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }}>
-                {(isLoading && commentsList?.length === 0) && 
-                    Array.from({length: 12}, (_, index) => (
+                {isLoading && (
+                    Array.from({length: 3}, (_, index) => (
                         <div key={index} className={styles.videoCardWrapper}>
                             <CommentSkeleton />
                         </div>
                     ))
-                }
+                )}
             </div>
+            
+            {!hasMore && commentsList.length > 0 && (
+                <div style={{textAlign: 'center', padding: '20px'}}>
+                    Больше нет комментариев
+                </div>
+            )}
         </div>
     )
 }
