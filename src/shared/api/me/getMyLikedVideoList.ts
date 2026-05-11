@@ -204,7 +204,6 @@ export const getMyLikedVideoList = async (
   offset: number,
   limit: number
 ) => {
-  console.log("getMyLikedVideoList");
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-liked-videos/${meId}`,

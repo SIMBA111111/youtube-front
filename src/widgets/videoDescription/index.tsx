@@ -84,7 +84,6 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
           isSubscribed={isSubscribed}
           notificationSetting={notificationSettings}
           meId={meId}
-          videoId={videoId}
           channelId={channel.id}
         />
       </div>

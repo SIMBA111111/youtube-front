@@ -24,12 +24,6 @@ export default async function Subscriptions() {
   const likedPlaylists = await getMyLikedPlaylists(jwt, meId, 0, 20);
   const likedVideoList = await getMyLikedVideoList(jwt, meId, 0, 20);
 
-  console.log("likedVideoList = ", JSON.stringify(likedVideoList, null, 5));
-  console.log(
-    "vieweredVideoList = ",
-    JSON.stringify(vieweredVideoList, null, 5)
-  );
-
   return (
     <div className={styles.mainPage__container}>
       <div className={styles.myChannel}>

@@ -38,6 +38,9 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
   const colorRef = useRef<string>("rgba(249, 98, 98, 0.1)");
   const router = useRouter();
 
+  console.log(video);
+  
+
   // useEffect(() => {
   //     if (video.previewUrl && imgRef.current) {
   //         const img = imgRef.current;

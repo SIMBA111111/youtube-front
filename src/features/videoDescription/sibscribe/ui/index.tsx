@@ -15,7 +15,6 @@ interface ISubscribeButton {
   isSubscribed: boolean;
   notificationSetting: boolean;
   meId: string;
-  videoId: string;
   channelId: string;
 }
 
@@ -23,7 +22,6 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
   isSubscribed,
   notificationSetting,
   meId,
-  videoId,
   channelId,
 }) => {
   const [popoverIsVisible, setPopoverIsVisible] = useState<boolean>(false);
