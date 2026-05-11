@@ -1,14 +1,14 @@
 .page {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr minmax(200px, 500px);
-    column-gap: 12px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 12px;
 }
 
 .description {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .comments {
-    margin-top: 20px;
+  margin-top: 20px;
 }

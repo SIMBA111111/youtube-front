@@ -1,69 +1,82 @@
 .subscribeButton {
-    grid-area: channel;
-    display: flex;
-    gap: 12px;
+  grid-area: channel;
+  display: flex;
+  gap: 12px;
+  height: fit-content;
+
+  &_btn {
+    border: none;
+    width: fit-content;
+    margin: 4px 0px;
+    padding: 8px 4px 8px 8px;
+    border-radius: 24px;
+    background-color: var(--foregroundRGB);
+    color: var(--blackText);
+    cursor: pointer;
     height: fit-content;
 
-    &_btn {
-        border: none;
-        width: fit-content;
-        margin: 4px 0px;
-        padding: 8px 4px 8px 8px;
-        border-radius: 24px;
-        background-color: var(--foregroundRGB);
-        color: var(--blackText);
-        cursor: pointer;
-        height: fit-content;
-
-
-        &:hover {
-            background-color: var(--foregroundRGBHover);
-        }
-
-        &_text {
-            color: var(--whiteText);
-        }
+    &:hover {
+      background-color: var(--foregroundRGBHover);
     }
-}
-
-
-.unsibscribe {
-    display: flex;
-    align-items: center;
-    gap: 8px;
 
     &_text {
-        word-wrap: nowrap;
-        white-space: nowrap;
+      color: var(--whiteText);
     }
+  }
+
+  &_btn2 {
+    border: none;
+    width: fit-content;
+    margin: 4px 0px;
+    padding: 10px 16px;
+    border-radius: 24px;
+    background-color: var(--foreground);
+    color: var(--blackText);
+    cursor: pointer;
+    height: fit-content;
+
+    &:hover {
+      background-color: var(--foregroundRGBHover);
+    }
+  }
 }
 
+.unsibscribe {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &_text {
+    word-wrap: nowrap;
+    white-space: nowrap;
+  }
+}
 
 .popover {
-    background-color: var(--grayDarkBackground) !important;
-    border: none;
-    padding: 8px 0px !important;
+  background-color: var(--grayDarkBackground) !important;
+  border: none;
+  padding: 8px 0px !important;
 
-    &_items {
-        display: flex;
-        flex-direction: column;
+  &_items {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &_item {
+    display: flex;
+    align-items: center;
+    color: var(--blackText);
+    gap: 6px;
+    cursor: pointer;
+    padding: 8px;
+    background-color: var(--grayDarkBackground);
+
+    &:hover {
+      background-color: var(--lightGray);
     }
 
-    &_item {
-        display: flex;
-        align-items: center;
-        color: var(--blackText);
-        gap: 6px;
-        cursor: pointer;
-        padding: 8px;
-        background-color: var(--grayDarkBackground);
-
-        &:hover {
-            background-color: var(--lightGray);
-        }
-
-        &_active {
-            background-color: var(--lightBlackBackground);
-        }
+    &_active {
+      background-color: var(--lightBlackBackground);
     }
+  }
 }

@@ -112,7 +112,7 @@ const mockPlaylists = [
     }
 ];
     
-export const getMyLikedPlaylists = async (jwt: string, meId: string) => {
+export const getMyLikedPlaylists = async (jwt: string, meId: string, offset: number, limit: number) => {
     console.log('getMyLikedPlaylists');
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-liked-playlists/${meId}`, {

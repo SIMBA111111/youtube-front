@@ -198,7 +198,7 @@ const VIDEOS = [
     },
 ]
 
-export const getMyViewsHistory = async (jwt: string, meId: string) => {
+export const getMyViewsHistory = async (jwt: string, meId: string, offset: number, limit: number) => {
     console.log('getMyViewsHistory');
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-view-history/${meId}`, {

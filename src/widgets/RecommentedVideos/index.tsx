@@ -1,159 +1,176 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { Navigation } from "swiper/modules"
-import { Swiper, SwiperSlide } from "swiper/react"
+import { useEffect, useRef, useState } from "react";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import { IVideo } from "@/entities/thumbnailVideo/modal/types"
-import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard"
-import { ThumbnailShortVideoCard } from "@/entities"
+import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
+import { ThumbnailShortVideoCard } from "@/entities";
 
-import { Spinner, Svg } from "@/shared/ui"
-import { getShortVideos } from "@/shared/api/video/getShortVideos"
-import { getVideos } from "@/shared/api/video/getVideoList"
-import styles from "./styles.module.scss"
-import { getRecommentedVideos } from "@/shared/api/video/getRecommentedVideos"
+import { Spinner, Svg } from "@/shared/ui";
+import { getShortVideos } from "@/shared/api/video/getShortVideos";
+import { getVideos } from "@/shared/api/video/getVideoList";
+import styles from "./styles.module.scss";
+import { getRecommentedVideos } from "@/shared/api/video/getRecommentedVideos";
 
 interface IRecommentedVideos {
-    initVideos: IVideo[]
-    videoHash: string
-    myChannelId?: string
+  initVideos: IVideo[];
+  videoHash: string;
+  myChannelId?: string;
 }
 
-export const RecommentedVideos: React.FC<IRecommentedVideos> = ({ initVideos, videoHash, myChannelId }) => {
-    const [videoList, setVideoList] = useState<IVideo[]>(initVideos)
-    const [isLoading, setIsLoading] = useState(false)
-    const observerRef = useRef<IntersectionObserver | null>(null)
-    const loadingRef = useRef<HTMLDivElement | null>(null)
+export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
+  initVideos,
+  videoHash,
+  myChannelId,
+}) => {
+  const [videoList, setVideoList] = useState<IVideo[]>(initVideos);
+  const [pagination, setPagination] = useState({ offset: 20, limit: 40 });
+  const [isLoading, setIsLoading] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const loadingRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        if (!loadingRef.current) return
-        if (observerRef.current) return
+  useEffect(() => {
+    if (!loadingRef.current) return;
+    if (observerRef.current) return;
 
-        const options = {
-            root: null,
-            rootMargin: "100px",
-            threshold: 1
-        }
-
-        const callback = async (entries: IntersectionObserverEntry[]) => {
-            const entry = entries[0]
-            
-            if (entry.isIntersecting && !isLoading) {
-                // console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
-                setIsLoading(true)
-                
-                try {
-                    // setTimeout(async () => {
-                        const res = await getRecommentedVideos(videoHash, 20, 40, myChannelId)
-
-                        if(res.total === 0) {
-                            observerRef.current?.disconnect()
-                            setIsLoading(false)
-                            loadingRef.current = null
-                            return
-                        }
-                        // console.log('ПОЛУЧЕНО НОВЫХ ВИДЕО:', res.length)
-                        setVideoList(prev => [...prev, ...res.videos])
-                        setIsLoading(false)
-
-                    // }, 3000)
-
-                } catch (error) {
-                    setIsLoading(false)
-                    console.error('ОШИБКА ЗАГРУЗКИ:', error)
-                }
-            }
-        }
-
-        observerRef.current = new IntersectionObserver(callback, options)
-        observerRef.current.observe(loadingRef.current)
-
-        return () => {
-            if (observerRef.current) {
-                observerRef.current.disconnect()
-                observerRef.current = null
-            }
-        }
-    }, [isLoading]) // Добавил зависимости
-
-    const fullVideos = initVideos.filter((video: IVideo) => !video.isShort)
-    const shortVideos = initVideos.filter((video: IVideo) => video.isShort)
-
-    const swiperRef = useRef(null);
-
-    const handleNext = () => {
-        if (swiperRef.current && swiperRef.current.swiper) {
-            swiperRef.current.swiper.slideNext();
-        }
+    const options = {
+      root: null,
+      rootMargin: "100px",
+      threshold: 1,
     };
 
-    const handlePrev = () => {
-        if (swiperRef.current && swiperRef.current.swiper) {
-            swiperRef.current.swiper.slidePrev();
+    const callback = async (entries: IntersectionObserverEntry[]) => {
+      const entry = entries[0];
+
+      if (entry.isIntersecting && !isLoading) {
+        // console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
+        setIsLoading(true);
+
+        try {
+          const res = await getRecommentedVideos(
+            videoHash,
+            pagination.offset,
+            pagination.limit,
+            myChannelId
+          );
+
+          console.log("res = ", res);
+
+          if (res.total === 0) {
+            observerRef.current?.disconnect();
+            setIsLoading(false);
+            loadingRef.current = null;
+            return;
+          }
+          setVideoList((prev) => [...prev, ...res.videos]);
+          setIsLoading(false);
+          setPagination((prev) => ({
+            offset: prev.offset + 20,
+            limit: prev.limit + 20,
+          }));
+        } catch (error) {
+          setIsLoading(false);
+          console.error("ОШИБКА ЗАГРУЗКИ:", error);
         }
+      }
     };
 
-    return (
-        <div className={styles.container}>
-            {videoList.filter((video: IVideo[]) => !video.isShort).map((video: IVideo, index) => {
-                return (
-                    <div key={index} className={styles.videoCardWrapper}>
-                        <ThumbnailVideoCard key={video.id} video={video} isRow/>
-                    </div>
-                )
-            })}
-            <div className={styles.shortVideoWrapper}>
-                <Swiper 
-                    style={{display: 'flex'}}
-                    ref={swiperRef}
-                    direction="horizontal" 
-                    className={styles.swiper} 
-                    slidesPerView={3} 
-                    spaceBetween={-10} 
-                    // mousewheel={true}
-                    modules={[Navigation]}
-                    // touchStartPreventDefault={false}
-                    // touchMoveStopPropagation={false}
-                    navigation={{
-                        nextEl: '.custom-swiper-button-next',
-                        prevEl: '.custom-swiper-button-prev',
-                    }}
-                >
-                {videoList.filter((video: IVideo[]) => video.isShort).map((short, index) => (
-                    <SwiperSlide key={index} className={styles.slide}>
-                        <div className={styles.shortVideoCardWrapper}>
-                            <ThumbnailShortVideoCard {...short} isRow/>
-                        </div>
-                    </SwiperSlide>
-                ))}
-                </Swiper>
+    observerRef.current = new IntersectionObserver(callback, options);
+    observerRef.current.observe(loadingRef.current);
 
-                <div className={styles.navButtons}>
-                    <button 
-                        className={`${styles.navButton} ${styles.navButtonPrev}`}
-                        onClick={handlePrev}
-                        aria-label="Предыдущее видео"
-                    >
-                        <Svg name="shortArrowUp"/>
-                    </button>
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+        observerRef.current = null;
+      }
+    };
+  }, [isLoading]); // Добавил зависимости
 
-                    <button 
-                        className={`${styles.navButton} ${styles.navButtonNext}`}
-                        onClick={handleNext}
-                        aria-label="Следующее видео"
-                    >
-                        <Svg name="arrowLeft"/>
-                    </button>
+  const fullVideos = initVideos.filter((video: IVideo) => !video.isShort);
+  const shortVideos = initVideos.filter((video: IVideo) => video.isShort);
+
+  const swiperRef = useRef(null);
+
+  const handleNext = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext();
+    }
+  };
+
+  const handlePrev = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slidePrev();
+    }
+  };
+
+  console.log("videoList === ", videoList);
+
+  return (
+    <div className={styles.container}>
+      {videoList
+        .filter((video: IVideo[]) => !video.isShort)
+        .map((video: IVideo, index) => {
+          return (
+            <div key={index} className={styles.videoCardWrapper}>
+              <ThumbnailVideoCard key={video.id} video={video} isRow />
+            </div>
+          );
+        })}
+      {/* <div className={styles.shortVideoWrapper}>
+        <Swiper
+          style={{ display: "flex" }}
+          ref={swiperRef}
+          direction="horizontal"
+          className={styles.swiper}
+          slidesPerView={3}
+          spaceBetween={-10}
+          // mousewheel={true}
+          modules={[Navigation]}
+          // touchStartPreventDefault={false}
+          // touchMoveStopPropagation={false}
+          navigation={{
+            nextEl: ".custom-swiper-button-next",
+            prevEl: ".custom-swiper-button-prev",
+          }}
+        >
+          {videoList
+            .filter((video: IVideo[]) => video.isShort)
+            .map((short, index) => (
+              <SwiperSlide key={index} className={styles.slide}>
+                <div className={styles.shortVideoCardWrapper}>
+                  <ThumbnailShortVideoCard {...short} isRow />
                 </div>
-            </div>
-            <div ref={loadingRef} style={{ height: '10px', margin: '20px 0' }}>
-                {isLoading && <div className={styles.recommendedVideoLoader}><Spinner/></div>}
-            </div>
+              </SwiperSlide>
+            ))}
+        </Swiper>
+
+        <div className={styles.navButtons}>
+          <button
+            className={`${styles.navButton} ${styles.navButtonPrev}`}
+            onClick={handlePrev}
+            aria-label="Предыдущее видео"
+          >
+            <Svg name="shortArrowLeft" />
+          </button>
+
+          <button
+            className={`${styles.navButton} ${styles.navButtonNext}`}
+            onClick={handleNext}
+            aria-label="Следующее видео"
+          >
+            <Svg name="arrowLeft" />
+          </button>
         </div>
-    )
-}
-
-
-
-
+      </div> */}
+      <div ref={loadingRef} style={{ height: "10px", margin: "20px 0" }}>
+        {isLoading && (
+          <div className={styles.recommendedVideoLoader}>
+            <Spinner />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
