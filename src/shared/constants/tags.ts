@@ -1,15 +1,15 @@
 export const HISTORY_TAGS = [
     {
         id: '1',
-        name: 'Все'
+        name: 'all'
     },
     {
         id: '2',
-        name: 'Видео'
+        name: 'videos'
     },
     {
         id: '3',
-        name: 'Shorts'
+        name: 'shorts'
     },
     {
         id: '4',

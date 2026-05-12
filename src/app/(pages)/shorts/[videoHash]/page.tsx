@@ -1,20 +1,43 @@
-"use client"
+import { cookies } from "next/headers";
 
-import { ShortPlayer } from "@webitch/short-player";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Mousewheel, Pagination, Navigation } from 'swiper/modules';
-import { useEffect, useRef, useState } from 'react';
+import { getShortVideos } from "@/shared/api/video/getShortVideos";
+import { ShortsSwiper } from "@/widgets/shortVideos";
+import { updateViewVideo } from "@/shared/api/video/updateViewVideo";
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Svg } from "@/shared/ui";
-import styles from "./styles.module.scss";
-import { getShortVideos } from "@/shared/api/video/getShortVideos";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import { ShortsSwiper } from "@/widgets/shortVideos";
+import { getVideoByHash } from "@/shared/api/video/getVideoByHash";
 
-export default async function Shorts() {
+
+export default async function Shorts({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string }>;
+}) {
+  const { v: videoHash } = await searchParams;
+
+  
+  const cookie = await cookies();
+  const channelData = cookie.get("channelData")?.value || "";
+  let myChannelData;
+  if (channelData) {
+    myChannelData = JSON.parse(channelData);
+  } else {
+    myChannelData = {};
+  }
+
   const res = await getShortVideos()
+
+  const videoData = await getVideoByHash(videoHash, myChannelData?.id);
+
+  console.log('videoData = ', videoData);
+  
+
+  await updateViewVideo({
+    videoId: videoData.video?.id,
+    userId: myChannelData?.id,
+  });
   
   return (
     <ShortsSwiper videos={res} />

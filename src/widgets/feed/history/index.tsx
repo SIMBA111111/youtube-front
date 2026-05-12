@@ -13,34 +13,43 @@ import { splitEntitiesByDays } from "@/shared/utils/splitEntitiesByDays";
 import styles from "./styles.module.scss";
 
 
-export const History = ({initVideos, userId, jwt}: {initVideos : IVideoViewed[], userId: string, jwt: string}) => {
-    const [activeTag, setActiveTag] = useState<string>(HISTORY_TAGS[0].id);
+export const History = ({initVideos, userId, jwt, tags}: {initVideos : IVideoViewed[], userId: string, jwt: string, tags: ITag[]}) => {
+    const [activeTag, setActiveTag] = useState<string>(tags[0].name);
     const [videos, setVideos] = useState<IVideoViewed[]>(initVideos);
     const [pagination, setPagination] = useState<any>({offset: 20, limit: 40});
     const [isLoading, setIsLoading] = useState(false);
-    const observerRef = useRef<IntersectionObserver | null>(null)
-    const loadingRef = useRef<HTMLDivElement | null>(null)
+    const observerRef = useRef<IntersectionObserver | null>(null);
+    const loadingRef = useRef<HTMLDivElement | null>(null);
+    const isFirstRender = useRef(true); // Добавляем флаг первого рендера
 
+    // Эффект для смены тега (не запускаем при первом рендере)
     useEffect(() => {
+        // Пропускаем первый рендер
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
         const handleVideos = async () => {
             setIsLoading(true);
             try {
                 let isShort: boolean | null = null;
-                if (activeTag === HISTORY_TAGS[2].id) {
+                if (activeTag === HISTORY_TAGS[2].name) {
                     isShort = true;
-                } else if (activeTag === HISTORY_TAGS[1].id) {
+                } else if (activeTag === HISTORY_TAGS[1].name) {
                     isShort = false;
                 }
-                
+
                 const res = await getHistoryVideos( 
                     userId,
                     jwt,
-                    {isShort: isShort}, 
-                    pagination.offset,
-                    pagination.limit,
+                    {isShort: isShort, tags: activeTag}, 
+                    0, // Сброс пагинации при смене тега
+                    20,
                 );
-                
+
                 setVideos(res.viewsHistory);
+                setPagination({offset: 20, limit: 40}); // Сброс пагинации
             } catch (error) {
                 console.error('Error fetching videos:', error);
             } finally {
@@ -49,13 +58,15 @@ export const History = ({initVideos, userId, jwt}: {initVideos : IVideoViewed[],
         };
         
         handleVideos();
-    }, [activeTag]);
+    }, [activeTag, userId, jwt]); // Добавлены зависимости
 
-
-    // Настройка observer - ТОЛЬКО ОДИН РАЗ
+    // Настройка observer - только после загрузки начальных данных
     useEffect(() => {
-        if (!loadingRef.current) return
-        if (observerRef.current) return
+        // Не настраиваем observer, если нет видео или они загружаются
+        if (videos.length === 0 || isLoading) return;
+        
+        if (!loadingRef.current) return;
+        if (observerRef.current) return;
 
         const options = {
             root: null,
@@ -64,67 +75,61 @@ export const History = ({initVideos, userId, jwt}: {initVideos : IVideoViewed[],
         }
 
         const callback = async (entries: IntersectionObserverEntry[]) => {
-            const entry = entries[0]
+            const entry = entries[0];
             
             if (entry.isIntersecting && !isLoading) {
-                console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
-                setIsLoading(true)
+                console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ');
+                setIsLoading(true);
                 
                 try {
-                        let isShort: boolean | null = null;
-                        if (activeTag === HISTORY_TAGS[2].id) {
-                            isShort = true;
-                        } else if (activeTag === HISTORY_TAGS[1].id) {
-                            isShort = false;
-                        }
-                        
-                        const newVideos = await getHistoryVideos(
-                            userId,
-                            jwt,
-                            {isShort: isShort}, 
-                            pagination.offset,
-                            pagination.limit,
-                        );
+                    let isShort: boolean | null = null;
+                    if (activeTag === HISTORY_TAGS[2].name) {
+                        isShort = true;
+                    } else if (activeTag === HISTORY_TAGS[1].name) {
+                        isShort = false;
+                    }
+                    
+                    const newVideos = await getHistoryVideos(
+                        userId,
+                        jwt,
+                        {isShort: isShort, tags: activeTag}, 
+                        pagination.offset,
+                        pagination.limit,
+                    );
+                    
+                    if (newVideos.viewsHistory.length === 0) { // Исправлено: === вместо =
+                        observerRef.current?.disconnect();
+                        loadingRef.current = null;
+                        setIsLoading(false);
+                        return;
+                    }
 
-                        if (newVideos.viewsHistory.length = 0) {
-                            observerRef.current?.disconnect()
-                            loadingRef.current = null
-                            setIsLoading(false)
-                            return
-                        }
-
-                        setVideos(prev => [...prev, ...newVideos.viewsHistory])
-                        setIsLoading(false)
-                        setPagination((prev) => ({
-                            offset: prev.offset + 20,
-                            limit: prev.limit + 20,
-                        }));
-
-
-
+                    setVideos(prev => [...prev, ...newVideos.viewsHistory]);
+                    setPagination(prev => ({
+                        offset: prev.offset + 20,
+                        limit: prev.limit + 20,
+                    }));
                 } catch (error) {
-                    console.error('ОШИБКА ЗАГРУЗКИ:', error)
-                    setIsLoading(false) // Важно: выключаем загрузку при ошибке
+                    console.error('ОШИБКА ЗАГРУЗКИ:', error);
+                } finally {
+                    setIsLoading(false);
                 }
             }
         }
 
-        observerRef.current = new IntersectionObserver(callback, options)
-        observerRef.current.observe(loadingRef.current)
+        observerRef.current = new IntersectionObserver(callback, options);
+        observerRef.current.observe(loadingRef.current);
 
         return () => {
             if (observerRef.current) {
-                observerRef.current.disconnect()
-                observerRef.current = null
+                observerRef.current.disconnect();
+                observerRef.current = null;
             }
         }
-    }, []) // Добавил зависимости
-
-    console.log('videos =-=-= ', videos);
+    }, [videos.length, activeTag, pagination.offset]); // Добавлены зависимости
     
 
     const groupedVideos = splitEntitiesByDays(videos);
-    console.log('groupedVideos =-=-= ', groupedVideos);
 
     const renderVideoList = () => {
         if (isLoading && videos.length === 0) {
@@ -175,10 +180,11 @@ export const History = ({initVideos, userId, jwt}: {initVideos : IVideoViewed[],
         )
     };
 
+
     return (
         <div className={styles.container}>
             <div className={styles.tagList}>
-                {HISTORY_TAGS.map((tag: ITag) => (
+                {tags.map((tag: ITag) => (
                     <VideoTags 
                         key={tag.id} 
                         name={tag.name} 

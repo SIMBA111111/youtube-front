@@ -200,7 +200,8 @@ const VIDEOS = [
 
 export const getMyViewsHistory = async (jwt: string, meId: string, offset: number, limit: number) => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-view-history/${meId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-view-history/${meId}?offset=${offset}&limit=${limit}`, {
+            method: 'POST',
             headers: { 
                 'Authorization': `Bearer ${jwt}` 
             },

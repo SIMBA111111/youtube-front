@@ -520,19 +520,19 @@ const VIDEOS = [
 
 interface IVideoFilter {
     isShort?: boolean | null
-    tags?: string[]
+    tags?: string
     order?: 'ASC' | 'DESC'
 }
 
 export const getHistoryVideos = async (userId: string, jwt: string, filter?: IVideoFilter, offset: number = 0, limit: number = 20) => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-view-history?offset=${offset}&limit=${limit}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-view-history/${userId}/?offset=${offset}&limit=${limit}`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwt}`
             },
-            body: JSON.stringify({userId, filter})
+            body: JSON.stringify({filter})
         })
 
         if (res.status === 200) {
