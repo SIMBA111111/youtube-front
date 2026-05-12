@@ -13,9 +13,10 @@ import { splitEntitiesByDays } from "@/shared/utils/splitEntitiesByDays";
 import styles from "./styles.module.scss";
 
 
-export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
+export const History = ({initVideos, userId, jwt}: {initVideos : IVideoViewed[], userId: string, jwt: string}) => {
     const [activeTag, setActiveTag] = useState<string>(HISTORY_TAGS[0].id);
     const [videos, setVideos] = useState<IVideoViewed[]>(initVideos);
+    const [pagination, setPagination] = useState<any>({offset: 20, limit: 40});
     const [isLoading, setIsLoading] = useState(false);
     const observerRef = useRef<IntersectionObserver | null>(null)
     const loadingRef = useRef<HTMLDivElement | null>(null)
@@ -31,12 +32,15 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
                     isShort = false;
                 }
                 
-                const res = await getHistoryVideos({ 
-                    tags: [activeTag], 
-                    isShort: isShort 
-                });
+                const res = await getHistoryVideos( 
+                    userId,
+                    jwt,
+                    {isShort: isShort}, 
+                    pagination.offset,
+                    pagination.limit,
+                );
                 
-                setVideos(res);
+                setVideos(res.viewsHistory);
             } catch (error) {
                 console.error('Error fetching videos:', error);
             } finally {
@@ -67,7 +71,6 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
                 setIsLoading(true)
                 
                 try {
-                    // setTimeout(async () => {
                         let isShort: boolean | null = null;
                         if (activeTag === HISTORY_TAGS[2].id) {
                             isShort = true;
@@ -75,13 +78,30 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
                             isShort = false;
                         }
                         
-                        const newVideos = await getHistoryVideos({ 
-                            tags: [activeTag], 
-                            isShort: isShort 
-                        });
-                        setVideos(prev => [...prev, ...newVideos])
-                        setIsLoading(false) // Важно: выключаем загрузку после получения данных
-                    // }, 3000)
+                        const newVideos = await getHistoryVideos(
+                            userId,
+                            jwt,
+                            {isShort: isShort}, 
+                            pagination.offset,
+                            pagination.limit,
+                        );
+
+                        if (newVideos.viewsHistory.length = 0) {
+                            observerRef.current?.disconnect()
+                            loadingRef.current = null
+                            setIsLoading(false)
+                            return
+                        }
+
+                        setVideos(prev => [...prev, ...newVideos.viewsHistory])
+                        setIsLoading(false)
+                        setPagination((prev) => ({
+                            offset: prev.offset + 20,
+                            limit: prev.limit + 20,
+                        }));
+
+
+
                 } catch (error) {
                     console.error('ОШИБКА ЗАГРУЗКИ:', error)
                     setIsLoading(false) // Важно: выключаем загрузку при ошибке
@@ -100,7 +120,11 @@ export const History = ({initVideos}: {initVideos : IVideoViewed[]}) => {
         }
     }, []) // Добавил зависимости
 
+    console.log('videos =-=-= ', videos);
+    
+
     const groupedVideos = splitEntitiesByDays(videos);
+    console.log('groupedVideos =-=-= ', groupedVideos);
 
     const renderVideoList = () => {
         if (isLoading && videos.length === 0) {

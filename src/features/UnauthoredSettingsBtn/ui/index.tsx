@@ -30,7 +30,8 @@ export const UnauthoredSettingsBtn: React.FC= () => {
         await i18n.changeLanguage(lang);
     };
 
-    const activeLanguage = Cookies.get('lang') || navigator.language.slice(0, 2)
+    // const activeLanguage = Cookies.get('lang') || navigator.language.slice(0, 2)
+    const activeLanguage = 'ru'
     const jwt = Cookies.get('jwt')
 
     return (

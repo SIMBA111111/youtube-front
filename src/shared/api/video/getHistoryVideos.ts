@@ -524,30 +524,23 @@ interface IVideoFilter {
     order?: 'ASC' | 'DESC'
 }
 
-export const getHistoryVideos = async (filter?: IVideoFilter) => {
+export const getHistoryVideos = async (userId: string, jwt: string, filter?: IVideoFilter, offset: number = 0, limit: number = 20) => {
     try {
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/videos`, {
-        //     credentials: "include"
-        // })
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-view-history?offset=${offset}&limit=${limit}`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify({userId, filter})
+        })
 
-        // if (res.status === 200) {
-        //     return await res.json()
-        // } else {
-        //     return 'getNotifs non 200 status'
-        // }
-        if (filter?.isShort) {
-            return VIDEOS.filter((v) => v.isShort)
-        } else if(filter?.isShort === null) {
-            return VIDEOS
-
-        } else if(filter?.isShort === false) {
-            return VIDEOS.filter((v) => !v.isShort)
-        }
-
-        return VIDEOS
+        if (res.status === 200) {
+            return await res.json()
+        } 
 
     } catch (error) {
-        new Error(`Error getVideos: ${error}`);
+        new Error(`Error getHistoryVideos: ${error}`);
         return []
     }
 }
