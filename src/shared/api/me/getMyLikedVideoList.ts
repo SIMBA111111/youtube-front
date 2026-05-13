@@ -206,13 +206,17 @@ export const getMyLikedVideoList = async (
 ) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-liked-videos/${meId}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-liked-videos/${meId}?offset=${offset}&limit=${limit}`,
+      
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
+
+    console.log('res == ', res);
+    
 
     if (res.status === 200) {
       return await res.json();

@@ -11,6 +11,7 @@ import { Text } from "@/shared/ui";
 import { MyChannelActions } from "@/widgets/myChannelActions";
 
 import styles from "./styles.module.scss";
+import { getLikedVideos } from "@/shared/api/video/getLikedVideos";
 
 export default async function Subscriptions() {
   const cookie = await cookies();
@@ -22,7 +23,10 @@ export default async function Subscriptions() {
   const me = await getMe(jwt, meId);
   const vieweredVideoList = await getMyViewsHistory(jwt, meId, 0, 20);
   const likedPlaylists = await getMyLikedPlaylists(jwt, meId, 0, 20);
-  const likedVideoList = await getMyLikedVideoList(jwt, meId, 0, 20);
+  const likedVideoList = await getLikedVideos(meId, jwt, 0, 20);
+
+  console.log('likedVideoList = ', likedVideoList);
+  
 
   return (
     <div className={styles.mainPage__container}>

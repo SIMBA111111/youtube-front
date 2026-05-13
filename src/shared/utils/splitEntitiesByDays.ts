@@ -8,8 +8,6 @@ export const splitEntitiesByDays = <T extends IWithDateViewed>(
 ): Map<string, T[]> => {
     const daysMap = new Map<string, T[]>();
 
-    console.log('items = ', items);
-    
     items.forEach(item => {
         const date = new Date(item.dateviewed);
         const day = date.getDate();

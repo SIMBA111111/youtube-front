@@ -24,14 +24,14 @@ export const HISTORY_TAGS = [
 export const LIKED_TAGS = [
     {
         id: '1',
-        name: 'Все'
+        name: 'all'
     },
     {
         id: '2',
-        name: 'Видео'
+        name: 'videos'
     },
     {
         id: '3',
-        name: 'Shorts'
+        name: 'shorts'
     },
 ]

@@ -387,30 +387,23 @@ interface IVideoFilter {
     order?: 'ASC' | 'DESC'
 }
 
-export const getLikedVideos = async (filter?: IVideoFilter) => {
+export const getLikedVideos = async (userId: string, jwt: string, offset: number = 0, limit: number = 20, filter?: IVideoFilter) => {
     try {
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/videos`, {
-        //     credentials: "include"
-        // })
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-liked-videos/${userId}/?offset=${offset}&limit=${limit}`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify({filter})
+        })
 
-        // if (res.status === 200) {
-        //     return await res.json()
-        // } else {
-        //     return 'getNotifs non 200 status'
-        // }
-        if (filter?.isShort) {
-            return VIDEOS.filter((v) => v.isShort)
-        } else if(filter?.isShort === null) {
-            return VIDEOS
-
-        } else if(filter?.isShort === false) {
-            return VIDEOS.filter((v) => !v.isShort)
-        }
-
-        return VIDEOS
+        if (res.status === 200) {
+            return await res.json()
+        } 
 
     } catch (error) {
-        new Error(`Error getVideos: ${error}`);
+        new Error(`Error getLikedVideos: ${error}`);
         return []
     }
 }
