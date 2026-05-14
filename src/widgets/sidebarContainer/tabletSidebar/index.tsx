@@ -24,8 +24,6 @@ export const TabletSidebar = ({channels, randomShortVideo}: {channels: IChannel[
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            event.stopPropagation()
-            event.preventDefault()
             if ((isTablet || isMobile) && sidebarContainerRef.current && !sidebarContainerRef.current.contains(event.target as Node)) {
                 closeSideBar();
             }
@@ -62,7 +60,7 @@ export const TabletSidebar = ({channels, randomShortVideo}: {channels: IChannel[
                     </div>
                     
                     <div className={styles.divider}>
-                        <Link href={'/'} className={styles.btns__item__open}>
+                        <Link href={'/subscriptions'} className={styles.btns__item__open}>
                             <Text>Подписки</Text>
                             <Svg name='arrowLeft' size='small'/>
                         </Link>

@@ -9,6 +9,13 @@
     border-bottom: 1px solid var(--grayHoverBackground);
 }
 
+.shortVideoCardWrapper {
+    width: 180px;
+    height: 360px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
 .videoList {
     display: flex;
     flex-direction: column;

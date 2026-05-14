@@ -11,8 +11,14 @@ import styles from "./styles.module.scss";
 export default async function SubsChannels() {
   const cookie = await cookies()
 
-  const channelData = JSON.parse(cookie.get('channelData')?.value || '') || {}
-  const meId = channelData.id || ''
+  let meId
+  let jwt
+
+  if(cookie.get('channelData')) {
+      meId = JSON.parse(cookie.get('channelData')?.value || '').id
+      jwt = cookie.get('jwt')?.value
+  }
+''
 
   const channelList = await getMySubsChannels(meId)
 
@@ -29,7 +35,7 @@ export default async function SubsChannels() {
             id={channel.id} 
             name={channel.name} 
             username={channel.username} 
-            avatarUrl={channel.avatarUrl} 
+            avatarUrl={channel.avatar_url} 
             description={channel.description} 
             subscribersCount={channel.subscribersCount} 
             notificationSetting={channel.notificationSetting} 

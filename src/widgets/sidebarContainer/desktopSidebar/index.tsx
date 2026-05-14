@@ -231,7 +231,7 @@ export const DesktopSidebar = ({
               </div>
 
               <div className={styles.divider}>
-                <Link href={"/"} className={styles.btns__item__open}>
+                <Link href={"/subscriptions"} className={styles.btns__item__open}>
                   <Text>Подписки</Text>
                   <Svg name="arrowLeft" size="small" />
                 </Link>
@@ -254,7 +254,7 @@ export const DesktopSidebar = ({
               </div>
 
               <div className={styles.divider}>
-                <Link href={"/"} className={styles.btns__item__open}>
+                <Link href={"/you"} className={styles.btns__item__open}>
                   <Text>Вы</Text>
                   <Svg name="arrowLeft" size="small" />
                 </Link>

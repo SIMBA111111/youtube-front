@@ -3,13 +3,13 @@ import { svgs } from "./svgs";
 export const SIDEBAR_YOU = [
     {
         id: '2',
-        href: '',
+        href: '/feed/history',
         name: 'История',
         svgName: svgs['history']
     },
     {
         id: '3',
-        href: '',
+        href: '/feed/playlists',
         name: 'Плейлисты',
         svgName: svgs['playlist']
     },
@@ -21,7 +21,7 @@ export const SIDEBAR_YOU = [
     },
     {
         id: '5',
-        href: '',
+        href: '/feed/liked',
         name: 'Понравившиеся',
         svgName: svgs['like']
     },

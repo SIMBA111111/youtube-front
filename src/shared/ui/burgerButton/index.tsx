@@ -7,13 +7,8 @@ import { MouseEvent } from 'react';
 export const BurgerButton = () => {
     const {isOpen, toggleSideBar} = useSidebarStore()
     
-    // BurgerButton
     const handleToggleSideBar = (e: MouseEvent) => {
-        e.stopPropagation();
-        e.preventDefault();
-        
         const currentState = useSidebarStore.getState().isOpen;
-        console.log('Текущее состояние из getState():', currentState);
         
         if (currentState) {
             useSidebarStore.getState().closeSideBar();

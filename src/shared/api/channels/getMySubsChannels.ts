@@ -5,7 +5,7 @@ export const getMySubsChannels = async (
 ) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/my-channels?offset=${offset}&limit=${limit}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/my-channels/${userId}?offset=${offset}&limit=${limit}`,
       {
         credentials: "include",
       }

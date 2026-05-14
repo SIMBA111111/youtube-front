@@ -25,7 +25,7 @@ export default async function Subscriptions() {
   const likedPlaylists = await getMyLikedPlaylists(jwt, meId, 0, 20);
   const likedVideoList = await getLikedVideos(meId, jwt, 0, 20);
 
-  console.log('likedVideoList = ', likedVideoList);
+  console.log('vieweredVideoList = ', JSON.stringify(vieweredVideoList, null, 4));
   
 
   return (

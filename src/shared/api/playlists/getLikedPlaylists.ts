@@ -1,4 +1,4 @@
-export const getLikedPlaylists = () => {
+export const getLikedPlaylists = async (userId: string, jwt: string, offset: number = 0, limit: number = 20) => {
       const mockPlaylists = [
         {
             id: "1",
@@ -167,6 +167,22 @@ export const getLikedPlaylists = () => {
     }
     ];
 
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-liked-playlists/${userId}/?offset=${offset}&limit=${limit}`, {
+            headers: { 
+                'Authorization': `Bearer ${jwt}`
+            },
+        })
 
-    return mockPlaylists;
+        console.log('res = ', res);
+        
+
+        if (res.status === 200) {
+            return await res.json()
+        } 
+
+    } catch (error) {
+        new Error(`Error getLikedPlaylists: ${error}`);
+        return []
+    }
 }

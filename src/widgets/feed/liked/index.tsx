@@ -151,9 +151,8 @@ export const Liked = ({initVideos, tags, meId, jwt}: {initVideos: IVideoViewed[]
         return (
             <div className={styles.videoGridShorts}>
                 {videos.map((video: IVideoViewed, index) => (
-                    <div key={video.id} className={styles.shortsVideoCardWrapper}>
-                        <Text>{index + 1}</Text>
-                        <ThumbnailShortVideoSmallCard {...video} />
+                    <div key={video.id} className={styles.shortVideoCardWrapper}>
+                        <ThumbnailShortVideoCard {...video} />
                     </div>
                 ))}
             </div>

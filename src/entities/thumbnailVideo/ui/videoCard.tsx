@@ -167,7 +167,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
             {/* Название канала */}
             <p className={styles.channelName}>
               <Text size={isRow ? 12 : 14} color="var(--gray)">
-                {video?.channel?.username}
+                {video?.channel?.name}
               </Text>
             </p>
 
