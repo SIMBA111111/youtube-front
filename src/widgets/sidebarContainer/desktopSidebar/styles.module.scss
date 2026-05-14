@@ -67,7 +67,8 @@
         border-radius: 8px;
 
             &:hover {
-                background-color: var(--grayBackground);
+            background-color: var(--grayDarkBackground);
+
             }
 
             &__open {
@@ -83,7 +84,8 @@
             cursor: pointer;
 
             &:hover {
-                background-color: var(--grayBackground);
+                background-color: var(--grayDarkBackground);
+
             }
 
             &_active {
@@ -129,6 +131,7 @@
 
     &_container {
         padding: 10 0;
+        background-color: var(--grayBackground);
     }
 
     &_header {

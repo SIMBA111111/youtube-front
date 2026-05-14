@@ -5,7 +5,7 @@ import { INotifCard, INotificationItem } from "../../modal/types";
 
 import styles from './styles.module.scss'
 import { getFormatRelativeTime } from "@/shared/utils/getElapsedTime";
-import { BackgroundFon, Modal, Svg, Text } from "@/shared/ui";
+import { BackgroundFon, Modal, Popover, Svg, Text } from "@/shared/ui";
 import { useState } from "react";
 import { handleHideNotif } from "../../lib/handleHideNotif";
 import { handleOffNotifByChannel } from "../../lib/handleOffNotifByChannel";
@@ -63,7 +63,7 @@ export const NotifCard: React.FC<INotifCard> = ({notif}) => {
                 </div>
             </Link>
 
-            <Modal isVisible={isOpenModal} setIsVisible={setIsOpenModal} isCloseButton={false} isOverlay={false} className={styles.modal}>
+            <Popover isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} className={styles.modal}>
                 <div className={styles.notifSettings} onMouseOver={(e: any) => e.stopPropagation()}>
                     <div className={styles.notifSettings__item} onClick={() => handleHideNotif({id, openToast})}>
                         <Svg name="crossedEye"/>
@@ -74,7 +74,7 @@ export const NotifCard: React.FC<INotifCard> = ({notif}) => {
                         <Text weight={400}>Отключить все уведомления о канале "{channel.name}"</Text>
                     </div>
                 </div>
-            </Modal>
+            </Popover>
         </>
     )
 }

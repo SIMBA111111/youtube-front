@@ -66,7 +66,7 @@ export const TabletSidebar = ({channels, randomShortVideo}: {channels: IChannel[
                         </Link>
                         {channels?.map((channel: IChannel) => (
                             <Link key={channel.id} onClick={() => closeSideBar()} href={`/channel/${channel.username}`} className={styles.btns__item__open}>
-                                <img src={channel.avatarUrl} alt="" className={styles.channelAvatar}/>
+                                <img src={channel.avatar_url} alt="" className={styles.channelAvatar}/>
                                 <Text weight={400} size={14}>{channel.name}</Text>
                             </Link>
                         ))}

@@ -35,7 +35,7 @@ export default async function ChannelMain ({
     const playlists = await getPlaylistsByUsername(channelUsername)
     const postList = await getPostsByUsername(channelUsername)
 
-    console.log('channelInfo ============= ', channelInfo);
+    // console.log('channelInfo ============= ', channelInfo);
     // console.log('videoList ============= ', videoList);
     // console.log('shortVideoList ============= ', shortVideoList);
     // console.log('playlists ============= ', playlists);

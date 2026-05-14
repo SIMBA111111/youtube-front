@@ -14,10 +14,8 @@
 
 .userModal {
   position: absolute;
-  top: 60px;
-  right: 20px;
   width: 300px;
-  background: var(--background);
+  background-color: var(--grayBackground);
   border-radius: 12px;
   box-shadow: 0 0px 16px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -59,7 +57,7 @@
     gap: 12px;
 
     &:hover {
-      background-color: var(--grayBackground);
+      background-color: var(--navigatorBackground);
     }
 
     svg:last-child {

@@ -174,9 +174,6 @@ export const getLikedPlaylists = async (userId: string, jwt: string, offset: num
             },
         })
 
-        console.log('res = ', res);
-        
-
         if (res.status === 200) {
             return await res.json()
         } 

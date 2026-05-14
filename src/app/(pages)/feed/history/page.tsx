@@ -7,6 +7,7 @@ import styles from "./styles.module.scss";
 import { getTags } from "@/shared/api/tags/getTags";
 import { HISTORY_TAGS } from "@/shared/constants/tags";
 import { ITag } from "@/entities/videoTags/ui";
+import { getMe } from "@/shared/api/me/getMe";
 
 
 export default async function HistoryPage() {
@@ -21,6 +22,10 @@ export default async function HistoryPage() {
   }
 
   const videos = await getHistoryVideos(meId, jwt)
+  const myChannel = await getMe(jwt, meId)
+
+  console.log('myChannel = ', myChannel);
+  
   
   const tags = await getTags()
 
@@ -35,7 +40,7 @@ export default async function HistoryPage() {
           <History initVideos={videos.viewsHistory} userId={meId} jwt={jwt} tags={filteredTags}/>
         </div>
         <div className={styles.mainPage_body_settings}>
-          <HistorySettings />
+          <HistorySettings meId={meId} isSaveHistory={myChannel.meInfo.is_save_history}/>
         </div>
       </div>
     </div>

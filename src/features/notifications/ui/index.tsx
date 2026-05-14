@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 
-import { BackgroundFon, Modal, Searcher, Svg, Text } from "@/shared/ui"
+import { BackgroundFon, Modal, Popover, Searcher, Svg, Text } from "@/shared/ui"
 
 import { NotifCard } from "@/entities/notifs/ui/card/notifCard"
 import { INotificationItem } from "@/entities/notifs/modal/types"
@@ -40,7 +40,7 @@ export const Notifications = () => {
                     </div>
                 </BackgroundFon>
             </div>
-            <Modal isVisible={isOpenModal} setIsVisible={setIsOpenModal} isCloseButton={false} isOverlay={false} className={styles.customNotifModal}>
+            <Popover isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} className={styles.customNotifModal} offset={40} closeOnScroll={false}>
                 <div className={styles.notifModal}>
                     <div className={styles.notifModal__header}>
                         <Text weight={400}>Уведомления</Text>
@@ -62,7 +62,7 @@ export const Notifications = () => {
                     )}
                     </div>
                 </div>
-            </Modal>
+            </Popover>
         </div>
     )   
 }

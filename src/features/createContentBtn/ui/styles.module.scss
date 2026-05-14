@@ -1,5 +1,7 @@
 .create {
     cursor: pointer;
+    display: flex;
+
 }
 
 .createBtn {
@@ -15,6 +17,7 @@
     top: 60px;
     border-radius: 12px;
     box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
+    background-color: var(--grayBackground);
 }
 
 .createModal {
@@ -30,7 +33,7 @@
         padding: 4px 12px;
 
         &:hover {
-            background-color: var(--grayDarkBackground);
+            background-color: var(--navigatorBackground);
         }
     }
 }

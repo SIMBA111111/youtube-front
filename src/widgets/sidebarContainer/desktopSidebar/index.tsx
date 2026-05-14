@@ -87,9 +87,11 @@ export const DesktopSidebar = ({
                   Подписки
                 </Text>
                 <Menu
+                  delay={150}
                   isOpened={isOpenedMenu === "subs"}
                   onClose={() => setIsOpenedMenu(null)}
                   offset={50}
+                  className={styles.youMenu_container}
                 >
                   {channels?.map((channel: IChannel) => (
                     <Link
@@ -128,6 +130,7 @@ export const DesktopSidebar = ({
                   Вы
                 </Text>
                 <Menu
+                  delay={150}
                   isOpened={isOpenedMenu === "you"}
                   onClose={() => setIsOpenedMenu(null)}
                   offset={50}

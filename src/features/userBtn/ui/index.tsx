@@ -8,7 +8,7 @@ import { useState } from "react";
 import { themes } from "@/shared/constants/themes";
 import { languages } from "@/shared/constants/langs";
 import { logout } from "@/shared/api/auth/logout";
-import { BackgroundFon, Modal, Svg, Text } from "@/shared/ui";
+import { BackgroundFon, Modal, Popover, Svg, Text } from "@/shared/ui";
 import { Theme, Themes, useTheme } from "@/app/providers/themeProvider";
 
 import { handleThemeChange } from "../lib/handleThemeChange";
@@ -48,11 +48,10 @@ export const UserBtn: React.FC<IUserBtn> = ({
         onClick={() => setIsOpenModal(true)}
       />
 
-      <Modal
-        isVisible={isOpenModal}
-        setIsVisible={setIsOpenModal}
-        isCloseButton={false}
-        isOverlay={false}
+      <Popover
+        isOpen={isOpenModal}
+        onClose={() => setIsOpenModal(false)}
+        offset={30}
         className={styles.userModal}
       >
         {/* Основное меню (скрывается когда открыта вложенная модалка) */}
@@ -190,7 +189,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
             </div>
           </div>
         )}
-      </Modal>
+      </Popover>
     </>
   );
 };

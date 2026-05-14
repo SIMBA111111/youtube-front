@@ -7,7 +7,7 @@
     color: inherit;
     transition: background-color 0.2s ease;
     position: relative;
-    background-color: var(--modalBackgroundColor);
+    background-color: var(--grayBackground);
     width: 100%;
     
     // Исправленный hover - без вложенности
@@ -74,6 +74,9 @@
 
 .modal {
     border-radius: 16px;
+    position: absolute;
+    // right: 0px;
+    background-color: var(--grayBackground);
 }
 
 .notifSettings {
