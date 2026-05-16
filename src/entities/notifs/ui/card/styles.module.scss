@@ -7,12 +7,12 @@
     color: inherit;
     transition: background-color 0.2s ease;
     position: relative;
-    background-color: var(--grayBackground);
+    // background-color: var(--grayBackground);
     width: 100%;
     
     // Исправленный hover - без вложенности
     &:hover {
-        background-color: rgba(0, 0, 0, 0.2);
+        background-color: var(--grayBackground);
     }
     
     // Индикатор непрочитанного уведомления

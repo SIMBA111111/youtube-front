@@ -1,4 +1,4 @@
-import { Modal, Svg, Text } from "@/shared/ui"
+import { Modal, Popover, Svg, Text } from "@/shared/ui"
 import { Dispatch, SetStateAction } from "react";
 import { handleHideChannel, handleHideVideo, handleReport, handleShareVideo, handleViewLater } from "../../lib/handlers";
 import { IVideo } from "../../modal/types";
@@ -17,7 +17,7 @@ export const SettigsVideoModal: React.FC<ISettigsVideoModal> = ({
 }) => {
 
     return (
-        <Modal isVisible={isOpenModal} setIsVisible={setIsOpenModal} isCloseButton={false} className={styles.modal}>
+        <Popover isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} className={styles.modal} offset={-10}>
             <div className={styles.modalContainer}>
                 <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleViewLater(e, video, 'user')}>
                     <Svg name='clock'/>
@@ -40,6 +40,6 @@ export const SettigsVideoModal: React.FC<ISettigsVideoModal> = ({
                     <Text>Пожаловаться</Text>
                 </div>
             </div>
-        </Modal>
+        </Popover>
     )
 }

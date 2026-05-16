@@ -30,8 +30,8 @@ export default async function ChannelMain ({
     
     
     const channelInfo = await getChannelInfoByUsername(channelUsername, meId)
-    const videoList = await getVideoListByChannelUsername(channelUsername)
-    const shortVideoList = await getShortVideoListByUsername(channelUsername)
+    const videoList = await getVideoListByChannelUsername(channelUsername, false)
+    const shortVideoList = await getVideoListByChannelUsername(channelUsername, true)
     const playlists = await getPlaylistsByUsername(channelUsername)
     const postList = await getPostsByUsername(channelUsername)
 

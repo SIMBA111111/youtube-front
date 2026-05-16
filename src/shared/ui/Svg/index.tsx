@@ -939,6 +939,7 @@ export const Svg: React.FC<ISvg> = ({
     case "letter":
       return (
         <svg
+          fill={colors[color]}
           xmlns="http://www.w3.org/2000/svg"
           height={sizes[size]}
           viewBox="0 0 24 24"
@@ -953,6 +954,7 @@ export const Svg: React.FC<ISvg> = ({
     case "youTube":
       return (
         <svg
+          fill={colors[color]}
           xmlns="http://www.w3.org/2000/svg"
           height={sizes[size]}
           viewBox="0 0 24 24"
@@ -967,6 +969,7 @@ export const Svg: React.FC<ISvg> = ({
     case "globe":
       return (
         <svg
+          fill={colors[color]}
           xmlns="http://www.w3.org/2000/svg"
           height={sizes[size]}
           viewBox="0 0 24 24"
@@ -981,6 +984,7 @@ export const Svg: React.FC<ISvg> = ({
     case "info":
       return (
         <svg
+          fill={colors[color]}
           xmlns="http://www.w3.org/2000/svg"
           height={sizes[size]}
           viewBox="0 0 24 24"
@@ -995,6 +999,7 @@ export const Svg: React.FC<ISvg> = ({
     case "viewers":
       return (
         <svg
+          fill={colors[color]}
           xmlns="http://www.w3.org/2000/svg"
           height={sizes[size]}
           viewBox="0 0 24 24"
@@ -1010,6 +1015,7 @@ export const Svg: React.FC<ISvg> = ({
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
+          fill={colors[color]}
           height={sizes[size]}
           viewBox="0 0 24 24"
           width={sizes[size]}
@@ -1024,6 +1030,7 @@ export const Svg: React.FC<ISvg> = ({
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
+          fill={colors[color]}
           height={sizes[size]}
           viewBox="0 0 24 24"
           width={sizes[size]}

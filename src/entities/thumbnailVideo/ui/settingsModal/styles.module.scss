@@ -1,11 +1,9 @@
 .modalContainer {
-    z-index: 999 !important;
     display: flex;
     flex-direction: column;
 }
 
 .modal {
-    z-index: 999 !important;
     border-radius: 12px;
     overflow: hidden;
 
@@ -14,6 +12,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        cursor: pointer;
 
         &:hover {
             background-color: var(--grayBackground);

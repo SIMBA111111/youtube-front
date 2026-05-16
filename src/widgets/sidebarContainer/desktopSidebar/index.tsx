@@ -93,25 +93,34 @@ export const DesktopSidebar = ({
                   offset={50}
                   className={styles.youMenu_container}
                 >
-                  {channels?.map((channel: IChannel) => (
-                    <Link
-                      key={channel.id}
-                      href={`/channel/${channel.username}`}
-                      className={styles.btns__item__open}
-                    >
-                      <img
-                        src={
-                          channel.avatar_url ??
-                          "/defaultImages/defaultAvatar.png"
-                        }
-                        alt=""
-                        className={styles.channelAvatar}
-                      />
-                      <Text weight={400} size={14}>
-                        {channel.name}
-                      </Text>
-                    </Link>
-                  ))}
+                  <Text
+                    size={18}
+                    weight={600}
+                    className={styles.youMenu_header}
+                  >
+                    Подписки
+                  </Text>
+                  <div className={styles.youMenu}>
+                    {channels?.map((channel: IChannel) => (
+                      <Link
+                        key={channel.id}
+                        href={`/channel/${channel.username}`}
+                        className={styles.youMenu_item}
+                      >
+                        <img
+                          src={
+                            channel.avatar_url ??
+                            "/defaultImages/defaultAvatar.png"
+                          }
+                          alt=""
+                          className={styles.channelAvatar}
+                        />
+                        <Text weight={400} size={14}>
+                          {channel.name}
+                        </Text>
+                      </Link>
+                    ))}
+                  </div>
                 </Menu>
               </Link>
 

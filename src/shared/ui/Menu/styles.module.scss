@@ -5,9 +5,10 @@
 .popover {
     position: fixed;
     z-index: 1000;
-    background: var(--background2);
+    background: var(--background1);
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0px 0px 16px var(--foregroundRGB);
+
     min-width: 200px;
     
     // Анимация появления

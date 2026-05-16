@@ -108,7 +108,9 @@ export const MyChannelActions: React.FC<IMyChannelActions> = ({
             setIsEnd(swiper.isEnd);
           }}
         >
-          {items.map((item, index) => (
+          {items
+            .filter((i) => !i.isShort)
+            .map((item, index) => (
             <SwiperSlide
               key={index}
               className={styles.slide}

@@ -8,7 +8,7 @@
     width: 600px;
     overflow: hidden;
     border-radius: 12px;
-    top: 100;
+    background-color: var(--backgroungGray);
 
     &_header {
         margin-top: 12px;
@@ -76,7 +76,7 @@
             border-radius: 29px;
             border: none;
             width: fit-content;
-            background-color: var(--grayDarkBackground);
+            background-color: var(--backgroundButton);
             padding: 6 12;
             cursor: pointer;
 
@@ -87,7 +87,7 @@
             }
 
             &:hover {
-                background-color: var(--gray);
+                background-color: var(--grayDarkBackground);
             }
         }
     }
@@ -95,7 +95,7 @@
 
 
 .customPopover {
-    background-color: var(--grayDarkBackground);
+    background-color: var(--backgroungGray);
     padding: 8 0;
 
     &_body {
@@ -107,9 +107,11 @@
             padding: 8 20;
             cursor: pointer;
             border-radius: 8px;
+            border: none;
+            background: transparent;
 
             &:hover {
-                background-color: var(--gray);
+                background-color: var(--grayDarkBackground);
             }
         }
     }

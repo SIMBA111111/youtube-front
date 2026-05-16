@@ -1,14 +1,12 @@
 .sidebarContainer {
     position: relative;
-    z-index: 99;
     background-color: var(--background);
-    // top: 40px;
-    left: 0;
+    margin-right: 200px;
     width: 240px;
 
         &Hidden {
             position: absolute;
-            top: 10px;
+            top: 20px;
             width: 70px;
         }
 }
@@ -130,12 +128,12 @@
     margin-top: 10px;
 
     &_container {
-        padding: 10 0;
-        background-color: var(--grayBackground);
+        padding: 20 0 10 0;
+        background-color: var(--background);
     }
 
     &_header {
-        padding: 8 12;
+        padding: 12px;
     }
 
     &_item {

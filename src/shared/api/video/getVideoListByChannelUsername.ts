@@ -1,3 +1,5 @@
+import { FiltersEnum } from "@/features/ChannelVideoList/ui"
+
 const VIDEOS = [
     {
         id: '0',
@@ -199,9 +201,13 @@ const VIDEOS = [
 
 ]
 
-export const getVideoListByChannelUsername = async (channelUsername: string, limit: number = 20, offset: number = 0) => {
+export const getVideoListByChannelUsername = async (channelUsername: string, isShort: boolean, filter: keyof typeof FiltersEnum = 'NEWS', limit: number = 20, offset: number = 0) => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-videos/${channelUsername}?limit=${limit}&offset=${offset}`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-videos/${channelUsername}?limit=${limit}&offset=${offset}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({filter, isShort})
+        })
 
         if (res.status === 200) {
             return await res.json()

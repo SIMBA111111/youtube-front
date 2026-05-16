@@ -42,9 +42,9 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
                     <ChannelVideoList initVideoList={videoList} channelUsername={channelUsername}/>
                 </Tabs.Tab>
                 
-                {/* <Tabs.Tab id="shorts" label="Shorts">
-                    <ChannelShortVideoList initShortVideoList={shortVideoList} channelHash={channelHash}/>
-                </Tabs.Tab> */}
+                <Tabs.Tab id="shorts" label="Shorts">
+                    <ChannelShortVideoList initShortVideoList={shortVideoList} channelUsername={channelUsername}/>
+                </Tabs.Tab>
                 
                 <Tabs.Tab id="playlists" label="Плейлисты">
                     <ChannelPlaylists playlists={playlists} />
