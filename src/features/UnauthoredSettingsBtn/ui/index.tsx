@@ -8,7 +8,7 @@ import { useState } from "react";
 import { themes } from "@/shared/constants/themes";
 import { languages } from "@/shared/constants/langs";
 import { Theme, Themes, useTheme } from "@/app/providers/themeProvider";
-import { BackgroundFon, Modal, Svg, Text } from "@/shared/ui";
+import { BackgroundFon, Modal, Popover, Svg, Text } from "@/shared/ui";
 import { IUserBtn } from "@/features/userBtn/model/types";
 import { handleThemeChange } from "@/features/userBtn/lib/handleThemeChange";
 
@@ -30,6 +30,11 @@ export const UnauthoredSettingsBtn: React.FC= () => {
         await i18n.changeLanguage(lang);
     };
 
+    const handleClosePopover = () => {
+        setIsOpenModal(false)
+        setSubModal(null)
+    }
+
     // const activeLanguage = Cookies.get('lang') || navigator.language.slice(0, 2)
     const activeLanguage = 'ru'
     const jwt = Cookies.get('jwt')
@@ -40,12 +45,11 @@ export const UnauthoredSettingsBtn: React.FC= () => {
                 <Svg name='verticalEllipsis'/>
             </button>
             
-            <Modal 
-                isVisible={isOpenModal} 
-                setIsVisible={setIsOpenModal} 
-                isCloseButton={false} 
-                isOverlay={false} 
+            <Popover 
+                isOpen={isOpenModal} 
+                onClose={() => handleClosePopover()} 
                 className={styles.userModal}
+                offset={30}
             >
                 {/* Основное меню (скрывается когда открыта вложенная модалка) */}
                 {!subModal && (<>
@@ -121,7 +125,7 @@ export const UnauthoredSettingsBtn: React.FC= () => {
                         </div>
                     </div>
                 )}
-            </Modal>
+            </Popover>
         </>
     )
 }

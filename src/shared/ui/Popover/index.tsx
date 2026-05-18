@@ -124,25 +124,25 @@ export const Popover = ({
                 break;
             }
             case "right": {
-                let top = triggerRect.top + triggerRect.height / 2;
+                let top = triggerRect.top + triggerRect.height ;
                 const minTop = offset;
                 const maxTop = viewportHeight - popoverRect.height - offset;
-                top = Math.max(minTop, Math.min(maxTop, top - popoverRect.height / 2));
+                top = Math.max(minTop, Math.min(maxTop, top - popoverRect.height ));
                 
                 finalStyle = {
-                    left: triggerRect.right + offset,
+                    left: triggerRect.right + offset + 200,
                     top: top,
                 };
                 break;
             }
             case "left": {
-                let top = triggerRect.top + triggerRect.height / 2;
+                let top = triggerRect.top + triggerRect.height;
                 const minTop = offset;
                 const maxTop = viewportHeight - popoverRect.height - offset;
-                top = Math.max(minTop, Math.min(maxTop, top - popoverRect.height / 2));
+                top = Math.max(minTop, Math.min(maxTop, top - popoverRect.height));
                 
                 finalStyle = {
-                    right: viewportWidth - triggerRect.left + offset,
+                    right: viewportWidth - triggerRect.left + offset - 200,
                     top: top,
                 };
                 break;
@@ -216,7 +216,7 @@ export const Popover = ({
             window.removeEventListener("resize", handleResize);
             window.removeEventListener("scroll", handleResize);
         };
-    }, [isOpen, calculatePosition, handleClose]);
+    }, [isOpen, handleClose]);
 
     // Закрытие по Escape
     useEffect(() => {
@@ -233,19 +233,19 @@ export const Popover = ({
     }, [isOpen, handleClose]);
 
     // Пересчет позиции при изменении контента
-    useEffect(() => {
-        if (isOpen) {
-            const observer = new ResizeObserver(() => {
-                calculatePosition();
-            });
+    // useEffect(() => {
+    //     if (isOpen) {
+    //         const observer = new ResizeObserver(() => {
+    //             calculatePosition();
+    //         });
             
-            if (popoverRef.current) {
-                observer.observe(popoverRef.current);
-            }
+    //         if (popoverRef.current) {
+    //             observer.observe(popoverRef.current);
+    //         }
             
-            return () => observer.disconnect();
-        }
-    }, [isOpen, calculatePosition]);
+    //         return () => observer.disconnect();
+    //     }
+    // }, [isOpen, calculatePosition]);
 
     return (
         <>

@@ -35,12 +35,15 @@ export default async function ChannelMain ({
     const playlists = await getPlaylistsByUsername(channelUsername)
     const postList = await getPostsByUsername(channelUsername)
 
-    // console.log('channelInfo ============= ', channelInfo);
+    console.log('channelInfo ============= ', channelInfo);
     // console.log('videoList ============= ', videoList);
     // console.log('shortVideoList ============= ', shortVideoList);
     // console.log('playlists ============= ', playlists);
     // console.log('postList ============= ', postList);
     
+    console.log('channelInfo.subData === true: ', channelInfo.subData ? true : false);
+    
+
 
     return (
         <div className={styles.pageContainer}>
@@ -71,7 +74,7 @@ export default async function ChannelMain ({
                             channelId={channelInfo.channel.id} 
                             isSubscribed={channelInfo.subData ? true : false} 
                             meId={meId} 
-                            notificationSetting={channelInfo.subData.notification_settings}
+                            notificationSetting={channelInfo.subData?.notification_settings}
                         />
                     </div>
                 </div>

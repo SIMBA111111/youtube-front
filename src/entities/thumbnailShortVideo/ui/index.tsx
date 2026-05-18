@@ -7,9 +7,10 @@ import { formatViews } from "@/shared/utils/formatViews"
 import { useRef, useState } from "react"
 import { getAverageColor } from "@/shared/utils/getAverageColor"
 import { SettigsVideoModal } from "@/entities/thumbnailVideo/ui/settingsModal"
-
 import { IThumbnailShortVideo } from "../modal/types"
+
 import styles from './styles.module.scss'
+
 
 export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
     id,
@@ -63,9 +64,7 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
                 <div className={styles.ellipsis} onClick={(e: MouseEvent) => handleMenuClick(e)}>
                     <Svg name="verticalEllipsis" />
                 </div>
-                <div className={styles.modalPosition}>
-                    <SettigsVideoModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} />
-                </div>
+                <SettigsVideoModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} videoId={id} userId={channel.id}/>
             </div>
             <Text color="var(--gray)" size={12}>{formatViews(viewersCount)} просмотров</Text>
         </Link>

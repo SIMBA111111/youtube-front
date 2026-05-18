@@ -42,6 +42,9 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
     );
   }
 
+  console.log('isSubscribed = ', isSubscribed);
+  
+
   if (isSub) {
     return (
       <button
@@ -55,7 +58,7 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
           <Popover
             isOpen={popoverIsVisible}
             onClose={() => setPopoverIsVisible(false)}
-            offset={20}
+            offset={30}
             className={styles.popover}
           >
             <div className={styles.popover_items}>

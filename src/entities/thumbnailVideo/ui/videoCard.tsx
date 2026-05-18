@@ -153,15 +153,12 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
               >
                 <Svg name="verticalEllipsis" />
               </div>
-              {!isRow && (
-                <div className={styles.modalPosition}>
-                  <SettigsVideoModal
-                    isOpenModal={isOpenModal}
-                    setIsOpenModal={setIsOpenModal}
-                    video={video}
-                  />
-                </div>
-              )}
+                <SettigsVideoModal
+                  isOpenModal={isOpenModal}
+                  setIsOpenModal={setIsOpenModal}
+                  videoId={video.id}
+                  userId={'мой id взять из кук'}
+                />
             </div>
 
             {/* Название канала */}
@@ -192,16 +189,6 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
           </button>
         )}
       </Link>
-
-      {isRow && (
-        <div className={styles.modalPosition}>
-          <SettigsVideoModal
-            isOpenModal={isOpenModal}
-            setIsOpenModal={setIsOpenModal}
-            video={video}
-          />
-        </div>
-      )}
     </div>
   );
 };

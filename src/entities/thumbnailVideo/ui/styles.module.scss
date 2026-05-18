@@ -159,10 +159,9 @@
 }
 
 .modalPosition {
-  position: absolute;
   width: 400px;
-  top: 30px;
-  right: 0px;
+  // top: 30px;
+  // right: 0px;
 }
 
 .infoContainer {
@@ -218,6 +217,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-break: break-all;
+  width: 100%;
 }
 
 .channelName {

@@ -1,11 +1,8 @@
 .modalContainer {
-    display: flex;
-    flex-direction: column;
 }
 
 .modal {
-    border-radius: 12px;
-    overflow: hidden;
+    // transform: translateX(-50%) !important;
 
     &__item {
         padding: 8px 12px;

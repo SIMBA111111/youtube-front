@@ -53,9 +53,12 @@
 }
 
 .popover {
-  background-color: var(--grayDarkBackground) !important;
-  border: none;
-  padding: 8px 0px !important;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0px;
+    background-color: var(--grayDarkBackground);
+    left: 50%; // Добавьте
+    transform: translateX(-42%) !important;
 
   &_items {
     display: flex;
@@ -70,6 +73,7 @@
     cursor: pointer;
     padding: 8px;
     background-color: var(--grayDarkBackground);
+    border: none;
 
     &:hover {
       background-color: var(--lightGray);
