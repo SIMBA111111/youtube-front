@@ -12,6 +12,7 @@ import {
 import Cookies from "js-cookie";
 
 import styles from "./styles.module.scss";
+import { MainLogoBtn } from "@/features/mainLogoBtn/ui";
 
 // TO DO тетсовые данные, потом из кук брать их
 const activeLanguage = "ru";
@@ -27,9 +28,7 @@ export const Header = () => {
     <div className={styles.headerContainer}>
       <div className={styles.headerContainer__block}>
         <BurgerButton />
-        <div className={styles.logo}>
-          <Svg name="mainLogo" />
-        </div>
+        <MainLogoBtn/>
       </div>
       <div className={styles.headerContainer__block}>
         <div className={styles.searcher}>

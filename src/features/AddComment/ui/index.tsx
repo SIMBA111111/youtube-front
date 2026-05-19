@@ -1,13 +1,16 @@
 "use client";
 
 import clsx from "clsx";
-import { CommentCard, ICommentCard } from "@/entities/comments/ui";
-import { Svg, Text } from "@/shared/ui";
-import { RefObject, useRef, useState } from "react";
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import { ChangeEvent, useRef, useState } from "react";
+
 import { IChannel } from "@/entities/channels/modal/types";
 import { handleCreateComment } from "../lib/createComment";
-import styles from "./styles.module.scss";
 import { useToast } from "@/app/providers/toastProvider";
+import { Text } from "@/shared/ui";
+
+import styles from "./styles.module.scss";
+
 
 interface IAddComment {
   me: IChannel;
@@ -21,6 +24,7 @@ export const AddComment: React.FC<IAddComment> = ({
   handleRefreshCommentsList,
 }) => {
   const [inputHidden, setInputHidden] = useState<boolean>(true);
+  const [isEmojiesOpened, setIsEmojiesOpened] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { openToast } = useToast();
 
@@ -28,10 +32,21 @@ export const AddComment: React.FC<IAddComment> = ({
     console.log("handleCancel");
 
     setInputHidden(true);
+    setIsEmojiesOpened(false)
+
     if (inputRef.current) {
       inputRef.current.value = "";
     }
   };
+
+  const handleCommentText = async (e: ChangeEvent) => {
+    inputRef.current!.value = e.target?.value
+    console.log('inputRef.current!.value = ', inputRef.current!.value);
+  }
+
+  const handleAddEmoji = async (e: EmojiClickData) => {
+    inputRef.current!.value += e.emoji
+  }
 
   return (
     <div className={styles.container}>
@@ -46,12 +61,27 @@ export const AddComment: React.FC<IAddComment> = ({
           placeholder="Введите комментарий"
           className={clsx(styles.input, { [styles.active]: !inputHidden })}
           onClick={() => setInputHidden(false)}
-          onChange={(e) => (inputRef.current!.value = e.target.value)}
+          onChange={(e) => handleCommentText(e)}
           ref={inputRef}
         />
         {!inputHidden && (
           <div className={styles.actions}>
-            <Svg name="block" />
+            <div className={styles.emojiContainer}>
+              <img 
+                src={'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f601.png'} 
+                alt="emoji" 
+                className={styles.emojiBtn}
+                onClick={() => setIsEmojiesOpened(prev => !prev)}
+              />
+              <div className={styles.emojiPanel}>
+                <EmojiPicker
+                  onEmojiClick={(emojiObject) => handleAddEmoji(emojiObject)} 
+                  lazyLoadEmojis
+                  open={isEmojiesOpened}
+                />
+              </div>
+              
+            </div>
             <div className={styles.actions_btns}>
               <button
                 onClick={() => handleCancel()}

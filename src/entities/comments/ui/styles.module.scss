@@ -46,6 +46,23 @@
   }
 }
 
+.emoji {
+  &Container {
+      position: relative;
+  }
+
+  &Btn {
+      height: 24px;
+      cursor: pointer;
+  }
+
+  &Panel {
+      position: absolute;
+      top: 34;
+      left: 0;
+  }
+}
+
 .action_btn {
   box-sizing: border-box;
   height: fit-content;

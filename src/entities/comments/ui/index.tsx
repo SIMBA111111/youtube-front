@@ -11,6 +11,7 @@ import { handleDislikeComment } from "../lib/handleDislikeComment";
 import { handleCancel } from "../lib/handleCanel";
 import { handleReplayComment } from "../lib/handleReplayComment";
 import styles from "./styles.module.scss";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 export interface IComment {
   id: string;
@@ -54,12 +55,14 @@ export const CommentCard: React.FC<ICommentCard> = ({
     isLiked,
     isDisliked,
   } = comment;
+  
   const [isLikedMe, setIsLiked] = useState(isLiked);
   const [isDislikedMe, setIsDisliked] = useState(isDisliked);
   const [likesCount, setLikesCount] = useState(likes);
   const [dislikesCount, setDislikesCount] = useState(dislikes);
   const [showReplies, setShowReplies] = useState(false);
   const [relatedComments, setRelatedComments] = useState<IComment[]>([]);
+  const [isEmojiesOpened, setIsEmojiesOpened] = useState<boolean>(false);
   const [isOpenedReplayInput, setIsOpenedReplayInput] =
     useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -71,7 +74,9 @@ export const CommentCard: React.FC<ICommentCard> = ({
     setShowReplies(true);
   };
 
-  console.log(comment);
+  const handleAddEmoji = async (e: EmojiClickData) => {
+    inputRef.current!.value += e.emoji
+  }
 
   return (
     <div className={styles.comment}>
@@ -169,7 +174,22 @@ export const CommentCard: React.FC<ICommentCard> = ({
                 ref={inputRef}
               />
               <div className={styles.actions}>
-                <Svg name="block" />
+                            <div className={styles.emojiContainer}>
+              <img 
+                src={'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f601.png'} 
+                alt="emoji" 
+                className={styles.emojiBtn}
+                onClick={() => setIsEmojiesOpened(prev => !prev)}
+              />
+              <div className={styles.emojiPanel}>
+                <EmojiPicker
+                  onEmojiClick={(emojiObject) => handleAddEmoji(emojiObject)} 
+                  lazyLoadEmojis
+                  open={isEmojiesOpened}
+                />
+              </div>
+              
+            </div>
                 <div className={styles.actions_btns}>
                   <button
                     onClick={() =>

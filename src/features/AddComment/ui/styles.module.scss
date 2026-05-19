@@ -38,6 +38,23 @@
     }    
 }
 
+.emoji {
+    &Container {
+        position: relative;
+    }
+
+    &Btn {
+        height: 24px;
+        cursor: pointer;
+    }
+
+    &Panel {
+        position: absolute;
+        top: 34;
+        left: 0;
+    }
+}
+
 .headerAvatar {
   width: 24px;
   height: 24px;
