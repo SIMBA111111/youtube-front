@@ -67,6 +67,10 @@
   }
 
   &_opened {
+    grid-area: page;
+    height: 100%;
+    overflow-y: scroll;
+    background-color: var(--background);
     padding: 20px;
   }
 }

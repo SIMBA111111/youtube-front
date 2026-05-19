@@ -157,6 +157,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
                   isOpenModal={isOpenModal}
                   setIsOpenModal={setIsOpenModal}
                   videoId={video.id}
+                  videoHash={video.videoHash}
                   userId={'мой id взять из кук'}
                 />
             </div>

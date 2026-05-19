@@ -19,7 +19,7 @@ export function PageWrapper({ children }: LayoutWrapperProps) {
 
 
     return (
-        <div className={`${styles.grid} ${isOpen ? styles.gridSidebarOpen : styles.gridSidebarClosed}`}>
+        <div className={`${styles.grid} ${isOpen ? styles.gridSidebarOpen : styles.gridSidebarClosed}`} id="page-wrapper">
             <div className={styles.sidebarWrapper}>
                 <SidebarContainer/>
             </div>

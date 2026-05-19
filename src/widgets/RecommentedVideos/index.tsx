@@ -105,8 +105,6 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
     }
   };
 
-  console.log("videoList === ", videoList);
-
   return (
     <div className={styles.container}>
       {videoList

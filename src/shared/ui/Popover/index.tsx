@@ -26,8 +26,14 @@ export const Popover = ({
     
     const triggerRef = useRef<HTMLDivElement>(null);
     const popoverRef = useRef<HTMLDivElement>(null);
+    const portalTargetElement = useRef<HTMLElement>(null);
 
     const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
+
+    useEffect(() => {
+        portalTargetElement.current = document.getElementById('page-wrapper')
+    }, [])
+
 
     const handleClose = useCallback(() => {
         if (externalIsOpen === undefined) {
@@ -259,7 +265,7 @@ export const Popover = ({
                 >
                     {children}
                 </div>,
-                document.body
+                portalTargetElement.current as HTMLElement
             )}
         </>
     );

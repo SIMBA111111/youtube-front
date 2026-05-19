@@ -8,9 +8,10 @@ import { Comments } from "@/widgets/Comments";
 import { getRecommentedVideos } from "@/shared/api/video/getRecommentedVideos";
 import { updateViewVideo } from "@/shared/api/video/updateViewVideo";
 
-import styles from "./styles.module.scss";
 import { IChannel } from "@/entities/channels/modal/types";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+
+import styles from "./styles.module.scss";
 
 interface IVideoPage {
   video?: IVideo;
@@ -24,7 +25,9 @@ export default async function WatchVideo({
 }: {
   searchParams: Promise<{ [key: string]: string }>;
 }) {
-  const { v: videoHash } = await searchParams;
+  const params  = await searchParams;
+  const videoHash = Object.values(params)[0]
+
   const cookie = await cookies();
   const channelData = cookie.get("channelData")?.value || "";
   let myChannelData;
@@ -51,6 +54,8 @@ export default async function WatchVideo({
     ? "id" in videoData.isSubscribed
     : false;
 
+  // console.log('videoData.video = ', videoData);
+
   return (
     <div className={styles.page}>
       <div className={styles.video}>
@@ -58,6 +63,7 @@ export default async function WatchVideo({
           <Player
             playlistUrl={videoData.video?.masterM3u8Url}
             duration={videoData.video?.duration}
+            fragments={[]}
           />
         </div>
         <div className={styles.description}>

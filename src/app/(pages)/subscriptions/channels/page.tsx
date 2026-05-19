@@ -18,7 +18,6 @@ export default async function SubsChannels() {
       meId = JSON.parse(cookie.get('channelData')?.value || '').id
       jwt = cookie.get('jwt')?.value
   }
-''
 
   const channelList = await getMySubsChannels(meId)
 
@@ -27,7 +26,7 @@ export default async function SubsChannels() {
 
   return (
     <div className={styles.mainPage__container}>
-      <Text size={24} weight={700}>Каналы, на которые вы подписаны</Text>
+      <Text size={32} weight={700}>Каналы, на которые вы подписаны</Text>
 
       <div className={styles.channelList}>
         {channelList.channels.map((channel: IChannel) => (
@@ -37,8 +36,9 @@ export default async function SubsChannels() {
             username={channel.username} 
             avatarUrl={channel.avatar_url} 
             description={channel.description} 
-            subscribersCount={channel.subscribersCount} 
-            notificationSetting={channel.notificationSetting} 
+            subscribersCount={channel.subscribers_count} 
+            notificationSetting={channel.notification_settings} 
+            meId={meId}
           />
         ))}
       </div>

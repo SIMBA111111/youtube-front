@@ -22,6 +22,9 @@ const VIDEO = {
 }
 
 export const getVideoByHash = async (videoHash: string, channelId: string | null = ''): Promise<any> => {
+    console.log('videoHash = ', videoHash);
+    
+    
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/video/${videoHash}`, {
             method: 'POST',

@@ -2,13 +2,10 @@
 
 import Link from "next/link"
 
-import { Svg, Text } from "@/shared/ui"
+import { Text } from "@/shared/ui"
 import { formatViews } from "@/shared/utils/formatViews"
-import { useRef, useState } from "react"
-import { getAverageColor } from "@/shared/utils/getAverageColor"
-import { SettigsVideoModal } from "@/entities/thumbnailVideo/ui/settingsModal"
+import { IThumbnailShortVideo } from "../../modal/types"
 
-import { IThumbnailShortVideo } from "../modal/types"
 import styles from './styles.module.scss'
 
 export const ThumbnailShortVideoSmallCard: React.FC<IThumbnailShortVideo> = ({

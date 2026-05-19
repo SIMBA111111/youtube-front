@@ -15,16 +15,16 @@ interface IChannelMain {
 export const ChannelPlaylists: React.FC<IChannelMain> = ({
     playlists
 }) => {
-    const [isOpenedReport, setIsOpenedReport] = useState<boolean>(false)
+    const [isOpenedFilter, setIsOpenedFilter] = useState<boolean>(false)
 
     return (
         <div className={styles.container}>
-            <button className={styles.order} onClick={() => setIsOpenedReport(true)}>
+            <button className={styles.order} onClick={() => setIsOpenedFilter(true)}>
                 <Svg name="bell" color="black"/>
                 <Text>Упорядочить</Text>
                 <Popover 
-                    isOpen={isOpenedReport} 
-                    onClose={() => setIsOpenedReport(false)} 
+                    isOpen={isOpenedFilter} 
+                    onClose={() => setIsOpenedFilter(false)} 
                     offset={30}
                     className={styles.customPopover}
                 >

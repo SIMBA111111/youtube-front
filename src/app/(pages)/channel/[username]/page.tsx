@@ -26,24 +26,11 @@ export default async function ChannelMain ({
         meId = JSON.parse(cookie.get('channelData')?.value || '').id
     }
 
-    console.log('meId = ', meId);
-    
-    
     const channelInfo = await getChannelInfoByUsername(channelUsername, meId)
     const videoList = await getVideoListByChannelUsername(channelUsername, false)
     const shortVideoList = await getVideoListByChannelUsername(channelUsername, true)
     const playlists = await getPlaylistsByUsername(channelUsername)
     const postList = await getPostsByUsername(channelUsername)
-
-    console.log('channelInfo ============= ', channelInfo);
-    // console.log('videoList ============= ', videoList);
-    // console.log('shortVideoList ============= ', shortVideoList);
-    // console.log('playlists ============= ', playlists);
-    // console.log('postList ============= ', postList);
-    
-    console.log('channelInfo.subData === true: ', channelInfo.subData ? true : false);
-    
-
 
     return (
         <div className={styles.pageContainer}>

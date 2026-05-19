@@ -74,14 +74,16 @@
 
 .modal {
     border-radius: 16px;
-    position: absolute;
     // right: 0px;
     background-color: var(--grayBackground);
+    transform: translateX(50%) !important;
+    box-shadow: 0px 0px 10px var(--foregroundRGBA) !important;
 }
 
 .notifSettings {
     width: 100%;
     padding: 10px 0px;
+    // box-shadow: 10px var(--foregroundRGB);
 
     &__item {
         display: flex;

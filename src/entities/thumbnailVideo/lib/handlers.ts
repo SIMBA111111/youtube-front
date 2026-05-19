@@ -13,10 +13,12 @@ export const handleViewLater = (e: React.MouseEvent, video: string, userId: stri
     console.log('смотреть позже');
 };
 
-export const handleShareVideo = (e: React.MouseEvent, video: string, userId: string) => {
+export const handleShareVideo = async (e: React.MouseEvent, videoHash: string, userId: string, openToast: (text: string) => void) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('поделиться');
+    const videoLink = window.location.origin + '/watch?=' + videoHash
+    await navigator.clipboard.writeText(videoLink)
+    openToast('Ссылка на видео скопирована в буфер обмена')
 };
 
 export const handleHideVideo = (e: React.MouseEvent, video: string, userId: string) => {
@@ -31,9 +33,10 @@ export const handleHideChannel = (e: React.MouseEvent, video: string, userId: st
     console.log('скрыть видео с канала');
 };
 
-export const handleReport = (e: React.MouseEvent, video: string, userId: string) => {
+export const handleReport = (e: React.MouseEvent, setIsOpenedReportModal: (newValue: boolean) => void) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsOpenedReportModal(true)
     console.log('пожаловаться');
 };
 

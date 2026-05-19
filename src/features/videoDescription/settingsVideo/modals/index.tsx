@@ -65,7 +65,7 @@ export const ReportModal: React.FC<IReportModal> = ({
                         disabled={selectedReportId ? false : true} 
                         onClick={() => setModalStep(2)}
                     >
-                        Далее
+                        <Text color="var(--whiteText)">Далее</Text>
                     </button>
                 </div>
             </Modal>
@@ -109,7 +109,7 @@ export const ReportModal: React.FC<IReportModal> = ({
                                 disabled={selectedReportId ? false : true} 
                                 type="submit"
                             >
-                                Пожаловаться
+                                <Text color="var(--whiteText)">Пожаловаться</Text>
                             </button>
                         </form>
                     </div>

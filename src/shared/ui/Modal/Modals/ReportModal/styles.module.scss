@@ -1,0 +1,78 @@
+
+.customModal2 {
+    padding: 20px;
+    width: 400px;
+    top: 30%;
+    left: 35%;
+    background-color: var(--backgroungGray);
+    height: 400px;
+    border-radius: 12px;
+
+    &_title {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        cursor: default;
+
+        &_btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    }
+
+    &_content {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 12px;
+
+        &_text {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            height: 100%;
+        }
+
+        &_form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            height: 100%;
+        }
+
+        &_areaText {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            border: 1px solid var(--lightGray);
+            border-radius: 8px;
+            padding: 8px;
+            margin-top: 20px;
+            background-color: var(--lightbackgroungGrayGray);
+            resize: none;
+            color: var(--blackText);
+        }
+
+        &_btn {
+            border: none;
+            border-radius: 28px;
+            padding: 8px 0px;
+            width: 100%;
+            cursor: pointer;
+            background-color: var(--blackText);
+
+            &:disabled {
+                cursor: not-allowed;
+            }
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+}
