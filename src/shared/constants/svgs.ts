@@ -67,4 +67,6 @@ export const svgs = {
     stoncks: 'stoncks',
     trash: 'trash',
     pause: 'pause',
+    doublePlayer: 'doublePlayer',
+    channels: 'channels'
 }

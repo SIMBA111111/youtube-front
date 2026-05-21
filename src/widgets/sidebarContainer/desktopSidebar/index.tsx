@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 import { Popover, Svg, Text } from "@/shared/ui";
 import { IChannel } from "@/entities/channels/modal/types";
@@ -12,6 +13,7 @@ import { IThumbnailShortVideo } from "@/entities/thumbnailShortVideo/modal/types
 import { Menu } from "@/shared/ui/Menu";
 
 import styles from "./styles.module.scss";
+import { LoginBtn } from "@/features";
 
 type menuItems = "subs" | "you" | null;
 
@@ -25,6 +27,8 @@ export const DesktopSidebar = ({
   const [isOpenedMenu, setIsOpenedMenu] = useState<menuItems>(null);
   const pathname = usePathname();
   const timeoutRef = useRef<NodeJS.Timeout>(null);
+
+  const isAuth = Cookies.get('channelData') && Cookies.get('jwt') ? true : false 
 
   const { isOpen } = useSidebarStore();
 
@@ -88,7 +92,7 @@ export const DesktopSidebar = ({
                 </Text>
                 <Menu
                   delay={150}
-                  isOpened={isOpenedMenu === "subs"}
+                  isOpened={isOpenedMenu === "subs" && isAuth}
                   onClose={() => setIsOpenedMenu(null)}
                   offset={50}
                   className={styles.youMenu_container}
@@ -140,7 +144,7 @@ export const DesktopSidebar = ({
                 </Text>
                 <Menu
                   delay={150}
-                  isOpened={isOpenedMenu === "you"}
+                  isOpened={isOpenedMenu === "you"  && isAuth}
                   onClose={() => setIsOpenedMenu(null)}
                   offset={50}
                   className={styles.youMenu_container}
@@ -242,48 +246,58 @@ export const DesktopSidebar = ({
                 </Link>
               </div>
 
-              <div className={styles.divider}>
-                <Link href={"/subscriptions"} className={styles.btns__item__open}>
-                  <Text>Подписки</Text>
-                  <Svg name="arrowLeft" size="small" />
-                </Link>
-                {channels.map((channel: IChannel) => (
-                  <Link
-                    key={channel.id}
-                    href={`/channel/${channel.username}`}
-                    className={styles.btns__item__open}
-                  >
-                    <img
-                      src={channel.avatar_url}
-                      alt=""
-                      className={styles.channelAvatar}
-                    />
-                    <Text weight={400} size={14}>
-                      {channel.name}
-                    </Text>
-                  </Link>
-                ))}
-              </div>
+              {isAuth ? 
+                <>
+                  <div className={styles.divider}>
+                    <Link href={"/subscriptions"} className={styles.btns__item__open}>
+                      <Text>Подписки</Text>
+                      <Svg name="arrowLeft" size="small" />
+                    </Link>
+                    {channels.map((channel: IChannel) => (
+                      <Link
+                        key={channel.id}
+                        href={`/channel/${channel.username}`}
+                        className={styles.btns__item__open}
+                      >
+                        <img
+                          src={channel.avatar_url}
+                          alt=""
+                          className={styles.channelAvatar}
+                        />
+                        <Text weight={400} size={14}>
+                          {channel.name}
+                        </Text>
+                      </Link>
+                    ))}
+                  </div>
 
-              <div className={styles.divider}>
-                <Link href={"/you"} className={styles.btns__item__open}>
-                  <Text>Вы</Text>
-                  <Svg name="arrowLeft" size="small" />
-                </Link>
+                  <div className={styles.divider}>
+                    <Link href={"/you"} className={styles.btns__item__open}>
+                      <Text>Вы</Text>
+                      <Svg name="arrowLeft" size="small" />
+                    </Link>
 
-                {SIDEBAR_YOU.map((el: any) => (
-                  <Link
-                    key={el.id}
-                    href={el.href}
-                    className={styles.btns__item__open}
-                  >
-                    <Svg name={el.svgName} />
-                    <Text weight={400} size={14}>
-                      {el.name}
-                    </Text>
-                  </Link>
-                ))}
-              </div>
+                    {SIDEBAR_YOU.map((el: any) => (
+                      <Link
+                        key={el.id}
+                        href={el.href}
+                        className={styles.btns__item__open}
+                      >
+                        <Svg name={el.svgName} />
+                        <Text weight={400} size={14}>
+                          {el.name}
+                        </Text>
+                      </Link>
+                    ))}
+                  </div>
+                </> :
+                (
+                  <div className={styles.unauth}>
+                    <Text lineHeight={20}>Вы сможете ставить отметки "Нравится", писать комментарии и подписываться на каналы.</Text>
+                    <LoginBtn/>
+                  </div>
+                )
+              }
 
               <div className={styles.divider}>
                 <div

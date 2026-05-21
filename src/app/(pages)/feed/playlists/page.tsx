@@ -3,19 +3,25 @@ import { Text } from "@/shared/ui";
 import { getLikedPlaylists } from "@/shared/api/playlists/getLikedPlaylists";
 import { IPlaylist, Playlist } from "@/entities/playlist/ui";
 import styles from "./styles.module.scss";
+import { UnauthorizedWidget } from "@/widgets/UnauthorizedWidget/UnauthorizedWidget";
 
 export default async function Playlists() {
   const cookie = await cookies()
 
   let meId
   let jwt
+  let playlists
 
   if(cookie.get('channelData')) {
-      meId = JSON.parse(cookie.get('channelData')?.value || '').id
-      jwt = cookie.get('jwt')?.value
+    meId = JSON.parse(cookie.get('channelData')?.value || '').id
+    jwt = cookie.get('jwt')?.value
+    playlists = await getLikedPlaylists(meId, jwt)
+  } else {
+    return (
+      <UnauthorizedWidget svgName="playlist" title="Чтобы посмотреть сохранённые плейлисты, войдите в аккаунт." />
+    )
   }
 
-  const playlists = await getLikedPlaylists(meId, jwt)
 
   return (
     <div className={styles.mainPage}>

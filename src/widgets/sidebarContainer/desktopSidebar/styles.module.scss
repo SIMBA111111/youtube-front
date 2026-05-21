@@ -148,3 +148,11 @@
         }
     }
 }
+
+.unauth {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: auto;
+    padding: 10px;
+}

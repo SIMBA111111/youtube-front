@@ -8,6 +8,7 @@ import { getTags } from "@/shared/api/tags/getTags";
 import { HISTORY_TAGS } from "@/shared/constants/tags";
 import { ITag } from "@/entities/videoTags/ui";
 import { getMe } from "@/shared/api/me/getMe";
+import { UnauthorizedWidget } from "@/widgets/UnauthorizedWidget/UnauthorizedWidget";
 
 
 export default async function HistoryPage() {
@@ -15,14 +16,23 @@ export default async function HistoryPage() {
 
   let meId
   let jwt
+  let videos
+  let myChannel
 
   if(cookie.get('channelData')) {
-      meId = JSON.parse(cookie.get('channelData')?.value || '').id
-      jwt = cookie.get('jwt')?.value
+    meId = JSON.parse(cookie.get('channelData')?.value || '').id
+    jwt = cookie.get('jwt')?.value
+    videos = await getHistoryVideos(meId, jwt)
+    myChannel = await getMe(jwt, meId)
+  } else {
+    return (
+      <UnauthorizedWidget svgName="history" title="Чтобы посмотреть историю просмотра, войдите в аккаунт." />
+    )
   }
 
-  const videos = await getHistoryVideos(meId, jwt)
-  const myChannel = await getMe(jwt, meId)
+
+
+
 
   console.log('myChannel = ', myChannel);
   

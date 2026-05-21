@@ -5,6 +5,8 @@ import { Popover, Svg, Text } from "@/shared/ui";
 import { handleSubscribe } from "../lib/handleSubscribe";
 import { handleNotificationSettings } from "../lib/handleNotificationSettings";
 import styles from "./styles.module.scss";
+import { useRouter } from "next/navigation";
+import { AUTH_STAGES } from "@/shared/constants/authStages";
 
 export enum notificationSettings {
   All = "ALL",
@@ -26,8 +28,10 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
 }) => {
   const [popoverIsVisible, setPopoverIsVisible] = useState<boolean>(false);
   const [isSub, setIsSub] = useState<boolean>(isSubscribed);
-  const [isNotifSettings, setIsnotifSettings] =
-    useState<boolean>(notificationSetting);
+  const [isNotifSettings, setIsnotifSettings] = useState<boolean>(notificationSetting);
+  const router = useRouter()
+
+
 
   if (channelId === meId) {
     return (
@@ -121,7 +125,7 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
       <button
         className={styles.subscribeButton_btn2}
         onClick={() =>
-          handleSubscribe(channelId, meId, isSub, setIsSub, setPopoverIsVisible)
+          handleSubscribe(channelId, meId, isSub, setIsSub, setPopoverIsVisible, router)
         }
       >
         <Text className={styles.unsibscribe_text} color="var(--whiteText)">

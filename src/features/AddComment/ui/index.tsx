@@ -48,6 +48,10 @@ export const AddComment: React.FC<IAddComment> = ({
     inputRef.current!.value += e.emoji
   }
 
+  const handleOpenCommentInput = () => {
+    
+  }
+
   return (
     <div className={styles.container}>
       <img

@@ -4,11 +4,13 @@ const sizes = {
   small: 16,
   middle: 24,
   big: 32,
+  large: 120,
 };
 
 const colors = {
   white: "var(--whiteText)",
   black: "var(--blackText)",
+  blue: "var(--blueBorder)",
 };
 
 interface ISvg {
@@ -1071,7 +1073,24 @@ export const Svg: React.FC<ISvg> = ({
         </svg>
       );
 
+    case "doublePlayer":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" fill={colors[color]} aria-hidden="true">
+          <path d="M20 2H8a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2ZM8 16V4h12v12H8Zm-4 4V6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2H4Zm13-10-5-3v6l5-3Z"></path>
+        </svg>
+      );
+
+    case "channels":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
+          <path d="M18 1H6a2 2 0 00-2 2h16a2 2 0 00-2-2Zm3 4H3a2 2 0 00-2 2v13a2 2 0 002 2h18a2 2 0 002-2V7a2 2 0 00-2-2ZM3 20V7h18v13H3Zm13-6.5L10 10v7l6-3.5Z"></path>
+        </svg>
+
+      );
+
     default:
       break;
   }
 };
+
+
