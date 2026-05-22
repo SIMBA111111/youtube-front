@@ -10,6 +10,7 @@ import { useToast } from "@/app/providers/toastProvider";
 import { Text } from "@/shared/ui";
 
 import styles from "./styles.module.scss";
+import { CreateCommentUnauthPopover } from "@/shared/ui/Popover/Popovers/CreateCommentUnauthPopover";
 
 
 interface IAddComment {
@@ -25,6 +26,7 @@ export const AddComment: React.FC<IAddComment> = ({
 }) => {
   const [inputHidden, setInputHidden] = useState<boolean>(true);
   const [isEmojiesOpened, setIsEmojiesOpened] = useState<boolean>(false);
+  const [isOpenedUnauthPopover, setIsOpenedUnauthPopover] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { openToast } = useToast();
 
@@ -49,6 +51,14 @@ export const AddComment: React.FC<IAddComment> = ({
   }
 
   const handleOpenCommentInput = () => {
+    console.log('me = ', me);
+    
+    if('id' in me) {
+      setInputHidden(false)
+    } else {
+      setIsOpenedUnauthPopover(true)
+    } 
+    
     
   }
 
@@ -64,10 +74,11 @@ export const AddComment: React.FC<IAddComment> = ({
           type="text"
           placeholder="Введите комментарий"
           className={clsx(styles.input, { [styles.active]: !inputHidden })}
-          onClick={() => setInputHidden(false)}
+          onClick={() => handleOpenCommentInput()}
           onChange={(e) => handleCommentText(e)}
           ref={inputRef}
         />
+        <CreateCommentUnauthPopover isOpen={isOpenedUnauthPopover} onClose={() => setIsOpenedUnauthPopover(false)}/>
         {!inputHidden && (
           <div className={styles.actions}>
             <div className={styles.emojiContainer}>

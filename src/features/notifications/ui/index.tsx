@@ -26,9 +26,30 @@ export const Notifications = () => {
                 console.error('Ошибка при загрузке уведомлений:', error)
             }
         }
+
+        try {
+            const eventSource = new EventSource("http://localhost:8080/api/event", {
+                withCredentials: true,
+            });
+
+            eventSource.onmessage = (event) => {
+                console.log('event = ', event);
+                if (event.data) {
+                    const data = JSON.parse(event.data)
+                    setNotifs(prev => [data.newNotif, ...prev])
+                }
+            }
+        } catch (error) {
+            console.error('EVENT ERRROR: ', error);
+        }
+
         
         fetchNotifs()
+
     }, [])
+
+    console.log('notifs = ', notifs);
+    
 
     return (
         <div className={styles.notificationsContainer}>
