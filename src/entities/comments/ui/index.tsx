@@ -12,6 +12,7 @@ import { handleCancel } from "../lib/handleCanel";
 import { handleReplayComment } from "../lib/handleReplayComment";
 import styles from "./styles.module.scss";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import { CreateCommentUnauthPopover } from "@/shared/ui/Popover/Popovers/CreateCommentUnauthPopover";
 
 export interface IComment {
   id: string;
@@ -63,8 +64,8 @@ export const CommentCard: React.FC<ICommentCard> = ({
   const [showReplies, setShowReplies] = useState(false);
   const [relatedComments, setRelatedComments] = useState<IComment[]>([]);
   const [isEmojiesOpened, setIsEmojiesOpened] = useState<boolean>(false);
-  const [isOpenedReplayInput, setIsOpenedReplayInput] =
-    useState<boolean>(false);
+  const [isOpenedReplayInput, setIsOpenedReplayInput] = useState<boolean>(false);
+  const [isOpenedUnauthPopover, setIsOpenedUnauthPopover] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleShowReplies = async () => {
@@ -76,6 +77,16 @@ export const CommentCard: React.FC<ICommentCard> = ({
 
   const handleAddEmoji = async (e: EmojiClickData) => {
     inputRef.current!.value += e.emoji
+  }
+
+  const handleOpenReplyInput = () => {
+    console.log('me = ', me);
+    
+    if ('id' in me) {
+      setIsOpenedReplayInput((prev: boolean) => !prev)
+    } else {
+      setIsOpenedUnauthPopover(true)
+    }
   }
 
   return (
@@ -150,12 +161,14 @@ export const CommentCard: React.FC<ICommentCard> = ({
 
           <button
             className={styles.reply_btn}
-            onClick={() => setIsOpenedReplayInput((prev: boolean) => !prev)}
+            onClick={() => handleOpenReplyInput()}
           >
             <Text size={14} weight={500}>
               Ответить
             </Text>
           </button>
+
+          <CreateCommentUnauthPopover isOpen={isOpenedUnauthPopover} onClose={() => setIsOpenedUnauthPopover(false)} offset={30}/>
         </div>
 
         {isOpenedReplayInput && (

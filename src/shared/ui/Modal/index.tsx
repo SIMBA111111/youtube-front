@@ -94,6 +94,7 @@ export const Modal: React.FC<IModal> = ({
                         {title && (
                             <Text color="var(--blackText)" size={28}>{title}</Text>
                         )}
+                        &#8203;
                         {isCloseButton && (
                             <div className={styles.closeBtn} onClick={() => setIsVisible(false)}>
                                 <Svg name="cross" size="middle" color="black"/>

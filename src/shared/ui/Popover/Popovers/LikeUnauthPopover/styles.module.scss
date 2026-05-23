@@ -1,0 +1,21 @@
+.container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn {
+    border: none;
+    width: 100%;
+    border-radius: 28px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--foreground);
+    color: var(--whiteText);
+
+    &:hover {
+        opacity: 0.8;
+    }
+}

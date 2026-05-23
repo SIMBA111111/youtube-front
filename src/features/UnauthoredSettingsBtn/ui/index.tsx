@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { useState } from "react";
+import '../../../shared/i18s/i18s'
 
 import { themes } from "@/shared/constants/themes";
 import { languages } from "@/shared/constants/langs";
@@ -12,10 +13,9 @@ import { BackgroundFon, Modal, Popover, Svg, Text } from "@/shared/ui";
 import { IUserBtn } from "@/features/userBtn/model/types";
 import { handleThemeChange } from "@/features/userBtn/lib/handleThemeChange";
 
-import '../../../shared/i18s/i18s'
 import styles from './styles.module.scss'
 
-type SubModalType = 'theme' | 'language' | null;
+export type SubModalType = 'theme' | 'language' | null;
 
 
 export const UnauthoredSettingsBtn: React.FC= () => {

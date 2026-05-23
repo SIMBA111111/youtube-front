@@ -4,7 +4,6 @@ export const handleMenuClick = (e: React.MouseEvent, setIsOpenModal: Dispatch<Se
     e.stopPropagation();
     e.preventDefault();
     setIsOpenModal(true)
-    console.log('Open menu for video');
 };
 
 export const handleViewLater = (e: React.MouseEvent, video: string, userId: string) => {

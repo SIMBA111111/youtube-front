@@ -2,25 +2,23 @@
 
 import React, { useState, useRef, useEffect, MouseEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie'
+
 import { IVideo } from "../modal/types";
-import { getAverageColor } from "@/shared/utils/getAverageColor";
 import { formatDuration } from "@/shared/utils/formatDuration";
 import { formatViews } from "@/shared/utils/formatViews";
 import { formatDate } from "@/shared/utils/formatDate";
-// import { handleMenuClick } from "../lib/handlers";
 import { Modal, Svg, Text } from "@/shared/ui";
-import { useRouter } from "next/navigation";
 import {
-  handleHideChannel,
-  handleHideVideo,
   handleMenuClick,
-  handleReport,
-  handleShareVideo,
-  handleViewLater,
 } from "../lib/handlers";
 import { getEllipsisText } from "@/shared/utils/getEllipsisText";
-import styles from "./styles.module.scss";
+
 import { SettigsVideoModal } from "./settingsModal";
+
+import styles from "./styles.module.scss";
+
 
 interface IThumbnailVideoCard {
   video: IVideo;
@@ -37,6 +35,12 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
   const imgRef = useRef<HTMLImageElement>(null);
   const colorRef = useRef<string>("rgba(249, 98, 98, 0.1)");
   const router = useRouter();
+
+  let userId
+
+  if (Cookies.get('channelData')) {
+    userId = JSON.parse(Cookies.get('channelData')).id
+  }
 
   // useEffect(() => {
   //     if (video.previewUrl && imgRef.current) {
@@ -158,7 +162,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
                   setIsOpenModal={setIsOpenModal}
                   videoId={video.id}
                   videoHash={video.videoHash}
-                  userId={'мой id взять из кук'}
+                  userId={userId}
                 />
             </div>
 

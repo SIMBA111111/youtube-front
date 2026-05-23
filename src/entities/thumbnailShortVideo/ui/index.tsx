@@ -33,7 +33,6 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
         e.stopPropagation();
         e.preventDefault();
         setIsOpenModal(true)
-        console.log('Open menu for video');
     };
 
     return (

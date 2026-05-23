@@ -7,6 +7,7 @@ import { IVideo } from "../../modal/types";
 import styles from "./styles.module.scss";
 import { useToast } from "@/app/providers/toastProvider";
 import { ReportModal } from "@/features/videoDescription/settingsVideo/modals";
+import { UnauthReportModal } from "@/shared/ui/Modal/Modals/UnauthReportModal";
 
 interface ISettigsVideoModal {
     isOpenModal: boolean
@@ -25,7 +26,7 @@ export const SettigsVideoModal: React.FC<ISettigsVideoModal> = ({
 }) => {
     const [isOpenedReportModal, setIsOpenedReportModal] = useState<boolean>(false)
     const { openToast } = useToast()
-
+    
 
     return (
         <>
@@ -53,7 +54,8 @@ export const SettigsVideoModal: React.FC<ISettigsVideoModal> = ({
                     </div>
                 </div>
             </Popover>
-            <ReportModal isOpenedModal={isOpenedReportModal} setIsOpenedModal={setIsOpenedReportModal}/>
+            {!userId && <UnauthReportModal isVisibleModal={isOpenedReportModal} setIsVisibleModal={setIsOpenedReportModal} />}
+            {userId && <ReportModal isOpenedModal={isOpenedReportModal} setIsOpenedModal={setIsOpenedReportModal} />}
         </>
     )
 }

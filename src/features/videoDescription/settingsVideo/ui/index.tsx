@@ -1,12 +1,15 @@
 'use client'
 
+import { useEffect, useState } from "react"
+import Cookies from "js-cookie"
+
 import { Modal, Popover, RadioButton, Svg, Text } from "@/shared/ui"
 import { handleCopyVideoURL } from "../lib/handlers"
 import { useToast } from "@/app/providers/toastProvider"
-import { useEffect, useState } from "react"
 import { getReportReasons } from "@/shared/api/reports/getReportReasons"
-import styles from './styles.module.scss'
 import { ReportModal } from "../modals"
+import styles from './styles.module.scss'
+import { UnauthReportModal } from "@/shared/ui/Modal/Modals/UnauthReportModal"
 
 interface ISettingsVideo{
     videoHash: string,
@@ -18,11 +21,21 @@ export const SettingsVideo: React.FC<ISettingsVideo> = ({
     const [isOpenedPopover, setIsOpenedPopover] = useState<boolean>(false)
     const [isOpenedModal, setIsOpenedModal] = useState<boolean>(false)
 
+    const isAuth = Cookies.get('channelData') && Cookies.get('jwt') ? true : false
+
+    console.log(Cookies.get('channelData') && Cookies.get('jwt'));
+    
+
     const togglePopover = () => {
         if(isOpenedPopover)
             setIsOpenedPopover(false)
         else
             setIsOpenedPopover(true)
+    }
+
+    const handleOpenReportModal = () => {
+        setIsOpenedModal(true)
+        setIsOpenedPopover(false)
     }
 
     return (
@@ -35,12 +48,13 @@ export const SettingsVideo: React.FC<ISettingsVideo> = ({
                     <Svg name="block"/>
                     <Text>Убрать рекламу</Text>
                 </button>
-                <button className={styles.customPopover_item} onClick={() => {setIsOpenedModal(true)}}>
+                <button className={styles.customPopover_item} onClick={() => {handleOpenReportModal()}}>
                     <Svg name="flag"/>
                     <Text>Пожаловаться</Text>
                 </button>
             </Popover>
-            <ReportModal isOpenedModal={isOpenedModal} setIsOpenedModal={setIsOpenedModal} />
+            {!isAuth && <UnauthReportModal isVisibleModal={isOpenedModal} setIsVisibleModal={setIsOpenedModal} />}
+            {isAuth && <ReportModal isOpenedModal={isOpenedModal} setIsOpenedModal={setIsOpenedModal} />}
         </>
    )
 }

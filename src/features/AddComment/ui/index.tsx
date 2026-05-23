@@ -58,8 +58,6 @@ export const AddComment: React.FC<IAddComment> = ({
     } else {
       setIsOpenedUnauthPopover(true)
     } 
-    
-    
   }
 
   return (
@@ -78,7 +76,7 @@ export const AddComment: React.FC<IAddComment> = ({
           onChange={(e) => handleCommentText(e)}
           ref={inputRef}
         />
-        <CreateCommentUnauthPopover isOpen={isOpenedUnauthPopover} onClose={() => setIsOpenedUnauthPopover(false)}/>
+        <CreateCommentUnauthPopover isOpen={isOpenedUnauthPopover} onClose={() => setIsOpenedUnauthPopover(false)} offset={0}/>
         {!inputHidden && (
           <div className={styles.actions}>
             <div className={styles.emojiContainer}>
