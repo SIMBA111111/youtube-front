@@ -72,3 +72,24 @@ export const SIDEBAR_NAVIGATION = [
         svgName: svgs['award']
     },
 ]
+
+export const CREATOR_SIDEBAR = [
+    {
+        id: '0',
+        href: '/channel/:channelId/videos',
+        name: 'Контент',
+        svgName: svgs['content']
+    },
+    {
+        id: '1',
+        href: '/channel/:channelId/analytics',
+        name: 'Аналитика',
+        svgName: svgs['analytics']
+    },
+    {
+        id: '0',
+        href: '/channel/:channelId/editing/profile',
+        name: 'Настройки канала',
+        svgName: svgs['magic']
+    },
+]

@@ -8,8 +8,9 @@ import ProgressBarProvider from "../providers/progressProvider";
 import { ThemeProvider } from "../providers/themeProvider";
 import { ToastProvider } from "../providers/toastProvider";
 
-import 'normalize.css'
 import "../globals.scss";
+import { CreatorPageProvider } from "../providers/creatorPageProvider";
+import { getAuthData } from "@/shared/hooks/getAuthData";
 
 
 export default async function RootLayout({
@@ -22,14 +23,34 @@ export default async function RootLayout({
   const theme = cookieStore.get('theme')?.value
 
   const currentTheme = theme ? theme : 'device'  
+
+  const authData = await getAuthData()
   
+  console.log('authData = ', authData);
+
+
+  if (!authData) {
+    return (
+      <div>
+        Хуй
+      </div>
+    )
+  }
+
   return (
     <ThemeProvider initialTheme={currentTheme as any}>
       <ToastProvider>
         <ProgressBarProvider>
-          <PageWrapper>
+          <CreatorPageProvider 
+            channelAvatar={authData.avatarUrl}
+            channelName={authData.name}
+            channelId={authData.id}
+            channelUsername={authData.username}
+            // activeTheme={}
+            activeLanguage={authData.lang}
+          >
             {children}
-          </PageWrapper>
+          </CreatorPageProvider>
         </ProgressBarProvider>
       </ToastProvider>
     </ThemeProvider>

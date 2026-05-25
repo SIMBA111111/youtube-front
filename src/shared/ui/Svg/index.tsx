@@ -1085,8 +1085,38 @@ export const Svg: React.FC<ISvg> = ({
         <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
           <path d="M18 1H6a2 2 0 00-2 2h16a2 2 0 00-2-2Zm3 4H3a2 2 0 00-2 2v13a2 2 0 002 2h18a2 2 0 002-2V7a2 2 0 00-2-2ZM3 20V7h18v13H3Zm13-6.5L10 10v7l6-3.5Z"></path>
         </svg>
-
       );
+
+
+
+
+
+
+
+
+      // creator:
+
+    case "content":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
+          <path d="M20 2H8a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2ZM8 16V4h12v12H8Zm-4 4V6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2H4Zm13-10-5-3v6l5-3Z"></path>
+        </svg>
+      );
+
+    case "analytics":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
+          <path d="M20 2H4a2 2 0 00-2 2v16a2 2 0 002 2h16a2 2 0 002-2V4a2 2 0 00-2-2ZM4 20V4h16v16H4Zm8-13a1 1 0 00-1 1v9h2V8a1 1 0 00-1-1Zm-4 3a1 1 0 00-1 1v6h2v-6a1 1 0 00-1-1Zm8 2a1 1 0 00-1 1v4h2v-4a1 1 0 00-1-1Z"></path>
+        </svg>
+      );
+
+    case "magic":
+      return (
+      <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
+        <path d="M6.266 1.106 5.39 3.388l-2.282.878a.25.25 0 000 .466l2.282.878.877 2.283a.25.25 0 00.466 0L7.61 5.61l2.283-.878a.25.25 0 000-.466L7.61 3.388l-.878-2.282a.25.25 0 00-.466 0Zm12 0-.878 2.283-2.282.878a.25.25 0 000 .466l2.282.878.878 2.283a.25.25 0 00.466 0l.878-2.283 2.283-.878a.25.25 0 000-.466L19.61 3.39l-.878-2.283a.25.25 0 00-.466 0ZM11.9 7.863l-8.484 8.484a2 2 0 000 2.83l1.41 1.41a2 2 0 002.828 0l8.485-8.484a1.998 1.998 0 000-2.83l-1.41-1.41a2 2 0 00-2.829 0Zm-.33 3.157 1.742-1.742 1.412 1.41-1.743 1.742-1.412-1.41Zm7.696 3.086-.878 2.283-2.282.878a.25.25 0 000 .466l2.282.878.878 2.283a.25.25 0 00.466 0l.878-2.283 2.283-.878a.25.25 0 000-.466l-2.283-.878-.878-2.283a.25.25 0 00-.466 0Z"></path>\
+      </svg>
+      );
+
 
     default:
       break;

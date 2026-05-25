@@ -5,5 +5,6 @@ export const handleThemeChange = (theme: string, setTheme: (theme: Theme) => voi
     if (Object.keys(Themes).includes(theme as Themes)) {
         setTheme(theme as Theme);
         setCurrentTheme(theme as Theme)
+        window.localStorage.setItem('theme', theme as Theme)
     }
 }
