@@ -129,17 +129,22 @@ const NOTIFS = [
 ]
 
 
-export const getNotifs = async () => {
+export const getNotifs = async (userId: string) => {
+    console.log('userId =-=-=-=- ', userId);
+    
     try {
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notifs`, {
-        //     credentials: "include"
-        // })
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-notifs/${userId}`, {
+            credentials: "include"
+        })
 
-        // if (res.status === 200) {
-        //     return await res.json()
-        // } else {
-        //     return 'getNotifs non 200 status'
-        // }
+        console.log('res = ', res);
+        
+
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return 'getNotifs non 200 status'
+        }
 
         return NOTIFS
 

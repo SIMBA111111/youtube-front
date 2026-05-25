@@ -6,6 +6,8 @@ const ME = {
 }
 
 export const getMe = async (jwt: string, meId: string) => {
+    console.log('meID ========== ', meId);
+    
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/${meId}`, {
             headers: { 

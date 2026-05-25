@@ -39,7 +39,7 @@ export const Header = () => {
         {jwt && parsedChannelData ? (
           <>
             <CreateContentBtn />
-            <Notifications />
+            <Notifications userId={parsedChannelData.id}/>
             <UserBtn
               id={parsedChannelData.id}
               activeLanguage={activeLanguage}

@@ -12,7 +12,7 @@ import Link from "next/link"
 import styles from './styles.module.scss'
 
 
-export const Notifications = () => {
+export const Notifications = ({userId} : {userId: string}) => {
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
     const [notifs, setNotifs] = useState<INotificationItem[]>([])
 
@@ -20,8 +20,9 @@ export const Notifications = () => {
     useEffect(() => {
         const fetchNotifs = async () => {
             try {
-                const notifsData = await getNotifs()
-                setNotifs(notifsData)
+                const notifsData = await getNotifs(userId)
+
+                setNotifs(notifsData.notifs)
             } catch (error) {
                 console.error('Ошибка при загрузке уведомлений:', error)
             }
