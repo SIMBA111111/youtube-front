@@ -39,13 +39,6 @@ export default async function Subscriptions() {
     )
   }
 
-
-
-
-
-  console.log('me = ', me);
-  
-
   return (
     <div className={styles.mainPage__container}>
       <div className={styles.myChannel}>
