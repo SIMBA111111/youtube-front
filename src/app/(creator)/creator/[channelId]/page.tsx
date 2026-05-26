@@ -1,22 +1,18 @@
+// app/creator/channel/page.tsx
 import { cookies } from "next/headers";
-
-import { getVideos } from "@/shared/api/video/getVideoList";
-import { VideoList } from "@/widgets";
-import { getTags } from "@/shared/api/tags/getTags";
-
+import { ContentWidget } from "@/widgets/creator";
 import styles from "./styles.module.scss";
 
-
 export default async function CreatorChannel() {
-
-  const jwt = await (await cookies()).get('jwt')
-
-//   const videos = await getVideos(jwt?.value)
-//   const tags = await getTags()
+  const cookieStore = await cookies()
+  const userData = JSON.parse(cookieStore.get('channelData')?.value || '{}')
+  const jwt = cookieStore.get('jwt')?.value 
 
   return (
     <div className={styles.page}>
-        странгица создателя
+      <h1>Контент на канале</h1>
+      <div className={styles.page}>
+      </div>
     </div>
   );
 }

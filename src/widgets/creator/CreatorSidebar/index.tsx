@@ -18,15 +18,15 @@ export const CreatorSidebar: FC<ICreatorSidebar> = ({
     return (
         <div className={styles.sidebar}>
             <div className={styles.channel}>
-                <img src={channelAvatar} alt="channelAvatar" />
-                <Text>Ваш канал</Text>
-                <Text>{channelName}</Text>
+                <img src={channelAvatar} alt="channelAvatar" className={styles.channel_img}/>
+                <Text weight={500}>Ваш канал</Text>
+                <Text color='var(--descriptionText)'>{channelName}</Text>
             </div>
 
             <div className={styles.routes}>
                 {
                     CREATOR_SIDEBAR.map(el => 
-                        <div className={styles.route}>
+                        <div className={styles.route} key={el.id}>
                             <Svg name={el.svgName as keyof typeof svgs}/>
                             <Text>{el.name}</Text>
                         </div>

@@ -87,7 +87,7 @@ export const CREATOR_SIDEBAR = [
         svgName: svgs['analytics']
     },
     {
-        id: '0',
+        id: '2',
         href: '/channel/:channelId/editing/profile',
         name: 'Настройки канала',
         svgName: svgs['magic']

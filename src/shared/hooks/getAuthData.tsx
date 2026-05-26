@@ -1,19 +1,14 @@
-import { cookies } from "next/headers"
+// app/context.ts
+import { cache } from 'react'
+import { cookies } from 'next/headers'
 
-interface IAuthData {
-    id: string
-    avatarUrl: string
-    email: string
-    name: string
-    username: string
-    lang: string
-}
+export const getServerAuthData = cache(async () => {
+    const cookieStore = await cookies() // cache() на верхнем уровне
+    return {
+        userData: cookieStore.get('channelData')?.value,
+        jwt: cookieStore.get('jwt')?.value
+    }
+})
 
-export const getAuthData = async (): Promise<IAuthData | null> => {
-    const cookie = await cookies()
-
-    const userData = cookie.get('channelData')?.value ? JSON.parse(cookie.get('channelData')?.value) : null
-    const lang = cookie.get('lang')?.value ? cookie.get('lang')?.value : navigator.language.slice(0, 2);
-    
-    return {...userData, lang: lang} 
-}
+// Использование:
+const authData = await getServerAuthData() // ✅ Работает!

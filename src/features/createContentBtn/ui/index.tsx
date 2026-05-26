@@ -8,7 +8,7 @@ import styles from './styles.module.scss'
 import Link from "next/link"
 
 
-export const CreateContentBtn = () => {
+export const CreateContentBtn = ({channelId}: {channelId: string}) => {
     const [isOpenCreateModal, setIsOpenCreateModal] = useState<boolean>(false)
     
     return (
@@ -18,7 +18,7 @@ export const CreateContentBtn = () => {
             </BackgroundFon>
             <Popover isOpen={isOpenCreateModal} onClose={() => setIsOpenCreateModal(false)} className={styles.customModal}>
                 <div className={styles.createModal}>
-                    <Link href={'/channel/hash/videos/upload'} className={styles.createModal__item}>
+                    <Link href={`/creator/${channelId}`} className={styles.createModal__item}>
                         <Svg name='video'/>
                         <Text weight={400} size={14}>Добавить видео</Text>
                     </Link>

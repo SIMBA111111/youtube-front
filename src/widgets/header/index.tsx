@@ -38,7 +38,7 @@ export const Header = () => {
       <div className={styles.headerContainer__block}>
         {jwt && parsedChannelData ? (
           <>
-            <CreateContentBtn />
+            <CreateContentBtn channelId={parsedChannelData.id} />
             <Notifications userId={parsedChannelData.id}/>
             <UserBtn
               id={parsedChannelData.id}

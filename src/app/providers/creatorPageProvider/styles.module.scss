@@ -1,0 +1,67 @@
+.gridSidebarOpen {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-rows: var(--header-height) 1fr;
+  transition: grid-template-columns 0.3s ease;
+  grid-template-columns: var(--sidebar-width-open) 1fr;
+  grid-template-areas: 
+    "header header"
+    "sidebar page";
+}
+
+.sidebarWrapper {
+  grid-area: sidebar;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  align-content: start;
+  overflow-y: auto;
+  background-color: var(--background);
+  width: fit-content;
+
+  &::-webkit-scrollbar {
+      width: 6px; /* ширина скроллбара */
+      background: transparent; /* прозрачный фон */
+  }
+
+  &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+  }
+}
+
+.headerWrapper {
+  grid-area: header;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--background);
+}
+
+.pageWrapper {
+  grid-area: page;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 20px 0px;
+  background-color: var(--background);
+
+  &::-webkit-scrollbar {
+      width: 8px; /* ширина скроллбара */
+      background: transparent; /* прозрачный фон */
+  }
+
+  &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+  }
+
+  &_opened {
+    grid-area: page;
+    height: 100%;
+    overflow-y: scroll;
+    background-color: var(--background);
+    padding: 20px;
+  }
+}

@@ -1,16 +1,11 @@
 import { cookies } from "next/headers";
 
-import { getChannels } from "@/shared/api/channels/getChannels";
-import { PageWrapper } from "@/widgets/pageWrapper";
-import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
-
 import ProgressBarProvider from "../providers/progressProvider";
 import { ThemeProvider } from "../providers/themeProvider";
 import { ToastProvider } from "../providers/toastProvider";
+import { CreatorPageProvider } from "../providers/creatorPageProvider";
 
 import "../globals.scss";
-import { CreatorPageProvider } from "../providers/creatorPageProvider";
-import { getAuthData } from "@/shared/hooks/getAuthData";
 
 
 export default async function RootLayout({
@@ -18,36 +13,25 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const cookieStore = await cookies()
+  const userData = JSON.parse(cookieStore.get('channelData')?.value || '{}')
+  const jwt = cookieStore.get('jwt')?.value
+  
   const theme = cookieStore.get('theme')?.value
 
   const currentTheme = theme ? theme : 'device'  
-
-  const authData = await getAuthData()
   
-  console.log('authData = ', authData);
-
-
-  if (!authData) {
-    return (
-      <div>
-        Хуй
-      </div>
-    )
-  }
-
   return (
     <ThemeProvider initialTheme={currentTheme as any}>
       <ToastProvider>
         <ProgressBarProvider>
           <CreatorPageProvider 
-            channelAvatar={authData.avatarUrl}
-            channelName={authData.name}
-            channelId={authData.id}
-            channelUsername={authData.username}
-            // activeTheme={}
-            activeLanguage={authData.lang}
+            channelAvatar={userData.avatarUrl}
+            channelName={userData.name}
+            channelId={userData.id}
+            channelUsername={userData.username}
+            activeTheme={currentTheme}
+            activeLanguage={userData.lang}
           >
             {children}
           </CreatorPageProvider>

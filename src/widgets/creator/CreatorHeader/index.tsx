@@ -37,7 +37,7 @@ export const CreatorHeader: FC<ICreatorHeader> = ({
         </div>
       </div>
       <div className={styles.headerContainer__block}>
-        <CreateContentBtn />
+        <CreateContentBtn channelId={channelId}/>
         <UserBtn
             id={channelId}
             activeLanguage={activeLanguage}
