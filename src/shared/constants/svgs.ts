@@ -72,6 +72,10 @@ export const svgs = {
 
     //creator:
     content: 'content',
+    contentFill: 'contentFill',
     analytics: 'analytics',
-    magic: 'magic'
+    analyticsFill: 'analyticsFill',
+    magic: 'magic',
+    magicFill: 'magicFill',
+    pancel: 'pancel'
 }

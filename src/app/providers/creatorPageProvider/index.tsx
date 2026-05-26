@@ -25,7 +25,7 @@ export const CreatorPageProvider: FC<ICreatorPageProvider> = ({
     return (
         <div className={`${styles.grid} ${styles.gridSidebarOpen}`} id="page-wrapper">
             <div className={styles.sidebarWrapper}>
-                <CreatorSidebar channelAvatar={channelAvatar} channelName={channelName}/>
+                <CreatorSidebar channelAvatar={channelAvatar} channelName={channelName} channelId={channelId}/>
             </div>
             
             <div className={styles.headerWrapper}>

@@ -76,19 +76,19 @@ export const SIDEBAR_NAVIGATION = [
 export const CREATOR_SIDEBAR = [
     {
         id: '0',
-        href: '/channel/:channelId/videos',
+        href: (channelId: string) => `/creator/${channelId}/videos`,
         name: 'Контент',
         svgName: svgs['content']
     },
     {
         id: '1',
-        href: '/channel/:channelId/analytics',
+        href: (channelId: string) => `/creator/${channelId}/analytics`,
         name: 'Аналитика',
         svgName: svgs['analytics']
     },
     {
         id: '2',
-        href: '/channel/:channelId/editing/profile',
+        href: (channelId: string) => `/creator/${channelId}/editing/profile`,
         name: 'Настройки канала',
         svgName: svgs['magic']
     },

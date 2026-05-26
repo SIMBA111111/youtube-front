@@ -1,0 +1,131 @@
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  
+  thead {
+    tr {
+      border-bottom: 1px solid #e5e5e5;
+      
+      th {
+        text-align: left;
+        padding: 16px 12px;
+        color: #606060;
+        font-weight: 500;
+        font-size: 13px;
+        
+        &:first-child {
+          padding-left: 24px;
+        }
+        
+        &:last-child {
+          padding-right: 24px;
+        }
+      }
+    }
+  }
+  
+  tbody {
+    tr {
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.2s;
+      
+      &:hover {
+        background: #fafafa;
+      }
+      
+      td {
+        padding: 16px 12px;
+        
+        &:first-child {
+          padding-left: 24px;
+        }
+        
+        &:last-child {
+          padding-right: 24px;
+        }
+      }
+    }
+  }
+}
+
+.videoCell {
+  max-width: 300px;
+}
+
+.videoInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.thumbnail {
+  width: 88px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.videoTitle {
+  font-weight: 500;
+  color: #030303;
+  line-height: 1.4;
+  
+  &:hover {
+    color: #065fd4;
+    cursor: pointer;
+  }
+}
+
+.dateCell {
+  color: #606060;
+  white-space: nowrap;
+}
+
+.numberCell {
+  color: #030303;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.likeCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 120px;
+}
+
+.likeBar {
+  flex: 1;
+  height: 4px;
+  background: #e5e5e5;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.likeBarFill {
+  height: 100%;
+  background: #065fd4;
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+.likePercentage {
+  font-weight: 500;
+  color: #030303;
+  min-width: 45px;
+  text-align: right;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  color: #909090;
+  font-size: 14px;
+}

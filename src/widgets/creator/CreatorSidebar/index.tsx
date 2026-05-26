@@ -1,20 +1,24 @@
 import { FC } from 'react'
 
-import { Svg, Text } from '@/shared/ui'
+import { Text } from '@/shared/ui'
 import { CREATOR_SIDEBAR } from '@/shared/constants/sidebar'
 import { svgs } from '@/shared/constants/svgs'
+import { NavigationItem } from '@/entities/creator'
 
 import styles from './styles.module.scss'
 
 interface ICreatorSidebar {
     channelAvatar: string
     channelName: string
+    channelId: string
 }
 
-export const CreatorSidebar: FC<ICreatorSidebar> = ({
+export const CreatorSidebar: FC<ICreatorSidebar> = async ({
     channelAvatar,
-    channelName
+    channelName,
+    channelId,
 }) => {
+
     return (
         <div className={styles.sidebar}>
             <div className={styles.channel}>
@@ -26,10 +30,7 @@ export const CreatorSidebar: FC<ICreatorSidebar> = ({
             <div className={styles.routes}>
                 {
                     CREATOR_SIDEBAR.map(el => 
-                        <div className={styles.route} key={el.id}>
-                            <Svg name={el.svgName as keyof typeof svgs}/>
-                            <Text>{el.name}</Text>
-                        </div>
+                        <NavigationItem href={el.href(channelId)} name={el.name} svgName={el.svgName as keyof typeof svgs} key={el.id}/>
                     )
                 }
             </div>        

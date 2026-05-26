@@ -1103,6 +1103,13 @@ export const Svg: React.FC<ISvg> = ({
         </svg>
       );
 
+    case "contentFill":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
+          <path d="M20 2H8a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2ZM4 20h14a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2v14Zm8-7V7l5 3-5 3Z"></path>
+        </svg>
+      );
+
     case "analytics":
       return (
         <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
@@ -1110,13 +1117,33 @@ export const Svg: React.FC<ISvg> = ({
         </svg>
       );
 
-    case "magic":
+    case "analyticsFill":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
+          <path d="M4 2a2 2 0 00-2 2v16a2 2 0 002 2h16a2 2 0 002-2V4a2 2 0 00-2-2H4Zm7 6a1 1 0 012 0v9h-2V8Zm-3 2a1 1 0 011 1v6H7v-6a1 1 0 011-1Zm8 2a1 1 0 011 1v4h-2v-4a1 1 0 011-1Z"></path>
+        </svg>
+      );
+
+    case "magicFill":
       return (
       <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
         <path d="M6.266 1.106 5.39 3.388l-2.282.878a.25.25 0 000 .466l2.282.878.877 2.283a.25.25 0 00.466 0L7.61 5.61l2.283-.878a.25.25 0 000-.466L7.61 3.388l-.878-2.282a.25.25 0 00-.466 0Zm12 0-.878 2.283-2.282.878a.25.25 0 000 .466l2.282.878.878 2.283a.25.25 0 00.466 0l.878-2.283 2.283-.878a.25.25 0 000-.466L19.61 3.39l-.878-2.283a.25.25 0 00-.466 0ZM11.9 7.863l-8.484 8.484a2 2 0 000 2.83l1.41 1.41a2 2 0 002.828 0l8.485-8.484a1.998 1.998 0 000-2.83l-1.41-1.41a2 2 0 00-2.829 0Zm-.33 3.157 1.742-1.742 1.412 1.41-1.743 1.742-1.412-1.41Zm7.696 3.086-.878 2.283-2.282.878a.25.25 0 000 .466l2.282.878.878 2.283a.25.25 0 00.466 0l.878-2.283 2.283-.878a.25.25 0 000-.466l-2.283-.878-.878-2.283a.25.25 0 00-.466 0Z"></path>\
       </svg>
       );
 
+    case "magic":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
+          <path d="m18.266 1.107-.878 2.283-2.282.878a.25.25 0 000 .466l2.282.878.878 2.283a.25.25 0 00.467 0l.878-2.283 2.282-.878a.25.25 0 000-.466l-2.282-.878-.878-2.283a.25.25 0 00-.467 0Zm-11 0L6.388 3.39l-2.282.878a.25.25 0 000 .466l2.282.878.878 2.283a.25.25 0 00.467 0l.878-2.283 2.282-.878a.25.25 0 000-.466L8.611 3.39l-.878-2.283a.25.25 0 00-.467 0ZM11.9 7.864l-8.486 8.484a2 2 0 000 2.83l1.412 1.411a2 2 0 002.828 0l8.485-8.485a2 2 0 000-2.829l-1.41-1.411a2 2 0 00-2.829 0Zm-7.072 9.9 6.715-6.715 1.411 1.411-6.714 6.714-1.412-1.41Zm14.438-4.657-.878 2.283-2.282.878a.25.25 0 000 .466l2.282.878.878 2.283a.25.25 0 00.467 0l.878-2.283 2.282-.878a.25.25 0 000-.466l-2.282-.878-.878-2.283a.25.25 0 00-.467 0Z"></path>
+        </svg>
+      );
+
+    case "pancel":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" width={sizes[size]} focusable="false" aria-hidden="true" fill={colors[color]}>
+          <path d="M15.293 3.293 4.96 13.626c-.22.219-.385.488-.484.782l-1.924 5.778-.633 1.897 1.897-.633 5.777-1.927a2 2 0 00.78-.482l9.334-9.334 1-1a3.83 3.83 0 00-5.414-5.414Zm4 1.414a1.83 1.83 0 010 2.586L19 7.586 16.414 5l.293-.293a1.83 1.83 0 012.586 0ZM6.374 15.04 15 6.414 17.586 9 8.96 17.626 5.08 18.92l1.294-3.88Z"></path>
+        </svg>
+      );
 
     default:
       break;
