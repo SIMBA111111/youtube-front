@@ -70,6 +70,19 @@ export const Svg: React.FC<ISvg> = ({
         </svg>
       );
 
+    case "arrowUpFat":
+      return (
+<svg
+   height="64"
+   width="64"
+>
+  <path
+     d="m 599.99217,0 -468.74902,703.13134 252.54616,0 0,496.86866 432.42133,0 0,-496.86866 252.54626,0 L 599.99217,0 z"
+      />
+</svg>
+
+      );
+
     case "arrowLeftFull":
       return (
         <svg

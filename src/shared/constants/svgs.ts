@@ -2,6 +2,7 @@ export const svgs = {
     arrowDown: 'arrowDown',
     arrowLeft: 'arrowLeft',
     arrowUp: 'arrowUp',
+    arrowUpFat: 'arrowUpFat',
     arrowLeftFull: "arrowLeftFull",
     award: 'award',
     bell: 'bell',
