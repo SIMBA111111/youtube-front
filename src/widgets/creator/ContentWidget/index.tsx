@@ -3,9 +3,12 @@
 import { FC, useEffect, useState } from "react"
 import { Tabs } from "@/shared/ui/Tab"
 import { VideosTable } from "@/features/creator";
-import styles from "./styles.module.scss";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
+import styles from "./styles.module.scss";
+import { FiltersEnum } from "@/features/ChannelVideoList/ui";
+import { CreateVideoModal } from "@/shared/ui/Modal/Modals/CreateVideoModal";
+
 
 interface IContentWidget {
     jwt: string
@@ -22,23 +25,25 @@ export const ContentWidget: FC<IContentWidget> = ({
 }) => {
     const [videos, setVideos] = useState<IVideo[]>([])
     const [activeTab, setActiveTab] = useState<TTabs>('videos')
-
+    const [filter, setFilter] = useState<keyof typeof FiltersEnum>('NEWS')
 
     useEffect(() => {
         (async () => {
             if (activeTab === 'videos') {
-                const videos = await getVideoListByChannelUsername(channelUsername, false)
+                const videos = await getVideoListByChannelUsername(channelUsername, false, filter)
                 setVideos(videos.videos)
             }
 
             if (activeTab === 'shorts') {
-                const videos = await getVideoListByChannelUsername(channelUsername, true)
+                const videos = await getVideoListByChannelUsername(channelUsername, true, filter)
                 setVideos(videos.videos)
             }
         })()
-    }, [activeTab])
+    }, [activeTab, filter])
 
-    
+    const handleFilter = () => {
+        filter === FiltersEnum.NEWS ? setFilter(FiltersEnum.OLD) : setFilter(FiltersEnum.NEWS)
+    }
 
 
     return (
@@ -47,14 +52,15 @@ export const ContentWidget: FC<IContentWidget> = ({
             <Tabs.List classNameList={styles.tabHeader} classNameItem={styles.tabHeader_item} classNameActiveItem={styles.tabHeader_item_active}/>
 
             <Tabs.Tab id="videos" label="Видео">
-                <VideosTable videos={videos}/>
+                <VideosTable videos={videos} filter={filter} handleFilter={handleFilter}/>
             </Tabs.Tab>
             
             <Tabs.Tab id="shorts" label="Shorts">
-                <VideosTable videos={videos}/>
+                <VideosTable videos={videos} filter={filter} handleFilter={handleFilter}/>
             </Tabs.Tab>
 
             </Tabs.Root>
+            <CreateVideoModal/>
         </div>
     )
 }

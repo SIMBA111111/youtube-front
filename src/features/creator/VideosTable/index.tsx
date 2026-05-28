@@ -1,33 +1,28 @@
 import { FC } from "react";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { Svg, Text } from "@/shared/ui";
+import { formatDate } from "@/shared/utils/formatDate";
+import { formatViews } from "@/shared/utils/formatViews";
+import { FiltersEnum } from "@/features/ChannelVideoList/ui";
 import styles from "./styles.module.scss";
-import { Svg } from "@/shared/ui";
+import { EmptyTable } from "./emptyTable";
+
 
 interface IVideosTable {
   videos?: IVideo[];
+  filter: keyof typeof FiltersEnum
+  handleFilter: () => void
 }
 
 export const VideosTable: FC<IVideosTable> = ({ 
-  videos = [] 
+  videos = [],
+  filter,
+  handleFilter
 }) => {
   const getLikePercentage = (likes: number, dislikes: number) => {
     const total = likes + dislikes;
     if (total === 0) return 0;
     return Math.round((likes / total) * 100);
-  };
-
-  const formatViews = (views: number) => {
-    if (views >= 1000000) return `${(views / 1000000).toFixed(1)}M`;
-    if (views >= 1000) return `${(views / 1000).toFixed(1)}K`;
-    return views.toString();
-  };
-
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('ru-RU', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    });
   };
 
   return (
@@ -36,7 +31,11 @@ export const VideosTable: FC<IVideosTable> = ({
         <thead>
           <tr>
             <th>Видео</th>
-            <th>Дата</th>
+            <th className={styles.tableDateFilter} onClick={() => handleFilter()}>
+              <Text weight={600}>Дата</Text>
+              {filter === FiltersEnum.NEWS && <Svg size="small" name="arrowDown"/>}
+              {filter === FiltersEnum.OLD && <Svg name="arrowUp"/>}
+            </th>
             <th>Просмотры</th>
             <th>Комментарии</th>
             <th>Лайки</th>
@@ -45,11 +44,9 @@ export const VideosTable: FC<IVideosTable> = ({
         </thead>
         <tbody>
           {videos.length === 0 ? (
-            <tr>
               <td colSpan={6} className={styles.emptyState}>
-                Нет видео для отображения
+                <EmptyTable />
               </td>
-            </tr>
           ) : (
             videos.map((video) => (
               <tr key={video.id}>
@@ -60,13 +57,42 @@ export const VideosTable: FC<IVideosTable> = ({
                       alt={video.name}
                       className={styles.thumbnail}
                     />
-                    <span className={styles.videoTitle}>{video.name}</span>
+                    <div className={styles.descr}>
+                      <span className={styles.videoTitle}>{video.name}</span>
+                      <div className={styles.videoActions}>
+                        <div className={styles.videoAction}>
+                          <Svg name="pancel"/>
+                          <div className={styles.notificationTooltip}>
+                            <Text size={14} color='var(--whiteText)' weight={300}>Редактировать</Text>
+                          </div>
+                        </div>
+                        <div className={styles.videoAction}>
+                          <Svg name="analytics"/>
+                          <div className={styles.notificationTooltip}>
+                            <Text size={14} color='var(--whiteText)' weight={300}>Аналитика</Text>
+                          </div></div>
+                        <div className={styles.videoAction}>
+                          <Svg name="comments"/>
+                          <div className={styles.notificationTooltip}>
+                            <Text size={14} color='var(--whiteText)' weight={300}>Комментарии</Text>
+                          </div>
+                        </div>
+                        <div className={styles.videoAction}>
+                          <Svg name="doublePlayer"/>
+                          <div className={styles.notificationTooltip}>
+                            <Text size={14} color='var(--whiteText)' weight={300}>Видео</Text>
+                          </div>
+                        </div>
+                        <div className={styles.videoAction}>
+                          <Svg name="verticalEllipsis"/>
+                          <div className={styles.notificationTooltip}>
+                              <Text size={14} color='var(--whiteText)' weight={300}>Действия</Text>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
                   </div>
-                  <Svg name="pancel"/>
-                  <Svg name="analytics"/>
-                  <Svg name="comments"/>
-                  <Svg name="doublePlayer"/>
-                  <Svg name="verticalEllipsis"/>
                 </td>
                 <td className={styles.dateCell}>{formatDate(video.datePublication || '')}</td>
                 <td className={styles.numberCell}>{formatViews(video.viewersCount)}</td>

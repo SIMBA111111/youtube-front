@@ -1,14 +1,21 @@
 .tableWrapper {
   overflow-x: auto;
   border-radius: 12px;
-  background: #fff;
+  background: var(--background);
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  
+
+  &DateFilter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+    
   thead {
     tr {
       border-bottom: 1px solid #e5e5e5;
@@ -19,6 +26,7 @@
         color: #606060;
         font-weight: 500;
         font-size: 13px;
+
         
         &:first-child {
           padding-left: 24px;
@@ -37,7 +45,11 @@
       transition: background 0.2s;
       
       &:hover {
-        background: #fafafa;
+        background: var(--navigatorBackground);
+
+        .videoActions {
+          visibility: visible;
+        }
       }
       
       td {
@@ -56,20 +68,31 @@
 }
 
 .videoCell {
-  max-width: 300px;
+  width: 300px;
+  height: 100px;
 }
 
 .videoInfo {
   display: flex;
   align-items: center;
   gap: 12px;
+  height: 100%;
 }
 
 .thumbnail {
-  width: 88px;
-  height: 48px;
+  width: 128px;
+  height: 68px;
   border-radius: 6px;
   object-fit: cover;
+}
+
+.descr {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 4 0;
+
 }
 
 .videoTitle {
@@ -81,6 +104,40 @@
     color: #065fd4;
     cursor: pointer;
   }
+}
+
+.videoActions {
+  visibility: hidden;
+  display: flex;
+  position: relative;
+  
+  .videoAction {
+    padding: 10px;
+    border-radius: 100%;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--grayDarkBackground);
+  
+     .notificationTooltip {
+        display: block;
+      }        
+    }
+  }
+}
+
+.notificationTooltip {
+    display: none;
+    position: absolute;
+    width: fit-content;
+    white-space: nowrap;
+    top: 60px;
+    padding: 10px;
+    transform: translateX(-40%);
+    color: var(--whiteText);
+    background-color: var(--lightBlackBackground);
+    border-radius: 8px;
+    opacity: 0.6;
 }
 
 .dateCell {
