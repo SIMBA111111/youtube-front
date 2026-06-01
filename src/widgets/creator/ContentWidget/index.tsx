@@ -7,7 +7,7 @@ import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
 import styles from "./styles.module.scss";
 import { FiltersEnum } from "@/features/ChannelVideoList/ui";
-import { CreateVideoModal } from "@/shared/ui/Modal/Modals/CreateVideoModal";
+import { CreateVideoModal } from "@/features/CreateVideoModal";
 
 
 interface IContentWidget {

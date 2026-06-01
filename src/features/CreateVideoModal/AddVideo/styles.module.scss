@@ -1,0 +1,85 @@
+.addVideo {
+    flex: 1;
+
+    .input {
+        display: none;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 100%;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        .imgContainer {
+            height: 96px;
+            width: 96px;          
+            padding: 100px;
+            background-color: var(--grayDarkBackground);
+            border-radius: 100%;
+            position: relative;
+            display: flex; 
+            
+            &Squashed {
+                animation: imgContainer forwards 1;
+                animation-duration: .5s;
+
+                .img {
+                    height: inherit;
+                    animation: arrow forwards 1;
+                    animation-duration: .5s;
+                }
+            }
+        }
+
+        .imgWrapper {
+            position: absolute;
+            top: 50%;              
+            left: 50%;             
+            transform: translate(-50%, -50%);
+            height: 96px;
+            width: 96px;
+            overflow: hidden;
+        }
+
+        .img {
+            height: inherit;
+        }
+
+        .inputBtn {
+            background-color: var(--foreground);
+            color: var(--whiteText);
+            padding: 10 20;
+            border-radius: 28px;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+}
+
+@keyframes arrow {
+    from {
+    }
+
+    to {
+        transform: translateY(40%);
+    }
+}
+
+@keyframes imgContainer {
+    from {
+    }
+
+    to {
+        padding: 60px 120px;
+    }
+}
