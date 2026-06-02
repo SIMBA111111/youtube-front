@@ -7,8 +7,7 @@ import styles from './styles.module.scss'
 
 
 export const CreateVideoModal = () => {
-    const {isOpened, toggleCreateModal} = useCreateVideoModal()
-    const { storedFile, addStoredFile } = useCreateVideoModal()
+    const {isOpened, toggleCreateModal, storedFile} = useCreateVideoModal()
 
     return (
         <Modal 

@@ -4,8 +4,8 @@ import { Text } from "@/shared/ui/Text"
 import { Modal } from "../.."
 import { FC } from "react"
 import { AUTH_STAGES } from "@/shared/constants/authStages"
-import styles from './styles.module.scss'
 import { useRouter } from "next/navigation"
+import styles from './styles.module.scss'
 
 
 interface IUnauthReportModal {

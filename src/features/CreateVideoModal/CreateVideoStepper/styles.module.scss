@@ -1,0 +1,87 @@
+.stepper {
+    margin-top: 40px;
+    padding: 25px;
+
+    [class*='ant-steps-item-rail-wait'] {
+        border: 2px solid gray;
+        opacity: 0.4;
+    }
+
+    [class*='ant-steps-item-rail-process'] {
+        border: 2px solid rgb(255, 255, 255);
+    }
+
+    [class*='ant-steps-item-rail-finish'] {
+        border: 2px solid rgb(255, 255, 255);
+    }
+}
+
+.divider {
+    height: 10px;
+    opacity: 0.1;
+    background: linear-gradient(to bottom, var(--foregroundRGB), transparent);
+    margin: 0px -100px 0 -100px;
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.stepContent {
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 6px; /* ширина скроллбара */
+      background: transparent; /* прозрачный фон */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+}
+
+.customStep {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(-25%);
+    white-space: nowrap;
+
+    .stepNameDisabled {
+        opacity: 0.4;
+    }
+
+    .current {
+        background-color: var(--foreground);
+        padding: 8px;
+        border-radius: 100%;
+
+        > div {
+            padding: 8px;
+            background-color: var(--background);
+            border-radius: 100%;
+        }
+    }
+
+
+    .disabled {
+        background-color: var(--foreground);
+        padding: 6px;
+        border-radius: 100%;
+        filter: brightness(0.4);
+
+        > div {
+            padding: 6px;
+            background-color: var(--background);
+            border-radius: 100%;
+        }
+    }
+}

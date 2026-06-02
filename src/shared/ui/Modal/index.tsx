@@ -1,6 +1,6 @@
 "use client"
 
-import React, { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from "react"
+import React, { ReactNode, useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import clsx from "clsx"
 
@@ -17,7 +17,22 @@ interface IModal {
     isVisible: boolean
     setIsVisible: (e: boolean) => void
     className?: string
+    id?: string
 }
+
+let modalStack: string[] = [];
+
+const addToStack = (id: string) => {
+    modalStack = [...modalStack.filter(modalId => modalId !== id), id];
+};
+
+const removeFromStack = (id: string) => {
+    modalStack = modalStack.filter(modalId => modalId !== id);
+};
+
+const isTopModal = (id: string) => {
+    return modalStack[modalStack.length - 1] === id;
+};
 
 export const Modal: React.FC<IModal> = ({
     children, 
@@ -26,69 +41,109 @@ export const Modal: React.FC<IModal> = ({
     isOverlay = false,
     isVisible, 
     setIsVisible, 
-    className
+    className,
+    id = Math.random().toString(36).substring(7)
 }) => {
     const modalRef = useRef<HTMLDivElement>(null);
-    const [mounted, setMounted] = React.useState(false);
+    const [mounted, setMounted] = useState(false);
+    const modalId = useRef(id);
 
-    // Монтируем портал только на клиенте
     useEffect(() => {
         setMounted(true);
         return () => setMounted(false);
     }, []);
 
-    // Обработчик клика вне модалки
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-                const openModals = document.querySelectorAll(`.${styles.modalContainer}.${styles.modalContainer__visible}`);
-                
-                if (openModals.length > 1) {
-                    const currentModalIndex = Array.from(openModals).findIndex(
-                        modal => modal === modalRef.current
-                    );
-                    
-                    if (currentModalIndex < openModals.length - 1) {
-                        return;
-                    }
-                }
-                
+        if (isVisible) {
+            addToStack(modalId.current);
+        } else {
+            removeFromStack(modalId.current);
+        }
+        return () => {
+            removeFromStack(modalId.current);
+        };
+    }, [isVisible]);
+
+    useEffect(() => {
+const handleClickOutside = (event: MouseEvent) => {
+    console.log('Clicked element:', event.target);
+    console.log('Modal element:', modalRef.current);
+    console.log('Is click inside modal?', modalRef.current?.contains(event.target as Node));
+    
+    const isClickOnModal = modalRef.current?.contains(event.target as Node);
+    const isClickOnOverlay = (event.target as HTMLElement).classList?.contains(styles.overlay);
+    
+    console.log('isClickOnModal:', isClickOnModal);
+    console.log('isClickOnOverlay:', isClickOnOverlay);
+    
+    if (!isClickOnModal && !isClickOnOverlay && isTopModal(modalId.current)) {
+        console.log('Closing modal');
+        setIsVisible(false);
+    }
+};
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape' && isTopModal(modalId.current)) {
                 setIsVisible(false);
             }
         };
 
-        // Блокируем скролл body при открытой модалке
-        if (isVisible) {
+        if (isVisible && isTopModal(modalId.current)) {
             document.body.style.overflow = 'hidden';
-            setTimeout(() => {
-                document.addEventListener('mousedown', handleClickOutside);
-            }, 0);
+            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('keydown', handleEscape);
         }
 
         return () => {
-            document.body.style.overflow = '';
+            if (isTopModal(modalId.current)) {
+                const otherOpenModals = modalStack.filter(id => id !== modalId.current);
+                if (otherOpenModals.length === 0) {
+                    document.body.style.overflow = '';
+                }
+            }
             document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleEscape);
         };
     }, [isVisible, setIsVisible]);
 
-    // Останавливаем всплытие кликов внутри модалки
     const handleModalClick = (e: React.MouseEvent) => {
         e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+    };
+
+    const handleOverlayClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (isTopModal(modalId.current)) {
+            setIsVisible(false);
+        }
     };
 
     const classList = clsx(
         className, 
         styles.modalContainer, 
-        styles[`modalContainer__${isVisible ? 'visible' : 'hidden'}`]
+        styles[`modalContainer__${isVisible ? 'visible' : 'hidden'}`],
+        {
+            [styles.modalTop]: isTopModal(modalId.current),
+            [styles.modalBottom]: !isTopModal(modalId.current)
+        }
     );
 
-    // Если модалка не видна или еще не смонтирована на клиенте - не рендерим
     if (!isVisible || !mounted) return null;
 
-    // Контент модалки
     const modalContent = (
         <>
-            <div className={classList} ref={modalRef} onClick={handleModalClick}>
+            <div 
+                className={classList} 
+                ref={modalRef} 
+                onClick={handleModalClick}
+                style={{ 
+                    zIndex: 1000 + modalStack.indexOf(modalId.current),
+                    position: 'fixed'
+                }}
+                onMouseDown={(e) => {
+                    e.stopPropagation(); // 🟢 Добавьте и это
+                }}
+            >
                 {(isCloseButton || title) && (
                     <div className={styles.header}>
                         {title && (
@@ -102,7 +157,6 @@ export const Modal: React.FC<IModal> = ({
                         )}
                     </div>
                 )}
-                
                 {children}
             </div>
             {isOverlay && (
@@ -111,21 +165,16 @@ export const Modal: React.FC<IModal> = ({
                         styles.overlay, 
                         isVisible && styles.overlay__visible
                     )} 
-                    onClick={(e: React.MouseEvent) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        const openModals = document.querySelectorAll(`.${styles.modalContainer}.${styles.modalContainer__visible}`);
-                        if (openModals.length <= 1) {
-                            setIsVisible(false);
-                        }
+                    onClick={handleOverlayClick}
+                    style={{ 
+                        zIndex: 999 + modalStack.indexOf(modalId.current),
+                        position: 'fixed'
                     }}
                 />
             )}
         </>
     );
 
-    // Рендерим в портал (обычно в body, но можно в любой DOM-элемент)
     const portalRoot = typeof document !== 'undefined' ? document.body : null;
-    
     return portalRoot ? createPortal(modalContent, portalRoot) : null;
-}
+};

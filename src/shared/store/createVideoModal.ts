@@ -7,7 +7,7 @@ interface ICreateVideoModal {
         videoName: string,
         videoDescription: string,
         videoPreview: string,
-        playlistId: string,
+        playlistIds: string[],
     }
     // openedCreateModal: () => void,
     toggleCreateModal: () => void;
@@ -22,7 +22,7 @@ export const useCreateVideoModal = create<ICreateVideoModal>((set) => ({
         videoName: '',
         videoDescription: '',
         videoPreview: '',
-        playlistId: '',
+        playlistIds: [],
     },
     // openedCreateModal: () => set({isOpened: true}),
     toggleCreateModal: () => set((state) => ({ isOpened: !state.isOpened })),

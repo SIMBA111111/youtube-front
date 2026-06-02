@@ -2,6 +2,11 @@
     width: 70%;
     max-width: 1200px;
     height: 80%;
+    overflow: hidden;
+    gap: 0px;
+    background-color: var(--grayBackground);
+    box-shadow: none !important;
+    border-radius: 28px;
 
     .input {
         box-sizing: border-box;
@@ -23,7 +28,7 @@
             height: 96px;
             width: 96px;          
             padding: 100px;
-            background-color: var(--grayDarkBackground);
+            background-color: var(--lightBlackBackground);
             border-radius: 100%;
             position: relative;
             display: flex; 

@@ -4,8 +4,8 @@ import { Svg, Text } from "@/shared/ui";
 import { formatDate } from "@/shared/utils/formatDate";
 import { formatViews } from "@/shared/utils/formatViews";
 import { FiltersEnum } from "@/features/ChannelVideoList/ui";
-import styles from "./styles.module.scss";
 import { EmptyTable } from "./emptyTable";
+import styles from "./styles.module.scss";
 
 
 interface IVideosTable {

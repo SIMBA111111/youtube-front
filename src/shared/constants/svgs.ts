@@ -1,4 +1,5 @@
 export const svgs = {
+    uploadImage: 'uploadImage',
     arrowDown: 'arrowDown',
     arrowLeft: 'arrowLeft',
     arrowUp: 'arrowUp',

@@ -7,7 +7,7 @@ import styles from './styles.module.scss'
 
 export const AddVideo: FC = () => {
     const inputRef = useRef<HTMLInputElement>(null)
-    const { storedFile, addStoredFile } = useCreateVideoModal()
+    const { storedFile, addStoredFile, addVideoData } = useCreateVideoModal()
 
     const handleSetFile = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null

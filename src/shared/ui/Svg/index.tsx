@@ -25,6 +25,15 @@ export const Svg: React.FC<ISvg> = ({
   size = "middle",
 }) => {
   switch (name) {
+
+
+    case "uploadImage":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" height={sizes[size]} viewBox="0 0 24 24" fill={colors[color]} width={sizes[size]} focusable="false" aria-hidden="true">
+          <path d="M20 0a1 1 0 00-1 1v2h-2a1 1 0 100 2h2v2a1 1 0 002 0V5h2a1 1 0 100-2h-2V1a1 1 0 00-1-1Zm-6 4V2H4a2 2 0 00-2 2v16a2 2 0 002 2h16a2 2 0 002-2V10h-2v3.233l-2.456-1.473a3 3 0 00-3.088 0L4 18.033V4h10ZM9 6a3 3 0 100 6 3 3 0 000-6Zm0 2a1 1 0 110 2 1 1 0 010-2Zm7.515 5.475L20 15.565V20H4.61l10.875-6.525a1 1 0 011.03 0Z"></path>\
+        </svg>
+      );
+
     case "arrowDown":
       return (
         <svg

@@ -1,0 +1,120 @@
+.options {
+    background-color: var(--background);
+    display: flex;
+    flex-direction: column;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    padding: 6px 0px;
+
+    &_container {
+        overflow-y: auto;
+        max-height: 200px;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+    }
+
+    .item {
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        > span {
+            overflow: hidden;     
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        &:hover {
+            background-color: var(--grayBackground);
+            cursor: pointer;
+        }
+
+        .checkbox {
+            appearance: none;
+            height: 20px;
+            aspect-ratio: 1/1;
+            background: transparent;
+            border: 2px solid var(--gray);
+            border-radius: 4px;
+            cursor: pointer;
+
+            &:checked {
+                background-color: var(--foreground);
+                border: 2px solid var(--foreground);
+                background-image: url('/defaultImages/check.svg');
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 110%;
+            }
+
+            &::after {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                height: 100%;
+                width: 100%;
+                background-color: aqua;
+                color: red;
+            }
+        }
+    }
+
+    .footer {
+        border-top: 2px solid var(--foregroundRGB);
+        padding: 6px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .createPlaylist {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 28px;
+            padding: 6 20;
+            background-color: var(--grayDarkBackground);
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.8;
+            }
+
+            button {
+                border: none;
+                background: none;
+            }
+        }
+
+        .btn {
+            border: none;
+            background-color: var(--grayDarkBackground);
+            border-radius: 28px;
+            padding: 10 16;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+}
+
+.selectorPlaylist {
+    background-color: var(--background);
+
+    .text {
+        color: var(--blackText);
+        overflow: hidden;     
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
