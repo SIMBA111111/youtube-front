@@ -11,7 +11,7 @@ interface IRadioButton {
     name: string
     value?: string
     onChange?: (value: string) => void
-    className: string
+    className?: string
 }
 
 export const RadioButton: React.FC<IRadioButton> = ({

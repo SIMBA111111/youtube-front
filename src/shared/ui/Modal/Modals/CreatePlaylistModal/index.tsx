@@ -1,4 +1,4 @@
-import { FC, useRef, useEffect, useState, ChangeEventHandler } from "react"
+import { FC, useRef, useEffect, useState, ChangeEventHandler, Dispatch, SetStateAction } from "react"
 import clsx from "clsx"
 import Cookies from "js-cookie"
 import { Text } from "@/shared/ui/Text"
@@ -6,16 +6,19 @@ import { createPlaylist } from "@/shared/api/playlists/createPlaylist"
 import { Modal } from "../.."
 import styles from './styles.module.scss'
 import { Svg } from "@/shared/ui/Svg"
+import { IOption } from "@/shared/ui/Selector"
 
 
 interface ICreatePlaylistModal {
     isVisibleModal: boolean
     setIsVisibleModal: (newValue: boolean) => void
+    setOptionsState: Dispatch<SetStateAction<IOption[]>>
 }
 
 export const CreatePlaylistModal: FC<ICreatePlaylistModal> = ({
     isVisibleModal,
-    setIsVisibleModal
+    setIsVisibleModal,
+    setOptionsState
 }) => {
     const nameRef = useRef<HTMLTextAreaElement>(null);
     const iconInputRef = useRef<HTMLInputElement>(null);
@@ -42,20 +45,20 @@ export const CreatePlaylistModal: FC<ICreatePlaylistModal> = ({
     const handleCreate = async () => {
         const name = nameRef.current?.value;
         if (name && preview) {
-            console.log('Создать плейлист:', name);
             if (nameRef.current?.value && iconPreview) {
-                await createPlaylist(userId, jwt, nameRef.current?.value, preview)
+                const responseCreatedPlaylist = await createPlaylist(userId, jwt, nameRef.current?.value, preview)
+            
+                if (responseCreatedPlaylist && responseCreatedPlaylist.playlist) {
+                    console.log('responseCreatedPlaylist = ', responseCreatedPlaylist);
+                    
+                    setOptionsState((prev: IOption[]) => [...prev, {value: responseCreatedPlaylist.playlist.id, label: responseCreatedPlaylist.playlist.name}])
+                } 
             }
             setIsVisibleModal(false);
         }
     };
 
-
     const handleIconUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleIconUpload');
-        console.log(e.target.files);
-        
-        
         const file = e.target.files?.[0];
         if (file && file.type === 'image/png') {
             const reader = new FileReader();
@@ -72,8 +75,6 @@ export const CreatePlaylistModal: FC<ICreatePlaylistModal> = ({
             if (iconInputRef.current) iconInputRef.current.value = '';
         }
     };
-
-
 
     return (
         <Modal 

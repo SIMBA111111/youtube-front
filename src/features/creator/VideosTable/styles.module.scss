@@ -80,7 +80,7 @@
 }
 
 .thumbnail {
-  width: 128px;
+  min-width: 128px;
   height: 68px;
   border-radius: 6px;
   object-fit: cover;

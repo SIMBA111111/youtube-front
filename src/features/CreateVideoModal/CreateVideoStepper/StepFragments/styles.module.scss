@@ -65,7 +65,7 @@
 .fragmentFields {
     display: flex;
     gap: 16px;
-    align-items: flex-start;
+    align-items: center;
     
     @media (max-width: 768px) {
         flex-direction: column;
@@ -124,7 +124,7 @@
     padding: 8px;
     color: var(--gray);
     transition: color 0.2s;
-    margin-top: 24px;
+    margin-top: 16px;
     
     &:hover {
         color: red;
@@ -133,7 +133,7 @@
 
 .setDurationBtn {
     padding: 4px 12px;
-    background: var(--primary);
+    background: var(--grayDarkBackground);
     color: white;
     border: none;
     border-radius: 6px;
@@ -230,8 +230,8 @@
 
 .submitBtn {
     padding: 10px 20px;
-    background: var(--primary);
-    color: white;
+    background: var(--grayDarkBackground);
+    color: var(--blackText);
     border: none;
     border-radius: 8px;
     cursor: pointer;

@@ -25,10 +25,18 @@ const Dropdown: FC<IDropdownProps> = ({
     onSelect, 
     selectedOption 
 }) => {
+
+    
     const [tempSelected, setTempSelected] = useState<IOption[]>([]);
+    const [optionsState, setOptionsState] = useState<IOption[]>([]);
     const [isVisibleModal, setIsVisibleModal] = useState<boolean>(false);
 
-    // Инициализация временного состояния при открытии
+    useEffect(() => {
+        if (options && options.length > 0) {
+            setOptionsState([...options]); // создаем копию
+        }
+    }, [options]);
+
     useEffect(() => {
         if (isOpen) {
             setTempSelected(selectedOption || []);
@@ -60,17 +68,14 @@ const Dropdown: FC<IDropdownProps> = ({
         setIsVisibleModal(true);
     };
 
-    console.log('tempSelected = ', tempSelected);
-
     const handleVisibleCreatePlaylistModal = (newValue: boolean) => {
         setIsVisibleModal(newValue)
     }
-    
 
     return (
         <div className={styles.options}>
             <div className={styles.options_container}>
-                {options.map((o: IOption) => (
+                {optionsState.map((o: IOption) => (
                     <label key={o.value} className={styles.item}>
                         <input 
                             type="checkbox" 
@@ -96,6 +101,7 @@ const Dropdown: FC<IDropdownProps> = ({
                 key={isVisibleModal ? 'open' : 'closed'}
                 isVisibleModal={isVisibleModal} 
                 setIsVisibleModal={handleVisibleCreatePlaylistModal}
+                setOptionsState={setOptionsState}
             />
         </div>
     );

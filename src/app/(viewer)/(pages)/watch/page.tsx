@@ -54,7 +54,7 @@ export default async function WatchVideo({
     ? "id" in videoData.isSubscribed
     : false;
 
-  // console.log('videoData.video = ', videoData);
+  console.log('videoData.video = ', videoData);
 
   return (
     <div className={styles.page}>
@@ -63,7 +63,7 @@ export default async function WatchVideo({
           <Player
             playlistUrl={videoData.video?.masterM3u8Url}
             duration={videoData.video?.duration}
-            fragments={[]}
+            fragments={videoData.video?.fragments}
           />
         </div>
         <div className={styles.description}>

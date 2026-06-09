@@ -97,8 +97,8 @@ export const VideosTable: FC<IVideosTable> = ({
                 <td className={styles.dateCell}>{formatDate(video.datePublication || '')}</td>
                 <td className={styles.numberCell}>{formatViews(video.viewersCount)}</td>
                 {/* <td className={styles.numberCell}>{video.commentsCount.toLocaleString()}</td> */}
-                <td className={styles.numberCell}>10</td>
-                <td className={styles.numberCell}>{video.likeCount.toLocaleString()}</td>
+                <td className={styles.numberCell}>{video.commentsCount}</td>
+                <td className={styles.numberCell}>{video.likeCount}</td>
                 <td className={styles.likeCell}>
                   <div className={styles.likeBar}>
                     <div 

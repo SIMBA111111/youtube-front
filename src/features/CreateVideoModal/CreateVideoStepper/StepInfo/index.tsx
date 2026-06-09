@@ -10,14 +10,15 @@ import { TSteps } from "..";
 import styles from './styles.module.scss'
 
 
-export const StepInfo = ({setActiveStep}: {setActiveStep: (newStep: TSteps) => void}) => {
+export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep}: {setActiveStep: (newStep: TSteps) => void, setLastCompletedStep: (newStep: TSteps) => void, lastCompletedStep: number}) => {
     const { addVideoData, storedFile, videoData } = useCreateVideoModal()
-    const [selectedPlaylist, setSelectedPlaylist] = useState<IOption[]>([])
-    const [iconPreview, setIconPreview] = useState<string | null>(null)
-    const [selectorOptions, setSelectorOptions] = useState<IOption[]>([])
+    const [selectedPlaylist, setSelectedPlaylist] = useState<IOption[]>(videoData.playlistIds ? videoData.playlistIds.map(p => { return {value: p.id, label: p.name}}) : [])
+    const [iconPreview, setIconPreview] = useState<string | null>(videoData.iconPreview || null)
+    const [selectorOptions, setSelectorOptions] = useState<IOption[]>(videoData.playlistIds ? [...videoData.playlistIds] : [])
     const [videoName, setVideoName] = useState<string>(videoData.videoName || '')
     const [videoDescription, setVideoDescription] = useState<string>(videoData.videoDescription || '')
     const [iconFile, setIconFile] = useState<File | null>(null)
+
     
     const iconInputRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLTextAreaElement>(null);
@@ -75,9 +76,11 @@ export const StepInfo = ({setActiveStep}: {setActiveStep: (newStep: TSteps) => v
         if (file) {
             const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
             if (validTypes.includes(file.type)) {
-                if (file.size <= 2 * 1024 * 1024) {
+                if (file.size <= 10 * 1024 * 1024) {
                     setIconFile(file);
                     const reader = new FileReader();
+                    console.log('file = ', file);
+                    
                     reader.onloadend = () => {
                         setIconPreview(reader.result as string);
                     };
@@ -112,23 +115,28 @@ export const StepInfo = ({setActiveStep}: {setActiveStep: (newStep: TSteps) => v
         }
         
         if (selectedPlaylist.length > 0) {
-            formData['playlistIds'] = selectedPlaylist.map((p: IOption) => p.value)
+            formData['playlistIds'] = selectedPlaylist.map(p => { return {id: p.value, name: p.label} })
         }
         
         if (iconFile) {
             formData['videoPreview'] = iconFile
         }
 
-        console.log('formData = ', formData);
+        if (iconPreview) {
+            formData['iconPreview'] = iconPreview
+        }
+
         addVideoData(formData)
+        if (!lastCompletedStep) {
+            setLastCompletedStep(0)
+        }
         setActiveStep(1)
     };
 
     console.log('videoData = ', videoData);
-    console.log('isFormValid:', isFormValid());
-    console.log('disabled:', isDisabledContinue);
+    console.log('iconFile = ', iconFile);
+    
 
-    // Форматирование имени файла (обрезаем длинные имена)
     const formatFileName = (fileName: string) => {
         if (fileName.length > 40) {
             return fileName.substring(0, 37) + '...';

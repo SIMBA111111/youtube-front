@@ -11,6 +11,7 @@ export interface IVideo {
     viewersCount: number
     likeCount: number
     dislikeCount: number
+    commentsCount?: number
     masterM3u8Url: string
     channel: IChannel
     datePublication?: string

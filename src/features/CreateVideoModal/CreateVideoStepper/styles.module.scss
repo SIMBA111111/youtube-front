@@ -36,6 +36,7 @@
 
 .stepContent {
     overflow-y: auto;
+    height: 100%;
 
     &::-webkit-scrollbar {
       width: 6px; /* ширина скроллбара */
@@ -54,6 +55,7 @@
     align-items: center;
     transform: translateY(-25%);
     white-space: nowrap;
+    // height: 100%;
 
     .stepNameDisabled {
         opacity: 0.4;
@@ -66,6 +68,19 @@
 
         > div {
             padding: 8px;
+            background-color: var(--background);
+            border-radius: 100%;
+        }
+    }
+
+
+    .opened {
+        background-color: var(--foreground);
+        padding: 6px;
+        border-radius: 100%;
+
+        > div {
+            padding: 6px;
             background-color: var(--background);
             border-radius: 100%;
         }

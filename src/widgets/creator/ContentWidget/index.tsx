@@ -8,6 +8,8 @@ import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListBy
 import styles from "./styles.module.scss";
 import { FiltersEnum } from "@/features/ChannelVideoList/ui";
 import { CreateVideoModal } from "@/features/CreateVideoModal";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCreateVideoModal } from "@/shared/store/createVideoModal";
 
 
 interface IContentWidget {
@@ -23,9 +25,27 @@ export const ContentWidget: FC<IContentWidget> = ({
     channelId,
     channelUsername,
 }) => {
+    const {isOpened, toggleCreateModal, openCreateModal} = useCreateVideoModal()
+    
     const [videos, setVideos] = useState<IVideo[]>([])
     const [activeTab, setActiveTab] = useState<TTabs>('videos')
     const [filter, setFilter] = useState<keyof typeof FiltersEnum>('NEWS')
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const isOpenCreateVideoModal = searchParams.get('createVideo')
+        
+        console.log('isOpenCreateVideoModal = ', isOpenCreateVideoModal);
+        console.log('isOpenCreateVideoModal = ', isOpenCreateVideoModal == 'true');
+        
+        if (isOpenCreateVideoModal == 'true') {
+            console.log('принято');
+            openCreateModal()
+        }
+    }, [])
+
+    console.log('isOpened = ', isOpened);
+    
 
     useEffect(() => {
         (async () => {
@@ -45,6 +65,8 @@ export const ContentWidget: FC<IContentWidget> = ({
         filter === FiltersEnum.NEWS ? setFilter(FiltersEnum.OLD) : setFilter(FiltersEnum.NEWS)
     }
 
+    console.log('videos = ', videos);
+    
 
     return (
         <div>

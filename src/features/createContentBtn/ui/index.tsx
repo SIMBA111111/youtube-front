@@ -18,7 +18,7 @@ export const CreateContentBtn = ({channelId}: {channelId: string}) => {
             </BackgroundFon>
             <Popover isOpen={isOpenCreateModal} onClose={() => setIsOpenCreateModal(false)} className={styles.customModal}>
                 <div className={styles.createModal}>
-                    <Link href={`/creator/${channelId}/videos`} className={styles.createModal__item}>
+                    <Link href={`/creator/${channelId}/videos?createVideo=true`} className={styles.createModal__item}>
                         <Svg name='video'/>
                         <Text weight={400} size={14}>Добавить видео</Text>
                     </Link>

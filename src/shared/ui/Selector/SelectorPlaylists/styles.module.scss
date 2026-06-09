@@ -48,12 +48,12 @@
             cursor: pointer;
 
             &:checked {
-                background-color: var(--foreground);
-                border: 2px solid var(--foreground);
+                background-color: #fff;
+                border: 1px solid var(--foreground);
                 background-image: url('/defaultImages/check.svg');
                 background-repeat: no-repeat;
                 background-position: center;
-                background-size: 110%;
+                background-size: 90%;
             }
 
             &::after {

@@ -1,10 +1,12 @@
-import { TSteps } from ".."
-import { SubmitHandler, useForm, useFieldArray } from "react-hook-form";
-import styles from "./styles.module.scss";
-import { useCreateVideoModal } from "@/shared/store/createVideoModal";
 import { useEffect, useState } from "react";
+import { SubmitHandler, useForm, useFieldArray } from "react-hook-form";
+import { useCreateVideoModal } from "@/shared/store/createVideoModal";
+import { Text } from "@/shared/ui";
+import { TSteps } from ".."
+import styles from "./styles.module.scss";
 
 interface IFragment {
+    index: number;
     start: number;
     end: number;
     title: string;
@@ -14,14 +16,20 @@ interface IFormValues {
     fragments: IFragment[];
 }
 
-export const StepFragments = ({ setActiveStep, setFormData }: { 
-    setActiveStep: (newStep: TSteps) => void;
-    setFormData?: (data: any) => void;
+export const StepFragments = ({ setActiveStep, setLastCompletedStep, lastCompletedStep }: { 
+    setActiveStep: (newStep: TSteps) => void,
+    setLastCompletedStep: (newStep: TSteps) => void,
+    lastCompletedStep: number
 }) => {
 
-    const { storedFile } = useCreateVideoModal()
+    const { storedFile, addVideoData, videoData } = useCreateVideoModal()
     const [videoDuration, setVideoDuration] = useState<number | null>(null);
     const [isLoadingDuration, setIsLoadingDuration] = useState(false);
+    
+    // Функция для точного сравнения чисел с плавающей точкой
+    const isEqual = (a: number, b: number, epsilon: number = 0.001): boolean => {
+        return Math.abs(a - b) < epsilon;
+    };
     
     useEffect(() => {
         if (!storedFile) {
@@ -63,12 +71,24 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
         formState: { errors },
         getValues,
         setValue,
-        watch
+        watch,
+        trigger,
+        reset
     } = useForm<IFormValues>({
         defaultValues: {
-            fragments: [{ start: 0, end: 0, title: "" }]
-        }
+            fragments: videoData.fragments && videoData.fragments.length > 0 
+                ? videoData.fragments 
+                : [{ index: 0, start: 0, end: 0, title: "" }]
+        },
+        mode: "onChange"
     });
+    
+    // Обновляем форму при изменении videoData.fragments в сторе
+    useEffect(() => {
+        if (videoData.fragments && videoData.fragments.length > 0) {
+            reset({ fragments: videoData.fragments });
+        }
+    }, [videoData.fragments, reset]);
     
     const { fields, append, remove } = useFieldArray({
         control,
@@ -78,21 +98,11 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
     // Следим за изменениями фрагментов
     const fragments = watch("fragments");
     
-    // Получаем нормализованные значения (как числа)
-    const getNormalizedFragments = () => {
-        if (!fragments) return [];
-        return fragments.map(f => ({
-            ...f,
-            start: Number(f.start) || 0,
-            end: Number(f.end) || 0
-        }));
-    };
-    
     // Получаем end последнего фрагмента как число
     const getLastFragmentEnd = (): number => {
-        const normalized = getNormalizedFragments();
-        if (normalized.length === 0) return 0;
-        return normalized[normalized.length - 1].end;
+        if (!fragments || fragments.length === 0) return 0;
+        const lastEnd = fragments[fragments.length - 1]?.end;
+        return typeof lastEnd === 'number' ? lastEnd : Number(lastEnd) || 0;
     };
     
     // Проверка, можно ли перейти на следующий шаг
@@ -101,14 +111,16 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
         if (!fragments || fragments.length === 0) return true;
         
         const lastEnd = getLastFragmentEnd();
-        // Последний фрагмент должен заканчиваться точно на длительности видео
-        return Math.abs(lastEnd - videoDuration) > 0.01;
+        // Используем isEqual с погрешностью 0.1 секунды
+        return !isEqual(lastEnd, videoDuration, 0.1);
     };
 
     const onSubmit: SubmitHandler<IFormValues> = async (data) => {
         const formData = new FormData();
 
-        const fragmentsData = data.fragments.map((f) => ({
+        // Сохраняем фрагменты с индексами
+        const fragmentsData = data.fragments.map((f, idx) => ({
+            index: idx,  // Используем текущий индекс в массиве
             start: Number(f.start) || 0,
             end: Number(f.end) || 0,
             title: f.title || "",
@@ -116,21 +128,29 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
         
         formData.append("fragments", JSON.stringify(fragmentsData));
         
-        if (setFormData) {
-            setFormData(formData);
+        // Сохраняем в глобальный стор
+        addVideoData({
+            ...videoData,
+            fragments: fragmentsData
+        })
+
+        if (lastCompletedStep === 0) {
+            setLastCompletedStep(1)
         }
-        
-        console.log("Fragments:", fragmentsData);
-        
-        // Переход на следующий шаг
-        // setActiveStep("next_step");
+
+        setActiveStep(2);
     };
     
     const handleAddFragment = () => {
         const currentFragments = getValues("fragments");
         const lastEnd = Number(currentFragments[currentFragments.length - 1]?.end) || 0;
-        // Новый фрагмент начинается с последнего end или 0
-        append({ start: lastEnd, end: lastEnd, title: "" });
+        const newIndex = currentFragments.length; // Индекс будет равен текущей длине массива
+        append({ 
+            index: newIndex, 
+            start: lastEnd, 
+            end: lastEnd, 
+            title: "" 
+        });
     };
     
     // Установить конец последнего фрагмента равным длительности видео
@@ -138,6 +158,7 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
         if (videoDuration && fields.length > 0) {
             const lastIndex = fields.length - 1;
             setValue(`fragments.${lastIndex}.end`, videoDuration);
+            trigger(`fragments.${lastIndex}.end`); // Триггерим валидацию
         }
     };
     
@@ -146,51 +167,43 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
         const fragments = getValues("fragments");
         const numValue = Number(value);
         
+        if (isNaN(numValue)) return "Введите число";
+        
         // Проверка с предыдущим фрагментом
         if (index > 0) {
             const prevEnd = Number(fragments[index - 1]?.end);
-            if (!isNaN(prevEnd) && numValue < prevEnd) {
+            if (!isNaN(prevEnd) && numValue < prevEnd - 0.01) { // Добавляем погрешность
                 return `Start не может быть меньше ${prevEnd.toFixed(1)} (конец предыдущего фрагмента)`;
             }
         }
         
         // Проверка с собственным end
         const currentEnd = Number(fragments[index]?.end);
-        if (!isNaN(currentEnd) && numValue >= currentEnd) {
+        if (!isNaN(currentEnd) && numValue >= currentEnd - 0.01) { // Добавляем погрешность
             return "Start должен быть меньше End";
         }
         
         return true;
     };
     
-    // Валидация end: должен быть > start, не может превышать start следующего фрагмента и не может превышать длительность видео
+    // Валидация end: должен быть > start, не может превышать start следующего фрагмента
     const validateEnd = (value: number, index: number) => {
         const fragments = getValues("fragments");
         const numValue = Number(value);
         const currentStart = Number(fragments[index]?.start);
         
-        // Проверка с собственным start
-        if (!isNaN(currentStart) && numValue <= currentStart) {
-            return "End должен быть больше Start";
-        }
+        if (isNaN(numValue)) return "Введите число";
         
-        // Проверка с длительностью видео
-        if (videoDuration && numValue > videoDuration) {
-            return `End не может быть больше длительности видео (${formatDuration(videoDuration)})`;
+        // Проверка с собственным start
+        if (!isNaN(currentStart) && numValue <= currentStart + 0.01) { // Добавляем погрешность
+            return "End должен быть больше Start";
         }
         
         // Проверка со следующим фрагментом
         if (index < fragments.length - 1) {
             const nextStart = Number(fragments[index + 1]?.start);
-            if (!isNaN(nextStart) && numValue > nextStart) {
+            if (!isNaN(nextStart) && numValue > nextStart + 0.01) { // Добавляем погрешность
                 return `End не может быть больше ${nextStart.toFixed(1)} (начало следующего фрагмента)`;
-            }
-        }
-        
-        // Для последнего фрагмента: end должен быть равен длительности видео
-        if (index === fragments.length - 1 && videoDuration) {
-            if (Math.abs(numValue - videoDuration) > 0.01) {
-                return `Последний фрагмент должен заканчиваться в конце видео (${formatDuration(videoDuration)})`;
             }
         }
         
@@ -198,6 +211,7 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
     };
 
     const formatDuration = (seconds: number): string => {
+        if (isNaN(seconds)) return "0:00";
         const hours = Math.floor(seconds / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
         const secs = Math.floor(seconds % 60);
@@ -210,6 +224,7 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
 
     const lastFragmentEnd = getLastFragmentEnd();
     const progressPercent = videoDuration ? (lastFragmentEnd / videoDuration) * 100 : 0;
+    const isLastFragmentValid = videoDuration ? isEqual(lastFragmentEnd, videoDuration, 0.1) : false;
 
     return (
         <div className={styles.container}>
@@ -228,7 +243,7 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
                     
                     {videoDuration && (
                         <div className={styles.durationInfo}>
-                            Длительность видео: <strong>{formatDuration(videoDuration)}</strong>
+                            Длительность видео: <strong>{formatDuration(videoDuration)}</strong> ({videoDuration.toFixed(2)} сек)
                         </div>
                     )}
 
@@ -248,7 +263,7 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
                                         onClick={setLastFragmentEndToDuration}
                                         className={styles.setDurationBtn}
                                     >
-                                        Установить конец {formatDuration(videoDuration)}
+                                        <Text>Установить конец {formatDuration(videoDuration)}</Text>
                                     </button>
                                 )}
                             </div>
@@ -261,7 +276,7 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
                                     </label>
                                     <input
                                         type="number"
-                                        step="0.1"
+                                        step="any"
                                         {...register(`fragments.${index}.start` as const, {
                                             required: "Укажите время начала",
                                             min: { value: 0, message: "Время не может быть отрицательным" },
@@ -285,11 +300,14 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
                                     </label>
                                     <input
                                         type="number"
-                                        step="0.1"
+                                        step="any"
                                         {...register(`fragments.${index}.end` as const, {
                                             required: "Укажите время окончания",
                                             min: { value: 0, message: "Время не может быть отрицательным" },
-                                            validate: (value) => validateEnd(Number(value), index),
+                                            validate: (value) => {
+                                                const validationResult = validateEnd(Number(value), index);
+                                                return validationResult;
+                                            },
                                             valueAsNumber: true
                                         })}
                                         className={`${styles.input} ${errors.fragments?.[index]?.end ? styles.inputError : ""}`}
@@ -349,11 +367,16 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
                             </div>
                             <div className={styles.progressText}>
                                 <span>
-                                    {lastFragmentEnd.toFixed(1)} сек / {videoDuration.toFixed(1)} сек
+                                    {lastFragmentEnd.toFixed(2)} сек / {videoDuration.toFixed(2)} сек
                                 </span>
-                                {Math.abs(lastFragmentEnd - videoDuration) > 0.01 && (
+                                {!isLastFragmentValid && (
                                     <span className={styles.warning}>
-                                        ⚠️ Последний фрагмент должен заканчиваться в конце видео
+                                        ⚠️ Последний фрагмент должен заканчиваться в конце видео ({formatDuration(videoDuration)})
+                                    </span>
+                                )}
+                                {isLastFragmentValid && (
+                                    <span className={styles.success}>
+                                        ✓ Последний фрагмент заканчивается в конце видео
                                     </span>
                                 )}
                             </div>
@@ -372,7 +395,7 @@ export const StepFragments = ({ setActiveStep, setFormData }: {
                     <button 
                         type="submit" 
                         className={`${styles.submitBtn} ${isNextDisabled() ? styles.disabled : ""}`}
-                        disabled={isNextDisabled()}
+                        // disabled={isNextDisabled()}
                     >
                         Продолжить
                     </button>
