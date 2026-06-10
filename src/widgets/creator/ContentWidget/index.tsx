@@ -35,17 +35,10 @@ export const ContentWidget: FC<IContentWidget> = ({
     useEffect(() => {
         const isOpenCreateVideoModal = searchParams.get('createVideo')
         
-        console.log('isOpenCreateVideoModal = ', isOpenCreateVideoModal);
-        console.log('isOpenCreateVideoModal = ', isOpenCreateVideoModal == 'true');
-        
         if (isOpenCreateVideoModal == 'true') {
-            console.log('принято');
             openCreateModal()
         }
     }, [])
-
-    console.log('isOpened = ', isOpened);
-    
 
     useEffect(() => {
         (async () => {
@@ -65,20 +58,17 @@ export const ContentWidget: FC<IContentWidget> = ({
         filter === FiltersEnum.NEWS ? setFilter(FiltersEnum.OLD) : setFilter(FiltersEnum.NEWS)
     }
 
-    console.log('videos = ', videos);
-    
-
     return (
         <div>
             <Tabs.Root defaultActiveTabId="videos" onTabChange={(tabId) => setActiveTab(tabId as TTabs)}>
             <Tabs.List classNameList={styles.tabHeader} classNameItem={styles.tabHeader_item} classNameActiveItem={styles.tabHeader_item_active}/>
 
             <Tabs.Tab id="videos" label="Видео">
-                <VideosTable videos={videos} filter={filter} handleFilter={handleFilter}/>
+                <VideosTable videos={videos} filter={filter} handleFilter={handleFilter} channelId={channelId}/>
             </Tabs.Tab>
             
             <Tabs.Tab id="shorts" label="Shorts">
-                <VideosTable videos={videos} filter={filter} handleFilter={handleFilter}/>
+                <VideosTable videos={videos} filter={filter} handleFilter={handleFilter} channelId={channelId}/>
             </Tabs.Tab>
 
             </Tabs.Root>

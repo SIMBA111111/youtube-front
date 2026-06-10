@@ -13,7 +13,7 @@ interface ICreatorPageProvider {
     activeTheme: string
 }
 
-export const CreatorPageProvider: FC<ICreatorPageProvider> = ({ 
+export const CreatorChannelPageProvider: FC<ICreatorPageProvider> = ({ 
     children, 
     channelAvatar, 
     channelName,

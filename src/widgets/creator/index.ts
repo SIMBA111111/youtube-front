@@ -1,3 +1,4 @@
 export { CreatorSidebar } from './CreatorSidebar'
 export { CreatorHeader } from './CreatorHeader'
 export { ContentWidget } from './ContentWidget'
+export { CreatorVideoSidebar } from './CreatorVideoSidebar'

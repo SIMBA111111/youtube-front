@@ -93,3 +93,24 @@ export const CREATOR_SIDEBAR = [
         svgName: svgs['magic']
     },
 ]
+
+export const CREATOR_VIDEO_SIDEBAR = [
+    {
+        id: '0',
+        href: (channelId: string) => `/video/${channelId}/edit`,
+        name: 'Редактировать',
+        svgName: svgs['comments']
+    },
+    {
+        id: '1',
+        href: (channelId: string) => `/video/${channelId}/analytics`,
+        name: 'Аналитика',
+        svgName: svgs['analytics']
+    },
+    {
+        id: '2',
+        href: (channelId: string) => `/video/${channelId}/comments`,
+        name: 'Комментарии',
+        svgName: svgs['comments']
+    },
+]

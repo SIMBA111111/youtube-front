@@ -1,5 +1,5 @@
 .tableWrapper {
-  overflow-x: auto;
+  // overflow-x: auto;
   border-radius: 12px;
   background: var(--background);
 }
@@ -80,8 +80,9 @@
 }
 
 .thumbnail {
-  min-width: 128px;
-  height: 68px;
+  min-width: 164px;
+  max-width: 164px;
+  height: 82px;
   border-radius: 6px;
   object-fit: cover;
 }

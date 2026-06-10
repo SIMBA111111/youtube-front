@@ -1,0 +1,19 @@
+.popoverAction {
+  box-shadow: 0px 0px 6px gray;
+  padding: 8 0;
+
+  .item {
+    padding: 6 12;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: none;
+    width: 100%;
+
+    &:hover {
+      background-color: var(--grayDarkBackground);
+      cursor: pointer;
+    }
+  }
+}

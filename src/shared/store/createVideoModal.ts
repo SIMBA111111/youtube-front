@@ -3,6 +3,7 @@ import { IOption } from '../ui/Selector'
 import { VideoAccessId } from '../constants/radioButtons'
 
 interface IFragment {
+    index: number
     start: number
     end: number
     title: string

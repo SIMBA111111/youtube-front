@@ -1,1 +1,1 @@
-export { VideosTable } from './VideosTable'
+export { VideosTable } from './VideosTable/ui'

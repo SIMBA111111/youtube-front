@@ -1,11 +1,11 @@
 import { cookies } from "next/headers";
 
-import ProgressBarProvider from "../providers/progressProvider";
-import { ThemeProvider } from "../providers/themeProvider";
-import { ToastProvider } from "../providers/toastProvider";
-import { CreatorPageProvider } from "../providers/creatorPageProvider";
+import ProgressBarProvider from "../../providers/progressProvider";
+import { ThemeProvider } from "../../providers/themeProvider";
+import { ToastProvider } from "../../providers/toastProvider";
+import { CreatorVideoPageProvider } from "../../providers/creatorVideoPageProvider";
 
-import "../globals.scss";
+import "../../globals.scss";
 
 
 export default async function RootLayout({
@@ -25,7 +25,7 @@ export default async function RootLayout({
     <ThemeProvider initialTheme={currentTheme as any}>
       <ToastProvider>
         <ProgressBarProvider>
-          <CreatorPageProvider 
+          <CreatorVideoPageProvider 
             channelAvatar={userData.avatarUrl}
             channelName={userData.name}
             channelId={userData.id}
@@ -34,7 +34,7 @@ export default async function RootLayout({
             activeLanguage={userData.lang}
           >
             {children}
-          </CreatorPageProvider>
+          </CreatorVideoPageProvider>
         </ProgressBarProvider>
       </ToastProvider>
     </ThemeProvider>
