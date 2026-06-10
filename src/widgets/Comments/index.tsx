@@ -1,12 +1,13 @@
 "use client";
 
-import { CommentCard, IComment, ICommentCard } from "@/entities/comments/ui";
+import { CommentCard, IComment, ICommentCard } from "@/entities/comments/ui/VideoComment";
 import { AddComment, CommentFilter } from "@/features";
 import { useEffect, useRef, useState } from "react";
-import styles from "./styles.module.scss";
 import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideoHash";
 import { CommentSkeleton, VideoThumbnailSkeleton } from "@/shared/ui";
 import { IChannel } from "@/entities/channels/modal/types";
+import styles from "./styles.module.scss";
+
 
 export type commentFilter = "famous" | "new";
 

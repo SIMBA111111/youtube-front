@@ -84,7 +84,7 @@ export const VideosTable: FC<IVideosTable> = ({
                           <div className={styles.notificationTooltip}>
                             <Text size={14} color='var(--whiteText)' weight={300}>Аналитика</Text>
                           </div></div>
-                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/comments`)}>
+                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/${video.videoHash}/comments`)}>
                           <Svg name="comments"/>
                           <div className={styles.notificationTooltip}>
                             <Text size={14} color='var(--whiteText)' weight={300}>Комментарии</Text>
