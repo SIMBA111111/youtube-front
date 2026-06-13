@@ -8,28 +8,34 @@ import { NavigationItem } from '@/entities/creator'
 import styles from './styles.module.scss'
 
 interface ICreatorVideoSidebar {
-    channelAvatar: string
-    channelName: string
-    channelId: string
+    videoPrevieww: string
+    videoName: string
+    videoId: string
+    videoHash: string
 }
 
 export const CreatorVideoSidebar: FC<ICreatorVideoSidebar> = async ({
-    channelAvatar,
-    channelName,
-    channelId,
+    videoPrevieww,
+    videoName,
+    videoId,
+    videoHash,
 }) => {
+    console.log('videoId = ', videoId);
+    console.log('videoHash = ', videoHash);
+    
+
     return (
         <div className={styles.sidebar}>
-            <div className={styles.channel}>
-                <img src={channelAvatar} alt="channelAvatar" className={styles.channel_img}/>
+            {/* <div className={styles.channel}>
+                <img src={videoPrevieww} alt="channelAvatar" className={styles.channel_img}/>
                 <Text weight={500}>Ваш канал</Text>
-                <Text color='var(--descriptionText)'>{channelName}</Text>
-            </div>
+                <Text color='var(--descriptionText)'>{videoName}</Text>
+            </div> */}
 
             <div className={styles.routes}>
                 {
                     CREATOR_VIDEO_SIDEBAR.map(el => 
-                        <NavigationItem href={el.href(channelId)} name={el.name} svgName={el.svgName as keyof typeof svgs} key={el.id}/>
+                        <NavigationItem href={el.href(videoId, videoHash)} name={el.name} svgName={el.svgName as keyof typeof svgs} key={el.id}/>
                     )
                 }
             </div>        

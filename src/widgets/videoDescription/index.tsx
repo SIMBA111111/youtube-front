@@ -19,7 +19,9 @@ interface IVideoDescription {
   channel: IChannel;
   datePublication: string;
   videoDescription: string;
-  hashtags: string;
+  hashtags: string[];
+  tags: string[];
+  playlistIds: string[];
   isLiked: boolean;
   isDisliked: boolean;
   likeCount: number;
@@ -57,6 +59,10 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
   } else {
     meId = "";
   }
+
+  console.log('hashtags = ', hashtags);
+  console.log('videoDescription = ', videoDescription);
+  
 
   return (
     <div className={styles.description}>
@@ -114,10 +120,10 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
             {formatDate(datePublication)}
           </Text>
           <div className={styles.hashTags}>
-            {hashtags.split(", ").map((hashtag: string, index: number) => {
+            {hashtags.map((hashtag: string, index: number) => {
               return (
                 <Text key={index} color="var(--gray)">
-                  #{hashtag}
+                  {hashtag}
                 </Text>
               );
             })}

@@ -2,8 +2,7 @@
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
-  border-top: 1px solid var(--grayDarkBackground);
-  border-bottom: 1px solid var(--grayDarkBackground);
+  // border-left: 1px solid var(--grayDarkBackground);
   padding: 20px;
 
   &_avatar {
@@ -79,6 +78,12 @@
   border-radius: 18px;
   transition: background 0.2s;
   color: var(--grayText);
+
+  &_settings {
+    &:active {
+      background-color: var(--grayBackground) !important;
+    }
+  }
 
   &_text {
     padding-top: 4px;

@@ -11,6 +11,9 @@ export default async function VideoEditing() {
     <div className={styles.page}>
       <h1 className={styles.header}>Редактировать</h1>
       <div className={styles.page}>
+
+        
+
       </div>
     </div>
   );

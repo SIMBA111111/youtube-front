@@ -2,8 +2,8 @@
 
 import { FC, useEffect, useState } from "react";
 import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideoHash";
-import styles from "./styles.module.scss";
 import { CreatorCommentCard, ICreatorComment } from "@/entities/comments/ui/CreatorComments";
+import styles from "./styles.module.scss";
 
 
 interface IComments {
@@ -32,18 +32,22 @@ export const Comments: FC<IComments> = ({
     })
     const [comments, setComments] = useState<ICreatorComment[]>([])
 
+    const fetchData = async () => {
+        const res = await getCommentsByVideoHash(videoHash, pagination.offset, pagination.limit, '', me.Id, '')
+        console.log('res = ', res);
+        setComments(res.comments)
+    }
+
     useEffect(() => {
-        (async() => {
-            const res = await getCommentsByVideoHash(videoHash, pagination.offset, pagination.limit, '', me.Id, '')
-            console.log('res = ', res);
-            setComments(res.comments)
-        })()
-    }, [])
+        fetchData()
+    }, [pagination])
     
     return (
         <div className={styles.container}>
             {comments.map((comment: ICreatorComment) => 
-                <CreatorCommentCard comment={comment} videoId={videoId} me={me} />
+                <div className={styles.comment} key={comment.id}>
+                    <CreatorCommentCard comment={comment} videoId={videoId} me={me} refreshData={fetchData}/>
+                </div>
             )}
         </div>
     )

@@ -1,20 +1,27 @@
 import clsx from "clsx";
-import { useRef, useState, FormEvent, useEffect } from "react";
+import { useRef, useState, FormEvent, useEffect, Dispatch, SetStateAction } from "react";
 import Cookies from "js-cookie"
 import { useCreateVideoModal } from "@/shared/store/createVideoModal"
 import { Svg, Text } from "@/shared/ui"
 import { IOption, Selector } from "@/shared/ui/Selector"
 import { SelectorPlaylist } from "@/shared/ui/Selector/SelectorPlaylists";
 import { getPlaylistsByUsername } from "@/shared/api/playlists/getPlaylistsByChannelHash";
+import { getTags } from "@/shared/api/tags/getTags";
 import { TSteps } from "..";
 import styles from './styles.module.scss'
+import { ChooseInput } from "@/shared/ui/ChooseInput";
 
 
 export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep}: {setActiveStep: (newStep: TSteps) => void, setLastCompletedStep: (newStep: TSteps) => void, lastCompletedStep: number}) => {
     const { addVideoData, storedFile, videoData } = useCreateVideoModal()
-    const [selectedPlaylist, setSelectedPlaylist] = useState<IOption[]>(videoData.playlistIds ? videoData.playlistIds.map(p => { return {value: p.id, label: p.name}}) : [])
+    const [selectedPlaylist, setSelectedPlaylist] = useState<IOption[]>(videoData.playlistIds ? videoData.playlistIds.map(p => { return {value: p.id, label: p.name }}) : [])
+    const [selectedtags, setSelectedTags] = useState<IOption[]>(videoData.tags ? videoData.tags.map(p => { return {value: p.value, label: p.label }}) : [])
+    const [selectedHashtags, setSelectedHashTags] = useState<{ name: string }[]>(
+        videoData.hashTags ? videoData.hashTags : []
+    )
     const [iconPreview, setIconPreview] = useState<string | null>(videoData.iconPreview || null)
-    const [selectorOptions, setSelectorOptions] = useState<IOption[]>(videoData.playlistIds ? [...videoData.playlistIds] : [])
+    const [palylistSelectorOptions, setPlaylistSelectorOptions] = useState<IOption[]>(videoData.playlistIds ? [...videoData.playlistIds] : [])
+    const [tagsSelectorOptions, setTagsSelectorOptions] = useState<IOption[]>(videoData.playlistIds ? [...videoData.playlistIds] : [])
     const [videoName, setVideoName] = useState<string>(videoData.videoName || '')
     const [videoDescription, setVideoDescription] = useState<string>(videoData.videoDescription || '')
     const [iconFile, setIconFile] = useState<File | null>(null)
@@ -52,13 +59,38 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
             const res = await getPlaylistsByUsername(userId)
 
             if (res.playlists && res.playlists.length > 0) {
-                setSelectorOptions(res.playlists.map(p => {return { value: p.id, label: p.name }}))
+                setPlaylistSelectorOptions(res.playlists.map(p => {return { value: p.id, label: p.name }}))
             }
+
+            const resTags = await getTags()
+
+            if (resTags?.tags && resTags?.tags.length > 0) {
+                setTagsSelectorOptions(resTags?.tags.map((t => { return {value: t.id, label: t.name}} )))
+            }
+
         })()
     }, [])
 
     const handlePlaylistChange = (option: IOption[]) => {
         setSelectedPlaylist(option);
+    };
+
+    const handleTagsChange = (option: IOption[]) => {
+        setSelectedTags(option);
+    };
+
+    const handleSetChoosenData: Dispatch<SetStateAction<Array<{ name: string }>>> = (value) => {
+        const newValue = typeof value === 'function' ? value(selectedHashtags) : value;
+
+        const preparedHashtags = newValue.map(n => { 
+            return !n.name.startsWith("#") ? (
+                { name: '#' + n.name.replaceAll(' ', '') }
+            ) : (
+                { name: n.name }
+            )
+        });
+        
+        setSelectedHashTags(preparedHashtags);
     };
 
     const handleVideoNameChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -126,16 +158,23 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
             formData['iconPreview'] = iconPreview
         }
 
+        if (selectedHashtags) {
+            formData['hashTags'] = selectedHashtags
+        }
+
+        if (selectedtags) {
+            formData['tags'] = selectedtags
+        }
+
         addVideoData(formData)
         if (!lastCompletedStep) {
             setLastCompletedStep(0)
         }
-        setActiveStep(1)
-    };
 
-    console.log('videoData = ', videoData);
-    console.log('iconFile = ', iconFile);
-    
+        console.log('formData', formData);
+
+        // setActiveStep(1)
+    };
 
     const formatFileName = (fileName: string) => {
         if (fileName.length > 40) {
@@ -144,6 +183,9 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
         return fileName;
     };
 
+    console.log('selectedHashtags = ', selectedHashtags);
+    console.log('videoData.hashTags = ', videoData.hashTags);
+    
     return (
         <div className={styles.stepInfo}>
             <form onSubmit={handleFormSubmit} className={styles.form}>
@@ -215,22 +257,41 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
                     </div>
                 </div>
 
+                <ChooseInput choosenData={selectedHashtags} setChoosenData={handleSetChoosenData}/>
+
                 <div className={styles.playlists}>
                     <div className={styles.playlistsHeader}>
-                        <Text>Плейлисты <span className={styles.required}>*</span></Text>
+                        <Text>Плейлисты</Text>
                         <Text color="secondary">
                             Добавьте видео хотя бы в один плейлист, чтобы людям было удобнее 
                             ориентироваться на вашем канале
                         </Text>
                     </div>
                     <SelectorPlaylist 
-                        options={selectorOptions}
+                        options={palylistSelectorOptions}
                         placeholder="Выберите плейлист"
                         onChange={handlePlaylistChange}
                         defaultValue={selectedPlaylist}
+                        showFooter
                     />
                     {selectedPlaylist.length === 0 && <div className={styles.errorText}>Выберите хотя бы один плейлист</div>}
                 </div>
+
+                <div className={styles.playlists}>
+                    <div className={styles.playlistsHeader}>
+                        <Text>Тэги</Text>
+                        <Text color="secondary">
+                            Добавьте тэги к видео
+                        </Text>
+                    </div>
+                    <SelectorPlaylist 
+                        options={tagsSelectorOptions}
+                        placeholder="Выберите тэги"
+                        onChange={handleTagsChange}
+                        defaultValue={selectedtags}
+                    />
+                </div>
+
 
                 <button 
                     type="submit" 

@@ -38,12 +38,14 @@ export interface ICreatorCommentCard {
   comment: ICreatorComment;
   videoId: string;
   me: any;
+  refreshData: () => void
 }
 
 export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
   comment,
   videoId,
   me,
+  refreshData
 }) => {
   const {
     id,
@@ -169,13 +171,13 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
           </button>
 
           <button
-            className={`${styles.action_btn}`}
-            onClick={() => {() => setIsOpenedSettingPopover(prev => !prev)}}
+            className={`${styles.action_btn} ${styles.action_btn_settings}`}
+            onClick={() => setIsOpenedSettingPopover(prev => !prev)}
           >
             <Svg name="verticalEllipsis" />
           </button>
 
-          <CreatorCommentSettingPopover isOpened={isOpenedSettingPopover} onClose={() => setIsOpenedSettingPopover(false)} />
+          <CreatorCommentSettingPopover isOpened={isOpenedSettingPopover} onClose={() => setIsOpenedSettingPopover(false)} commentId={id} refreshData={refreshData}/>
           <CreateCommentUnauthPopover isOpen={isOpenedUnauthPopover} onClose={() => setIsOpenedUnauthPopover(false)} offset={30}/>
         </div>
 
@@ -275,6 +277,7 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
                   comment={comment}
                   videoId={videoId}
                   me={me}
+                  refreshData={refreshData}
                 />
               ))}
             </div>

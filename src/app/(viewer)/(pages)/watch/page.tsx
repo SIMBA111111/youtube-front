@@ -85,8 +85,8 @@ export default async function WatchVideo({
             notificationSettings={
               videoData.isSubscribed?.notification_settings || false
             }
-            videoDescription={videoData.video?.description || ""}
-            hashtags={videoData.video?.videoDescription || ""}
+            videoDescription={videoData.video?.videoDescription || ""}
+            hashtags={videoData.video?.hashtags || ""}
             videoHash={videoHash}
           />
         </div>

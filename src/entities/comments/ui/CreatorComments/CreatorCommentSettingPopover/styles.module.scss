@@ -1,8 +1,17 @@
 .popoverContainer {
   padding: 8 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1 5 gray;
 
   .btn {
     padding: 12 20;
-    
+    background: none;
+    border: none;
+
+    &:hover {
+      background-color: var(--grayDarkBackground);
+      cursor: pointer;
+    }
   }
 }

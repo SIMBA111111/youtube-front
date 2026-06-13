@@ -20,6 +20,8 @@ interface ICreateVideoModal {
         videoAccess: VideoAccessId,
         playlistIds: IOption[],
         fragments: IFragment[],
+        tags: IOption[]
+        hashTags: any[]
     }
     // openedCreateModal: () => void,
     toggleCreateModal: () => void;
@@ -38,7 +40,9 @@ export const useCreateVideoModal = create<ICreateVideoModal>((set) => ({
         iconPreview: '',
         videoAccess: 'public',
         playlistIds: [],
-        fragments: []
+        fragments: [],
+        tags: [],
+        hashTags: []
     },
     // openedCreateModal: () => set({isOpened: true}),
     toggleCreateModal: () => set((state) => ({ isOpened: !state.isOpened })),

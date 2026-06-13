@@ -97,19 +97,19 @@ export const CREATOR_SIDEBAR = [
 export const CREATOR_VIDEO_SIDEBAR = [
     {
         id: '0',
-        href: (channelId: string) => `/video/${channelId}/edit`,
+        href: (videoId: string, videoHash: string) => `/video/${videoId}/${videoHash}/edit`,
         name: 'Редактировать',
         svgName: svgs['comments']
     },
     {
         id: '1',
-        href: (channelId: string) => `/video/${channelId}/analytics`,
+        href: (videoId: string, videoHash: string) => `/video/${videoId}/${videoHash}/analytics`,
         name: 'Аналитика',
         svgName: svgs['analytics']
     },
     {
         id: '2',
-        href: (channelId: string) => `/video/${channelId}/comments`,
+        href: (videoId: string, videoHash: string) => `/video/${videoId}/${videoHash}/comments`,
         name: 'Комментарии',
         svgName: svgs['comments']
     },

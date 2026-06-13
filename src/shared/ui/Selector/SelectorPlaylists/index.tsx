@@ -17,16 +17,16 @@ interface IDropdownProps {
     isOpen: boolean;
     onSelect: (option: IOption[]) => void;
     selectedOption?: IOption[];
+    showFooter: boolean
 }
 
 const Dropdown: FC<IDropdownProps> = ({ 
     options, 
     isOpen, 
     onSelect, 
-    selectedOption 
+    selectedOption, 
+    showFooter
 }) => {
-
-    
     const [tempSelected, setTempSelected] = useState<IOption[]>([]);
     const [optionsState, setOptionsState] = useState<IOption[]>([]);
     const [isVisibleModal, setIsVisibleModal] = useState<boolean>(false);
@@ -89,10 +89,12 @@ const Dropdown: FC<IDropdownProps> = ({
             </div>
 
             <div className={styles.footer}>
-                <div className={styles.createPlaylist} onClick={handleCreatePlaylist}>
-                    <Svg name='playlist' />
-                    <Text>Новый плейлист</Text>
-                </div>
+                {showFooter && (
+                    <div className={styles.createPlaylist} onClick={handleCreatePlaylist}>
+                        <Svg name='playlist' />
+                        <Text>Новый плейлист</Text>
+                    </div>
+                )}
                 <button className={styles.btn} onClick={handleOk}>
                     <Text>OK</Text>
                 </button>
@@ -113,17 +115,22 @@ interface ISelectorPlaylistProps {
     placeholder?: string;
     onChange?: (option: IOption[]) => void;
     defaultValue?: IOption[];
+    showFooter?: boolean
 }
 
 export const SelectorPlaylist: FC<ISelectorPlaylistProps> = ({ 
     options, 
     placeholder = 'Выберите вариант',
     onChange,
-    defaultValue 
+    defaultValue,
+    showFooter = false
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<IOption[] | undefined>(defaultValue);
     const selectorRef = useRef<HTMLDivElement>(null);
+
+    console.log('defaultValue = ', defaultValue);
+    
 
     // Закрытие дропдауна при клике вне компонента
     useEffect(() => {
@@ -189,6 +196,7 @@ export const SelectorPlaylist: FC<ISelectorPlaylistProps> = ({
                 isOpen={isOpen}
                 onSelect={handleSelect}
                 selectedOption={selectedOption}
+                showFooter={showFooter}
             />
         </div>
     );

@@ -23,9 +23,6 @@ export const SettingsVideo: React.FC<ISettingsVideo> = ({
 
     const isAuth = Cookies.get('channelData') && Cookies.get('jwt') ? true : false
 
-    console.log(Cookies.get('channelData') && Cookies.get('jwt'));
-    
-
     const togglePopover = () => {
         if(isOpenedPopover)
             setIsOpenedPopover(false)

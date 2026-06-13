@@ -1,0 +1,75 @@
+.choosenInput {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+
+    .items {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+
+        .choosenItem {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(#8e8e8e, 0.1);
+            padding: 4 6 4 12;
+            border-radius: 28px;
+        
+            .removeBtn {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 2;
+                border-radius: 50%;
+                border: none;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: rgba(black, 0.1);
+                }
+            }
+        }
+    }
+
+    .inputContainer {
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        background-color: var(--grayDarkBackground);
+        padding: 10px;
+        border-radius: 28px;
+        
+        .input {
+            background: none;
+            border: none;
+            width: 100%;
+            font-size: 16px;
+            margin-left: 8px;
+
+            &:focus, :active {
+                outline: none;
+            }
+        }
+
+        .checkBtn {
+            background-color: rgba(#6fff00, 0.3);
+            border: none;
+            padding: 4 6;
+            margin-right: 0px;
+            border-radius: 28px;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.69;
+            }
+
+            &:active {
+                background-color: rgba(#6fff00, 0.8);
+            }
+        }
+    }
+}

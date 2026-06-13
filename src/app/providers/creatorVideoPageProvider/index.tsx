@@ -5,27 +5,35 @@ import styles from './styles.module.scss'
 
 interface ICreatorPageProvider {
     children: ReactNode
-    channelAvatar: string
-    channelName: string
-    channelId: string
+    videoPrevieww: string
+    videoName: string
+    videoId: string
+    videoHash: string,
     channelUsername: string
     activeLanguage: string
     activeTheme: string
+    channelName: string
+    channelId: string
+    channelAvatar: string
 }
 
 export const CreatorVideoPageProvider: FC<ICreatorPageProvider> = ({ 
     children, 
-    channelAvatar, 
-    channelName,
-    channelId,
+    videoPrevieww, 
+    videoName,
+    videoId,
+    videoHash,
     channelUsername,
     activeTheme,
     activeLanguage,
+    channelName, 
+    channelId,
+    channelAvatar
 }) => {
     return (
         <div className={`${styles.grid} ${styles.gridSidebarOpen}`} id="page-wrapper">
             <div className={styles.sidebarWrapper}>
-                <CreatorVideoSidebar channelAvatar={channelAvatar} channelName={channelName} channelId={channelId}/>
+                <CreatorVideoSidebar videoPrevieww={videoPrevieww} videoName={videoName} videoId={videoId} videoHash={videoHash}/>
             </div>
             
             <div className={styles.headerWrapper}>

@@ -75,11 +75,11 @@ export const VideosTable: FC<IVideosTable> = ({
                       <div className={styles.videoActions}>
                         <div className={styles.videoAction}>
                           <Svg name="pancel"/>
-                          <div className={styles.notificationTooltip} onClick={() => router.push(`/video/${video.id}/edit`)}>
+                          <div className={styles.notificationTooltip} onClick={() => router.push(`/video/${video.id}/${video.videoHash}/edit`)}>
                             <Text size={14} color='var(--whiteText)' weight={300}>Редактировать</Text>
                           </div>
                         </div>
-                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/analytics`)}>
+                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/${video.videoHash}/analytics`)}>
                           <Svg name="analytics"/>
                           <div className={styles.notificationTooltip}>
                             <Text size={14} color='var(--whiteText)' weight={300}>Аналитика</Text>
