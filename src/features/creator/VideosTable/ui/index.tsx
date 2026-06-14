@@ -1,14 +1,14 @@
+import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { Svg, Text } from "@/shared/ui";
 import { formatDate } from "@/shared/utils/formatDate";
 import { formatViews } from "@/shared/utils/formatViews";
 import { FiltersEnum } from "@/features/ChannelVideoList/ui";
-import { EmptyTable } from "./emptyTable";
 import { getVideoAccess } from "@/shared/utils/getVideoAccess";
+import { EmptyTable } from "./emptyTable";
 import { PopoverAction } from "../popoverAction";
 import styles from "./styles.module.scss";
-import { useRouter } from "next/navigation";
 
 
 interface IVideosTable {
@@ -73,10 +73,10 @@ export const VideosTable: FC<IVideosTable> = ({
                     <div className={styles.descr}>
                       <span className={styles.videoTitle}>{video.name}</span>
                       <div className={styles.videoActions}>
-                        <div className={styles.videoAction}>
+                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/${video.videoHash}/edit`)}>
                           <Svg name="pancel"/>
-                          <div className={styles.notificationTooltip} onClick={() => router.push(`/video/${video.id}/${video.videoHash}/edit`)}>
-                            <Text size={14} color='var(--whiteText)' weight={300}>Редактировать</Text>
+                          <div className={styles.notificationTooltip}>
+                            <Text size={14} color='var(--whiteText)' weight={300}>Сведения</Text>
                           </div>
                         </div>
                         <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/${video.videoHash}/analytics`)}>

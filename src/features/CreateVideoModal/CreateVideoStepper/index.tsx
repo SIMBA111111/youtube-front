@@ -105,7 +105,7 @@ export const CreateVideoStepper: FC<ICreateVideoStepper> = ({
                     icon: step.icon,
                 }))}
             />
-            <div className={clsx( styles.divider, styles.hidden)} id="stepperDivider"></div>
+            <div className={clsx(styles.divider, styles.hidden)} id="stepperDivider"></div>
 
             <div className={styles.stepContent} id="stepContent">
                 {

@@ -114,7 +114,7 @@ interface ISelectorPlaylistProps {
     options: IOption[];
     placeholder?: string;
     onChange?: (option: IOption[]) => void;
-    defaultValue?: IOption[];
+    defaultValue: IOption[];
     showFooter?: boolean
 }
 
@@ -126,11 +126,8 @@ export const SelectorPlaylist: FC<ISelectorPlaylistProps> = ({
     showFooter = false
 }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState<IOption[] | undefined>(defaultValue);
-    const selectorRef = useRef<HTMLDivElement>(null);
-
-    console.log('defaultValue = ', defaultValue);
-    
+    const [selectedOption, setSelectedOption] = useState<IOption[]>(defaultValue);
+    const selectorRef = useRef<HTMLDivElement>(null);    
 
     // Закрытие дропдауна при клике вне компонента
     useEffect(() => {
@@ -144,6 +141,11 @@ export const SelectorPlaylist: FC<ISelectorPlaylistProps> = ({
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+
+    useEffect(() => {
+        setSelectedOption(defaultValue);
+    }, [defaultValue]);
+
     // Обработка выбора опции
     const handleSelect = (option: IOption[]) => {
         setSelectedOption(option);
@@ -155,6 +157,9 @@ export const SelectorPlaylist: FC<ISelectorPlaylistProps> = ({
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
+
+    console.log('defaultValue = ', defaultValue);
+    console.log('selectedOption = ', selectedOption);
 
     return (
         <div ref={selectorRef} style={{ position: 'relative', width: '350px' }} className={styles.selectorPlaylist}>

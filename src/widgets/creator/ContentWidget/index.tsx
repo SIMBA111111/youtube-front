@@ -26,7 +26,6 @@ export const ContentWidget: FC<IContentWidget> = ({
     channelUsername,
 }) => {
     const {isOpened, toggleCreateModal, openCreateModal} = useCreateVideoModal()
-    
     const [videos, setVideos] = useState<IVideo[]>([])
     const [activeTab, setActiveTab] = useState<TTabs>('videos')
     const [filter, setFilter] = useState<keyof typeof FiltersEnum>('NEWS')

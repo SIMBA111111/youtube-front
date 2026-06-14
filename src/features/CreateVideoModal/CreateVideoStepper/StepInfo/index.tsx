@@ -7,9 +7,9 @@ import { IOption, Selector } from "@/shared/ui/Selector"
 import { SelectorPlaylist } from "@/shared/ui/Selector/SelectorPlaylists";
 import { getPlaylistsByUsername } from "@/shared/api/playlists/getPlaylistsByChannelHash";
 import { getTags } from "@/shared/api/tags/getTags";
+import { ChooseInput } from "@/shared/ui/ChooseInput";
 import { TSteps } from "..";
 import styles from './styles.module.scss'
-import { ChooseInput } from "@/shared/ui/ChooseInput";
 
 
 export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep}: {setActiveStep: (newStep: TSteps) => void, setLastCompletedStep: (newStep: TSteps) => void, lastCompletedStep: number}) => {
@@ -26,7 +26,6 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
     const [videoDescription, setVideoDescription] = useState<string>(videoData.videoDescription || '')
     const [iconFile, setIconFile] = useState<File | null>(null)
 
-    
     const iconInputRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLTextAreaElement>(null);
     const descRef = useRef<HTMLTextAreaElement>(null);
@@ -171,9 +170,7 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
             setLastCompletedStep(0)
         }
 
-        console.log('formData', formData);
-
-        // setActiveStep(1)
+        setActiveStep(1)
     };
 
     const formatFileName = (fileName: string) => {
@@ -183,9 +180,6 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
         return fileName;
     };
 
-    console.log('selectedHashtags = ', selectedHashtags);
-    console.log('videoData.hashTags = ', videoData.hashTags);
-    
     return (
         <div className={styles.stepInfo}>
             <form onSubmit={handleFormSubmit} className={styles.form}>
@@ -298,7 +292,7 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
                     className={clsx(styles.submitButton, {
                         [styles.disabled]: isDisabledContinue
                     })} 
-                    // disabled={isDisabledContinue}
+                    disabled={isDisabledContinue}
                 >
                     Продолжить
                 </button>
