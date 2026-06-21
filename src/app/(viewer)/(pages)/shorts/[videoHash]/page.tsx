@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { getVideoByHash } from "@/shared/api/video/getVideoByHash";
+import { getVideos } from "@/shared/api/video/getVideoList";
 
 export default async function Shorts({
   searchParams,
@@ -25,14 +26,17 @@ export default async function Shorts({
     myChannelData = {};
   }
 
-  const res = await getShortVideos();
+  // const res = await getVideos();
 
-  const videoData = await getVideoByHash(videoHash, myChannelData?.id);
+  // const videoData = await getVideoByHash(videoHash, myChannelData?.id);
 
-  await updateViewVideo({
-    videoId: videoData.video?.id,
-    userId: myChannelData?.id,
-  });
+  // await updateViewVideo({
+  //   videoId: videoData.video?.id,
+  //   userId: myChannelData?.id,
+  // });
 
-  return <ShortsSwiper videos={res} />;
+  // console.log('res ---- ', res);
+  
+
+  return <ShortsSwiper videos={[]} videoHash={videoHash} myChannelData={myChannelData}/>;
 }

@@ -11,9 +11,12 @@ import { Svg } from "@/shared/ui";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { ShortPlayer } from "@webitch/short-player";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { ShortVideoBtns } from "@/features/shortVideoActions/ui";
+import { getVideos } from "@/shared/api/video/getVideoList";
 import styles from "./styles.module.scss";
 
-export const ShortsSwiper = ({ videos }: { videos: IVideo[] }) => {
+
+export const ShortsSwiper = ({ videos, videoHash, myChannelData }: { videos: IVideo[], videoHash: string, myChannelData: any }) => {
   const swiperRef = useRef(null);
   const currentItemRef = useRef(1);
   const [shortVideos, setShortVideos] = useState(videos);
@@ -23,10 +26,17 @@ export const ShortsSwiper = ({ videos }: { videos: IVideo[] }) => {
     currentItemRef.current = swiper.activeIndex;
 
     if (currentItemRef.current > shortVideos.length - 5) {
-      const res = await getShortVideos();
-      setShortVideos((prev: IVideo[]) => [...prev, ...res]);
+      const res = await getVideos();
+      setShortVideos((prev: IVideo[]) => [...prev, ...res.videos]);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const res = await getVideos();
+      setShortVideos((prev: IVideo[]) => [...prev, ...res.videos]);
+    })()
+  }, [])
 
   const handleNext = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -39,6 +49,13 @@ export const ShortsSwiper = ({ videos }: { videos: IVideo[] }) => {
       swiperRef.current.swiper.slidePrev();
     }
   };
+
+  console.log('videos = ', shortVideos);
+
+  if (!shortVideos || shortVideos.length === 0) {
+    return <div>...</div>
+  }
+  
 
   return (
     <div className={styles.mainPage__container}>
@@ -59,13 +76,20 @@ export const ShortsSwiper = ({ videos }: { videos: IVideo[] }) => {
           }}
           onSlideChange={(swiper) => handleIncrementCounter(swiper)}
         >
-          {shortVideos.map((_, index) => (
+          {shortVideos.map((video, index) => (
             <SwiperSlide key={index} className={styles.slide}>
               <div className={styles.playerWrapper}>
                 <ShortPlayer
-                  duration={30}
-                  playlistUrl="/videos/long-video/longVideo.m3u8"
+                  duration={video.duration}
+                  playlistUrl={video.masterM3u8Url}
                   // theme={theme}
+                />
+                <ShortVideoBtns 
+                  commentsCount={video.commentsCount || 0} 
+                  dislikeCount={video.dislikeCount || 0} 
+                  likeCount={video.likeCount || 0} 
+                  videoHash={videoHash} 
+                  me={myChannelData}
                 />
               </div>
             </SwiperSlide>
