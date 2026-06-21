@@ -9,7 +9,7 @@
         position: sticky;
         background-color: var(--background);
         top: 0;
-        z-index: 999;
+        z-index: 9;
         padding: 20 0;
 
         &_data {
@@ -21,7 +21,7 @@
       .divider {
         height: 10px;
         opacity: 0.1;
-        background: linear-gradient(to bottom, black, transparent);
+        background: linear-gradient(to bottom, var(--foreground), transparent);
         margin: 20px -20px 0 -20px;
 
         .hidden {

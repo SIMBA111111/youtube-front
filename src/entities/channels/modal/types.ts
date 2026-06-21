@@ -19,6 +19,6 @@ export interface IChannel {
     viewersCount?: number
     country?: string
     createdAt?: string
-    links: ILink[]
+    links: string[]
     notificationSetting?: notificationSettings
 }
