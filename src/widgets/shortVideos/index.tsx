@@ -1,33 +1,32 @@
-"use client"
+"use client";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Mousewheel, Pagination, Navigation } from 'swiper/modules';
-import { useEffect, useRef, useState } from 'react';
-import Cookie from 'js-cookie'
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Mousewheel, Pagination, Navigation } from "swiper/modules";
+import { useEffect, useRef, useState } from "react";
+import Cookie from "js-cookie";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import { Svg } from "@/shared/ui";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { ShortPlayer } from "@webitch/short-player";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import styles from "./styles.module.scss";
 
-
-export const ShortsSwiper = ({videos} : {videos: IVideo[]}) => {
+export const ShortsSwiper = ({ videos }: { videos: IVideo[] }) => {
   const swiperRef = useRef(null);
   const currentItemRef = useRef(1);
-  const [shortVideos, setShortVideos] = useState(videos)
-  const theme = Cookie.get('theme')
+  const [shortVideos, setShortVideos] = useState(videos);
+  const theme = Cookie.get("theme");
 
   const handleIncrementCounter = async (swiper) => {
-    currentItemRef.current = swiper.activeIndex
+    currentItemRef.current = swiper.activeIndex;
 
-    if(currentItemRef.current > shortVideos.length - 5) {
-      const res = await getShortVideos()
-      setShortVideos((prev: IVideo[]) => [...prev, ...res])
+    if (currentItemRef.current > shortVideos.length - 5) {
+      const res = await getShortVideos();
+      setShortVideos((prev: IVideo[]) => [...prev, ...res]);
     }
-  }
+  };
 
   const handleNext = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -44,29 +43,29 @@ export const ShortsSwiper = ({videos} : {videos: IVideo[]}) => {
   return (
     <div className={styles.mainPage__container}>
       <div className={styles.shortVideoWrapper}>
-        <Swiper 
+        <Swiper
           ref={swiperRef}
-          direction="vertical" 
-          className={styles.swiper} 
-          slidesPerView={1} 
-          spaceBetween={0} 
+          direction="vertical"
+          className={styles.swiper}
+          slidesPerView={1}
+          spaceBetween={0}
           mousewheel={true}
           modules={[Mousewheel, Pagination, Navigation]}
           touchStartPreventDefault={false}
           touchMoveStopPropagation={false}
           navigation={{
-            nextEl: '.custom-swiper-button-next',
-            prevEl: '.custom-swiper-button-prev',
+            nextEl: ".custom-swiper-button-next",
+            prevEl: ".custom-swiper-button-prev",
           }}
           onSlideChange={(swiper) => handleIncrementCounter(swiper)}
         >
           {shortVideos.map((_, index) => (
             <SwiperSlide key={index} className={styles.slide}>
               <div className={styles.playerWrapper}>
-                <ShortPlayer 
-                  duration={30} 
-                  playlistUrl="/videos/long-video/longVideo.m3u8" 
-                  theme={theme}
+                <ShortPlayer
+                  duration={30}
+                  playlistUrl="/videos/long-video/longVideo.m3u8"
+                  // theme={theme}
                 />
               </div>
             </SwiperSlide>
@@ -74,23 +73,23 @@ export const ShortsSwiper = ({videos} : {videos: IVideo[]}) => {
         </Swiper>
 
         <div className={styles.navButtons}>
-          <button 
+          <button
             className={`${styles.navButton} ${styles.navButtonPrev}`}
             onClick={handlePrev}
             aria-label="Предыдущее видео"
           >
-            <Svg name="arrowUp"/>
+            <Svg name="arrowUp" />
           </button>
 
-          <button 
+          <button
             className={`${styles.navButton} ${styles.navButtonNext}`}
             onClick={handleNext}
             aria-label="Следующее видео"
           >
-            <Svg name="arrowDown"/>
+            <Svg name="arrowDown" />
           </button>
         </div>
       </div>
     </div>
   );
-}
+};
