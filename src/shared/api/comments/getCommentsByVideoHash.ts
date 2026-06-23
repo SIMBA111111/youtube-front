@@ -255,10 +255,10 @@ const COMMENTS = [
         relatedCommentsCount: 2
     }
 ]
-export const getCommentsByVideoHash = async (videoHash: string, offset: number, limit: number, filter: string, userId: string, parentCommentId: string = '') => {
+export const getCommentsByVideoHash = async (videoId: string, offset: number, limit: number, filter: string, userId: string, parentCommentId: string = '') => {
     
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/${videoHash}?offset=${offset}&limit=${limit}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/${videoId}?offset=${offset}&limit=${limit}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({parentCommentId, filter, userId})

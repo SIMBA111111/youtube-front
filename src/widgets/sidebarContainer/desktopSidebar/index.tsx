@@ -63,7 +63,7 @@ export const DesktopSidebar = ({
               </Link>
 
               <Link
-                href={`/shorts/${randomShortVideo?.videoHash}`}
+                href={`/shorts/${randomShortVideo?.id}`}
                 className={styles.btns__item}
               >
                 {pathname === "/shorts" ? (

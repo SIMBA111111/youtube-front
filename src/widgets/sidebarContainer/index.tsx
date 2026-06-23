@@ -10,6 +10,7 @@ import { TabletSidebar } from "./tabletSidebar";
 import { DesktopSidebar } from "./desktopSidebar";
 
 import styles from "./styles.module.scss";
+import { getVideos } from "@/shared/api/video/getVideoList";
 
 export const SidebarContainer = () => {
   const [randomShortVideo, setRandomShortVideo] =
@@ -18,8 +19,8 @@ export const SidebarContainer = () => {
 
   useEffect(() => {
     const handleGetRandomVideo = async () => {
-      const res = await getOneRandomShort();
-      setRandomShortVideo(res);
+      const res = await getVideos(' ', ' ', true);
+      setRandomShortVideo(res.videos[0]);
     };
     (async () => {
       const myChannelData = Cookies.get("channelData");

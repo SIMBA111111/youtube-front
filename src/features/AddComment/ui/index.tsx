@@ -60,6 +60,10 @@ export const AddComment: React.FC<IAddComment> = ({
     } 
   }
 
+  console.log('me === ', me);
+  console.log('videoId === ', videoId);
+  
+
   return (
     <div className={styles.container}>
       <img

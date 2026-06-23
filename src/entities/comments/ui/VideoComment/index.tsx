@@ -33,14 +33,12 @@ export interface IComment {
 
 export interface ICommentCard {
   comment: IComment;
-  videoHash: string;
   videoId: string;
   me: any;
 }
 
 export const CommentCard: React.FC<ICommentCard> = ({
   comment,
-  videoHash,
   videoId,
   me,
 }) => {
@@ -266,7 +264,6 @@ export const CommentCard: React.FC<ICommentCard> = ({
                   key={comment.id}
                   comment={comment}
                   videoId={videoId}
-                  videoHash={videoHash}
                   me={me}
                 />
               ))}

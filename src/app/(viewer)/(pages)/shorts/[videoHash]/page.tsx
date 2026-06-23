@@ -11,11 +11,12 @@ import { getVideoByHash } from "@/shared/api/video/getVideoByHash";
 import { getVideos } from "@/shared/api/video/getVideoList";
 
 export default async function Shorts({
-  searchParams,
+  params
 }: {
-  searchParams: Promise<{ [key: string]: string }>;
+  params: Promise<{ [key: string]: string }>,
 }) {
-  const { v: videoHash } = await searchParams;
+  // const { videoHash } = await searchParams;
+  const { videoHash } = await params;
 
   const cookie = await cookies();
   const channelData = cookie.get("channelData")?.value || "";
@@ -36,7 +37,10 @@ export default async function Shorts({
   // });
 
   // console.log('res ---- ', res);
+
+  console.log('videoHash = ', videoHash);
+  
   
 
-  return <ShortsSwiper videos={[]} videoHash={videoHash} myChannelData={myChannelData}/>;
+  return <ShortsSwiper videos={[]} videoId={videoHash} myChannelData={myChannelData}/>;
 }

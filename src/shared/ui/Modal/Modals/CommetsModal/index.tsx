@@ -1,15 +1,14 @@
 import { FC, useRef, useEffect, useState, ChangeEventHandler, Dispatch, SetStateAction } from "react"
 import { Text } from "@/shared/ui/Text"
-import { Modal } from "../.."
-import styles from './styles.module.scss'
 import { Comments } from "@/widgets/Comments"
 import { IChannel } from "@/entities/channels/modal/types"
+import { Modal } from "../.."
+import styles from './styles.module.scss'
 
 
 interface ICommentsModal {
     isOpened: boolean
     onClose: () => void
-    videoHash: string
     videoId: string
     me: IChannel
 }
@@ -17,7 +16,6 @@ interface ICommentsModal {
 export const CommentsModal: FC<ICommentsModal> = ({
     isOpened,
     onClose,
-    videoHash,
     videoId,
     me
 }) => {
@@ -29,7 +27,7 @@ export const CommentsModal: FC<ICommentsModal> = ({
             isOverlay={true}
         >
             <div className={styles.container}>
-                <Comments videoHash={videoHash} videoId={videoId} me={me} />
+                <Comments videoId={videoId} me={me} />
             </div>
         </Modal>
     );

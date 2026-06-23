@@ -17,7 +17,6 @@ export interface IFilter {
 }
 
 interface IComments {
-  videoHash: string;
   videoId: string;
   me: IChannel;
 }
@@ -28,7 +27,7 @@ const options = {
   threshold: 0.1, // Лучше 0.1 чем 1.0, чтобы срабатывало чуть раньше
 };
 
-export const Comments: React.FC<IComments> = ({ videoHash, videoId, me }) => {
+export const Comments: React.FC<IComments> = ({ videoId, me }) => {
   const [filter, setFilter] = useState<IFilter>({
     id: "1",
     value: "famous",
@@ -46,7 +45,7 @@ export const Comments: React.FC<IComments> = ({ videoHash, videoId, me }) => {
 
     try {
       const res = await getCommentsByVideoHash(
-        videoHash,
+        videoId,
         0,
         20,
         filter.value,
@@ -69,7 +68,7 @@ export const Comments: React.FC<IComments> = ({ videoHash, videoId, me }) => {
 
       try {
         const res = await getCommentsByVideoHash(
-          videoHash,
+          videoId,
           pagination.offset,
           pagination.limit,
           filter.value,
@@ -151,7 +150,6 @@ export const Comments: React.FC<IComments> = ({ videoHash, videoId, me }) => {
             key={comment.id}
             comment={comment}
             videoId={videoId}
-            videoHash={videoHash}
             me={me}
           />
         ))}

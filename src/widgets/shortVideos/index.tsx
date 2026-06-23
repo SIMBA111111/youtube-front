@@ -16,7 +16,7 @@ import { getVideos } from "@/shared/api/video/getVideoList";
 import styles from "./styles.module.scss";
 
 
-export const ShortsSwiper = ({ videos, videoHash, myChannelData }: { videos: IVideo[], videoHash: string, myChannelData: any }) => {
+export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVideo[], videoId: string, myChannelData: any }) => {
   const swiperRef = useRef(null);
   const currentItemRef = useRef(1);
   const [shortVideos, setShortVideos] = useState(videos);
@@ -55,7 +55,6 @@ export const ShortsSwiper = ({ videos, videoHash, myChannelData }: { videos: IVi
   if (!shortVideos || shortVideos.length === 0) {
     return <div>...</div>
   }
-  
 
   return (
     <div className={styles.mainPage__container}>
@@ -88,8 +87,9 @@ export const ShortsSwiper = ({ videos, videoHash, myChannelData }: { videos: IVi
                   commentsCount={video.commentsCount || 0} 
                   dislikeCount={video.dislikeCount || 0} 
                   likeCount={video.likeCount || 0} 
-                  videoHash={videoHash} 
+                  videoId={videoId} 
                   me={myChannelData}
+                  
                 />
               </div>
             </SwiperSlide>
