@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react'
 
-import styles from './styles.module.scss'
 import { Svg, Text } from '@/shared/ui'
 import { formatViews } from '@/shared/utils/formatViews'
 import { CommentsModal } from '@/shared/ui/Modal/Modals/CommetsModal'
+import styles from './styles.module.scss'
 
 interface IShortVideoBtns {
     likeCount: number,
@@ -23,20 +23,6 @@ export const ShortVideoBtns: React.FC<IShortVideoBtns> = ({
     me
 }) => {
     const [isOpenedCommentModal, setIsOpenedCommentsModal] = useState<boolean>(false)
-
-    const handleLike = () => {
-
-    }
-
-    const handleDislike = () => {
-        
-    }
-
-    const handleCopyVideoUrl = () => {
-        
-    }
-
-    console.log('ShortVideoBtns videoId = ', videoId);
     
 
     return (

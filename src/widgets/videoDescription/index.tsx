@@ -60,10 +60,6 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
     meId = "";
   }
 
-  console.log('hashtags = ', hashtags);
-  console.log('videoDescription = ', videoDescription);
-  
-
   return (
     <div className={styles.description}>
       <div className={styles.channel}>

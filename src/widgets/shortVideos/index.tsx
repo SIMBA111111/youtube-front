@@ -14,13 +14,22 @@ import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { ShortVideoBtns } from "@/features/shortVideoActions/ui";
 import { getVideos } from "@/shared/api/video/getVideoList";
 import styles from "./styles.module.scss";
+import { getVideoById } from "@/shared/api/video/getVideoById";
+import { usePathname } from "next/navigation";
+import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui";
+import { ShareVideo } from "@/features/videoDescription/shareVideo/ui";
+import { CommentsVideo } from "@/features/videoDescription/commentsVideo/ui";
 
 
 export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVideo[], videoId: string, myChannelData: any }) => {
   const swiperRef = useRef(null);
   const currentItemRef = useRef(1);
   const [shortVideos, setShortVideos] = useState(videos);
+  const [currentShortVideo, setCurrentShortVideo] = useState({});
   const theme = Cookie.get("theme");
+  const pathname = usePathname()
+
+  console.log('pathname = ', pathname);
 
   const handleIncrementCounter = async (swiper) => {
     currentItemRef.current = swiper.activeIndex;
@@ -33,8 +42,10 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
 
   useEffect(() => {
     (async () => {
-      const res = await getVideos();
-      setShortVideos((prev: IVideo[]) => [...prev, ...res.videos]);
+      const resGetVideos = await getVideos();
+      const resGetVideoById = await getVideoById(videoId);
+      setCurrentShortVideo(resGetVideoById)
+      setShortVideos((prev: IVideo[]) => [...prev, ...resGetVideos.videos]);
     })()
   }, [])
 
@@ -51,6 +62,7 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
   };
 
   console.log('videos = ', shortVideos);
+  console.log('currentShortVideo = ', currentShortVideo);
 
   if (!shortVideos || shortVideos.length === 0) {
     return <div>...</div>
@@ -83,14 +95,19 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
                   playlistUrl={video.masterM3u8Url}
                   // theme={theme}
                 />
-                <ShortVideoBtns 
-                  commentsCount={video.commentsCount || 0} 
-                  dislikeCount={video.dislikeCount || 0} 
-                  likeCount={video.likeCount || 0} 
-                  videoId={videoId} 
-                  me={myChannelData}
-                  
-                />
+                <div className={styles.actionsPlayerWrapper}>
+                <EvaluateVideo
+                    isLiked={currentShortVideo?.stat?.liked}
+                    isDisliked={currentShortVideo?.stat?.disliked}
+                    likeCount={currentShortVideo?.video?.likeCount}
+                    dislikeCount={currentShortVideo?.video?.dislikeCount}
+                    userId={myChannelData.id}
+                    videoId={videoId}
+                  />
+                  <ShareVideo videoHash={videoId} />
+                  <CommentsVideo commentsCount={currentShortVideo?.video?.commentsCount} videoId={videoId} me={myChannelData}/>
+                </div>
+                <ShortVideoBtns commentsCount={0} dislikeCount={0} likeCount={0} me={myChannelData} videoId={videoId} />
               </div>
             </SwiperSlide>
           ))}
