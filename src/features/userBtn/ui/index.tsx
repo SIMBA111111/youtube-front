@@ -43,6 +43,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
     const handleStorageChanged = (e: StorageEvent) => {
       if (e.key === 'theme' && e.newValue) {
         setCurrentTheme(e.newValue as Theme)
+        setTheme(e.newValue as Theme)
       }
     };
   

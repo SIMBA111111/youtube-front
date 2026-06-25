@@ -7,7 +7,7 @@ export type Theme = "light" | "dark" | "device";
 
 interface ThemeContextType {
   theme: Theme;
-  setTheme: (theme: Theme, setCurrentTheme: any) => void;
+  setTheme: (theme: Theme) => void;
 }
 
 export enum Themes {
@@ -54,17 +54,10 @@ export function ThemeProvider({
       }
     };
 
-    const handleStorageChanged = (e: StorageEvent) => {
-      if (e.key === 'theme' && e.newValue) {
-        setTheme(e.newValue as Theme)
-      }
-    };
-
     mediaQuery.addEventListener("change", handleChange);
-    window.addEventListener("storage", handleStorageChanged);
+    
     return () => {
       mediaQuery.removeEventListener("change", handleChange);
-      window.addEventListener("storage", handleStorageChanged);
     }
   }, [theme]);
 
