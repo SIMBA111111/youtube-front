@@ -3,7 +3,7 @@
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { themes } from "@/shared/constants/themes";
 import { languages } from "@/shared/constants/langs";
@@ -39,6 +39,21 @@ export const UserBtn: React.FC<IUserBtn> = ({
   const activeLanguage = Cookies.get("lang") || navigator.language.slice(0, 2);
   const jwt = Cookies.get("jwt");
 
+  useEffect(() => {
+    const handleStorageChanged = (e: StorageEvent) => {
+      if (e.key === 'theme' && e.newValue) {
+        setCurrentTheme(e.newValue as Theme)
+      }
+    };
+  
+    window.addEventListener("storage", handleStorageChanged);
+    return () => {
+      window.addEventListener("storage", handleStorageChanged);
+    }
+
+  }, [])
+ 
+    
   return (
     <>
       <img
