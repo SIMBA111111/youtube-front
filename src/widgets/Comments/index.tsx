@@ -151,6 +151,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me }) => {
             comment={comment}
             videoId={videoId}
             me={me}
+            refreshCommentsList={handleRefreshCommentsList}
           />
         ))}
       </div>

@@ -43,14 +43,9 @@ export const Notifications = ({userId} : {userId: string}) => {
         } catch (error) {
             console.error('EVENT ERRROR: ', error);
         }
-
         
         fetchNotifs()
-
     }, [])
-
-    console.log('notifs = ', notifs);
-    
 
     return (
         <div className={styles.notificationsContainer}>

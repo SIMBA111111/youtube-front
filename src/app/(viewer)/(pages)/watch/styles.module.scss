@@ -1,8 +1,11 @@
+@use '../../../mixins.scss' as *;
+
 .page {
   width: 100%;
   display: grid;
   grid-template-columns: 2fr 1fr;
   column-gap: 12px;
+  @include scrollPage;
 }
 
 .description {

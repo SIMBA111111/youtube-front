@@ -36,11 +36,5 @@ export default async function Shorts({
   //   userId: myChannelData?.id,
   // });
 
-  // console.log('res ---- ', res);
-
-  console.log('videoHash = ', videoHash);
-  
-  
-
   return <ShortsSwiper videos={[]} videoId={videoHash} myChannelData={myChannelData}/>;
 }

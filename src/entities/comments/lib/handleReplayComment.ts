@@ -7,7 +7,8 @@ export const handleReplayComment = async (
   userId: string,
   parentCommentId: string,
   setIsOpenedReplayInput: (v: boolean) => void,
-  inputRef: RefObject<HTMLInputElement | null>
+  inputRef: RefObject<HTMLInputElement | null>,
+  refreshCommentsList: () => void
 ) => {
   if (value) {
     const res = await createReplyComment(
@@ -16,6 +17,7 @@ export const handleReplayComment = async (
       userId,
       parentCommentId
     );
+    refreshCommentsList()
     setIsOpenedReplayInput(false);
     if (inputRef.current) inputRef.current.value = "";
   }

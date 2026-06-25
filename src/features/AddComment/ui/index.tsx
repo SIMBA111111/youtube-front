@@ -5,12 +5,13 @@ import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { ChangeEvent, useRef, useState } from "react";
 
 import { IChannel } from "@/entities/channels/modal/types";
-import { handleCreateComment } from "../lib/createComment";
 import { useToast } from "@/app/providers/toastProvider";
 import { Text } from "@/shared/ui";
+import { CreateCommentUnauthPopover } from "@/shared/ui/Popover/Popovers/CreateCommentUnauthPopover";
+
+import { handleCreateComment } from "../lib/createComment";
 
 import styles from "./styles.module.scss";
-import { CreateCommentUnauthPopover } from "@/shared/ui/Popover/Popovers/CreateCommentUnauthPopover";
 
 
 interface IAddComment {
@@ -31,8 +32,6 @@ export const AddComment: React.FC<IAddComment> = ({
   const { openToast } = useToast();
 
   const handleCancel = () => {
-    console.log("handleCancel");
-
     setInputHidden(true);
     setIsEmojiesOpened(false)
 
@@ -43,7 +42,6 @@ export const AddComment: React.FC<IAddComment> = ({
 
   const handleCommentText = async (e: ChangeEvent) => {
     inputRef.current!.value = e.target?.value
-    console.log('inputRef.current!.value = ', inputRef.current!.value);
   }
 
   const handleAddEmoji = async (e: EmojiClickData) => {
@@ -51,18 +49,12 @@ export const AddComment: React.FC<IAddComment> = ({
   }
 
   const handleOpenCommentInput = () => {
-    console.log('me = ', me);
-    
     if('id' in me) {
       setInputHidden(false)
     } else {
       setIsOpenedUnauthPopover(true)
     } 
   }
-
-  console.log('me === ', me);
-  console.log('videoId === ', videoId);
-  
 
   return (
     <div className={styles.container}>

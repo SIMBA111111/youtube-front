@@ -34,7 +34,6 @@ export const Comments: FC<IComments> = ({
 
     const fetchData = async () => {
         const res = await getCommentsByVideoHash(videoHash, pagination.offset, pagination.limit, '', me.Id, '')
-        console.log('res = ', res);
         setComments(res.comments)
     }
 

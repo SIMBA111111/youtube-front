@@ -1,5 +1,36 @@
+@mixin rewriteVideoActions {
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            opacity: 0.7;
+        }
+    } 
+
+    &:active {
+        opacity: 1;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 0;
+        transform: translateY(-25%);
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background-color: var(--foregroundRGB);
+        border-radius: 28px;
+        cursor: pointer;
+        border: none;
+    }
+
+    > svg {
+        z-index: 999;
+    }
+}
+
 .mainPage__container {
-    width: 90%;
+    width: 100%;
     position: relative;
 }
 
@@ -31,31 +62,53 @@
 }
 
 .actionsPlayerWrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    align-items: center;
+
     [class*='rating_likeDislike'] {
         flex-direction: column;
+        user-select: none;
+        gap: 2px;
+     
+        [class*='rating_divider'] {
+            display: none;
+        }
 
         > div {
             all: unset;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 52px;
+            gap: 22px;
             position: relative;
-
-            &::before {
-                content: '';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                // transform: translateX(80%);
-                background-color: aqua;
-                padding: 20px;
-            }
-
-            > svg {
-                fill: red;
-            }
+            cursor: pointer;
+            transition: all 0.2s ease;
+            @include rewriteVideoActions
         }
+    }
+
+    [class*='rating_share'] {
+        flex-direction: column;
+        all: unset;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s ease;
+        @include rewriteVideoActions;
+        
+        &:hover {
+            background: none;
+        }
+    }
+
+    [class*='shortVideoBtnsContainer_item'] {
+        margin-top: 8px;
     }
 }
 
@@ -69,14 +122,13 @@
     gap: 12px;
 }
 
-
 .navButton {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: rgba(62, 62, 62, 0.6);
+    background: var(--foregroundRGB);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(96, 96, 96, 0.2);
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,7 +136,7 @@
     transition: all 0.2s ease;
     
     &:hover {
-        background: rgba(186, 181, 181, 0.4);
+        opacity: 0.8;
         transform: scale(1.05);
     }
     

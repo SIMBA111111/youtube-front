@@ -67,6 +67,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
 
   const handleSound = (e: React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault();
     setIsSoundOn((prev: boolean) => !prev);
   };
 

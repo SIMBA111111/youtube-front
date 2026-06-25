@@ -45,6 +45,8 @@ export const DesktopSidebar = ({
     }, 1000);
   };
 
+  // console.log('randomShortVideo = ', randomShortVideo);
+
   return (
     <>
       {!isOpen && (

@@ -137,9 +137,6 @@ export const getNotifs = async (userId: string) => {
             credentials: "include"
         })
 
-        console.log('res = ', res);
-        
-
         if (res.status === 200) {
             return await res.json()
         } else {

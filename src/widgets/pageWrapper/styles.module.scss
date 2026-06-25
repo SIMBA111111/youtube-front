@@ -27,7 +27,6 @@
   justify-content: start;
   align-items: start;
   align-content: start;
-  overflow-y: auto;
   background-color: var(--background);
 
   &::-webkit-scrollbar {
@@ -52,25 +51,14 @@
 .pageWrapper {
   grid-area: page;
   height: 100%;
-  overflow-y: scroll;
-  padding: 20px 0px;
+  // overflow-y: scroll;
   background-color: var(--background);
-
-  &::-webkit-scrollbar {
-      width: 8px; /* ширина скроллбара */
-      background: transparent; /* прозрачный фон */
-  }
-
-  &::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 4px;
-  }
 
   &_opened {
     grid-area: page;
     height: 100%;
-    overflow-y: scroll;
+    // overflow-y: scroll;
     background-color: var(--background);
-    padding: 20px;
+    padding: 20 0 0 20;
   }
 }

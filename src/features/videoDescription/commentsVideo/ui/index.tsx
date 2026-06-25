@@ -22,7 +22,7 @@ export const CommentsVideo: FC<ICommentsVideo> = ({
         <>
             <button className={styles.shortVideoBtnsContainer_item} onClick={() => setIsOpenedCommentsModal(true)}>
                 <div className={styles.shortVideoBtnsContainer_item_svg}>
-                    <Svg name='comments' size='big' color='white'/>
+                    <Svg name='comments' color='black'/>
                 </div>
                 <Text className={styles.shortVideoBtnsContainer_item_text}>{formatViews(commentsCount)}</Text>
             </button>

@@ -30,7 +30,7 @@ export const VideoList = ({
 }) => {
   const [activeTag, setActiveTag] = useState<string>(tags?.[0].id || "");
   const [videoList, setVideoList] = useState<IVideo[]>(
-    mapVideoList(initVideos)
+    initVideos
   );
   const [isLoading, setIsLoading] = useState(false);
   const device = useDeviceIsMobile();
@@ -60,6 +60,7 @@ export const VideoList = ({
           const newVideos = await getVideos(jwt, activeTag);
           console.log("ПОЛУЧЕНО НОВЫХ ВИДЕО:", newVideos.length);
 
+          const newVideoList = videoList.filter(v => newVideos.videos.find(nw => nv.id === v.id))
           setVideoList((prev) => [...prev, newVideos.videos].flat());
           setIsLoading(false); // Важно: выключаем загрузку после получения данных
           // }, 2000)
@@ -86,6 +87,8 @@ export const VideoList = ({
     setVideoList([]);
   };
 
+  console.log('videoList = ', videoList);
+  
   return (
     <div className={styles.container} id="videoListContainer">
       {tags && tags.length > 0 && (
@@ -104,102 +107,9 @@ export const VideoList = ({
         </div>
       )}
 
-      {videoList && videoList?.length <= 0 && isLoading && (
-        <div ref={loadingRef} className={styles.videoGrid}>
-          {(isLoading || videoList?.length <= 0) &&
-            Array.from({ length: 12 }, (_, index) => {
-              return (
-                <div key={index} className={styles.videoCardWrapper}>
-                  <VideoThumbnailSkeleton />
-                </div>
-              );
-            })}
-        </div>
-      )}
-
-      {videoList && videoList?.length <= 0 && !isLoading && (
-        <div ref={loadingRef} className={styles.videoGrid}>
-          нет видео
-        </div>
-      )}
-
-      {videoList && videoList?.length > 0 && !isLoading && (
-        <>
-          <div className={styles.videoGrid}>
-            {videoList
-              ?.filter((video: IVideo) => !video?.isShort)
-              ?.slice(0, getVideosCount(device))
-              ?.map((video: IVideo) => (
-                <div key={video?.id} className={styles.videoCardWrapper}>
-                  <ThumbnailVideoCard video={video} />
-                </div>
-              ))}
-          </div>
-
-          {videoList.filter((v) => v.isShort).length > 0 && (
-            <div className={styles.shortsTag}>
-              <Svg name="shortsRed" />
-              <Text size={20}>Shorts</Text>
-            </div>
-          )}
-
-          <div className={styles.videoGridHorts}>
-            {videoList
-              ?.filter((video: IVideo) => video?.isShort)
-              .slice(0, getShortsCount(device))
-              ?.map((video: IVideo) => (
-                <div key={video?.id} className={styles.hortsVideoCardWrapper}>
-                  <ThumbnailShortVideoCard {...video} />
-                </div>
-              ))}
-          </div>
-
-          <div className={styles.videoGrid}>
-            {videoList
-              .filter((video: IVideo) => !video?.isShort)
-              .slice(getVideosCount(device), getVideosCount(device) * 2)
-              .map((video: IVideo) => (
-                <div key={video?.id} className={styles.videoCardWrapper}>
-                  <ThumbnailVideoCard video={video} />
-                </div>
-              ))}
-          </div>
-
-          {videoList.filter((v) => v.isShort).length > 0 && (
-            <div className={styles.shortsTag}>
-              <Svg name="shortsRed" />
-              <Text size={20}>Shorts</Text>
-            </div>
-          )}
-
-          <div className={styles.videoGridHorts}>
-            {videoList
-              .filter((video: IVideo) => video?.isShort)
-              .slice(getShortsCount(device), getShortsCount(device) * 2)
-              .map((video: IVideo) => (
-                <div key={video?.id} className={styles.hortsVideoCardWrapper}>
-                  <ThumbnailShortVideoCard {...video} />
-                </div>
-              ))}
-          </div>
-
-          <div className={styles.videoGrid}>
-            {videoList
-              .filter((video: IVideo) => !video?.isShort)
-              .slice(getVideosCount(device) * 2)
-              .map((video: IVideo, index) => (
-                <div key={index} className={styles.videoCardWrapper}>
-                  <ThumbnailVideoCard video={video} />
-                </div>
-              ))}
-          </div>
-
-          {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
-          <div
-            ref={loadingRef}
-            style={{ height: "10px", margin: "20px 0" }}
-            className={styles.videoGrid}
-          >
+      <div className={styles.videosContainer}>
+        {videoList && videoList?.length <= 0 && isLoading && (
+          <div ref={loadingRef} className={styles.videoGrid}>
             {(isLoading || videoList?.length <= 0) &&
               Array.from({ length: 12 }, (_, index) => {
                 return (
@@ -209,8 +119,104 @@ export const VideoList = ({
                 );
               })}
           </div>
-        </>
-      )}
+        )}
+
+        {videoList && videoList?.length <= 0 && !isLoading && (
+          <div ref={loadingRef} className={styles.videoGrid}>
+            нет видео
+          </div>
+        )}
+
+        {videoList && videoList?.length > 0 && !isLoading && (
+          <>
+            <div className={styles.videoGrid}>
+              {videoList
+                ?.filter((video: IVideo) => !video?.isShort)
+                ?.slice(0, getVideosCount(device))
+                ?.map((video: IVideo) => (
+                  <div key={video?.id} className={styles.videoCardWrapper}>
+                    <ThumbnailVideoCard video={video} />
+                  </div>
+                ))}
+            </div>
+
+            {videoList.filter((v) => v.isShort).length > 0 && (
+              <div className={styles.shortsTag}>
+                <Svg name="shortsRed" />
+                <Text size={20}>Shorts</Text>
+              </div>
+            )}
+
+            <div className={styles.videoGridHorts}>
+              {videoList
+                ?.filter((video: IVideo) => video?.isShort)
+                .slice(0, getShortsCount(device))
+                ?.map((video: IVideo) => (
+                  <div key={video?.id} className={styles.hortsVideoCardWrapper}>
+                    <ThumbnailShortVideoCard {...video} />
+                  </div>
+                ))}
+            </div>
+
+            <div className={styles.videoGrid}>
+              {videoList
+                .filter((video: IVideo) => !video?.isShort)
+                .slice(getVideosCount(device), getVideosCount(device) * 2)
+                .map((video: IVideo) => (
+                  <div key={video?.id} className={styles.videoCardWrapper}>
+                    <ThumbnailVideoCard video={video} />
+                  </div>
+                ))}
+            </div>
+
+            {videoList.filter((v) => v.isShort).length > 0 && (
+              <div className={styles.shortsTag}>
+                <Svg name="shortsRed" />
+                <Text size={20}>Shorts</Text>
+              </div>
+            )}
+
+            <div className={styles.videoGridHorts}>
+              {videoList
+                .filter((video: IVideo) => video?.isShort)
+                .slice(getShortsCount(device), getShortsCount(device) * 2)
+                .map((video: IVideo) => (
+                  <div key={video?.id} className={styles.hortsVideoCardWrapper}>
+                    <ThumbnailShortVideoCard {...video} />
+                  </div>
+                ))}
+            </div>
+
+            <div className={styles.videoGrid}>
+              {videoList
+                .filter((video: IVideo) => !video?.isShort)
+                .slice(getVideosCount(device) * 2)
+                .map((video: IVideo, index) => (
+                  <div key={index} className={styles.videoCardWrapper}>
+                    <ThumbnailVideoCard video={video} />
+                  </div>
+                ))}
+            </div>
+
+            {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
+            <div
+              ref={loadingRef}
+              style={{ height: "10px", margin: "20px 0" }}
+              className={styles.videoGrid}
+            >
+              {(isLoading || videoList?.length <= 0) &&
+                Array.from({ length: 12 }, (_, index) => {
+                  return (
+                    <div key={index} className={styles.videoCardWrapper}>
+                      <VideoThumbnailSkeleton />
+                    </div>
+                  );
+                })}
+            </div>
+          </>
+        )}
+      </div>
+
     </div>
   );
 };

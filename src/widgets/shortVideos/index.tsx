@@ -1,24 +1,24 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+import { usePathname } from "next/navigation";
 import { Mousewheel, Pagination, Navigation } from "swiper/modules";
 import { useEffect, useRef, useState } from "react";
 import Cookie from "js-cookie";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+
 import { Svg } from "@/shared/ui";
-import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { ShortPlayer } from "@webitch/short-player";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import { ShortVideoBtns } from "@/features/shortVideoActions/ui";
 import { getVideos } from "@/shared/api/video/getVideoList";
-import styles from "./styles.module.scss";
 import { getVideoById } from "@/shared/api/video/getVideoById";
-import { usePathname } from "next/navigation";
 import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui";
 import { ShareVideo } from "@/features/videoDescription/shareVideo/ui";
 import { CommentsVideo } from "@/features/videoDescription/commentsVideo/ui";
+
+import styles from "./styles.module.scss";
 
 
 export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVideo[], videoId: string, myChannelData: any }) => {
@@ -29,10 +29,10 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
   const theme = Cookie.get("theme");
   const pathname = usePathname()
 
-  console.log('pathname = ', pathname);
-
   const handleIncrementCounter = async (swiper) => {
     currentItemRef.current = swiper.activeIndex;
+    const resGetVideoById = await getVideoById(shortVideos[currentItemRef.current].id);
+    setCurrentShortVideo(resGetVideoById)
 
     if (currentItemRef.current > shortVideos.length - 5) {
       const res = await getVideos();
@@ -61,8 +61,8 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
     }
   };
 
-  console.log('videos = ', shortVideos);
-  console.log('currentShortVideo = ', currentShortVideo);
+  // console.log('videos = ', shortVideos);
+  // console.log('currentShortVideo = ', currentShortVideo);
 
   if (!shortVideos || shortVideos.length === 0) {
     return <div>...</div>
@@ -96,18 +96,17 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
                   // theme={theme}
                 />
                 <div className={styles.actionsPlayerWrapper}>
-                <EvaluateVideo
+                  <EvaluateVideo
                     isLiked={currentShortVideo?.stat?.liked}
                     isDisliked={currentShortVideo?.stat?.disliked}
                     likeCount={currentShortVideo?.video?.likeCount}
                     dislikeCount={currentShortVideo?.video?.dislikeCount}
                     userId={myChannelData.id}
-                    videoId={videoId}
+                    videoId={currentShortVideo.video.id}
                   />
-                  <ShareVideo videoHash={videoId} />
-                  <CommentsVideo commentsCount={currentShortVideo?.video?.commentsCount} videoId={videoId} me={myChannelData}/>
+                  <ShareVideo videoHash={currentShortVideo.video.id} isShort />
+                  <CommentsVideo commentsCount={currentShortVideo?.video?.commentsCount} videoId={currentShortVideo.video.id} me={myChannelData}/>
                 </div>
-                <ShortVideoBtns commentsCount={0} dislikeCount={0} likeCount={0} me={myChannelData} videoId={videoId} />
               </div>
             </SwiperSlide>
           ))}

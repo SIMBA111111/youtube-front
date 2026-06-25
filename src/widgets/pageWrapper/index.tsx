@@ -16,8 +16,6 @@ interface LayoutWrapperProps {
 export function PageWrapper({ children }: LayoutWrapperProps) {
     const {isOpen} = useSidebarStore()
 
-
-
     return (
         <div className={`${styles.grid} ${isOpen ? styles.gridSidebarOpen : styles.gridSidebarClosed}`} id="page-wrapper">
             <div className={styles.sidebarWrapper}>

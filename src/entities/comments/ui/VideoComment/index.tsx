@@ -35,12 +35,14 @@ export interface ICommentCard {
   comment: IComment;
   videoId: string;
   me: any;
+  refreshCommentsList?: any;
 }
 
 export const CommentCard: React.FC<ICommentCard> = ({
   comment,
   videoId,
   me,
+  refreshCommentsList
 }) => {
   const {
     id,
@@ -218,7 +220,8 @@ export const CommentCard: React.FC<ICommentCard> = ({
                         me?.id,
                         id,
                         setIsOpenedReplayInput,
-                        inputRef
+                        inputRef,
+                        refreshCommentsList
                       )
                     }
                     className={styles.actions_btns_2}
@@ -265,6 +268,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
                   comment={comment}
                   videoId={videoId}
                   me={me}
+                  refreshCommentsList={refreshCommentsList}
                 />
               ))}
             </div>
