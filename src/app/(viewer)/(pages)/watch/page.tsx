@@ -54,18 +54,15 @@ export default async function WatchVideo({
     ? "id" in videoData.isSubscribed
     : false;
 
-  console.log(videoData);
-  
-
   return (
     <div className={styles.page}>
       <div className={styles.video}>
         <div className={styles.player}>
-          {/* <Player
+          <Player
             playlistUrl={videoData.video?.masterM3u8Url}
             duration={videoData.video?.duration}
             fragments={videoData.video?.fragments}
-          /> */}
+          />
         </div>
         <div className={styles.description}>
           <Text weight={600} size={18}>
