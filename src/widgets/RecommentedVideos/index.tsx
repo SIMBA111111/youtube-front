@@ -7,20 +7,19 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { ThumbnailShortVideoCard } from "@/entities";
-
 import { Spinner, Svg } from "@/shared/ui";
-import styles from "./styles.module.scss";
 import { getRecommentedVideos } from "@/shared/api/video/getRecommentedVideos";
 import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
+import styles from "./styles.module.scss";
 
 interface IRecommentedVideos {
-  initVideos: IVideo[];
+  // initVideos: IVideo[];
   videoHash: string;
   myChannelId?: string;
 }
 
 export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
-  initVideos,
+  // initVideos,
   videoHash,
   myChannelId,
 }) => {
@@ -28,10 +27,12 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
 
   const fetchRecommendedVideoList = async ({
     offset,
-    limit
+    limit,
+    filter
   }: {
     offset: number,
     limit: number
+    filter?: any
   }) => {
     const res = await getRecommentedVideos(
       videoHash,
@@ -47,16 +48,18 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
     data,
     isLoading,
     hasMore,
-    refreshData
   } = useInfitityScroll<IVideo, any>({
-    paginationStep: 10,
+    paginationStep: 20,
     filter: '',
     fetchData: fetchRecommendedVideoList,
     triggerRef: loadingRef
   })
 
-  const fullVideos = initVideos.filter((video: IVideo) => !video.isShort);
-  const shortVideos = initVideos.filter((video: IVideo) => video.isShort);
+  console.log('data = ', data);
+  
+
+  // const fullVideos = initVideos.filter((video: IVideo) => !video.isShort);
+  // const shortVideos = initVideos.filter((video: IVideo) => video.isShort);
 
   const swiperRef = useRef(null);
 
@@ -129,7 +132,8 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
           </button>
         </div>
       </div> */}
-      {hasMore && <div ref={loadingRef} style={{ height: "10px", margin: "20px 0" }}>
+      {<div ref={loadingRef} style={{ height: "100px", margin: "20px" }}>
+        loadingRef
         {isLoading && (
           <div className={styles.recommendedVideoLoader}>
             <Spinner />

@@ -3,6 +3,7 @@ import { RefObject, useEffect, useRef, useState } from "react";
 interface IFetchDataArgs<Y> {
     offset: number;
     limit: number;
+    filter?: Y;
 }
 
 interface IUseInfitityScroll<T, Y> {
@@ -38,9 +39,9 @@ export const useInfitityScroll = <T, Y>({
     
     const observerRef = useRef<IntersectionObserver | null>(null);
     const isFetchingRef = useRef<boolean>(false);
-    const isInitialMountRef = useRef<boolean>(true);
+    const initializedRef = useRef<boolean>(false);
+    const loadCountRef = useRef<number>(0); // ✅ Счетчик загрузок
 
-    // ✅ Основная функция загрузки данных
     const loadData = async (offset: number, limit: number) => {
         if (isFetchingRef.current) return;
         
@@ -51,7 +52,7 @@ export const useInfitityScroll = <T, Y>({
             const res = await fetchData({
                 offset,
                 limit,
-                // filter,
+                filter,
             });
 
             if (!res || res.length === 0) {
@@ -59,17 +60,16 @@ export const useInfitityScroll = <T, Y>({
                 return;
             }
 
-            if (res && res.length < paginationStep) {
-                setData(prev => [...prev, ...res]);
-                setHasMore(false);
-                return;
-            }
-
             setData(prev => [...prev, ...res]);
-            setPagination(prev => ({
-                offset: prev.offset + paginationStep,
-                limit: prev.limit + paginationStep,
-            }));
+
+            if (res.length < paginationStep) {
+                setHasMore(false);
+            } else {
+                setPagination(prev => ({
+                    offset: prev.offset + paginationStep,
+                    limit: prev.limit + paginationStep,
+                }));
+            }
 
         } catch (error) {
             console.error("ОШИБКА ЗАГРУЗКИ:", error);
@@ -79,7 +79,6 @@ export const useInfitityScroll = <T, Y>({
         }
     };
 
-    // ✅ Callback для IntersectionObserver
     const callback = async (entries: IntersectionObserverEntry[]) => {
         const entry = entries[0];
 
@@ -87,9 +86,8 @@ export const useInfitityScroll = <T, Y>({
             return;
         }
 
-        // Пропускаем первое срабатывание при монтировании
-        if (isInitialMountRef.current) {
-            isInitialMountRef.current = false;
+        // ✅ Если еще не инициализировались - пропускаем
+        if (!initializedRef.current) {
             return;
         }
 
@@ -114,34 +112,46 @@ export const useInfitityScroll = <T, Y>({
                 observerRef.current = null;
             }
         };
-    }, [hasMore, pagination.offset, filter, triggerRef.current]);
+    }, [hasMore, pagination.offset, triggerRef.current]);
 
-    // ✅ Первоначальная загрузка и сброс при смене фильтра
+    // ✅ Первоначальная загрузка - только один раз
     useEffect(() => {
-        const resetAndLoad = async () => {
-            // Отключаем observer
-            if (observerRef.current) {
-                observerRef.current.disconnect();
-                observerRef.current = null;
-            }
+        // ✅ Если уже загружали - пропускаем
+        if (initializedRef.current) return;
+        
+        // ✅ Увеличиваем счетчик
+        loadCountRef.current += 1;
+        
+        // ✅ Если это второй вызов (из-за строгого режима) - пропускаем
+        if (loadCountRef.current > 1) {
+            initializedRef.current = true;
+            return;
+        }
 
-            // Сбрасываем состояние
+        const loadInitialData = async () => {
             setData([]);
             setPagination({ offset: 0, limit: paginationStep });
             setHasMore(true);
-            isInitialMountRef.current = true;
-            isFetchingRef.current = false;
-
-            // Загружаем первую порцию
+            
             await loadData(0, paginationStep);
-            isInitialMountRef.current = false;
+            
+            // ✅ Отмечаем, что инициализация завершена
+            initializedRef.current = true;
         };
 
-        resetAndLoad();
-    }, [filter])
+        loadInitialData();
 
-    // ✅ Функция для ручного обновления (например, после добавления комментария)
+        // ✅ Очистка при размонтировании
+        return () => {
+            // Ничего не делаем
+        };
+    }, [filter]); // ✅ Зависимость от filter
+
     const refreshData = async () => {
+        // ✅ Сбрасываем флаг инициализации
+        initializedRef.current = false;
+        loadCountRef.current = 0;
+
         if (observerRef.current) {
             observerRef.current.disconnect();
             observerRef.current = null;
@@ -150,11 +160,10 @@ export const useInfitityScroll = <T, Y>({
         setData([]);
         setPagination({ offset: 0, limit: paginationStep });
         setHasMore(true);
-        isInitialMountRef.current = true;
-        isFetchingRef.current = false;
 
         await loadData(0, paginationStep);
-        isInitialMountRef.current = false;
+        
+        initializedRef.current = true;
     };
 
     return { 
