@@ -28,7 +28,7 @@ export const Header = () => {
     <div className={styles.headerContainer}>
       <div className={styles.headerContainer__block}>
         <BurgerButton />
-        <MainLogoBtn/>
+        {/* <MainLogoBtn/> */}
       </div>
       <div className={styles.headerContainer__block}>
         <div className={styles.searcher}>

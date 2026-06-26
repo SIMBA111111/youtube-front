@@ -9,10 +9,9 @@ import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { ThumbnailShortVideoCard } from "@/entities";
 
 import { Spinner, Svg } from "@/shared/ui";
-import { getShortVideos } from "@/shared/api/video/getShortVideos";
-import { getVideos } from "@/shared/api/video/getVideoList";
 import styles from "./styles.module.scss";
 import { getRecommentedVideos } from "@/shared/api/video/getRecommentedVideos";
+import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
 
 interface IRecommentedVideos {
   initVideos: IVideo[];
@@ -25,68 +24,36 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
   videoHash,
   myChannelId,
 }) => {
-  const [videoList, setVideoList] = useState<IVideo[]>(initVideos);
-  const [pagination, setPagination] = useState({ offset: 20, limit: 40 });
-  const [isLoading, setIsLoading] = useState(false);
-  const observerRef = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (!loadingRef.current) return;
-    if (observerRef.current) return;
+  const fetchRecommendedVideoList = async ({
+    offset,
+    limit
+  }: {
+    offset: number,
+    limit: number
+  }) => {
+    const res = await getRecommentedVideos(
+      videoHash,
+      offset,
+      limit,
+      myChannelId
+    );
 
-    const options = {
-      root: null,
-      rootMargin: "100px",
-      threshold: 1,
-    };
+    return res?.videos || []
+  }
 
-    const callback = async (entries: IntersectionObserverEntry[]) => {
-      const entry = entries[0];
-
-      if (entry.isIntersecting && !isLoading) {
-        // console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ')
-        setIsLoading(true);
-
-        try {
-          const res = await getRecommentedVideos(
-            videoHash,
-            pagination.offset,
-            pagination.limit,
-            myChannelId
-          );
-
-          console.log("res = ", res);
-
-          if (res.total === 0) {
-            observerRef.current?.disconnect();
-            setIsLoading(false);
-            loadingRef.current = null;
-            return;
-          }
-          setVideoList((prev) => [...prev, ...res.videos]);
-          setIsLoading(false);
-          setPagination((prev) => ({
-            offset: prev.offset + 20,
-            limit: prev.limit + 20,
-          }));
-        } catch (error) {
-          setIsLoading(false);
-          console.error("ОШИБКА ЗАГРУЗКИ:", error);
-        }
-      }
-    };
-
-    observerRef.current = new IntersectionObserver(callback, options);
-    observerRef.current.observe(loadingRef.current);
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-        observerRef.current = null;
-      }
-    };
-  }, [isLoading]); // Добавил зависимости
+  const { 
+    data,
+    isLoading,
+    hasMore,
+    refreshData
+  } = useInfitityScroll<IVideo, any>({
+    paginationStep: 10,
+    filter: '',
+    fetchData: fetchRecommendedVideoList,
+    triggerRef: loadingRef
+  })
 
   const fullVideos = initVideos.filter((video: IVideo) => !video.isShort);
   const shortVideos = initVideos.filter((video: IVideo) => video.isShort);
@@ -107,7 +74,7 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
 
   return (
     <div className={styles.container}>
-      {videoList
+      {data
         .filter((video: IVideo[]) => !video.isShort)
         .map((video: IVideo, index) => {
           return (
@@ -162,13 +129,13 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
           </button>
         </div>
       </div> */}
-      <div ref={loadingRef} style={{ height: "10px", margin: "20px 0" }}>
+      {hasMore && <div ref={loadingRef} style={{ height: "10px", margin: "20px 0" }}>
         {isLoading && (
           <div className={styles.recommendedVideoLoader}>
             <Spinner />
           </div>
         )}
-      </div>
+      </div>}
     </div>
   );
 };

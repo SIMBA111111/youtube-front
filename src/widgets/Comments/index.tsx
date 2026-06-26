@@ -7,6 +7,7 @@ import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideo
 import { CommentSkeleton, VideoThumbnailSkeleton } from "@/shared/ui";
 import { IChannel } from "@/entities/channels/modal/types";
 import styles from "./styles.module.scss";
+import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
 
 
 export type commentFilter = "famous" | "new";
@@ -35,124 +36,36 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
     id: "1",
     value: "famous",
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [commentsList, setCommentsList] = useState<IComment[]>([]);
-  const [hasMore, setHasMore] = useState(true); // Добавьте этот флаг
-  const [pagination, setPagination] = useState({ offset: 0, limit: PAGINATION_STEP });
-  const observerRef = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
-  const isFetchingRef = useRef<boolean>(false);
 
-  const fetchCommentsList = async (videoId: string, offset: number, limit: number, _filter: IFilter, userId: string) => {
-    if(isFetchingRef.current) return []
-    isFetchingRef.current = true
-
-    try {
-      const res = await getCommentsByVideoHash(
+  const fetchCommentsList = async ({ 
+    offset, 
+    limit, 
+  }: {
+    offset: number;
+    limit: number;
+  }) => {
+    const res = await getCommentsByVideoHash(
         videoId,
         offset,
         limit,
-        _filter.value,
-        userId
-      )
-
-      if (res?.comments && res.comments.length > 0) {
-        setCommentsList((prev: IComment[]) => [...prev, ...res.comments])
-      }
-  
-      isFetchingRef.current = false
-      return res.comments
-    } catch (error) {
-
-      isFetchingRef.current = false
-      console.error("ОШИБКА ЗАГРУЗКИ:", error)
-      return false
-    }
-  }
-
-  const handleRefreshCommentsList = async () => {
-    setHasMore(true);
-    setIsLoading(true)
-    fetchCommentsList(videoId, 0, pagination.limit, filter, me.id)
-    setIsLoading(false)
+        filter.value,
+        me.id
+    );
+    return res?.comments || [];
   };
 
-  const callback = async (entries: IntersectionObserverEntry[]) => {
-    console.log('callback');
-    console.log('isLoading: ', isLoading);
-    
-    const entry = entries[0];
-
-    if (entry.isIntersecting && !isLoading && hasMore) {
-      // Добавьте hasMore
-      setIsLoading(true);
-
-      console.log('pagination = ', pagination);
-
-      try {
-        const resComments = await fetchCommentsList(
-          videoId,
-          pagination.offset,
-          pagination.limit,
-          filter,
-          me.id
-        )
-
-        if (!resComments || resComments.length === 0 || resComments.length < PAGINATION_STEP) {
-          setHasMore(false); // Больше нет данных
-          setIsLoading(false);
-
-          if(observerRef.current) {
-            observerRef.current.disconnect();
-            observerRef.current = null;
-          }
-          return;
-        }
-
-        setPagination((prev) => ({
-          offset: prev.offset + PAGINATION_STEP,
-          limit: prev.limit + PAGINATION_STEP,
-        }));
-
-        setIsLoading(false);
-
-      } catch (error) {
-        console.error("ОШИБКА ЗАГРУЗКИ:", error);
-        setIsLoading(false);
-      }
-    }
-  };
-
-  // Сброс состояния при смене фильтра
-  // useEffect(() => {
-  //   setCommentsList([]);
-  //   setPagination({ offset: 0, limit: PAGINATION_STEP });
-  //   fetchCommentsList(videoId, 0, PAGINATION_STEP, filter, me.id)
-  //   setHasMore(true);
-
-  //   // Отключаем старый observer
-  //   if (observerRef.current) {
-  //     observerRef.current.disconnect();
-  //     observerRef.current = null;
-  //   }
-  // }, [filter.value]);
-
-  // Настройка IntersectionObserver
-  useEffect(() => {
-    if (!loadingRef.current || !hasMore) return;
-
-    observerRef.current = new IntersectionObserver(callback, options);
-    observerRef.current.observe(loadingRef.current);
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-        observerRef.current = null;
-      }
-    };
-  }, [hasMore, filter.value, pagination]); // Добавьте зависимости
-
-  // console.log('commentsList = ', commentsList);
+  const { 
+    data,
+    isLoading,
+    hasMore,
+    refreshData
+  } = useInfitityScroll<IComment, IFilter>({
+    paginationStep: 10,
+    filter: filter,
+    fetchData: fetchCommentsList,
+    triggerRef: loadingRef
+  })
 
   return (
     <div className={styles.comments}>
@@ -163,16 +76,16 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
       <AddComment
         me={me}
         videoId={videoId}
-        handleRefreshCommentsList={handleRefreshCommentsList}
+        handleRefreshCommentsList={refreshData}
       />
       <div className={styles.comments_comments}>
-        {commentsList?.map((comment: IComment) => (
+        {data?.map((comment: IComment) => (
           <CommentCard
             key={comment.id}
             comment={comment}
             videoId={videoId}
             me={me}
-            refreshCommentsList={handleRefreshCommentsList}
+            refreshCommentsList={refreshData}
           />
         ))}
       </div>
@@ -188,7 +101,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
           ))}
       </div>
 
-      {!hasMore && commentsList.length > 0 && (
+      {!hasMore && (
         <div style={{ textAlign: "center", padding: "20px" }}>
           Больше нет комментариев
         </div>
