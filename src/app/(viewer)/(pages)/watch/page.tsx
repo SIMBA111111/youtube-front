@@ -39,13 +39,6 @@ export default async function WatchVideo({
 
   const videoData = await getVideoByHash(videoHash, myChannelData?.id);
 
-  // const recommentedVideos = await getRecommentedVideos(
-  //   videoHash,
-  //   0,
-  //   20,
-  //   myChannelData?.id
-  // );
-
   const res = await updateViewVideo({
     videoId: videoData.video?.id,
     userId: myChannelData?.id,

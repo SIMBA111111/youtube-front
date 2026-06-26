@@ -23,6 +23,12 @@
     margin-top: 20px;
 }
 
+.videoListContainer {
+    &:last-child {
+        margin-bottom: 200px;
+    }
+}
+
 .video {
     display: flex;
     align-items: center;

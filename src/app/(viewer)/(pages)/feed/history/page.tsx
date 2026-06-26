@@ -30,13 +30,6 @@ export default async function HistoryPage() {
     )
   }
 
-
-
-
-
-  console.log('myChannel = ', myChannel);
-  
-  
   const tags = await getTags()
 
   const filteredTags = tags.tags.filter((t: ITag) => HISTORY_TAGS.find((tag: ITag) => tag.name === t.name))

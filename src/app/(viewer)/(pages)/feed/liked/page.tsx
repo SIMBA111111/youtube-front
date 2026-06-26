@@ -21,7 +21,6 @@ export default async function LikedPage() {
   if(cookie.get('channelData')) {
     meId = JSON.parse(cookie.get('channelData')?.value || '').id
     jwt = cookie.get('jwt')?.value
-    videos = await getLikedVideos(meId, jwt)
     tags = await getTags()
     filteredTags = tags.tags.filter((t: ITag) => LIKED_TAGS.find((tag: ITag) => tag.name === t.name))
   } else {
@@ -30,14 +29,10 @@ export default async function LikedPage() {
     )
   }
 
-
-  
-  console.log('videos = ', videos);
-
   return (
     <div className={styles.mainPage}>
       <Text size={36} weight={600}>Понравившиеся</Text>
-      <Liked initVideos={videos.likedVideos} tags={filteredTags} meId={meId} jwt={jwt}/>
+      <Liked tags={filteredTags} meId={meId} jwt={jwt}/>
     </div>
   );
 }

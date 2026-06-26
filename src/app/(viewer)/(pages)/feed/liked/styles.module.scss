@@ -1,4 +1,11 @@
+@use '../../../../mixins.scss' as *;
+
 .mainPage {
     margin: auto;
     width: 1440px;
+    @include scrollPage;
+
+    &::-webkit-scrollbar {
+        width: 0px;
+    }
 }

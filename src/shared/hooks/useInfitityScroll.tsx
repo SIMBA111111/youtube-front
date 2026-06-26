@@ -1,3 +1,5 @@
+'use client'
+
 import { RefObject, useEffect, useRef, useState } from "react";
 
 interface IFetchDataArgs<Y> {
@@ -80,6 +82,8 @@ export const useInfitityScroll = <T, Y>({
     };
 
     const callback = async (entries: IntersectionObserverEntry[]) => {
+        console.log('callback');
+        
         const entry = entries[0];
 
         if (!entry.isIntersecting || isLoading || !hasMore || isFetchingRef.current) {

@@ -8,124 +8,61 @@ import { ShortsSwiper, Spinner, Text } from "@/shared/ui";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { getHistoryVideos } from "@/shared/api/video/getHistoryVideos";
 import { splitEntitiesByDays } from "@/shared/utils/splitEntitiesByDays";
+import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
 import styles from "./styles.module.scss";
 
-export const History = ({initVideos, userId, jwt, tags}: {initVideos: IVideoViewed[], userId: string, jwt: string, tags: ITag[]}) => {
+export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags: ITag[]}) => {
     const [activeTag, setActiveTag] = useState<string>(tags[0].name);
-    const [videos, setVideos] = useState<IVideoViewed[]>(initVideos);
-    const [pagination, setPagination] = useState({offset: 20, limit: 40});
-    const [isLoading, setIsLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true); // Добавляем флаг наличия данных
-    const observerRef = useRef<IntersectionObserver | null>(null);
     const loadingRef = useRef<HTMLDivElement | null>(null);
-    const isInitialMount = useRef(true);
-    const isFetchingRef = useRef(false); // Предотвращаем множественные запросы
 
-    // Функция загрузки видео
-    const fetchVideos = async (offset: number, isReset: boolean = false) => {
-        if (isFetchingRef.current) return;
-        
-        isFetchingRef.current = true;
-        setIsLoading(true);
-        
-        try {
-            let isShort: boolean | null = null;
-            if (activeTag === HISTORY_TAGS[2].name) {
-                isShort = true;
-            } else if (activeTag === HISTORY_TAGS[1].name) {
-                isShort = false;
-            }
-
-            const res = await getHistoryVideos(
-                userId,
-                jwt,
-                {isShort: isShort, tags: activeTag === HISTORY_TAGS[0].name ? 'all' : activeTag}, 
-                offset,
-                pagination.limit,
-            );
-
-            if (isReset) {
-                setVideos(res.viewsHistory);
-                setPagination({offset: offset + 20, limit: pagination.limit});
-                setHasMore(res.viewsHistory.length === pagination.limit);
-            } else {
-                setVideos(prev => [...prev, ...res.viewsHistory]);
-                setPagination(prev => ({offset: prev.offset + 20, limit: prev.limit}));
-                setHasMore(res.viewsHistory.length === pagination.limit);
-            }
-        } catch (error) {
-            console.error('Error fetching videos:', error);
-            setHasMore(false);
-        } finally {
-            setIsLoading(false);
-            isFetchingRef.current = false;
-        }
-    };
-
-    // Эффект для смены тега
-    useEffect(() => {
-        // Пропускаем первый рендер, так как данные уже есть в initVideos
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-            return;
+    const fetchHistoryVideosData = async ({
+        offset,
+        limit
+    }: {
+        offset: number,
+        limit: number
+    }) => {
+        let isShort: boolean | null = null;
+        if (activeTag === HISTORY_TAGS[2].name) {
+            isShort = true;
+        } else if (activeTag === HISTORY_TAGS[1].name) {
+            isShort = false;
         }
 
-        // Сбрасываем состояние при смене тега
-        setHasMore(true);
-        fetchVideos(0, true);
-        
-        // Отключаем observer при смене тега
-        if (observerRef.current) {
-            observerRef.current.disconnect();
-            observerRef.current = null;
-        }
-    }, [activeTag]);
+        const res = await getHistoryVideos(
+            userId,
+            jwt,
+            {
+                isShort: isShort,
+                tags: activeTag === HISTORY_TAGS[0].name ? 'all' : activeTag
+            }, 
+            offset,
+            limit,
+        );
 
-    // Настройка observer
-    useEffect(() => {
-        // Не настраиваем observer, если нет данных или больше нет записей
-        if (videos.length === 0 || !hasMore || isLoading) {
-            return;
-        }
-        
-        if (!loadingRef.current) return;
-        
-        // Если observer уже существует, не создаем новый
-        if (observerRef.current) return;
+        return res?.viewsHistory || []
+    }
 
-        const callback = async (entries: IntersectionObserverEntry[]) => {
-            const entry = entries[0];
-            
-            if (entry.isIntersecting && !isLoading && hasMore && !isFetchingRef.current) {
-                console.log('ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ');
-                await fetchVideos(pagination.offset, false);
-            }
-        }
+    const {
+        data,
+        hasMore,
+        isLoading,
+        refreshData
+    } = useInfitityScroll<IVideoViewed, any>({
+        paginationStep: 5,
+        filter: activeTag,
+        triggerRef: loadingRef,
+        fetchData: fetchHistoryVideosData
+    })
 
-        observerRef.current = new IntersectionObserver(callback, {
-            root: null,
-            rootMargin: "100px",
-            threshold: 0.1 // Изменяем threshold на 0.1 для более раннего срабатывания
-        });
-        
-        observerRef.current.observe(loadingRef.current);
-
-        return () => {
-            if (observerRef.current) {
-                observerRef.current.disconnect();
-                observerRef.current = null;
-            }
-        }
-    }, [videos.length, hasMore, isLoading, pagination.offset]);
-
-    const groupedVideos = splitEntitiesByDays(videos);
+    const groupedVideos = splitEntitiesByDays(data);
 
     const renderVideoList = () => {
-        if (isLoading && videos.length === 0) {
+        if (isLoading && data.length === 0) {
             return <Text>Загрузка...</Text>;
         }
 
-        if (videos.length === 0) {
+        if (data.length === 0) {
             return <Text>Нет видео в истории</Text>;
         }
 
@@ -150,11 +87,11 @@ export const History = ({initVideos, userId, jwt, tags}: {initVideos: IVideoView
     };
 
     const renderShortsList = () => {
-        if (isLoading && videos.length === 0) {
+        if (isLoading && data.length === 0) {
             return <Text>Загрузка...</Text>;
         }
 
-        if (videos.length === 0) {
+        if (data.length === 0) {
             return <Text>Нет коротких видео в истории</Text>;
         }
 
@@ -165,8 +102,6 @@ export const History = ({initVideos, userId, jwt, tags}: {initVideos: IVideoView
             </div>
         ));
     };
-
-    
 
     return (
         <div className={styles.container}>
@@ -212,8 +147,8 @@ export const History = ({initVideos, userId, jwt, tags}: {initVideos: IVideoView
                 </div>
             )}
 
-            {hasMore && (
-                <div ref={loadingRef}>
+            {(
+                <div ref={loadingRef} style={{ height: "100px", margin: "20px" }}>
                     {isLoading && (
                         <div className={styles.spinner}>
                             <Spinner />
