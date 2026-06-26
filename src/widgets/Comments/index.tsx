@@ -19,6 +19,7 @@ export interface IFilter {
 interface IComments {
   videoId: string;
   me: IChannel;
+  commentCount: number
 }
 
 const options = {
@@ -27,7 +28,9 @@ const options = {
   threshold: 0.1, // Лучше 0.1 чем 1.0, чтобы срабатывало чуть раньше
 };
 
-export const Comments: React.FC<IComments> = ({ videoId, me }) => {
+const PAGINATION_STEP = 20
+
+export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => {
   const [filter, setFilter] = useState<IFilter>({
     id: "1",
     value: "famous",
@@ -35,68 +38,84 @@ export const Comments: React.FC<IComments> = ({ videoId, me }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [commentsList, setCommentsList] = useState<IComment[]>([]);
   const [hasMore, setHasMore] = useState(true); // Добавьте этот флаг
-  const [pagination, setPagination] = useState({ offset: 0, limit: 20 });
+  const [pagination, setPagination] = useState({ offset: 0, limit: PAGINATION_STEP });
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
+  const isFetchingRef = useRef<boolean>(false);
 
-  const handleRefreshCommentsList = async () => {
-    setHasMore(true);
-    setIsLoading(true);
+  const fetchCommentsList = async (videoId: string, offset: number, limit: number, _filter: IFilter, userId: string) => {
+    if(isFetchingRef.current) return []
+    isFetchingRef.current = true
 
     try {
       const res = await getCommentsByVideoHash(
         videoId,
-        0,
-        20,
-        filter.value,
-        me.id
-      );
-      setCommentsList(res.comments);
-      setIsLoading(false);
+        offset,
+        limit,
+        _filter.value,
+        userId
+      )
+
+      if (res?.comments && res.comments.length > 0) {
+        setCommentsList((prev: IComment[]) => [...prev, ...res.comments])
+      }
+  
+      isFetchingRef.current = false
+      return res.comments
     } catch (error) {
-      console.error("ОШИБКА ЗАГРУЗКИ:", error);
-      setIsLoading(false);
+
+      isFetchingRef.current = false
+      console.error("ОШИБКА ЗАГРУЗКИ:", error)
+      return false
     }
+  }
+
+  const handleRefreshCommentsList = async () => {
+    setHasMore(true);
+    setIsLoading(true)
+    fetchCommentsList(videoId, 0, pagination.limit, filter, me.id)
+    setIsLoading(false)
   };
 
   const callback = async (entries: IntersectionObserverEntry[]) => {
+    console.log('callback');
+    console.log('isLoading: ', isLoading);
+    
     const entry = entries[0];
 
     if (entry.isIntersecting && !isLoading && hasMore) {
       // Добавьте hasMore
       setIsLoading(true);
 
+      console.log('pagination = ', pagination);
+
       try {
-        const res = await getCommentsByVideoHash(
+        const resComments = await fetchCommentsList(
           videoId,
           pagination.offset,
           pagination.limit,
-          filter.value,
+          filter,
           me.id
-        );
+        )
 
-        if (!res.comments || res.comments.length === 0) {
+        if (!resComments || resComments.length === 0 || resComments.length < PAGINATION_STEP) {
           setHasMore(false); // Больше нет данных
           setIsLoading(false);
-          observerRef.current.disconnect();
-          observerRef.current = null;
+
+          if(observerRef.current) {
+            observerRef.current.disconnect();
+            observerRef.current = null;
+          }
           return;
         }
 
-        setCommentsList((prev: IComment[]) => [...prev, ...res.comments]);
         setPagination((prev) => ({
-          offset: prev.offset + 20,
-          limit: prev.limit + 20,
+          offset: prev.offset + PAGINATION_STEP,
+          limit: prev.limit + PAGINATION_STEP,
         }));
+
         setIsLoading(false);
 
-        if (res.comments.length < 20) {
-          setHasMore(false); // Больше нет данных
-          setIsLoading(false);
-          observerRef.current.disconnect();
-          observerRef.current = null;
-          return;
-        }
       } catch (error) {
         console.error("ОШИБКА ЗАГРУЗКИ:", error);
         setIsLoading(false);
@@ -105,18 +124,18 @@ export const Comments: React.FC<IComments> = ({ videoId, me }) => {
   };
 
   // Сброс состояния при смене фильтра
-  useEffect(() => {
-    setCommentsList([]);
-    setPagination({ offset: 0, limit: 20 });
-    setHasMore(true); // Сбросить флаг
-    setIsLoading(false);
+  // useEffect(() => {
+  //   setCommentsList([]);
+  //   setPagination({ offset: 0, limit: PAGINATION_STEP });
+  //   fetchCommentsList(videoId, 0, PAGINATION_STEP, filter, me.id)
+  //   setHasMore(true);
 
-    // Отключаем старый observer
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-      observerRef.current = null;
-    }
-  }, [filter.value]);
+  //   // Отключаем старый observer
+  //   if (observerRef.current) {
+  //     observerRef.current.disconnect();
+  //     observerRef.current = null;
+  //   }
+  // }, [filter.value]);
 
   // Настройка IntersectionObserver
   useEffect(() => {
@@ -131,12 +150,14 @@ export const Comments: React.FC<IComments> = ({ videoId, me }) => {
         observerRef.current = null;
       }
     };
-  }, [hasMore, filter.value]); // Добавьте зависимости
+  }, [hasMore, filter.value, pagination]); // Добавьте зависимости
+
+  // console.log('commentsList = ', commentsList);
 
   return (
     <div className={styles.comments}>
       <div className={styles.comments_header}>
-        <h2>{commentsList?.length} комментария</h2>
+        <h2>{commentCount} комментария</h2>
         <CommentFilter filter={filter} setFilter={setFilter} />
       </div>
       <AddComment
@@ -157,9 +178,10 @@ export const Comments: React.FC<IComments> = ({ videoId, me }) => {
       </div>
 
       {/* ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
-      <div ref={loadingRef} style={{ height: "10px", margin: "20px 0" }}>
+      <div ref={loadingRef} style={{ height: "50px", margin: "20px 0" }}>
+        loadingRef
         {isLoading &&
-          Array.from({ length: 3 }, (_, index) => (
+          Array.from({ length: 5 }, (_, index) => (
             <div key={index} className={styles.videoCardWrapper}>
               <CommentSkeleton />
             </div>
