@@ -5,7 +5,7 @@ import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { VideoThumbnailSkeleton } from "@/shared/ui";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
 import { ThumbnailShortVideoCard } from "@/entities";
-import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
 
 export const ChannelShortVideoList = ({initShortVideoList, channelUsername}: {initShortVideoList: IVideo[], channelUsername: string}) => {
@@ -27,7 +27,7 @@ export const ChannelShortVideoList = ({initShortVideoList, channelUsername}: {in
         hasMore,
         isLoading,
         refreshData
-    } = useInfitityScroll<IVideo, any>({
+    } = useInfinityScroll<IVideo, any>({
         paginationStep: 5,
         filter: '',
         triggerRef: loadingRef,

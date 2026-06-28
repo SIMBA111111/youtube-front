@@ -7,7 +7,7 @@ import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideo
 import { CommentSkeleton, VideoThumbnailSkeleton } from "@/shared/ui";
 import { IChannel } from "@/entities/channels/modal/types";
 import styles from "./styles.module.scss";
-import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 
 
 export type commentFilter = "famous" | "new";
@@ -60,7 +60,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
     isLoading,
     hasMore,
     refreshData
-  } = useInfitityScroll<IComment, IFilter>({
+  } = useInfinityScroll<IComment, IFilter>({
     paginationStep: 10,
     filter: filter,
     fetchData: fetchCommentsList,

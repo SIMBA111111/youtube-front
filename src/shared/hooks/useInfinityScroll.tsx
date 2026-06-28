@@ -28,7 +28,7 @@ const options = {
     threshold: 0.1,
 };
 
-export const useInfitityScroll = <T, Y>({
+export const useInfinityScroll = <T, Y>({
     paginationStep,
     filter,
     fetchData,
@@ -119,18 +119,18 @@ export const useInfitityScroll = <T, Y>({
     }, [hasMore, pagination.offset, triggerRef.current]);
 
     // ✅ Первоначальная загрузка - только один раз
+    // TO DO тут есть вопросик - проверки на initializedRef и loadCountRef порят обновление данных при смене filter.
+    // Но без них при маленьком paginationStep появляются дубли
+    
     useEffect(() => {
-        // ✅ Если уже загружали - пропускаем
-        if (initializedRef.current) return;
-        
         // ✅ Увеличиваем счетчик
         loadCountRef.current += 1;
         
         // ✅ Если это второй вызов (из-за строгого режима) - пропускаем
-        if (loadCountRef.current > 1) {
-            initializedRef.current = true;
-            return;
-        }
+        // if (loadCountRef.current > 1) {
+        //     initializedRef.current = true;
+        //     return;
+        // }
 
         const loadInitialData = async () => {
             setData([]);

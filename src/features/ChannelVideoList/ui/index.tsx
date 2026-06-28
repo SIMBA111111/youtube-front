@@ -5,7 +5,7 @@ import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Text, VideoThumbnailSkeleton } from "@/shared/ui";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
-import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
 
 export enum FiltersEnum {
@@ -34,7 +34,7 @@ export const ChannelVideoList = ({initVideoList, channelUsername}: {initVideoLis
         hasMore,
         isLoading,
         refreshData
-    } = useInfitityScroll<IVideo, keyof typeof FiltersEnum>({
+    } = useInfinityScroll<IVideo, keyof typeof FiltersEnum>({
         paginationStep: 5,
         filter: activeFilter,
         triggerRef: loadingRef,

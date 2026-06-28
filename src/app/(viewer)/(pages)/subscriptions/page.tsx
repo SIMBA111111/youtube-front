@@ -1,9 +1,8 @@
 import { getVideoListBySubs } from "@/shared/api/video/getVideoListBySubs";
-import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
-import { Subs } from "@/widgets";
-import styles from "./styles.module.scss";
 import { cookies } from "next/headers";
+import { Subs } from "@/widgets";
 import { UnauthorizedWidget } from "@/widgets/UnauthorizedWidget/UnauthorizedWidget";
+import styles from "./styles.module.scss";
 
 export default async function Subscriptions() {
 

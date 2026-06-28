@@ -12,7 +12,7 @@ import { getShortsCount } from "@/shared/utils/getShortsCount";
 import { ThumbnailShortVideoCard } from "@/entities";
 import styles from "./styles.module.scss";
 
-export const Subs = ({videoList} : {videoList: IVideo[]}) => {
+export const  Subs = ({videoList} : {videoList: IVideo[]}) => {
 
   const device = useDeviceIsMobile()
 
@@ -41,6 +41,7 @@ export const Subs = ({videoList} : {videoList: IVideo[]}) => {
           <div className={styles.videoGrid}>
             {videoList
                 .filter((video: IVideo) => !video.isShort) 
+                .slice(getVideosCount(device), getVideosCount(device) * getVideosCount(device))
                 .map((video: IVideo) => (
                     <div key={video.id} className={styles.videoCardWrapper}>
                         <ThumbnailVideoCard video={video} />
@@ -50,13 +51,13 @@ export const Subs = ({videoList} : {videoList: IVideo[]}) => {
         </HorizontalCollapsBody>
       </HorizontalCollaps>
 
-      <div className={styles.shorts}>
+      {videoList.filter((v: IVideo) => v.isShort).length > 0 && <div className={styles.shorts}>
         <div className={styles.shortsTag}>
             <Svg name='shortsRed'/>
             <Text size={20}>Shorts</Text>
         </div>
         <Link href={'/subscriptions/shorts'} className={styles.shortsLink}>Посмотреть все</Link>
-      </div>
+      </div>}
       
       <div className={styles.videoGridHorts}>
           {videoList

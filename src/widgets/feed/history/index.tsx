@@ -8,7 +8,7 @@ import { ShortsSwiper, Spinner, Text } from "@/shared/ui";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { getHistoryVideos } from "@/shared/api/video/getHistoryVideos";
 import { splitEntitiesByDays } from "@/shared/utils/splitEntitiesByDays";
-import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
 
 export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags: ITag[]}) => {
@@ -48,7 +48,7 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
         hasMore,
         isLoading,
         refreshData
-    } = useInfitityScroll<IVideoViewed, any>({
+    } = useInfinityScroll<IVideoViewed, any>({
         paginationStep: 5,
         filter: activeTag,
         triggerRef: loadingRef,

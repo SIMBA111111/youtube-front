@@ -8,7 +8,7 @@ import { Spinner, Text } from "@/shared/ui";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { getLikedVideos } from "@/shared/api/video/getLikedVideos";
 import { ThumbnailShortVideoCard } from "@/entities";
-import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
 
 export const Liked = ({ tags, meId, jwt}: {tags: ITag[], meId: string, jwt: string}) => {
@@ -44,7 +44,7 @@ export const Liked = ({ tags, meId, jwt}: {tags: ITag[], meId: string, jwt: stri
         data,
         hasMore,
         isLoading,
-    } = useInfitityScroll<IVideo, any>({
+    } = useInfinityScroll<IVideo, any>({
         paginationStep: 5,
         filter: activeTag,
         triggerRef: loadingRef,

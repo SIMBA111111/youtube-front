@@ -4,7 +4,7 @@ import { FC, useRef } from "react";
 import { IChannel } from "@/entities/channels/modal/types"
 import { ChannelCard } from "@/entities/channels/ui"
 import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
-import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import { Spinner } from "@/shared/ui";
 import styles from "./styles.module.scss";
 
@@ -35,7 +35,7 @@ export const MySubChannels: FC<IMySubChannels> = ({
       hasMore,
       isLoading,
       refreshData
-  } = useInfitityScroll<IChannel, any>({
+  } = useInfinityScroll<IChannel, any>({
       paginationStep: 5,
       filter: '',
       triggerRef: loadingRef,

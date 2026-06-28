@@ -9,7 +9,7 @@ import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { ThumbnailShortVideoCard } from "@/entities";
 import { Spinner, Svg } from "@/shared/ui";
 import { getRecommentedVideos } from "@/shared/api/video/getRecommentedVideos";
-import { useInfitityScroll } from "@/shared/hooks/useInfitityScroll";
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
 
 interface IRecommentedVideos {
@@ -48,7 +48,7 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
     data,
     isLoading,
     hasMore,
-  } = useInfitityScroll<IVideo, any>({
+  } = useInfinityScroll<IVideo, any>({
     paginationStep: 20,
     filter: '',
     fetchData: fetchRecommendedVideoList,

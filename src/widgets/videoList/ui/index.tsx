@@ -13,6 +13,7 @@ import { getShortsCount } from "@/shared/utils/getShortsCount";
 import { mapVideoList } from "@/entities/thumbnailVideo/modal/mapVideoList";
 
 import styles from "./styles.module.scss";
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 
 interface ITAG {
   id: string;
@@ -29,66 +30,30 @@ export const VideoList = ({
   jwt: string;
 }) => {
   const [activeTag, setActiveTag] = useState<string>(tags?.[0].id || "");
-  const [videoList, setVideoList] = useState<IVideo[]>(
-    initVideos
-  );
-  const [isLoading, setIsLoading] = useState(false);
   const device = useDeviceIsMobile();
-  const observerRef = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
-  // Настройка observer - ТОЛЬКО ОДИН РАЗ
-  useEffect(() => {
-    if (!loadingRef.current) return;
-    if (observerRef.current) return;
+  const fetchVideoList = async () => {
+    const res = await getVideos(jwt, activeTag);
+    return res?.videos || []
+  }
 
-    const options = {
-      root: null,
-      rootMargin: "100px",
-      threshold: 1,
-    };
-
-    const callback = async (entries: IntersectionObserverEntry[]) => {
-      const entry = entries[0];
-
-      if (entry.isIntersecting && !isLoading) {
-        console.log("ДОСТИГЛИ ДНА, ГРУЗИМ СТРАНИЦУ");
-        setIsLoading(true);
-
-        try {
-          // setTimeout(async () => {
-          const newVideos = await getVideos(jwt, activeTag);
-          console.log("ПОЛУЧЕНО НОВЫХ ВИДЕО:", newVideos.length);
-
-          const newVideoList = videoList.filter(v => newVideos.videos.find(nw => nv.id === v.id))
-          setVideoList((prev) => [...prev, newVideos.videos].flat());
-          setIsLoading(false); // Важно: выключаем загрузку после получения данных
-          // }, 2000)
-        } catch (error) {
-          console.error("ОШИБКА ЗАГРУЗКИ:", error);
-          setIsLoading(false); // Важно: выключаем загрузку при ошибке
-        }
-      }
-    };
-
-    observerRef.current = new IntersectionObserver(callback, options);
-    observerRef.current.observe(loadingRef.current);
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-        observerRef.current = null;
-      }
-    };
-  }, [activeTag]);
+  const {
+    data,
+    hasMore,
+    isLoading,
+    refreshData
+  } = useInfinityScroll<IVideo, string>({
+    paginationStep: 5,
+    filter: activeTag,
+    fetchData: fetchVideoList,
+    triggerRef: loadingRef
+  })
 
   const handleActiveTag = (tagId: string) => {
     setActiveTag(tagId);
-    setVideoList([]);
   };
 
-  console.log('videoList = ', videoList);
-  
   return (
     <div className={styles.container} id="videoListContainer">
       {tags && tags.length > 0 && (
@@ -108,9 +73,9 @@ export const VideoList = ({
       )}
 
       <div className={styles.videosContainer}>
-        {videoList && videoList?.length <= 0 && isLoading && (
+        {data && data?.length <= 0 && isLoading && (
           <div ref={loadingRef} className={styles.videoGrid}>
-            {(isLoading || videoList?.length <= 0) &&
+            {(isLoading || data?.length <= 0) &&
               Array.from({ length: 12 }, (_, index) => {
                 return (
                   <div key={index} className={styles.videoCardWrapper}>
@@ -121,16 +86,16 @@ export const VideoList = ({
           </div>
         )}
 
-        {videoList && videoList?.length <= 0 && !isLoading && (
+        {data && data?.length <= 0 && !isLoading && (
           <div ref={loadingRef} className={styles.videoGrid}>
             нет видео
           </div>
         )}
 
-        {videoList && videoList?.length > 0 && !isLoading && (
+        {data && data?.length > 0 && !isLoading && (
           <>
             <div className={styles.videoGrid}>
-              {videoList
+              {data
                 ?.filter((video: IVideo) => !video?.isShort)
                 ?.slice(0, getVideosCount(device))
                 ?.map((video: IVideo) => (
@@ -140,7 +105,7 @@ export const VideoList = ({
                 ))}
             </div>
 
-            {videoList.filter((v) => v.isShort).length > 0 && (
+            {data.filter((v) => v.isShort).length > 0 && (
               <div className={styles.shortsTag}>
                 <Svg name="shortsRed" />
                 <Text size={20}>Shorts</Text>
@@ -148,7 +113,7 @@ export const VideoList = ({
             )}
 
             <div className={styles.videoGridHorts}>
-              {videoList
+              {data
                 ?.filter((video: IVideo) => video?.isShort)
                 .slice(0, getShortsCount(device))
                 ?.map((video: IVideo) => (
@@ -159,7 +124,7 @@ export const VideoList = ({
             </div>
 
             <div className={styles.videoGrid}>
-              {videoList
+              {data
                 .filter((video: IVideo) => !video?.isShort)
                 .slice(getVideosCount(device), getVideosCount(device) * 2)
                 .map((video: IVideo) => (
@@ -169,7 +134,7 @@ export const VideoList = ({
                 ))}
             </div>
 
-            {videoList.filter((v) => v.isShort).length > 0 && (
+            {data.filter((v) => v.isShort).length > 0 && (
               <div className={styles.shortsTag}>
                 <Svg name="shortsRed" />
                 <Text size={20}>Shorts</Text>
@@ -177,7 +142,7 @@ export const VideoList = ({
             )}
 
             <div className={styles.videoGridHorts}>
-              {videoList
+              {data
                 .filter((video: IVideo) => video?.isShort)
                 .slice(getShortsCount(device), getShortsCount(device) * 2)
                 .map((video: IVideo) => (
@@ -188,7 +153,7 @@ export const VideoList = ({
             </div>
 
             <div className={styles.videoGrid}>
-              {videoList
+              {data
                 .filter((video: IVideo) => !video?.isShort)
                 .slice(getVideosCount(device) * 2)
                 .map((video: IVideo, index) => (
@@ -201,10 +166,11 @@ export const VideoList = ({
             {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
             <div
               ref={loadingRef}
-              style={{ height: "10px", margin: "20px 0" }}
+              style={{ height: "100px", margin: "20px" }}
               className={styles.videoGrid}
             >
-              {(isLoading || videoList?.length <= 0) &&
+              loadingRef
+              {(isLoading || data?.length <= 0) &&
                 Array.from({ length: 12 }, (_, index) => {
                   return (
                     <div key={index} className={styles.videoCardWrapper}>

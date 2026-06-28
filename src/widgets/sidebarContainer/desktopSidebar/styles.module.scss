@@ -3,12 +3,17 @@
     background-color: var(--background);
     margin-right: 200px;
     width: 240px;
+    overflow-y: scroll;
 
-        &Hidden {
-            position: absolute;
-            top: 20px;
-            width: 70px;
-        }
+    &::-webkit-scrollbar {
+        width: 0px;
+    }
+
+    &Hidden {
+        position: absolute;
+        top: 20px;
+        width: 70px;
+    }
 }
 
 .sidebarOverlay {
