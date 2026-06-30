@@ -1,0 +1,31 @@
+.channelAnalytics {
+    padding: 30px;
+    margin: 20px;
+    border: 1px solid var(--grayDarkBackground);
+    border-radius: 28px;
+    height: fit-content;
+    width: fit-content;
+    overflow: hidden;
+
+    .tabHeader {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 42px;
+
+        &_item {
+            border: none;
+            background-color: var(--grayDarkBackground);
+            height: 100%;
+            margin: -32px -40px;
+            padding: 28px 140px;
+
+            &_active {
+
+            }
+
+            &:hover {
+                background-color: red;
+            }
+        }
+    }
+}
