@@ -20,11 +20,7 @@
             padding: 28px 140px;
 
             &_active {
-
-            }
-
-            &:hover {
-                background-color: red;
+                background-color: var(--background);
             }
         }
     }

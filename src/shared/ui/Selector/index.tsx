@@ -39,9 +39,9 @@ const Dropdown: FC<IDropdownProps> = ({
             maxHeight: '200px',
             overflowY: 'auto'
         }}>
-            {options.map((option) => (
+            {options.map((option, index) => (
                 <li
-                    key={option.value}
+                    key={index}
                     onClick={() => onSelect(option)}
                     style={{
                         padding: '8px 12px',
