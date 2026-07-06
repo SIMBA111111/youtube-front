@@ -138,7 +138,7 @@ export const Analytics = <TLabels, TValues> ({
                 tooltipRef.current.parentNode.removeChild(tooltipRef.current)
             }
         }
-    }, [])
+    }, [values, labels, min, max])
 
     return (
         <div style={{ width: '100%', maxWidth: 900, height: 400 }}>

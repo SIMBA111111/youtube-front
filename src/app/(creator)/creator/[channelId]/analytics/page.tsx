@@ -1,6 +1,6 @@
 // app/creator/channel/page.tsx
 import { cookies } from "next/headers";
-import { ContentWidget } from "@/widgets/creator";
+import { ChannelAnalytics } from "@/widgets/creator";
 import styles from "./styles.module.scss";
 
 export default async function CreatorChannel() {
@@ -12,6 +12,7 @@ export default async function CreatorChannel() {
     <div className={styles.page}>
       <h1>Аналитика</h1>
       <div className={styles.page}>
+        <ChannelAnalytics userId={userData.id}/>
       </div>
     </div>
   );
