@@ -6,8 +6,9 @@ import { Tabs } from "@/shared/ui/Tab"
 import { AnalyticsFilter } from "@/features/creator/AnalyticsFilter/ui"
 import { ANALYTICS_DATA_RANGES } from "@/shared/constants/analyticaDataRanges"
 import { TabHeader } from "./TabHeader/TabHeader"
-import { AnalyticsDateRange } from "@/shared/utils/getDataRanges"
+import { AnalyticsDateRange, getAnalyticsDataLabel } from "@/shared/utils/getDataRanges"
 import { getChannelAnalytics } from "@/shared/api/channels/getChannelAnalytics"
+import { Text } from "@/shared/ui"
 import styles from './styles.module.scss'
 
 type TTab = 'views' | 'subscriptions'
@@ -58,18 +59,19 @@ export const ChannelAnalytics: FC<{userId: string}> = ({ userId }) => {
 
         for (let i = 0; i < labels.length; i++) {
             if (values[i] > max) max = values[i]
-            // if (activeTab === 'views')
-                // if (values[i] < min) min = values[i]
+            if (activeTab === 'views')
+                if (values[i] < min) min = values[i]
         }
 
-        console.log('max: ', max);
-        // console.log('min, max: ', min, max);
-
-        return { min: 0, max: max + 5 }
+        return { min: min ? min - 5 : min, max: max + 5 }
     }, [values])
 
-    console.log(min, max);
-    
+    const totalViews = useMemo(() => {
+        return values.reduce((arr, i) => {
+            return arr + i
+        }, 0)
+    }, [values])
+
 
     if (!values || !labels || !analyticData) {
         return <div>нет данных...</div>
@@ -77,6 +79,8 @@ export const ChannelAnalytics: FC<{userId: string}> = ({ userId }) => {
 
     return (
         <>
+        <div className={styles.channelAnalytics}>
+            <Text>За {getAnalyticsDataLabel(activeDateRange).toLocaleLowerCase()} ваши видео набрали {totalViews} просмотров</Text>
             <div className={styles.channelAnalytics}>
                 <Tabs.Root defaultActiveTabId="views" onTabChange={(id) => setActiveTab(id as TTab)}>
                     <Tabs.List classNameList={styles.tabHeader} classNameItem={styles.tabHeader_item} classNameActiveItem={styles.tabHeader_item_active}/>
@@ -88,7 +92,8 @@ export const ChannelAnalytics: FC<{userId: string}> = ({ userId }) => {
                     </Tabs.Tab>
                 </Tabs.Root>
             </div>
-            <AnalyticsFilter activeDateRange={activeDateRange} setActiveDateRange={setActiveDateRange} />
+        </div>
+        <AnalyticsFilter activeDateRange={activeDateRange} setActiveDateRange={setActiveDateRange} />
         </>
     )
 }

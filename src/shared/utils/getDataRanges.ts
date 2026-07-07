@@ -15,7 +15,7 @@ export const getAnalyticsDataLabel = (range: AnalyticsDateRange): string => {
     last28Day: 'Последние 28 дней',
     lastHalfYear: 'Последние полгода',
     lastYear: 'Последний год',
-    allTime: 'За всё время'
+    allTime: 'Всё время'
   };
   return labels[range];
 };
