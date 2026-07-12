@@ -1,18 +1,18 @@
 'use client'
 
 import { FC, useEffect, useMemo, useRef, useState } from "react"
+
 import { Analytics } from "@/features/creator"
 import { Tabs } from "@/shared/ui/Tab"
 import { AnalyticsFilter } from "@/features/creator/AnalyticsFilter/ui"
 import { ANALYTICS_DATA_RANGES } from "@/shared/constants/analyticaDataRanges"
-import { TabHeader } from "./TabHeader/TabHeader"
 import { AnalyticsDateRange, getAnalyticsDataLabel } from "@/shared/utils/getDataRanges"
-import { getChannelAnalytics } from "@/shared/api/channels/getChannelAnalytics"
 import { Text } from "@/shared/ui"
+import { getVideoAnalytics } from "@/shared/api/video/admin/getVideoAnalytics"
+
+import { TabHeader } from "../ChannelAnalytics/TabHeader/TabHeader"
+
 import styles from './styles.module.scss'
-
-export type TTab = 'views' | 'subscriptions'
-
 
 // TO DO запрос аналитики должен возвращать примерно такой массив:
 // {
@@ -21,35 +21,25 @@ export type TTab = 'views' | 'subscriptions'
 // придётся как-то на бэке считать сколько подписок и просмотров в какой день было (просто связанные таблицы взять и их updated_at смотреть)
 // как минимум для этого не надо удалть объекты из таблицы subscriptions, а юзать поле deleted (наверно)
 
-export const ChannelAnalytics: FC<{userId: string}> = ({ userId }) => {
+export const VideoAnalytics: FC<{videoId: string}> = ({ videoId }) => {
     const [activeDateRange, setActiveDateRange] = useState<AnalyticsDateRange>(ANALYTICS_DATA_RANGES[2])
-    const [activeTab, setActiveTab] = useState<TTab>('views')
     const [analyticData, setAnalyticData] = useState<[]>([])
     const [tabHeaderData, setTabHeaderData] = useState({})
 
-    const fetchData = async (userId: string, dateRange: AnalyticsDateRange, tab: TTab) => {
-        const res = await getChannelAnalytics(userId, dateRange, tab)
+    const fetchData = async (videoId: string, dateRange: AnalyticsDateRange) => {
+        const res = await getVideoAnalytics(videoId, dateRange)
         return res
     }
 
     useEffect(() => {
         (async () => {
-            const res = await fetchData(userId, activeDateRange, activeTab)
+            const res = await fetchData(videoId, activeDateRange)
             
             console.log('res.result = ', res.result)
 
-            setAnalyticData(res.result.analyticData)
-            setTabHeaderData({
-                totalViews: res.result.totalViews,
-                totalSubscriptions: res.result.totalSubscriptions
-            })
+            setAnalyticData(res.result)
         })()
-    }, [activeDateRange, activeTab])
-
-    // const labels = ['01.01', '02.01', '03.01', '04.01', '05.01', '06.01', '07.01', '08.01', '09.01', '10.01']
-    // const values = [7, 5, -2, 6, 8, 9, 7, 4, 5, 6]
-    // const min = -5
-    // const max = 10
+    }, [activeDateRange])
 
     const labels = useMemo(() => {
         return Object.keys(analyticData)
@@ -65,12 +55,17 @@ export const ChannelAnalytics: FC<{userId: string}> = ({ userId }) => {
 
         for (let i = 0; i < labels.length; i++) {
             if (values[i] > max) max = values[i]
-            if (activeTab === 'subscriptions')
-                if (values[i] < min) min = values[i]
         }
 
-        return { min: min ? min - 5 : min, max: max + 5 }
+        return { min: min, max: max + 5 }
     }, [values])
+
+    const totalViews = useMemo(() => {
+        return values.reduce((arr, i) => {
+            return arr + i
+        }, 0)
+    }, [values])
+
 
     if (!values || !labels || !analyticData) {
         return <div>нет данных...</div>
@@ -79,15 +74,12 @@ export const ChannelAnalytics: FC<{userId: string}> = ({ userId }) => {
     return (
         <div className={styles.channelAnalytics}>
             <div className={styles.table}>
-                <Text weight={600} size={20}>За {getAnalyticsDataLabel(activeDateRange).toLocaleLowerCase()} ваши видео набрали {tabHeaderData.totalViews} просмотров</Text>
+                <Text weight={600} size={20}>За {getAnalyticsDataLabel(activeDateRange).toLocaleLowerCase()} ваши видео набрали {totalViews} просмотров</Text>
                 <div className={styles.analytics}>
-                    <Tabs.Root defaultActiveTabId="views" onTabChange={(id) => setActiveTab(id as TTab)}>
+                    <Tabs.Root defaultActiveTabId="views">
                         <Tabs.List classNameList={styles.tabHeader} classNameItem={styles.tabHeader_item} classNameActiveItem={styles.tabHeader_item_active}/>
-                        <Tabs.Tab id="views" label={<TabHeader label="Просмотры" value={tabHeaderData.totalViews} />}>
-                            <Analytics labels={labels} values={values} min={min} max={max} tab={activeTab}/>
-                        </Tabs.Tab>
-                        <Tabs.Tab id="subscriptions" label={<TabHeader label="Подписчики" value={tabHeaderData.totalSubscriptions} />}>
-                            <Analytics labels={labels} values={values} min={min} max={max} tab={activeTab}/>
+                        <Tabs.Tab id="views" label={<TabHeader label="Просмотры" value={totalViews.toString()} />}>
+                            <Analytics labels={labels} values={values} min={min} max={max} tab={'views'}/>
                         </Tabs.Tab>
                     </Tabs.Root>
                 </div>

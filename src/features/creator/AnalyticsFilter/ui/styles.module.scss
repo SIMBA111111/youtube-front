@@ -1,0 +1,26 @@
+.analyticFilter {
+    > div > div {
+        background-color: var(--grayDarkBackground) !important;
+        border-color: var(--grayDarkBackground) !important;
+
+        span {
+            color: var(--blackText) !important;
+        }
+    }
+
+    ul {
+        background-color: var(--grayDarkBackground) !important;
+        color: var(--blackText) !important;
+        border-color: var(--grayDarkBackground) !important;
+
+        &::-webkit-scrollbar {
+            width: 8px;
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+    }
+}

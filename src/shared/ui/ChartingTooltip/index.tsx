@@ -1,12 +1,14 @@
 import { formatViews } from "@/shared/utils/formatViews";
+import { TTab } from "@/widgets/creator/ChannelAnalytics";
 import { RefObject } from "react";
 
 interface IChartingTooltip {
     context: any,
     tooltipRef: RefObject<HTMLDivElement | null>
+    tab: TTab
 }
 
-export const ChartingTooltip = ({context, tooltipRef}: IChartingTooltip) => {
+export const ChartingTooltip = ({context, tooltipRef, tab}: IChartingTooltip) => {
     if (!tooltipRef.current) return 
     
     const tooltip = context.tooltip
@@ -37,7 +39,7 @@ export const ChartingTooltip = ({context, tooltipRef}: IChartingTooltip) => {
         <div style="font-size: 20px; font-weight: 500; color: #030303;">
             ${formattedValue}
             <span style="font-size: 14px; font-weight: 400; color: #606060; margin-left: 4px;">
-                просмотров
+                ${tab}
             </span>
         </div>
         <div style="font-size: 12px; color: #606060; margin-top: 4px;">

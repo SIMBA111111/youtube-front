@@ -1,9 +1,8 @@
 import { Dispatch, FC, SetStateAction, useMemo } from "react"
 import { AnalyticsDateRange, getAnalyticsDataLabel } from "@/shared/utils/getDataRanges"
 import { IOption, Selector } from "@/shared/ui/Selector"
-import styles from './styles.module.scss'
 import { ANALYTICS_DATA_RANGES } from "@/shared/constants/analyticaDataRanges"
-
+import styles from './styles.module.scss'
 
 interface IAnalyticsFilter {
     setActiveDateRange: Dispatch<SetStateAction<AnalyticsDateRange>> 

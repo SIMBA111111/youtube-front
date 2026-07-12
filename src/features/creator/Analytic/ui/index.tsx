@@ -3,21 +3,22 @@
 import { useEffect, useRef } from "react"
 import Chart from 'chart.js/auto'
 import { ChartingTooltip } from "@/shared/ui"
+import { TTab } from "@/widgets/creator/ChannelAnalytics"
 
 interface IChannelAnalytics<TLabels, TValues> {
-    userId: string
     labels: TLabels[]
     values: TValues[]
     min: number
     max: number
+    tab: TTab
 }
 
 export const Analytics = <TLabels, TValues> ({ 
     labels,
     values,
-    userId,
     min,
-    max
+    max,
+    tab
  }: IChannelAnalytics<TLabels, TValues>) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
     const chartRef = useRef<Chart | null>(null)
@@ -89,7 +90,7 @@ export const Analytics = <TLabels, TValues> ({
                     tooltip: {
                         enabled: false, // Отключаем встроенный тултип
                         external: (context: any) => {
-                            ChartingTooltip({context, tooltipRef})
+                            ChartingTooltip({context, tooltipRef, tab})
                         }
                     }
                 },
@@ -130,7 +131,23 @@ export const Analytics = <TLabels, TValues> ({
             }
         })
 
+        // 👇 Добавляем обработчики для скрытия тултипа
+        const hideTooltip = () => {
+            if (tooltipRef.current) {
+                chartRef.current.tooltip?.setActiveElements([], { x: 0, y: 0 })
+                tooltipRef.current.style.opacity = '0'
+            }
+        }
+
+        canvasRef.current.addEventListener('mouseleave', hideTooltip)
+        canvasRef.current.addEventListener('mouseout', hideTooltip)
+
         return () => {
+            if (canvasRef.current) {
+                canvasRef.current.removeEventListener('mouseleave', hideTooltip)
+                canvasRef.current.removeEventListener('mouseout', hideTooltip)
+            }
+            
             if (chartRef.current) {
                 chartRef.current.destroy()
             }
@@ -141,7 +158,7 @@ export const Analytics = <TLabels, TValues> ({
     }, [values, labels, min, max])
 
     return (
-        <div style={{ width: '100%', maxWidth: 900, height: 400 }}>
+        <div style={{ width: '100%', width: 900, height: 400 }}>
             <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />
         </div>
     )

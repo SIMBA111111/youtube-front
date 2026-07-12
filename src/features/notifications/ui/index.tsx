@@ -15,7 +15,44 @@ import styles from './styles.module.scss'
 export const Notifications = ({userId} : {userId: string}) => {
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
     const [notifs, setNotifs] = useState<INotificationItem[]>([])
+    const eventSourceRef = useRef<EventSource>(null)
 
+    useEffect(() => {
+        (async() => {
+            if (userId) {
+                try {
+                    eventSourceRef.current = new EventSource(`http://localhost:8080/api/event/notif-event/${userId}`);
+
+                    eventSourceRef.current.onmessage = (event) => {
+                        console.log('EVENT: ', event);
+                    }
+
+                    eventSourceRef.current.onerror = (error) => {
+                        console.error('❌ SSE connection ERROR:', error)
+                        console.log('🔍 ReadyState:', eventSourceRef.current.readyState)
+                        // 0 = CONNECTING, 1 = OPEN, 2 = CLOSED
+                        
+                        if (eventSourceRef.current.readyState === EventSource.CLOSED) {
+                            console.log('🔚 SSE connection closed')
+                        }
+                    }
+
+                } catch (error) {
+                    console.error('EVENT ERRROR: ', error);
+                    if (eventSourceRef.current) {
+                        eventSourceRef.current.close()
+                        eventSourceRef.current = null
+                    }
+                }
+            }
+        })() 
+
+        return (() => {
+            if (eventSourceRef.current) {
+                eventSourceRef.current.close()
+            }
+        })
+    }, [userId])
 
     useEffect(() => {
         const fetchNotifs = async () => {
@@ -27,23 +64,6 @@ export const Notifications = ({userId} : {userId: string}) => {
                 console.error('Ошибка при загрузке уведомлений:', error)
             }
         }
-
-        try {
-            const eventSource = new EventSource("http://localhost:8080/api/event", {
-                withCredentials: true,
-            });
-
-            eventSource.onmessage = (event) => {
-                console.log('event = ', event);
-                if (event.data) {
-                    const data = JSON.parse(event.data)
-                    setNotifs(prev => [data.newNotif, ...prev])
-                }
-            }
-        } catch (error) {
-            console.error('EVENT ERRROR: ', error);
-        }
-        
         fetchNotifs()
     }, [])
 

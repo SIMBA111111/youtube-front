@@ -1,4 +1,6 @@
+import clsx from 'clsx';
 import { useState, useRef, useEffect, FC } from 'react';
+import styles from './styles.module.scss'
 
 // Типы для опций
 export interface IOption {
@@ -43,19 +45,7 @@ const Dropdown: FC<IDropdownProps> = ({
                 <li
                     key={index}
                     onClick={() => onSelect(option)}
-                    style={{
-                        padding: '8px 12px',
-                        cursor: 'pointer',
-                        backgroundColor: selectedOption?.value === option.value ? '#e6f7ff' : 'transparent',
-                        transition: 'background-color 0.2s'
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#f5f5f5';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 
-                            selectedOption?.value === option.value ? '#e6f7ff' : 'transparent';
-                    }}
+                    className={clsx(styles.item)}
                 >
                     {option.label}
                 </li>
