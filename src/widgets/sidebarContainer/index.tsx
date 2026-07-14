@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-import { IChannel } from "@/entities/channels/modal/types";
-import { getOneRandomShort } from "@/shared/api/video/getOneRandomShort";
 import { IThumbnailShortVideo } from "@/entities/thumbnailShortVideo/modal/types";
 import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
+import { getVideos } from "@/shared/api/video/getVideoList";
 
 import { TabletSidebar } from "./tabletSidebar";
 import { DesktopSidebar } from "./desktopSidebar";
 
 import styles from "./styles.module.scss";
-import { getVideos } from "@/shared/api/video/getVideoList";
 
 export const SidebarContainer = () => {
   const [randomShortVideo, setRandomShortVideo] =

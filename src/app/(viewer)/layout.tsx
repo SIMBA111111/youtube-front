@@ -1,9 +1,5 @@
 import { cookies } from "next/headers";
-
-import { getChannels } from "@/shared/api/channels/getChannels";
 import { PageWrapper } from "@/widgets/pageWrapper";
-import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
-
 import ProgressBarProvider from "../providers/progressProvider";
 import { ThemeProvider } from "../providers/themeProvider";
 import { ToastProvider } from "../providers/toastProvider";

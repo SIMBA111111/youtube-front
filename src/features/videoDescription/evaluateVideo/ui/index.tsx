@@ -1,12 +1,12 @@
 'use client'
 
+import { useEffect, useState } from "react"
 import { Svg, Text } from "@/shared/ui"
 import { formatViews } from "@/shared/utils/formatViews"
-import { handleDislikeVideo, handleEvaluateVideo, handleLikeVideo } from "../lib/handlers"
-import styles from './styles.module.scss'
-import { useState } from "react"
 import { LikeUnauthPopover } from "@/shared/ui/Popover/Popovers/LikeUnauthPopover"
 import { DislikeUnauthPopover } from "@/shared/ui/Popover/Popovers/DislikeUnauthPopover"
+import { handleDislikeVideo, handleLikeVideo } from "../lib/handlers"
+import styles from './styles.module.scss'
 
 interface IEvaluateVideo {
     isLiked: boolean,
@@ -48,6 +48,20 @@ export const EvaluateVideo: React.FC<IEvaluateVideo> = ({
         likeCount: likeCount,
         dislikeCount: dislikeCount
     })
+
+    useEffect(() => {
+        setMyMark({
+            isLiked: isLiked,
+            isDisliked: isDisliked
+        });
+    }, [isLiked, isDisliked]);
+
+    useEffect(() => {
+        setVideoMarks({
+            likeCount: likeCount,
+            dislikeCount: dislikeCount
+        });
+    }, [likeCount, dislikeCount]);
 
     return (
         <div className={styles.rating_likeDislike}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { usePathname } from "next/navigation";
 import { Mousewheel, Pagination, Navigation } from "swiper/modules";
 import { useEffect, useRef, useState } from "react";
@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import { Svg } from "@/shared/ui";
+import { Svg, Text } from "@/shared/ui";
 import { ShortPlayer } from "@webitch/short-player";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { getVideos } from "@/shared/api/video/getVideoList";
@@ -17,7 +17,7 @@ import { getVideoById } from "@/shared/api/video/getVideoById";
 import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui";
 import { ShareVideo } from "@/features/videoDescription/shareVideo/ui";
 import { CommentsVideo } from "@/features/videoDescription/commentsVideo/ui";
-
+import { SubscribeButton } from "@/features";
 import styles from "./styles.module.scss";
 
 
@@ -29,7 +29,7 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
   const theme = Cookie.get("theme");
   const pathname = usePathname()
 
-  const handleIncrementCounter = async (swiper) => {
+  const handleIncrementCounter = async (swiper: SwiperClass) => {
     currentItemRef.current = swiper.activeIndex;
     const resGetVideoById = await getVideoById(shortVideos[currentItemRef.current].id);
     setCurrentShortVideo(resGetVideoById)
@@ -61,8 +61,6 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
     }
   };
 
-  // console.log('videos = ', shortVideos);
-  // console.log('currentShortVideo = ', currentShortVideo);
 
   if (!shortVideos || shortVideos.length === 0) {
     return <div>...</div>
@@ -90,11 +88,23 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
           {shortVideos.map((video, index) => (
             <SwiperSlide key={index} className={styles.slide}>
               <div className={styles.playerWrapper}>
+                <div className={styles.channelInfo}>
+                  <div className={styles.channelBtn}>
+                    <img src={currentShortVideo?.channel?.avatar_url ?? '/defaultImages/defaultAvatar.png'} alt="image!" className={styles.channelAvatar}/>
+                    <SubscribeButton 
+                      channelId={currentShortVideo?.channel?.id} 
+                      isSubscribed={currentShortVideo?.isSubscribed} 
+                      meId={myChannelData.id} 
+                      notificationSetting={currentShortVideo?.isSubscribed?.notification_settings || false}
+                    />
+                  </div>
+                  <Text className={styles.videoDescription}>{currentShortVideo.video?.videoDescription}</Text>
+                </div>
                 <ShortPlayer
                   duration={video.duration}
                   playlistUrl={video.masterM3u8Url}
-                  // theme={theme}
-                />
+                  theme={theme}
+                 />
                 <div className={styles.actionsPlayerWrapper}>
                   <EvaluateVideo
                     isLiked={currentShortVideo?.stat?.liked}
@@ -102,10 +112,10 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
                     likeCount={currentShortVideo?.video?.likeCount}
                     dislikeCount={currentShortVideo?.video?.dislikeCount}
                     userId={myChannelData.id}
-                    videoId={currentShortVideo.video.id}
+                    videoId={currentShortVideo?.video?.id}
                   />
-                  <ShareVideo videoHash={currentShortVideo.video.id} isShort />
-                  <CommentsVideo commentsCount={currentShortVideo?.video?.commentsCount} videoId={currentShortVideo.video.id} me={myChannelData}/>
+                  <ShareVideo videoHash={currentShortVideo?.video?.id} isShort />
+                  <CommentsVideo commentsCount={currentShortVideo?.video?.commentsCount} videoId={currentShortVideo?.video?.id} me={myChannelData}/>
                 </div>
               </div>
             </SwiperSlide>

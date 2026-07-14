@@ -38,7 +38,7 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
     return (
         <Link 
             // href={`/shorts/${videoHash}`} style={{'--custom-color': getAverageColor(colorRef.current)} as React.CSSProperties} 
-            href={`/shorts/${videoHash}`} 
+            href={`/shorts/${id}`} 
             className={styles.shortContainer}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}

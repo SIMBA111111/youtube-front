@@ -31,8 +31,6 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
   const [isNotifSettings, setIsnotifSettings] = useState<boolean>(notificationSetting);
   const router = useRouter()
 
-
-
   if (channelId === meId) {
     return (
       <button className={styles.subscribeButton}>
@@ -45,9 +43,6 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
       </button>
     );
   }
-
-  console.log('isSubscribed = ', isSubscribed);
-  
 
   if (isSub) {
     return (
