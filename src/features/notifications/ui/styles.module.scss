@@ -8,6 +8,23 @@
             display: block;
         }        
     }
+
+    .bellContainer {
+        position: relative;
+
+        .pointer {
+            &::before {
+                content: '';
+                height: 6px;
+                width: 6px;
+                background-color: red;
+                position: absolute;
+                border-radius: 100px;
+                color: red;
+                right: 0px;
+            }
+        }
+    }
 }
 
 .notificationTooltip {

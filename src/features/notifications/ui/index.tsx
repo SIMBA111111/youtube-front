@@ -15,6 +15,7 @@ import styles from './styles.module.scss'
 export const Notifications = ({userId} : {userId: string}) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const [notifs, setNotifs] = useState<INotificationItem[]>([])
+  const [isExistNewNotif, setIsExistNewNotif] = useState<boolean>(true)
   const eventSourceRef = useRef<EventSource>(null)
 
   useEffect(() => {
@@ -24,18 +25,15 @@ export const Notifications = ({userId} : {userId: string}) => {
           eventSourceRef.current = new EventSource(`http://localhost:8080/api/event/notif-event/${userId}`);
 
           eventSourceRef.current.onmessage = (event) => {
-            console.log("EVENT: ", JSON.parse(event.data));
             const data = JSON.parse(event.data);
 
             if (data.type === "newVideo") {
-              console.log("да, оно");
+              setIsExistNewNotif(true)
             }
           };
 
           eventSourceRef.current.onerror = (error) => {
             console.error('❌ SSE connection ERROR:', error)
-            console.log('🔍 ReadyState:', eventSourceRef.current.readyState)
-            // 0 = CONNECTING, 1 = OPEN, 2 = CLOSED
 
             if (eventSourceRef.current.readyState === EventSource.CLOSED) {
               console.log('🔚 SSE connection closed')
@@ -72,17 +70,31 @@ export const Notifications = ({userId} : {userId: string}) => {
     fetchNotifs()
   }, [])
 
+  const handleOpenPopover = () => {
+    setIsOpenModal(true)
+    setIsExistNewNotif(false)
+  }
+
   return (
     <div className={styles.notificationsContainer}>
-      <div className={styles.notifications} onClick={() => setIsOpenModal(true)}>
+      <div className={styles.notifications} onClick={handleOpenPopover}>
         <BackgroundFon bacgroundColor=''>
-          <Svg name='bell'/>
+          <div className={styles.bellContainer}>
+            <div className={isExistNewNotif ? styles.pointer : ''} />
+            <Svg name='bell'/>
+          </div>
           <div className={styles.notificationTooltip}>
             <Text size={14} color='var(--whiteText)' weight={300}>Уведомления</Text>
           </div>
         </BackgroundFon>
       </div>
-      <Popover isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} className={styles.customNotifModal} offset={40} closeOnScroll={false}>
+      <Popover 
+        isOpen={isOpenModal} 
+        onClose={() => setIsOpenModal(false)} 
+        className={styles.customNotifModal} 
+        offset={40} 
+        closeOnScroll={false}
+      >
         <div className={styles.notifModal}>
           <div className={styles.notifModal__header}>
             <Text weight={400}>Уведомления</Text>
