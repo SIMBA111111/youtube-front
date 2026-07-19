@@ -61,6 +61,8 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
     }
   };
 
+  console.log('currentShortVideo: ', currentShortVideo);
+  
 
   if (!shortVideos || shortVideos.length === 0) {
     return <div>...</div>

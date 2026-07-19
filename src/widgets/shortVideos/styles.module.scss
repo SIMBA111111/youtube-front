@@ -48,9 +48,9 @@
     
     .playerWrapper {
         display: flex;
-        width: auto;
+        // width: 700px;
         height: 85vh;
-        aspect-ratio: 9 / 16;
+        aspect-ratio: 9 / 10;
         border-radius: 16px;
 
         .channelInfo {

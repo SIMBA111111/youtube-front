@@ -1,36 +1,39 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export const useDeviceIsMobile = () => {
     const [device, setDevice] = useState({
         isTablet: false,
         isMobile: false
     });
+    const isFirstRender = useRef(true);
 
     useEffect(() => {
-        // Функция для определения размера экрана
         const checkDevice = () => {
             const isTablet = window.matchMedia('(max-width: 1280px)').matches;
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
             
-            setDevice({
-                isTablet,
-                isMobile
+            setDevice(prev => {
+                // Обновляем только если изменилось
+                if (prev.isTablet === isTablet && prev.isMobile === isMobile) {
+                    return prev;
+                }
+                return { isTablet, isMobile };
             });
         };
 
-        // Проверяем при монтировании
         checkDevice();
 
-        // Добавляем слушатель изменения размера
-        window.addEventListener('resize', checkDevice);
+        const debounce = setTimeout(() => {
+            window.addEventListener('resize', checkDevice);
+        }, 100);
 
-        // Очищаем слушатель при размонтировании
         return () => {
+            clearTimeout(debounce);
             window.removeEventListener('resize', checkDevice);
         };
-    }, []); // Пустой массив зависимостей - эффект выполнится один раз
+    }, []);
 
     return device;
 };

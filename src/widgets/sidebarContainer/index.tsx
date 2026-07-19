@@ -5,10 +5,11 @@ import { IThumbnailShortVideo } from "@/entities/thumbnailShortVideo/modal/types
 import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
 import { getVideos } from "@/shared/api/video/getVideoList";
 
-import { TabletSidebar } from "./tabletSidebar";
+import { MobileSidebar } from "./MobileSidebar";
 import { DesktopSidebar } from "./desktopSidebar";
 
 import styles from "./styles.module.scss";
+
 
 export const SidebarContainer = () => {
   const [randomShortVideo, setRandomShortVideo] =
@@ -46,7 +47,7 @@ export const SidebarContainer = () => {
         />
       </div>
       <div className={styles.tabletSidebar}>
-        <TabletSidebar
+        <MobileSidebar
           channels={channels}
           randomShortVideo={randomShortVideo}
         />

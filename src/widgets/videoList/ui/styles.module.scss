@@ -1,10 +1,16 @@
 @use '../../../app/mixins.scss' as *;
 
 .container {
-  padding: 0px 16px;
-  max-width: 1920px;
+  // padding: 0px 0px 0px 16px;
+  // max-width: 1920px;
   margin: 0 auto;
   overflow: hidden;
+}
+
+.content {
+  max-width: 1920px;
+  margin: 0 auto;
+
 }
 
 .videosContainer {
