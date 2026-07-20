@@ -1,15 +1,13 @@
 import { cookies } from "next/headers";
 
-import { Player } from "@webitch/player";
 import { getVideoByHash } from "@/shared/api/video/getVideoByHash";
 import { RecommentedVideos, VideoDescription } from "@/widgets";
-import { Text, VideoThumbnailSkeleton } from "@/shared/ui";
+import { Text } from "@/shared/ui";
 import { Comments } from "@/widgets/Comments";
-import { getRecommentedVideos } from "@/shared/api/video/getRecommentedVideos";
 import { updateViewVideo } from "@/shared/api/video/updateViewVideo";
-
 import { IChannel } from "@/entities/channels/modal/types";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { getChannelData } from "@/shared/utils/getChannelData";
 
 import styles from "./styles.module.scss";
 
@@ -29,20 +27,14 @@ export default async function WatchVideo({
   const videoHash = Object.values(params)[0]
 
   const cookie = await cookies();
-  const channelData = cookie.get("channelData")?.value || "";
-  let myChannelData;
-  if (channelData) {
-    myChannelData = JSON.parse(channelData);
-  } else {
-    myChannelData = {};
-  }
-
+  const myChannelData = await getChannelData(cookie)
+  
   const videoData = await getVideoByHash(videoHash, myChannelData?.id);
-
   const res = await updateViewVideo({
     videoId: videoData.video?.id,
     userId: myChannelData?.id,
   });
+
   const isSubscribed = videoData?.isSubscribed
     ? "id" in videoData.isSubscribed
     : false;
@@ -51,11 +43,11 @@ export default async function WatchVideo({
     <div className={styles.page}>
       <div className={styles.video}>
         <div className={styles.player}>
-          <Player
+          {/* <Player
             playlistUrl={videoData.video?.masterM3u8Url}
             duration={videoData.video?.duration}
             fragments={videoData.video?.fragments}
-          />
+          /> */}
         </div>
         <div className={styles.description}>
           <Text weight={600} size={18}>
@@ -93,7 +85,7 @@ export default async function WatchVideo({
         <RecommentedVideos
           // initVideos={recommentedVideos.videos}
           videoHash={videoHash}
-          myChannelId={channelData?.id}
+          myChannelId={myChannelData?.id}
         />
       </div>
     </div>

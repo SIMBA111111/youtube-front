@@ -10,7 +10,7 @@ export default async function CreatorChannel() {
 
   return (
     <div className={styles.page}>
-      <h1>Аналитика</h1>
+      {/* <h1>Аналитика</h1> */}
       <div className={styles.page}>
         <ChannelAnalytics userId={userData.id}/>
       </div>

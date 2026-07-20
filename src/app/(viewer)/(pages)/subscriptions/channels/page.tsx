@@ -7,23 +7,23 @@ import { ChannelCard } from "@/entities/channels/ui";
 
 import styles from "./styles.module.scss";
 import { MySubChannels } from "@/widgets/mySubChannels";
+import { getChannelData } from "@/shared/utils/getChannelData";
 
 
 export default async function SubsChannels() {
   const cookie = await cookies()
+  const myChannelData = await getChannelData(cookie)
 
-  let meId
   let jwt
 
   if(cookie.get('channelData')) {
-      meId = JSON.parse(cookie.get('channelData')?.value || '').id
       jwt = cookie.get('jwt')?.value
   }
 
   return (
     <div className={styles.mainPage__container}>
       <Text size={32} weight={700}>Каналы, на которые вы подписаны</Text>
-      <MySubChannels jwt={jwt || ''} userId={meId} />
+      <MySubChannels jwt={jwt || ''} userId={myChannelData.id} />
     </div>
   );
 }

@@ -6,15 +6,14 @@ import { ThumbnailShortVideoSmallCard } from "@/entities/thumbnailShortVideo/ui/
 import { Text } from "@/shared/ui";
 
 import styles from "./styles.module.scss";
+import { getChannelData } from "@/shared/utils/getChannelData";
 
 
 export default async function Subscriptions() {
-
   const cookie = await cookies()
+  const myChannelData = await getChannelData(cookie)
 
-  const channelData = JSON.parse(cookie.get('channelData')?.value || '') || {}
-  const meId = channelData.id || ''
-  const videoList = await getVideoListBySubs({meId: meId, limit: 20, offset: 0, onlyFull: false, onlyShorts: false})
+  const videoList = await getVideoListBySubs({meId: myChannelData.id, limit: 20, offset: 0, onlyFull: false, onlyShorts: false})
 
   return (
     <div className={styles.mainPage__container}>

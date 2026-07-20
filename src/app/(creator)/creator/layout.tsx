@@ -25,16 +25,16 @@ export default async function RootLayout({
     <ThemeProvider initialTheme={currentTheme as any}>
       <ToastProvider>
         <ProgressBarProvider>
-          <CreatorChannelPageProvider 
+          {/* <CreatorChannelPageProvider 
             channelAvatar={userData.avatarUrl}
             channelName={userData.name}
             channelId={userData.id}
             channelUsername={userData.username}
             activeTheme={currentTheme}
             activeLanguage={userData.lang}
-          >
+          > */}
             {children}
-          </CreatorChannelPageProvider>
+          {/* </CreatorChannelPageProvider> */}
         </ProgressBarProvider>
       </ToastProvider>
     </ThemeProvider>

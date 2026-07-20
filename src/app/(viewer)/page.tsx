@@ -8,9 +8,7 @@ import styles from "./styles.module.scss";
 
 
 export default async function MainPage() {
-
   const jwt = await (await cookies()).get('jwt')
-
   const videos = await getVideos(jwt?.value)
   const tags = await getTags()
 

@@ -1,15 +1,18 @@
+import { cookies } from "next/headers";
+
 import { getChannelInfoByUsername } from "@/shared/api/channels/getChannelInfo";
 import {  Text } from "@/shared/ui";
 import { formatViews } from "@/shared/utils/formatViews";
 import { ChannelTabs } from "@/widgets/ChannelTabs";
 import { EllipsisChannelText } from "@/features/channelDescriptionText/ui";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
-import { getShortVideoListByUsername } from "@/shared/api/video/getShortVideoListByChannelUsername";
 import { getPostsByUsername } from "@/shared/api/posts/getPostsByChannelHash";
 import { getPlaylistsByUsername } from "@/shared/api/playlists/getPlaylistsByChannelHash";
-import styles from "./styles.module.scss";
 import { SubscribeButton } from "@/features";
-import { cookies } from "next/headers";
+import { getChannelData } from "@/shared/utils/getChannelData";
+
+import styles from "./styles.module.scss";
+
 
 export default async function ChannelMain ({
   params,  // ← params, не searchParams
@@ -19,19 +22,17 @@ export default async function ChannelMain ({
     const { username: channelUsername} = await params
 
     const cookie = await cookies()
+    const myChannelData = await getChannelData(cookie)
 
-    let meId
-
-    if(cookie.get('channelData')) {
-        meId = JSON.parse(cookie.get('channelData')?.value || '').id
-    }
-
-    const channelInfo = await getChannelInfoByUsername(channelUsername, meId)
-    const videoList = await getVideoListByChannelUsername(channelUsername, false)
-    const shortVideoList = await getVideoListByChannelUsername(channelUsername, true)
-    const playlists = await getPlaylistsByUsername(channelUsername)
-    const postList = await getPostsByUsername(channelUsername)
-
+    const channelInfo = await getChannelInfoByUsername(channelUsername, myChannelData.id)
+    
+    const [ videoList, shortVideoList, playlists, postList ] = await Promise.all([
+        getVideoListByChannelUsername(channelUsername, false),
+        getVideoListByChannelUsername(channelUsername, true),
+        getPlaylistsByUsername(channelUsername),
+        getPostsByUsername(channelUsername)
+    ])
+    
     return (
         <div className={styles.pageContainer}>
             <img src={channelInfo?.channel.banner_url ?? 'defaultImages/defaultAvatar.png'} alt="banner" className={styles.channelBanner}/>
@@ -60,7 +61,7 @@ export default async function ChannelMain ({
                         <SubscribeButton 
                             channelId={channelInfo.channel.id} 
                             isSubscribed={channelInfo.subData ? true : false} 
-                            meId={meId} 
+                            meId={myChannelData.id} 
                             notificationSetting={channelInfo.subData?.notification_settings}
                         />
                     </div>
