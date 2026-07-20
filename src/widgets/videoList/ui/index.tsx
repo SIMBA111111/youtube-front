@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
@@ -11,14 +11,18 @@ import { ThumbnailShortVideoCard, VideoTags } from "@/entities";
 import { getVideosCount } from "@/shared/utils/getVideosCount";
 import { getShortsCount } from "@/shared/utils/getShortsCount";
 import { mapVideoList } from "@/entities/thumbnailVideo/modal/mapVideoList";
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 
 import styles from "./styles.module.scss";
-import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
+import { VideoGrid } from "./videoGrid";
+import { ShortTag } from "./shortsTag";
 
 interface ITAG {
   id: string;
   name: string;
 }
+
+export type deviceType = 'isMobile' | 'isTablet' | 'isDesktop'
 
 export const VideoList = ({
   tags,
@@ -53,6 +57,31 @@ export const VideoList = ({
   const handleActiveTag = (tagId: string) => {
     setActiveTag(tagId);
   };
+
+
+  const longsCount = useMemo(() => getVideosCount(device), [device])
+  const shortsCount = useMemo(() => getShortsCount(device), [device])
+  
+  const { shorts, longs } = data.reduce<{ shorts: IVideo[]; longs: IVideo[] }>(
+    (acc, video: IVideo) => {
+      if (video.isShort) {
+        acc.shorts.push(video);
+      } else {
+        acc.longs.push(video);
+      }
+      return acc;
+    },
+    { shorts: [], longs: [] }
+  );
+
+  const firstLongSection = data.slice(0, longsCount)
+  const secondLongSection = data.slice(longsCount, longsCount * 2)
+  const restLongSection = data.slice(longsCount * 2)
+
+  const firstShortsSection = data.slice(0, shortsCount)
+  const secondShortsSection = data.slice(shortsCount, shortsCount * 2)
+
+  console.log('ререндер');
 
   return (
     <div className={styles.container} id="videoListContainer">
@@ -96,74 +125,23 @@ export const VideoList = ({
 
           {data && data?.length > 0 && !isLoading && (
             <>
-              <div className={styles.videoGrid}>
-                {data
-                  ?.filter((video: IVideo) => !video?.isShort)
-                  ?.slice(0, getVideosCount(device))
-                  ?.map((video: IVideo, index) => (
-                    <div key={index} className={styles.videoCardWrapper}>
-                      <ThumbnailVideoCard video={video} />
-                    </div>
-                  ))}
-              </div>
+              <VideoGrid videos={firstLongSection} />
 
-              {data.filter((v) => v.isShort).length > 0 && (
-                <div className={styles.shortsTag}>
-                  <Svg name="shortsRed" />
-                  <Text size={20}>Shorts</Text>
-                </div>
-              )}
+              {/* {firstShortsSection.length > 0 && (
+                <ShortTag />
+              )} */}
 
-              <div className={styles.videoGridHorts}>
-                {data
-                  ?.filter((video: IVideo) => video?.isShort)
-                  .slice(0, getShortsCount(device))
-                  ?.map((video: IVideo, index) => (
-                    <div key={index} className={styles.hortsVideoCardWrapper}>
-                      <ThumbnailShortVideoCard {...video} />
-                    </div>
-                  ))}
-              </div>
+              <VideoGrid videos={firstShortsSection} isShort/>
 
-              <div className={styles.videoGrid}>
-                {data
-                  .filter((video: IVideo) => !video?.isShort)
-                  .slice(getVideosCount(device), getVideosCount(device) * 2)
-                  .map((video: IVideo, index) => (
-                    <div key={index} className={styles.videoCardWrapper}>
-                      <ThumbnailVideoCard video={video} />
-                    </div>
-                  ))}
-              </div>
+              <VideoGrid videos={secondLongSection} />
 
-              {data.filter((v) => v.isShort).length > 0 && (
-                <div className={styles.shortsTag}>
-                  <Svg name="shortsRed" />
-                  <Text size={20}>Shorts</Text>
-                </div>
-              )}
+              {/* {secondShortsSection.length > 0 && (
+                <ShortTag />
+              )} */}
 
-              <div className={styles.videoGridHorts}>
-                {data
-                  .filter((video: IVideo) => video?.isShort)
-                  .slice(getShortsCount(device), getShortsCount(device) * 2)
-                  .map((video: IVideo, index) => (
-                    <div key={index} className={styles.hortsVideoCardWrapper}>
-                      <ThumbnailShortVideoCard {...video} />
-                    </div>
-                  ))}
-              </div>
+              <VideoGrid videos={secondShortsSection} isShort/>
 
-              <div className={styles.videoGrid}>
-                {data
-                  .filter((video: IVideo) => !video?.isShort)
-                  .slice(getVideosCount(device) * 2)
-                  .map((video: IVideo, index) => (
-                    <div key={index} className={styles.videoCardWrapper}>
-                      <ThumbnailVideoCard video={video} />
-                    </div>
-                  ))}
-              </div>
+              <VideoGrid videos={restLongSection} />
 
               {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
               <div

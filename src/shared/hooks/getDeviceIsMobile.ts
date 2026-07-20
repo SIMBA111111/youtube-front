@@ -1,21 +1,22 @@
 'use client'
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 export const useDeviceIsMobile = () => {
     const [device, setDevice] = useState({
         isTablet: false,
         isMobile: false
     });
-    const isFirstRender = useRef(true);
 
     useEffect(() => {
+        const mediaQueryTablet = window.matchMedia('(max-width: 1280px)');
+        const mediaQueryMobile = window.matchMedia('(max-width: 768px)');
+
         const checkDevice = () => {
-            const isTablet = window.matchMedia('(max-width: 1280px)').matches;
-            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const isTablet = mediaQueryTablet.matches;
+            const isMobile = mediaQueryMobile.matches;
             
             setDevice(prev => {
-                // Обновляем только если изменилось
                 if (prev.isTablet === isTablet && prev.isMobile === isMobile) {
                     return prev;
                 }
@@ -25,13 +26,13 @@ export const useDeviceIsMobile = () => {
 
         checkDevice();
 
-        const debounce = setTimeout(() => {
-            window.addEventListener('resize', checkDevice);
-        }, 100);
+        // Событие change у matchMedia срабатывает только при изменении, а не на каждый resize
+        mediaQueryTablet.addEventListener('change', checkDevice);
+        mediaQueryMobile.addEventListener('change', checkDevice);
 
         return () => {
-            clearTimeout(debounce);
-            window.removeEventListener('resize', checkDevice);
+            mediaQueryTablet.removeEventListener('change', checkDevice);
+            mediaQueryMobile.removeEventListener('change', checkDevice);
         };
     }, []);
 
