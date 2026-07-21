@@ -1,11 +1,8 @@
 // utils/server-cookies.ts
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { cookies } from "next/headers";
 
-export const getChannelData = async (
-  cookie: ReadonlyRequestCookies | Cookies.CookiesStatic
-) => {
-  const channelData = cookie.get("channelData")?.value || "";
+export const getChannelDataClient = async (cookie: Cookies.CookiesStatic) => {
+  const channelData = cookie.get("channelData");
 
   try {
     return channelData ? JSON.parse(channelData) : {};
