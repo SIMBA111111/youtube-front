@@ -74,18 +74,17 @@ export const VideoList = ({
     { shorts: [], longs: [] }
   );
 
-  const firstLongSection = data.slice(0, longsCount)
-  const secondLongSection = data.slice(longsCount, longsCount * 2)
-  const restLongSection = data.slice(longsCount * 2)
+  const firstLongSection = longs.slice(0, longsCount)
+  const secondLongSection = longs.slice(longsCount, longsCount * 2)
+  const restLongSection = longs.slice(longsCount * 2)
 
-  const firstShortsSection = data.slice(0, shortsCount)
-  const secondShortsSection = data.slice(shortsCount, shortsCount * 2)
+  const firstShortsSection = shorts.slice(0, shortsCount)
+  const secondShortsSection = shorts.slice(shortsCount, shortsCount * 2)
 
   console.log('ререндер');
 
   return (
     <div className={styles.container} id="videoListContainer">
-
         {tags && tags.length > 0 && (
           <div className={styles.tagList}>
             {tags.map((tag: ITAG, index) => {
@@ -142,25 +141,23 @@ export const VideoList = ({
               <VideoGrid videos={secondShortsSection} isShort/>
 
               <VideoGrid videos={restLongSection} />
-
-              {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
-              <div
-                ref={loadingRef}
-                style={{ height: "100px", margin: "20px" }}
-                className={styles.videoGrid}
-              >
-                loadingRef
-                {(isLoading || data?.length <= 0) &&
-                  Array.from({ length: 12 }, (_, index) => {
-                    return (
-                      <div key={index} className={styles.videoCardWrapper}>
-                        <VideoThumbnailSkeleton />
-                      </div>
-                    );
-                  })}
-              </div>
             </>
           )}
+          {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
+          <div
+            ref={loadingRef}
+            style={{ height: "100px", margin: "20px" }}
+            className={styles.videoGrid}
+          >
+            {(isLoading || data?.length <= 0) &&
+              Array.from({ length: 12 }, (_, index) => {
+                return (
+                  <div key={index} className={styles.videoCardWrapper}>
+                    <VideoThumbnailSkeleton />
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </div>
     </div>
