@@ -19,12 +19,12 @@ export default async function Shorts({
   const cookie = await cookies();
   const myChannelData = await getChannelData(cookie)
 
-  const videoData = await getVideoByHash(videoHash, myChannelData?.id);
+  // const videoData = await getVideoByHash(videoHash, myChannelData?.id);
 
-  await updateViewVideo({
-    videoId: videoData.video?.id,
-    userId: myChannelData?.id,
-  });
+  // await updateViewVideo({
+  //   videoId: videoData.video?.id,
+  //   userId: myChannelData?.id,
+  // });
 
   return <ShortsSwiper videos={[]} videoId={videoHash} myChannelData={myChannelData}/>;
 }

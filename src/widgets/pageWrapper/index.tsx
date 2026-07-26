@@ -19,7 +19,7 @@ export function PageWrapper({ children }: LayoutWrapperProps) {
             </div>
             
             <div className={styles.headerWrapper}>
-                {/* <Header/> */}
+                <Header/>
             </div>
             
             <div className={isOpen ? styles.pageWrapper_opened : styles.pageWrapper}>

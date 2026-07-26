@@ -37,6 +37,7 @@
 .swiper {
     width: 100%;
     height: 100vh !important;
+    // padding-top: 5vh;
 }
 
 .slide {
@@ -44,7 +45,6 @@
     justify-content: center;
     width: 100% !important;
     height: 100vh !important;
-
     
     .playerWrapper {
         display: flex;

@@ -126,17 +126,17 @@ export const VideoList = ({
             <>
               <VideoGrid videos={firstLongSection} />
 
-              {/* {firstShortsSection.length > 0 && (
+              {firstShortsSection.length > 0 && (
                 <ShortTag />
-              )} */}
+              )}
 
               <VideoGrid videos={firstShortsSection} isShort/>
 
               <VideoGrid videos={secondLongSection} />
 
-              {/* {secondShortsSection.length > 0 && (
+              {secondShortsSection.length > 0 && (
                 <ShortTag />
-              )} */}
+              )}
 
               <VideoGrid videos={secondShortsSection} isShort/>
 

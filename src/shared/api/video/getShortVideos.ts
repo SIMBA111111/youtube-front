@@ -164,20 +164,15 @@ const SHORT_VIDEOS = [
 
 export const getShortVideos = async () => {
     try {
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/videos`, {
-        //     credentials: "include"
-        // })
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/short-videos`)
 
-        // if (res.status === 200) {
-        //     return await res.json()
-        // } else {
-        //     return 'getNotifs non 200 status'
-        // }
-
-        return SHORT_VIDEOS
-
+        if (res.status === 200) {
+            return await res.json()
+        } else {
+            return 'getShortVideos non 200 status'
+        }
     } catch (error) {
-        new Error(`Error getVideos: ${error}`);
+        new Error(`Error getShortVideos: ${error}`);
         return []
     }
 }

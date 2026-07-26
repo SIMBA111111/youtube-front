@@ -2,6 +2,7 @@
 
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import { Mousewheel, Pagination, Navigation } from "swiper/modules";
 import { useEffect, useRef, useState } from "react";
 import Cookie from "js-cookie";
@@ -10,42 +11,46 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Svg, Text } from "@/shared/ui";
-import { ShortPlayer } from "@webitch/short-player";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import { getVideos } from "@/shared/api/video/getVideoList";
 import { getVideoById } from "@/shared/api/video/getVideoById";
 import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui";
 import { ShareVideo } from "@/features/videoDescription/shareVideo/ui";
 import { CommentsVideo } from "@/features/videoDescription/commentsVideo/ui";
 import { SubscribeButton } from "@/features";
+import { getShortVideos } from "@/shared/api/video/getShortVideos";
+import { IShortVideoListItem } from "@/entities/thumbnailShortVideo/modal/types";
 import styles from "./styles.module.scss";
 
+const ShortPlayer = dynamic(
+  () => import('@webitch/short-player'),
+  { ssr: false }
+);
 
-export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVideo[], videoId: string, myChannelData: any }) => {
+export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myChannelData: any }) => {
   const swiperRef = useRef(null);
-  const currentItemRef = useRef(1);
-  const [shortVideos, setShortVideos] = useState(videos);
-  const [currentShortVideo, setCurrentShortVideo] = useState({});
+  const [shortVideos, setShortVideos] = useState<IShortVideoListItem[]>([]);
+  const [currentShortVideo, setCurrentShortVideo] = useState(null);
   const theme = Cookie.get("theme");
   const pathname = usePathname()
 
   const handleIncrementCounter = async (swiper: SwiperClass) => {
-    currentItemRef.current = swiper.activeIndex;
-    const resGetVideoById = await getVideoById(shortVideos[currentItemRef.current].id);
+    if(shortVideos.length === 0)
+      return
+
+    const resGetVideoById = await getVideoById(shortVideos[swiper.activeIndex].id);
     setCurrentShortVideo(resGetVideoById)
 
-    if (currentItemRef.current > shortVideos.length - 5) {
-      const res = await getVideos();
-      setShortVideos((prev: IVideo[]) => [...prev, ...res.videos]);
+    if (swiper.activeIndex > shortVideos.length - 2) {
+      const res = await getShortVideos();
+      setShortVideos((prev: IShortVideoListItem[]) => [...prev, ...res.result]);
     }
   };
 
   useEffect(() => {
     (async () => {
-      const resGetVideos = await getVideos();
+      const resGetVideos = await getShortVideos();
       const resGetVideoById = await getVideoById(videoId);
       setCurrentShortVideo(resGetVideoById)
-      setShortVideos((prev: IVideo[]) => [...prev, ...resGetVideos.videos]);
+      setShortVideos((prev: IShortVideoListItem[]) => [...prev, ...resGetVideos.result]);
     })()
   }, [])
 
@@ -61,10 +66,7 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
     }
   };
 
-  console.log('currentShortVideo: ', currentShortVideo);
-  
-
-  if (!shortVideos || shortVideos.length === 0) {
+  if (!shortVideos || shortVideos.length === 0 || !currentShortVideo) {
     return <div>...</div>
   }
 
@@ -102,11 +104,16 @@ export const ShortsSwiper = ({ videos, videoId, myChannelData }: { videos: IVide
                   </div>
                   <Text className={styles.videoDescription}>{currentShortVideo.video?.videoDescription}</Text>
                 </div>
-                <ShortPlayer
-                  duration={video.duration}
-                  playlistUrl={video.masterM3u8Url}
-                  theme={theme}
-                 />
+
+                {currentShortVideo.video.id === video.id ? (
+                  <ShortPlayer
+                    duration={currentShortVideo.video.duration}
+                    playlistUrl={currentShortVideo.video.masterM3u8Url || ''}
+                    index={video.id}
+                  />
+                ) : (
+                  null
+                )}
                 <div className={styles.actionsPlayerWrapper}>
                   <EvaluateVideo
                     isLiked={currentShortVideo?.stat?.liked}

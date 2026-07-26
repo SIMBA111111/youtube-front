@@ -13,3 +13,9 @@ export interface IThumbnailShortVideo {
     isShort: boolean
     isRow?: boolean
 }
+
+export interface IShortVideoListItem {
+    id: string
+    thumbnail_url: string
+}
+
