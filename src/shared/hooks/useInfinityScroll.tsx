@@ -51,10 +51,12 @@ export const useInfinityScroll = <T, Y>({
     }, [pagination]);
 
     const loadData = async (offset: number, limit: number) => {
+        console.log('loadData');
+        
         if (isFetchingRef.current) return;
         
         isFetchingRef.current = true;
-        setIsLoading(true);
+        // setIsLoading(true);
 
         try {
             const res = await fetchData({
@@ -65,6 +67,7 @@ export const useInfinityScroll = <T, Y>({
 
             if (!res || res.length === 0) {
                 setHasMore(false);
+                setIsLoading(false)
                 return;
             }
 
@@ -82,6 +85,7 @@ export const useInfinityScroll = <T, Y>({
         } catch (error) {
             console.error("ОШИБКА ЗАГРУЗКИ:", error);
         } finally {
+            console.log('finally');
             setIsLoading(false);
             isFetchingRef.current = false;
         }
@@ -89,11 +93,20 @@ export const useInfinityScroll = <T, Y>({
 
     // ✅ callback использует paginationRef для получения актуальных значений
     const callback = async (entries: IntersectionObserverEntry[]) => {
+        console.log('callback');
+        
         const entry = entries[0];
+
+        console.log('entry.isIntersecting: ', entry.isIntersecting);
+        console.log('isLoading: ', isLoading);
+        console.log('hasMore: ', hasMore);
+        console.log('isFetchingRef.current: ', isFetchingRef.current);
 
         if (!entry.isIntersecting || isLoading || !hasMore || isFetchingRef.current) {
             return;
         }
+
+        console.log('callback 2');
 
         // ✅ Берем актуальные значения из рефа
         const { offset, limit } = paginationRef.current;
@@ -102,12 +115,16 @@ export const useInfinityScroll = <T, Y>({
 
     // ✅ Настройка IntersectionObserver с обновленным callback
     useEffect(() => {
+        console.log('useEffect');
+
         if (!triggerRef.current || !hasMore) return;
 
         if (observerRef.current) {
             observerRef.current.disconnect();
             observerRef.current = null;
         }
+
+        console.log('useEffect 2');
 
         observerRef.current = new IntersectionObserver(callback, options);
         observerRef.current.observe(triggerRef.current);
@@ -121,21 +138,23 @@ export const useInfinityScroll = <T, Y>({
     }, [hasMore, triggerRef.current]); // ✅ Убираем pagination из зависимостей
 
     // ✅ Первоначальная загрузка
-    useEffect(() => {
-        const loadInitialData = async () => {
-            setData([]);
-            setPagination({ offset: 0, limit: paginationStep });
-            setHasMore(true);
+    // useEffect(() => {
+    //     const loadInitialData = async () => {
+    //         console.log('loadInitialData');
             
-            await loadData(0, paginationStep);
-        };
+    //         setData([]);
+    //         setPagination({ offset: 0, limit: paginationStep });
+    //         setHasMore(true);
+            
+    //         await loadData(0, paginationStep);
+    //     };
 
-        loadInitialData();
+    //     loadInitialData();
 
-        return () => {
-            // Очистка
-        };
-    }, [filter]);
+    //     return () => {
+    //         // Очистка
+    //     };
+    // }, [filter]);
 
     const refreshData = async () => {
         if (observerRef.current) {
