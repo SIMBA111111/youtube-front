@@ -358,9 +358,9 @@ const VIDEOS = [
     },
 ]
 
-export const getVideos = async (jwt: string = '', tag: string = '', isShorts: boolean | null = null) => {
+export const getVideos = async (jwt: string = '', tag: string = '', isShorts: boolean | null = null, offset: number = 0, limit: number = 2) => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos?tagId=${tag}&isShorts=${isShorts}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos?tagId=${tag}&isShorts=${isShorts}&offset=${offset}&limit=${limit}`, {
             headers: { 
                 'Content-Type': 'application/json', 
                 'Authorization': `Bearer ${jwt}` 

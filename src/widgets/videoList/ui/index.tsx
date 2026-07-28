@@ -3,19 +3,17 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Svg, Text, VideoThumbnailSkeleton } from "@/shared/ui";
 import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { getVideos } from "@/shared/api/video/getVideoList";
 import { ThumbnailShortVideoCard, VideoTags } from "@/entities";
 import { getVideosCount } from "@/shared/utils/getVideosCount";
 import { getShortsCount } from "@/shared/utils/getShortsCount";
-import { mapVideoList } from "@/entities/thumbnailVideo/modal/mapVideoList";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 
-import styles from "./styles.module.scss";
 import { VideoGrid } from "./videoGrid";
 import { ShortTag } from "./shortsTag";
+import styles from "./styles.module.scss";
 
 interface ITAG {
   id: string;
@@ -26,21 +24,20 @@ export type deviceType = 'isMobile' | 'isTablet' | 'isDesktop'
 
 export const VideoList = ({
   tags,
-  initVideos,
   jwt,
 }: {
   tags?: ITAG[];
-  initVideos: any[];
   jwt: string;
 }) => {
   const [activeTag, setActiveTag] = useState<string>(tags?.[0].id || "");
   const device = useDeviceIsMobile();
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchVideoList = async () => {
-    const res = await getVideos(jwt, activeTag);
+  // ✅ Используем useCallback для мемоизации
+  const fetchVideoList = useCallback(async ({offset, limit, filter}: {offset: number, limit: number, filter?: string}) => {
+    const res = await getVideos(jwt, filter || activeTag, null, offset, limit);
     return res?.videos || []
-  }
+  }, [jwt, activeTag]);
 
   const {
     data,
@@ -57,7 +54,6 @@ export const VideoList = ({
   const handleActiveTag = (tagId: string) => {
     setActiveTag(tagId);
   };
-
 
   const longsCount = useMemo(() => getVideosCount(device), [device])
   const shortsCount = useMemo(() => getShortsCount(device), [device])
@@ -103,8 +99,53 @@ export const VideoList = ({
 
         <div className={styles.videosContainer}>
           <div className={styles.content}>
-          {data && data?.length <= 0 && isLoading && (
-            <div ref={loadingRef} className={styles.videoGrid}>
+            {data && data?.length <= 0 && isLoading && (
+              <div className={styles.videoGrid}>
+                {(isLoading || data?.length <= 0) &&
+                  Array.from({ length: 12 }, (_, index) => {
+                    return (
+                      <div key={index} className={styles.videoCardWrapper}>
+                        <VideoThumbnailSkeleton />
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+
+            {data && data?.length <= 0 && !isLoading && (
+              <div className={styles.videoGrid}>
+                нет видео
+              </div>
+            )}
+
+            {data && data?.length > 0 && !isLoading && (
+              <>
+                <VideoGrid videos={firstLongSection} />
+
+                {firstShortsSection.length > 0 && (
+                  <ShortTag />
+                )}
+
+                <VideoGrid videos={firstShortsSection} isShort/>
+
+                <VideoGrid videos={secondLongSection} />
+
+                {secondShortsSection.length > 0 && (
+                  <ShortTag />
+                )}
+
+                <VideoGrid videos={secondShortsSection} isShort/>
+
+                <VideoGrid videos={restLongSection} />
+              </>
+            )}
+
+            {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
+            <div
+              ref={loadingRef}
+              style={{ height: "100px", margin: "20px" }}
+              className={styles.videoGrid}
+            >
               {(isLoading || data?.length <= 0) &&
                 Array.from({ length: 12 }, (_, index) => {
                   return (
@@ -112,50 +153,6 @@ export const VideoList = ({
                       <VideoThumbnailSkeleton />
                     </div>
                   );
-                })}
-            </div>
-          )}
-
-          {data && data?.length <= 0 && !isLoading && (
-            <div ref={loadingRef} className={styles.videoGrid}>
-              нет видео
-            </div>
-          )}
-
-          {data && data?.length > 0 && !isLoading && (
-            <>
-              <VideoGrid videos={firstLongSection} />
-
-              {firstShortsSection.length > 0 && (
-                <ShortTag />
-              )}
-
-              <VideoGrid videos={firstShortsSection} isShort/>
-
-              <VideoGrid videos={secondLongSection} />
-
-              {secondShortsSection.length > 0 && (
-                <ShortTag />
-              )}
-
-              <VideoGrid videos={secondShortsSection} isShort/>
-
-              <VideoGrid videos={restLongSection} />
-            </>
-          )}
-          {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
-          <div
-            ref={loadingRef}
-            style={{ height: "100px", margin: "20px" }}
-            className={styles.videoGrid}
-          >
-            {(isLoading || data?.length <= 0) &&
-              Array.from({ length: 12 }, (_, index) => {
-                return (
-                  <div key={index} className={styles.videoCardWrapper}>
-                    <VideoThumbnailSkeleton />
-                  </div>
-                );
               })}
           </div>
         </div>

@@ -39,10 +39,16 @@ export const useInfinityScroll = <T, Y>({
     const [hasMore, setHasMore] = useState(true);
     const [pagination, setPagination] = useState({ offset: 0, limit: paginationStep });
     
+    // ✅ Реф для актуальных значений пагинации
+    const paginationRef = useRef(pagination);
+    
     const observerRef = useRef<IntersectionObserver | null>(null);
     const isFetchingRef = useRef<boolean>(false);
-    const initializedRef = useRef<boolean>(false);
-    const loadCountRef = useRef<number>(0); // ✅ Счетчик загрузок
+
+    // ✅ Синхронизируем реф с состоянием
+    useEffect(() => {
+        paginationRef.current = pagination;
+    }, [pagination]);
 
     const loadData = async (offset: number, limit: number) => {
         if (isFetchingRef.current) return;
@@ -81,24 +87,20 @@ export const useInfinityScroll = <T, Y>({
         }
     };
 
+    // ✅ callback использует paginationRef для получения актуальных значений
     const callback = async (entries: IntersectionObserverEntry[]) => {
-        console.log('callback');
-        
         const entry = entries[0];
 
         if (!entry.isIntersecting || isLoading || !hasMore || isFetchingRef.current) {
             return;
         }
 
-        // ✅ Если еще не инициализировались - пропускаем
-        if (!initializedRef.current) {
-            return;
-        }
-
-        await loadData(pagination.offset, pagination.limit);
+        // ✅ Берем актуальные значения из рефа
+        const { offset, limit } = paginationRef.current;
+        await loadData(offset, limit);
     };
 
-    // ✅ Настройка IntersectionObserver
+    // ✅ Настройка IntersectionObserver с обновленным callback
     useEffect(() => {
         if (!triggerRef.current || !hasMore) return;
 
@@ -116,46 +118,26 @@ export const useInfinityScroll = <T, Y>({
                 observerRef.current = null;
             }
         };
-    }, [hasMore, pagination.offset, triggerRef.current]);
+    }, [hasMore, triggerRef.current]); // ✅ Убираем pagination из зависимостей
 
-    // ✅ Первоначальная загрузка - только один раз
-    // TO DO тут есть вопросик - проверки на initializedRef и loadCountRef порят обновление данных при смене filter.
-    // Но без них при маленьком paginationStep появляются дубли
-    
+    // ✅ Первоначальная загрузка
     useEffect(() => {
-        // ✅ Увеличиваем счетчик
-        loadCountRef.current += 1;
-        
-        // ✅ Если это второй вызов (из-за строгого режима) - пропускаем
-        // if (loadCountRef.current > 1) {
-        //     initializedRef.current = true;
-        //     return;
-        // }
-
         const loadInitialData = async () => {
             setData([]);
             setPagination({ offset: 0, limit: paginationStep });
             setHasMore(true);
             
             await loadData(0, paginationStep);
-            
-            // ✅ Отмечаем, что инициализация завершена
-            initializedRef.current = true;
         };
 
         loadInitialData();
 
-        // ✅ Очистка при размонтировании
         return () => {
-            // Ничего не делаем
+            // Очистка
         };
-    }, [filter]); // ✅ Зависимость от filter
+    }, [filter]);
 
     const refreshData = async () => {
-        // ✅ Сбрасываем флаг инициализации
-        initializedRef.current = false;
-        loadCountRef.current = 0;
-
         if (observerRef.current) {
             observerRef.current.disconnect();
             observerRef.current = null;
@@ -166,8 +148,6 @@ export const useInfinityScroll = <T, Y>({
         setHasMore(true);
 
         await loadData(0, paginationStep);
-        
-        initializedRef.current = true;
     };
 
     return { 
