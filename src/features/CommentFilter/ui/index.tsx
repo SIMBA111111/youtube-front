@@ -4,11 +4,11 @@ import { DropDown, Svg, Text } from "@/shared/ui"
 import { commentFilter, IFilter } from "@/widgets/Comments"
 import { Dispatch, SetStateAction, useState } from "react"
 import styles from "./styles.module.scss";
-import { IElement } from "@/shared/ui/Searcher";
 
 interface ICommetFilter {
     filter: IFilter
     setFilter: Dispatch<SetStateAction<IFilter>>
+    handleChangeFilter: (newFilter: IFilter) => void
 }
 
 const FILTERS = [
@@ -24,7 +24,8 @@ const FILTERS = [
 
 export const CommentFilter: React.FC<ICommetFilter> = ({
     filter,
-    setFilter
+    setFilter,
+    handleChangeFilter
 }) => {
     const [isVisible, setIsVisible] = useState<boolean>(false)
 
@@ -34,7 +35,7 @@ export const CommentFilter: React.FC<ICommetFilter> = ({
                 <Svg name="order"/>
                 <Text>Упорядочить</Text>
             </div>
-            <DropDown elements={FILTERS} isVisible={isVisible} setIsVisible={setIsVisible} selectedElement={filter} setSelectedElement={setFilter}/>
+            <DropDown elements={FILTERS} isVisible={isVisible} setIsVisible={setIsVisible} selectedElement={filter} setSelectedElement={handleChangeFilter}/>
         </div>
     )
 }

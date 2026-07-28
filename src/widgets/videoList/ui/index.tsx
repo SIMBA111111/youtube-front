@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import { Svg, Text, VideoThumbnailSkeleton } from "@/shared/ui";
+import { Spinner, Svg, Text, VideoThumbnailSkeleton } from "@/shared/ui";
 import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { getVideos } from "@/shared/api/video/getVideoList";
 import { ThumbnailShortVideoCard, VideoTags } from "@/entities";
@@ -77,8 +77,6 @@ export const VideoList = ({
   const firstShortsSection = shorts.slice(0, shortsCount)
   const secondShortsSection = shorts.slice(shortsCount, shortsCount * 2)
 
-  console.log('ререндер');
-
   return (
     <div className={styles.container} id="videoListContainer">
         {tags && tags.length > 0 && (
@@ -99,24 +97,17 @@ export const VideoList = ({
 
         <div className={styles.videosContainer}>
           <div className={styles.content}>
-            {data && data?.length <= 0 && isLoading && (
-              <div className={styles.videoGrid}>
-                {(isLoading || data?.length <= 0) &&
-                  Array.from({ length: 12 }, (_, index) => {
-                    return (
-                      <div key={index} className={styles.videoCardWrapper}>
-                        <VideoThumbnailSkeleton />
-                      </div>
-                    );
-                  })}
-              </div>
-            )}
-
-            {data && data?.length <= 0 && !isLoading && (
-              <div className={styles.videoGrid}>
-                нет видео
-              </div>
-            )}
+            <div className={styles.videoGrid}>
+              {(!data || data?.length <= 0) && isLoading && (
+                Array.from({ length: 12 }, (_, index) => {
+                  return (
+                    <div key={index} className={styles.videoCardWrapper}>
+                      <VideoThumbnailSkeleton />
+                    </div>
+                  );
+                })
+              )}
+            </div>
 
             {data && data?.length > 0 && !isLoading && (
               <>
@@ -140,20 +131,14 @@ export const VideoList = ({
               </>
             )}
 
-            {/* ЭТОТ СПАН - ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
             <div
               ref={loadingRef}
-              style={{ height: "100px", margin: "20px" }}
+              style={{ height: "60px", margin: "20px" }}
               className={styles.videoGrid}
             >
-              {(isLoading || data?.length <= 0) &&
-                Array.from({ length: 12 }, (_, index) => {
-                  return (
-                    <div key={index} className={styles.videoCardWrapper}>
-                      <VideoThumbnailSkeleton />
-                    </div>
-                  );
-              })}
+              {isLoading &&
+                <Spinner size={32}/>
+              }
           </div>
         </div>
       </div>

@@ -115,15 +115,17 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
           <Text className={styles.videoDescription_info_days}>
             {formatDate(datePublication)}
           </Text>
-          <div className={styles.hashTags}>
-            {hashtags.map((hashtag: string, index: number) => {
-              return (
-                <Text key={index} color="var(--gray)">
-                  {hashtag}
-                </Text>
-              );
-            })}
-          </div>
+          {hashtags && (
+            <div className={styles.hashTags}>
+              {hashtags?.map((hashtag: string, index: number) => {
+                return (
+                  <Text key={index} color="var(--gray)">
+                    {hashtag}
+                  </Text>
+                );
+              })}
+            </div>
+          )}
         </div>
         <div className={styles.videoDescription_text}>
           <EllipsisText text={videoDescription} symbolCount={210} />
