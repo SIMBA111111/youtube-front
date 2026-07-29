@@ -1,14 +1,14 @@
 "use client";
 
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
-import dynamic from "next/dynamic";
 import { Mousewheel, Pagination, Navigation } from "swiper/modules";
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import { Svg, Text } from "@/shared/ui";
+import { Spinner, Svg, Text } from "@/shared/ui";
 import { getVideoById } from "@/shared/api/video/getVideoById";
 import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui";
 import { ShareVideo } from "@/features/videoDescription/shareVideo/ui";
@@ -17,6 +17,7 @@ import { SubscribeButton } from "@/features";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { IShortVideoListItem } from "@/entities/thumbnailShortVideo/modal/types";
 import styles from "./styles.module.scss";
+
 
 const ShortPlayer = dynamic(
   () => import('@webitch/short-player'),
@@ -27,20 +28,20 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
   const swiperRef = useRef(null);
   const [shortVideos, setShortVideos] = useState<IShortVideoListItem[]>([]);
   const [currentShortVideo, setCurrentShortVideo] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  const handleIncrementCounter = async (swiper: SwiperClass) => {
-    if(shortVideos.length === 0)
-      return
+  const handleSlideChange = async (swiper: SwiperClass) => {
+    const newIndex = swiper.activeIndex;
+    setActiveIndex(newIndex);
+    
+    if (shortVideos.length === 0 || !shortVideos[newIndex]) return;
 
-    const resGetVideoById = await getVideoById(shortVideos[swiper.activeIndex].id);
-    setCurrentShortVideo(resGetVideoById)
+    // Загружаем данные для нового видео
+    const resGetVideoById = await getVideoById(shortVideos[newIndex].id);
+    setCurrentShortVideo(resGetVideoById);
 
-    // await updateViewVideo({
-    //   videoId: resGetVideoById.video?.id,
-    //   userId: myChannelData?.id,
-    // });
-
-    if (swiper.activeIndex > shortVideos.length - 2) {
+    if (newIndex > shortVideos.length - 2) {
       const res = await getShortVideos();
       setShortVideos((prev: IShortVideoListItem[]) => [...prev, ...res.result]);
     }
@@ -50,10 +51,11 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
     (async () => {
       const resGetVideos = await getShortVideos();
       const resGetVideoById = await getVideoById(videoId);
-      setCurrentShortVideo(resGetVideoById)
+      setCurrentShortVideo(resGetVideoById);
       setShortVideos((prev: IShortVideoListItem[]) => [...prev, ...resGetVideos.result]);
-    })()
-  }, [])
+      setIsInitialized(true);
+    })();
+  }, [videoId]);
 
   const handleNext = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -67,11 +69,8 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
     }
   };
 
-  console.log('currentShortVideo: ', currentShortVideo);
-  
-
-  if (!shortVideos || shortVideos.length === 0 || !currentShortVideo) {
-    return <div>...</div>
+  if (!isInitialized || !shortVideos.length || !currentShortVideo) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -87,50 +86,60 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
           modules={[Mousewheel, Pagination, Navigation]}
           touchStartPreventDefault={false}
           touchMoveStopPropagation={false}
-          navigation={{
-            nextEl: ".custom-swiper-button-next",
-            prevEl: ".custom-swiper-button-prev",
-          }}
-          onSlideChange={(swiper) => handleIncrementCounter(swiper)}
+          onSlideChange={handleSlideChange}
         >
           {shortVideos.map((video, index) => (
-            <SwiperSlide key={index} className={styles.slide}>
-              <div className={styles.playerWrapper}>
-                <div className={styles.channelInfo}>
-                  <div className={styles.channelBtn}>
-                    <img src={currentShortVideo?.channel?.avatar_url ?? '/defaultImages/defaultAvatar.png'} alt="image!" className={styles.channelAvatar}/>
-                    <SubscribeButton 
-                      channelId={currentShortVideo?.channel?.id} 
-                      isSubscribed={currentShortVideo?.isSubscribed} 
-                      meId={myChannelData.id} 
-                      notificationSetting={currentShortVideo?.isSubscribed?.notification_settings || false}
+            <SwiperSlide key={video.id} className={styles.slide}>
+              {({ isActive }) => (
+                <div className={styles.playerWrapper}>
+                  <div className={styles.channelInfo}>
+                    <div className={styles.channelBtn}>
+                      <img 
+                        src={currentShortVideo?.channel?.avatar_url ?? '/defaultImages/defaultAvatar.png'} 
+                        alt="avatar" 
+                        className={styles.channelAvatar}
+                      />
+                      <SubscribeButton 
+                        channelId={currentShortVideo?.channel?.id} 
+                        isSubscribed={currentShortVideo?.isSubscribed} 
+                        meId={myChannelData.id} 
+                        notificationSetting={currentShortVideo?.isSubscribed?.notification_settings || false}
+                      />
+                    </div>
+                    <Text className={styles.videoDescription}>{currentShortVideo.video?.videoDescription}</Text>
+                  </div>
+
+                  {/* Рендерим плеер только для активного слайда */}
+                  {isActive && (
+                          <ShortPlayer
+                          key={`player-${currentShortVideo.video.id}`}
+                          duration={currentShortVideo.video.duration}
+                          playlistUrl={currentShortVideo.video.masterM3u8Url || ''}
+                        />
+                  )}
+
+                  {!isActive && (
+                    <div className={styles.playerPlaceholder} />
+                  )}
+
+                  <div className={styles.actionsPlayerWrapper}>
+                    <EvaluateVideo
+                      isLiked={currentShortVideo?.stat?.liked}
+                      isDisliked={currentShortVideo?.stat?.disliked}
+                      likeCount={currentShortVideo?.video?.likeCount}
+                      dislikeCount={currentShortVideo?.video?.dislikeCount}
+                      userId={myChannelData.id}
+                      videoId={currentShortVideo?.video?.id}
+                    />
+                    <ShareVideo videoHash={currentShortVideo?.video?.id} isShort />
+                    <CommentsVideo 
+                      commentsCount={currentShortVideo?.video?.commentsCount} 
+                      videoId={currentShortVideo?.video?.id} 
+                      me={myChannelData}
                     />
                   </div>
-                  <Text className={styles.videoDescription}>{currentShortVideo.video?.videoDescription}</Text>
                 </div>
-
-                {currentShortVideo.video.id === video.id ? (
-                  <ShortPlayer
-                    duration={currentShortVideo.video.duration}
-                    playlistUrl={currentShortVideo.video.masterM3u8Url || ''}
-                    index={video.id}
-                  />
-                ) : (
-                  null
-                )}
-                <div className={styles.actionsPlayerWrapper}>
-                  <EvaluateVideo
-                    isLiked={currentShortVideo?.stat?.liked}
-                    isDisliked={currentShortVideo?.stat?.disliked}
-                    likeCount={currentShortVideo?.video?.likeCount}
-                    dislikeCount={currentShortVideo?.video?.dislikeCount}
-                    userId={myChannelData.id}
-                    videoId={currentShortVideo?.video?.id}
-                  />
-                  <ShareVideo videoHash={currentShortVideo?.video?.id} isShort />
-                  <CommentsVideo commentsCount={currentShortVideo?.video?.commentsCount} videoId={currentShortVideo?.video?.id} me={myChannelData}/>
-                </div>
-              </div>
+              )}
             </SwiperSlide>
           ))}
         </Swiper>

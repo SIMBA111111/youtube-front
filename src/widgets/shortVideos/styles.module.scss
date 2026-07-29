@@ -32,12 +32,12 @@
 .mainPage__container {
     width: 100%;
     position: relative;
+    padding-top: 15px;
 }
 
 .swiper {
     width: 100%;
     height: 100vh !important;
-    // padding-top: 5vh;
 }
 
 .slide {
@@ -49,7 +49,7 @@
     .playerWrapper {
         display: flex;
         // width: 700px;
-        height: 85vh;
+        height: 90vh;
         aspect-ratio: 9 / 10;
         border-radius: 16px;
 
