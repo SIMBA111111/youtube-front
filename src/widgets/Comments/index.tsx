@@ -2,7 +2,7 @@
 
 import { CommentCard, IComment } from "@/entities/comments/ui/VideoComment";
 import { AddComment, CommentFilter } from "@/features";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideoHash";
 import { IChannel } from "@/entities/channels/modal/types";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
@@ -56,22 +56,21 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
     hasMore,
     refreshData
   } = useInfinityScroll<IComment, IFilter>({
-    paginationStep: 6,
+    paginationStep: 10,
     filter: filter,
     fetchData: fetchCommentsList,
     triggerRef: loadingRef
   })
 
-  const handleChangeFilter = (newFilter: IFilter) => {
-    setFilter(newFilter)
-    refreshData()    
-  }
+  useEffect(() => {
+    refreshData();
+  }, [filter.id, filter.value]);
 
   return (
     <div className={styles.comments}>
       <div className={styles.comments_header}>
         <h2>{commentCount} комментария</h2>
-        <CommentFilter filter={filter} setFilter={setFilter} handleChangeFilter={handleChangeFilter}/>
+        <CommentFilter filter={filter} setFilter={setFilter}/>
       </div>
       <AddComment
         me={me}

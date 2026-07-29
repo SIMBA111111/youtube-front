@@ -1,11 +1,9 @@
 "use client";
 
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
-import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Mousewheel, Pagination, Navigation } from "swiper/modules";
 import { useEffect, useRef, useState } from "react";
-import Cookie from "js-cookie";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -29,8 +27,6 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
   const swiperRef = useRef(null);
   const [shortVideos, setShortVideos] = useState<IShortVideoListItem[]>([]);
   const [currentShortVideo, setCurrentShortVideo] = useState(null);
-  const theme = Cookie.get("theme");
-  const pathname = usePathname()
 
   const handleIncrementCounter = async (swiper: SwiperClass) => {
     if(shortVideos.length === 0)
@@ -38,6 +34,11 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
 
     const resGetVideoById = await getVideoById(shortVideos[swiper.activeIndex].id);
     setCurrentShortVideo(resGetVideoById)
+
+    // await updateViewVideo({
+    //   videoId: resGetVideoById.video?.id,
+    //   userId: myChannelData?.id,
+    // });
 
     if (swiper.activeIndex > shortVideos.length - 2) {
       const res = await getShortVideos();
@@ -65,6 +66,9 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
       swiperRef.current.swiper.slidePrev();
     }
   };
+
+  console.log('currentShortVideo: ', currentShortVideo);
+  
 
   if (!shortVideos || shortVideos.length === 0 || !currentShortVideo) {
     return <div>...</div>

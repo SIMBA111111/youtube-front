@@ -29,15 +29,18 @@ export const VideoList = ({
   tags?: ITAG[];
   jwt: string;
 }) => {
-  const [activeTag, setActiveTag] = useState<string>(tags?.[0].id || "");
+  const [activeTag, setActiveTag] = useState<string>(tags?.[0].name || "");
   const device = useDeviceIsMobile();
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
-  // ✅ Используем useCallback для мемоизации
-  const fetchVideoList = useCallback(async ({offset, limit, filter}: {offset: number, limit: number, filter?: string}) => {
-    const res = await getVideos(jwt, filter || activeTag, null, offset, limit);
+  const fetchVideoList = useCallback(async ({offset, limit}: {offset: number, limit: number}) => {
+    console.log('activeTag 2: ', activeTag);
+    const res = await getVideos(jwt, activeTag, null, offset, limit);
     return res?.videos || []
   }, [jwt, activeTag]);
+
+  console.log('activeTag: ', activeTag);
+  
 
   const {
     data,
@@ -52,8 +55,13 @@ export const VideoList = ({
   })
 
   const handleActiveTag = (tagId: string) => {
+    console.log('handleActiveTag: ', tagId);
     setActiveTag(tagId);
   };
+
+  useEffect(() => {
+    refreshData();
+  }, [activeTag]);
 
   const longsCount = useMemo(() => getVideosCount(device), [device])
   const shortsCount = useMemo(() => getShortsCount(device), [device])
