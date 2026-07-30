@@ -11,13 +11,15 @@ interface ICommentsModal {
     onClose: () => void
     videoId: string
     me: IChannel
+    commentsCount: number
 }
 
 export const CommentsModal: FC<ICommentsModal> = ({
     isOpened,
     onClose,
     videoId,
-    me
+    me,
+    commentsCount
 }) => {
     return (
         <Modal 
@@ -27,7 +29,7 @@ export const CommentsModal: FC<ICommentsModal> = ({
             isOverlay={true}
         >
             <div className={styles.container}>
-                <Comments videoId={videoId} me={me} />
+                <Comments commentCount={commentsCount} videoId={videoId} me={me} />
             </div>
         </Modal>
     );

@@ -32,6 +32,7 @@ export const CommentsVideo: FC<ICommentsVideo> = ({
                 onClose={() => setIsOpenedCommentsModal(false)}
                 me={me}    
                 videoId={videoId}
+                commentsCount={commentsCount}
             />
         </>
     )

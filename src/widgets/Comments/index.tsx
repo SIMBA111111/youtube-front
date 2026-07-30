@@ -7,6 +7,7 @@ import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideo
 import { IChannel } from "@/entities/channels/modal/types";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
+import { getWordForm } from "@/shared/utils/getWordFrom";
 
 
 export type commentFilter = "famous" | "new";
@@ -69,7 +70,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
   return (
     <div className={styles.comments}>
       <div className={styles.comments_header}>
-        <h2>{commentCount} комментария</h2>
+        <h2>{commentCount} {getWordForm('комментарий', commentCount)} </h2>
         <CommentFilter filter={filter} setFilter={setFilter}/>
       </div>
       <AddComment

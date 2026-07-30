@@ -162,9 +162,9 @@ const SHORT_VIDEOS = [
 ]
 
 
-export const getShortVideos = async () => {
+export const getShortVideos = async (offset: number = 0, limit: number = 5) => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/short-videos`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/short-videos?offset=${offset}&limit=${limit}`)
 
         if (res.status === 200) {
             return await res.json()

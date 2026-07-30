@@ -17,6 +17,7 @@ import { SubscribeButton } from "@/features";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { IShortVideoListItem } from "@/entities/thumbnailShortVideo/modal/types";
 import styles from "./styles.module.scss";
+import { useRouter } from "next/navigation";
 
 
 const ShortPlayer = dynamic(
@@ -24,38 +25,77 @@ const ShortPlayer = dynamic(
   { ssr: false }
 );
 
-export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myChannelData: any }) => {
+interface IPagination {
+  offset: number
+  limit: number
+}
+
+const PAGINATION_STEP = 5
+
+export const ShortsSwiper = ({videos, initVideo, videoId, myChannelData }: {videos: IShortVideoListItem[], initVideo: any, videoId: string, myChannelData: any }) => {
+  const router = useRouter();
   const swiperRef = useRef(null);
-  const [shortVideos, setShortVideos] = useState<IShortVideoListItem[]>([]);
-  const [currentShortVideo, setCurrentShortVideo] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const isUpdatingRef = useRef(false); 
+  const isActiveIndexRef = useRef(0); 
+  const isFetchingRef = useRef(false);
+  const [shortVideos, setShortVideos] = useState<IShortVideoListItem[]>(videos || []);
+  const [currentShortVideo, setCurrentShortVideo] = useState(initVideo);
+  const [pagination, setPagination] = useState<IPagination>({
+    offset: 5,
+    limit: 10
+  });
 
   const handleSlideChange = async (swiper: SwiperClass) => {
     const newIndex = swiper.activeIndex;
-    setActiveIndex(newIndex);
+    
+    // Проверяем, что индекс действительно изменился
+    if (newIndex === isActiveIndexRef.current) return;
+    
+    // isActiveIndexRef.current = newIndex
     
     if (shortVideos.length === 0 || !shortVideos[newIndex]) return;
 
-    // Загружаем данные для нового видео
-    const resGetVideoById = await getVideoById(shortVideos[newIndex].id);
-    setCurrentShortVideo(resGetVideoById);
+    // Проверяем, что это видео еще не загружено
+    const video = shortVideos[newIndex];
+    if (currentShortVideo?.video?.id === video.id) return;
+    
+    // Добавляем флаг загрузки
+    if (isFetchingRef.current) return;
+    isFetchingRef.current = true;
+    
+    try {
+      router.replace(`/shorts/${video.id}`, { scroll: false });
 
-    if (newIndex > shortVideos.length - 2) {
-      const res = await getShortVideos();
-      setShortVideos((prev: IShortVideoListItem[]) => [...prev, ...res.result]);
+      const resGetVideoById = await getVideoById(video.id);
+      setCurrentShortVideo(resGetVideoById);
+
+
+      if (newIndex > shortVideos.length - 2) {
+        const res = await getShortVideos(pagination.offset, pagination.limit);
+        setShortVideos((prev: IShortVideoListItem[]) => [...prev, ...res.result]);
+        setPagination(prev => ({
+          offset: prev.offset + PAGINATION_STEP,
+          limit: prev.limit + PAGINATION_STEP,
+        }));
+      }
+    } finally {
+      isFetchingRef.current = false;
     }
   };
 
+  // useEffect(() => {
+    // setShortVideos(videos);
+  // }, []);
+
   useEffect(() => {
-    (async () => {
-      const resGetVideos = await getShortVideos();
-      const resGetVideoById = await getVideoById(videoId);
-      setCurrentShortVideo(resGetVideoById);
-      setShortVideos((prev: IShortVideoListItem[]) => [...prev, ...resGetVideos.result]);
-      setIsInitialized(true);
-    })();
-  }, [videoId]);
+    if (shortVideos.length > 0) {
+      const initialIndex = shortVideos.findIndex(v => v.id === videoId);
+      if (initialIndex !== -1 && swiperRef.current?.swiper) {
+        swiperRef.current.swiper.slideTo(initialIndex, 0);
+        isActiveIndexRef.current = initialIndex
+      }
+    }
+  }, [shortVideos, videoId]);
 
   const handleNext = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -69,7 +109,9 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
     }
   };
 
-  if (!isInitialized || !shortVideos.length || !currentShortVideo) {
+  console.log('currentShortVideo: ', currentShortVideo);
+
+  if (!shortVideos.length || !currentShortVideo) {
     return <div>Loading...</div>;
   }
 
@@ -82,15 +124,21 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
           className={styles.swiper}
           slidesPerView={1}
           spaceBetween={0}
-          mousewheel={true}
+            mousewheel={{
+              sensitivity: 0.1, // Уменьшаем для более плавного скролла
+              thresholdDelta: 30, // Меньше = более чувствительный
+              thresholdTime: 600, // Время между срабатываниями
+              releaseOnEdges: true,
+              invert: false,
+              forceToAxis: true, // Принудительно по оси
+          }}
           modules={[Mousewheel, Pagination, Navigation]}
           touchStartPreventDefault={false}
           touchMoveStopPropagation={false}
-          onSlideChange={handleSlideChange}
+          onSlideChangeTransitionEnd={handleSlideChange}
         >
           {shortVideos.map((video, index) => (
             <SwiperSlide key={video.id} className={styles.slide}>
-              {({ isActive }) => (
                 <div className={styles.playerWrapper}>
                   <div className={styles.channelInfo}>
                     <div className={styles.channelBtn}>
@@ -109,18 +157,11 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
                     <Text className={styles.videoDescription}>{currentShortVideo.video?.videoDescription}</Text>
                   </div>
 
-                  {/* Рендерим плеер только для активного слайда */}
-                  {isActive && (
-                          <ShortPlayer
-                          key={`player-${currentShortVideo.video.id}`}
-                          duration={currentShortVideo.video.duration}
-                          playlistUrl={currentShortVideo.video.masterM3u8Url || ''}
-                        />
-                  )}
-
-                  {!isActive && (
-                    <div className={styles.playerPlaceholder} />
-                  )}
+                  <ShortPlayer
+                    key={`player-${currentShortVideo.video.id}`}
+                    duration={currentShortVideo.video.duration}
+                    playlistUrl={currentShortVideo.video.masterM3u8Url || ''}
+                  />
 
                   <div className={styles.actionsPlayerWrapper}>
                     <EvaluateVideo
@@ -139,7 +180,6 @@ export const ShortsSwiper = ({ videoId, myChannelData }: { videoId: string, myCh
                     />
                   </div>
                 </div>
-              )}
             </SwiperSlide>
           ))}
         </Swiper>
