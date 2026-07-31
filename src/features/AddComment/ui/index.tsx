@@ -59,7 +59,7 @@ export const AddComment: React.FC<IAddComment> = ({
   return (
     <div className={styles.container}>
       <img
-        src={me?.avatarUrl ?? "defaultImages/defaultAvatar.png"}
+        src={me?.avatarUrl ? process.env.NEXT_PUBLIC_BACKEND_URL + me?.avatarUrl : "defaultImages/defaultAvatar.png"}
         className={inputHidden ? styles.headerAvatar : styles.headerAvatarBig}
         alt=""
       />

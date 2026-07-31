@@ -69,7 +69,6 @@ export const CommentCard: React.FC<ICommentCard> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleShowReplies = async () => {
-    // const res = await getCommentsByVideoHash('sadfasdf')
     const res = await getRepliesCommentsById(id, me?.id);
     setRelatedComments(res.comments);
     setShowReplies(true);
@@ -80,8 +79,6 @@ export const CommentCard: React.FC<ICommentCard> = ({
   }
 
   const handleOpenReplyInput = () => {
-    console.log('me = ', me);
-    
     if ('id' in me) {
       setIsOpenedReplayInput((prev: boolean) => !prev)
     } else {
@@ -93,7 +90,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
     <div className={styles.comment}>
       <div className={styles.comment_avatar}>
         <img
-          src={channel.avatarUrl || "/defaultImages/defaultAvatar.png"}
+          src={channel.avatarUrl ? process.env.NEXT_PUBLIC_BACKEND_URL + channel.avatarUrl : "/defaultImages/defaultAvatar.png"}
           alt={channel.username}
         />
       </div>
@@ -174,7 +171,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
         {isOpenedReplayInput && (
           <div className={styles.container}>
             <img
-              src={me?.avatarUrl ?? "defaultImages/defaultAvatar.png"}
+              src={me?.avatarUrl ? process.env.NEXT_PUBLIC_BACKEND_URL + me?.avatarUrl : "defaultImages/defaultAvatar.png"}
               className={styles.headerAvatar}
               alt=""
             />
