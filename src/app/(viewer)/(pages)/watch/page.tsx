@@ -8,6 +8,7 @@ import { updateViewVideo } from "@/shared/api/video/updateViewVideo";
 import { IChannel } from "@/entities/channels/modal/types";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { getChannelData } from "@/shared/utils/getChannelData";
+import {Player} from "@webitch/player";
 
 import styles from "./styles.module.scss";
 
@@ -32,7 +33,7 @@ export default async function WatchVideo({
   const videoData = await getVideoByHash(videoHash, myChannelData?.id);
   const res = await updateViewVideo({
     videoId: videoData.video?.id,
-    userId: myChannelData?.id,
+    userId: myChannelData?.id || '',
   });
 
   const isSubscribed = videoData?.isSubscribed
@@ -43,15 +44,15 @@ export default async function WatchVideo({
     <div className={styles.page}>
       <div className={styles.video}>
         <div className={styles.player}>
-          {/* <Player
+          <Player
             playlistUrl={videoData.video?.masterM3u8Url}
             duration={videoData.video?.duration}
             fragments={videoData.video?.fragments}
-          /> */}
+          />
         </div>
         <div className={styles.description}>
           <Text weight={600} size={18}>
-            {videoData.name}
+            {videoData.video.name}
           </Text>
           <VideoDescription
             videoId={videoData?.video?.id}
@@ -71,6 +72,7 @@ export default async function WatchVideo({
             videoDescription={videoData.video?.videoDescription || ""}
             hashtags={videoData.video?.hashtags || ""}
             videoHash={videoHash}
+            myChannelData={myChannelData}
           />
         </div>
         <div className={styles.comments}>
@@ -83,7 +85,6 @@ export default async function WatchVideo({
       </div>
       <div className={styles.recommendations}>
         <RecommentedVideos
-          // initVideos={recommentedVideos.videos}
           videoHash={videoHash}
           myChannelId={myChannelData?.id}
         />

@@ -4,10 +4,10 @@ import clsx from "clsx";
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { ChangeEvent, useRef, useState } from "react";
 
-import { IChannel } from "@/entities/channels/modal/types";
 import { useToast } from "@/app/providers/toastProvider";
 import { Text } from "@/shared/ui";
 import { CreateCommentUnauthPopover } from "@/shared/ui/Popover/Popovers/CreateCommentUnauthPopover";
+import { IChannelData } from "@/shared/utils/getChannelData";
 
 import { handleCreateComment } from "../lib/createComment";
 
@@ -15,7 +15,7 @@ import styles from "./styles.module.scss";
 
 
 interface IAddComment {
-  me: IChannel;
+  me: IChannelData | null;
   videoId: string;
   handleRefreshCommentsList: () => void;
 }
@@ -40,8 +40,9 @@ export const AddComment: React.FC<IAddComment> = ({
     }
   };
 
-  const handleCommentText = async (e: ChangeEvent) => {
-    inputRef.current!.value = e.target?.value
+  const handleCommentText = async (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target
+    inputRef.current!.value = target.value
   }
 
   const handleAddEmoji = async (e: EmojiClickData) => {
@@ -49,7 +50,7 @@ export const AddComment: React.FC<IAddComment> = ({
   }
 
   const handleOpenCommentInput = () => {
-    if('id' in me) {
+    if(me) {
       setInputHidden(false)
     } else {
       setIsOpenedUnauthPopover(true)
@@ -103,7 +104,7 @@ export const AddComment: React.FC<IAddComment> = ({
                   handleCreateComment(
                     inputRef.current?.value,
                     videoId,
-                    me.id,
+                    me?.id || '',
                     setInputHidden,
                     inputRef,
                     openToast,

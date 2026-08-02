@@ -2,13 +2,12 @@
     display: inline-block;
 }
 
-.popover {
+.menu {
     position: fixed;
     z-index: 1000;
     background: var(--background1);
     border-radius: 12px;
-        box-shadow: 0px 0px 16px var(--foregroundRGB);
-
+    box-shadow: 0px 0px 16px var(--foregroundRGB);
     min-width: 200px;
     
     // Анимация появления

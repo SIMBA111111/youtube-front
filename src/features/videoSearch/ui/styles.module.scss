@@ -58,16 +58,37 @@
 }
 
 .voiceModal {
-    top: 10px;
     height: 400px;
     box-sizing: border-box;
+    background-color: var(--background);
 
     &__container {
         margin: 30px;
         display: flex;
         flex-direction: column;
-        align-content: space-between;
         justify-content: space-between;
         width: 500px;
+        height: 100%;
+
+        .recordAnimate {
+            font-size: 48px;
+            background: linear-gradient(90deg, #1d1d1d, #bcbbbb, #d4d4d4, #323232);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .startBtn {
+            height: 40px;
+            background-color: var(--red);
+            filter: brightness(1.2);
+        }
     }
 }

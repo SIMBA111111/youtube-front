@@ -3,6 +3,4 @@ export interface IUserBtn {
     channelName: string
     username: string
     avatarUrl: string
-    activeTheme: string
-    activeLanguage: string
 }

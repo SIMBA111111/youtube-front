@@ -88,10 +88,14 @@
     width: fit-content;
     white-space: nowrap;
     z-index: 1000;
-    // top: 60px;
     left: -140%;
     padding: 10px;
     color: var(--whiteText);
     border-radius: 8px;
     opacity: 0.6;
+}
+
+.byCenter {
+    margin: auto;
+    text-align: center;
 }

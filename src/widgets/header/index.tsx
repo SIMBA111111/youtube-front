@@ -9,21 +9,11 @@ import {
   UserBtn,
   VideoSearch,
 } from "@/features";
-import Cookies from "js-cookie";
-
-import styles from "./styles.module.scss";
 import { MainLogoBtn } from "@/features/mainLogoBtn/ui";
+import { IChannelData } from "@/shared/utils/getChannelData";
+import styles from "./styles.module.scss";
 
-// TO DO тетсовые данные, потом из кук брать их
-const activeLanguage = "ru";
-
-export const Header = () => {
-  const theme = Cookies.get("theme");
-  const jwt = Cookies.get("jwt");
-  const parsedChannelData = Cookies.get("channelData")
-    ? JSON.parse(Cookies.get("channelData") || "")
-    : null;
-
+export const Header = ({myChannelData}: {myChannelData: IChannelData | null}) => {
   return (
     <div className={styles.headerContainer}>
       <div className={styles.headerContainer__block}>
@@ -36,17 +26,15 @@ export const Header = () => {
         </div>
       </div>
       <div className={styles.headerContainer__block}>
-        {jwt && parsedChannelData ? (
+        {myChannelData ? (
           <>
-            <CreateContentBtn channelId={parsedChannelData.id} />
-            <Notifications userId={parsedChannelData.id}/>
+            <CreateContentBtn channelId={myChannelData.id} />
+            <Notifications userId={myChannelData.id}/>
             <UserBtn
-              id={parsedChannelData.id}
-              activeLanguage={activeLanguage}
-              username={parsedChannelData.username}
-              channelName={parsedChannelData.name}
-              avatarUrl={parsedChannelData.avatarUrl}
-              activeTheme={theme as string}
+              id={myChannelData.id}
+              username={myChannelData.username}
+              channelName={myChannelData.name}
+              avatarUrl={myChannelData.avatarUrl}
             />
           </>
         ) : (

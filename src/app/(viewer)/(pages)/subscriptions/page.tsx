@@ -12,7 +12,7 @@ export default async function Subscriptions() {
   let meId
   let videoList
 
-  if(cookie.get('channelData')) {
+  if(myChannelData) {
     meId = myChannelData.id || ''
     videoList = await getVideoListBySubs({meId: meId, limit: 20, offset: 0, onlyFull: false, onlyShorts: false})
   } else {

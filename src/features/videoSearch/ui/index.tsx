@@ -17,7 +17,7 @@ export const VideoSearch = () => {
         value: ''
     })
     const [isOpenVoice, setIsOpenVoice] = useState<boolean>(false)
-    const { startRecording, voiceText }  = voiceSearchHook()
+    const { startRecording, stopRecording, voiceText, isRecording }  = voiceSearchHook()
     
     useEffect(() => {
         setSelectedElement({
@@ -27,6 +27,12 @@ export const VideoSearch = () => {
 
         setIsOpenVoice(false)
     }, [voiceText])
+
+    
+    const handleCloseModal = (e: boolean) => {
+        stopRecording()
+            setIsOpenVoice(false)
+    }
 
     return (
         <div className={styles.videoSearch}>
@@ -56,10 +62,14 @@ export const VideoSearch = () => {
                     <Text size={14} color='var(--whiteText)' weight={300}>Голосовой поиск</Text>
                 </div>
             </div>
-            <Modal isVisible={isOpenVoice} setIsVisible={setIsOpenVoice} className={styles.voiceModal} isOverlay={true}>
+            <Modal isVisible={isOpenVoice} setIsVisible={handleCloseModal} className={styles.voiceModal} isOverlay={true}>
                     <div className={styles.voiceModal__container}>
-                        <Text size={24} weight={300}>Говорите...</Text>
-                        <button onClick={() => startRecording()}>старт</button>
+                        <Text size={24} weight={300} className={isRecording ? styles.recordAnimate : ''}>Говорите...</Text>
+                        <button className={styles.startBtn} onClick={() => startRecording()}>
+                            <Text size={16} color="var(--whiteText)">
+                                старт
+                            </Text>    
+                        </button>
                     </div>
             </Modal>
         </div>

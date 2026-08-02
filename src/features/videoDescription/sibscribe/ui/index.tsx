@@ -14,10 +14,12 @@ export enum notificationSettings {
 }
 
 interface ISubscribeButton {
-  isSubscribed: boolean;
-  notificationSetting: boolean;
-  meId: string;
-  channelId: string;
+  isSubscribed: boolean
+  notificationSetting: boolean
+  meId: string
+  channelId: string
+  videoId: string
+  videoHash: string
 }
 
 export const SubscribeButton: React.FC<ISubscribeButton> = ({
@@ -25,6 +27,8 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
   notificationSetting,
   meId,
   channelId,
+  videoId,
+  videoHash
 }) => {
   const [popoverIsVisible, setPopoverIsVisible] = useState<boolean>(false);
   const [isSub, setIsSub] = useState<boolean>(isSubscribed);
@@ -33,14 +37,18 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
 
   if (channelId === meId) {
     return (
-      <button className={styles.subscribeButton}>
-        <Text
-          className={styles.subscribeButton_btn_text}
-          color="var(--whiteText)"
-        >
-          Ваше видео
-        </Text>
-      </button>
+      <div className={styles.myChannelBtns}>
+        <a href={`/video/${videoId}/${videoHash}/analytics`} className={styles.subscribeButton_btn}>
+          <Text>
+            Просмотреть аналитику
+          </Text>
+        </a>
+        <a href={`/video/${videoId}/${videoHash}/edit`} className={styles.subscribeButton_btn}>
+          <Text>
+            Изменить видео
+          </Text>
+        </a>
+      </div>
     );
   }
 

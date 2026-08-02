@@ -15,14 +15,14 @@ import styles from './styles.module.scss'
 export const Notifications = ({userId} : {userId: string}) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const [notifs, setNotifs] = useState<INotificationItem[]>([])
-  const [isExistNewNotif, setIsExistNewNotif] = useState<boolean>(true)
+  const [isExistNewNotif, setIsExistNewNotif] = useState<boolean>(false)
   const eventSourceRef = useRef<EventSource>(null)
 
   useEffect(() => {
     (async () => {
       if (userId) {
         try {
-          eventSourceRef.current = new EventSource(`http://localhost:8080/api/event/notif-event/${userId}`);
+          eventSourceRef.current = new EventSource(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/event/notif-event/${userId}`);
 
           eventSourceRef.current.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -106,15 +106,18 @@ export const Notifications = ({userId} : {userId: string}) => {
             </Link>
           </div>
 
-          <div className={styles.notifModal__body}>
-            {notifs.length > 0 ? (
-              notifs.map((notif, index) => (
+          {notifs.length > 0 ? (
+            <div className={styles.notifModal__body}>
+              {notifs.map((notif, index) => (
                 <NotifCard key={index} notif={notif}/>
-              ))
-            ) : (
-              <Text size={16} color='var(--grayText)'>Нет уведомлений</Text>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            null
+          )}
+        </div>
+        <div className={styles.byCenter}>
+          <Text size={16} color='var(--grayText)'>Нет уведомлений</Text>
         </div>
       </Popover>
     </div>

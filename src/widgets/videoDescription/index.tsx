@@ -9,6 +9,7 @@ import { SubscribeButton } from "@/features";
 import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui";
 import { ShareVideo } from "@/features/videoDescription/shareVideo/ui";
 import { SettingsVideo } from "@/features/videoDescription/settingsVideo/ui";
+import { IChannelData } from "@/shared/utils/getChannelData";
 
 import styles from "./styles.module.scss";
 
@@ -20,8 +21,6 @@ interface IVideoDescription {
   datePublication: string;
   videoDescription: string;
   hashtags: string[];
-  tags: string[];
-  playlistIds: string[];
   isLiked: boolean;
   isDisliked: boolean;
   likeCount: number;
@@ -30,6 +29,7 @@ interface IVideoDescription {
   isSubscribed: boolean;
   notificationSettings: boolean;
   videoHash: string;
+  myChannelData: IChannelData | null
 }
 
 export const VideoDescription: React.FC<IVideoDescription> = async ({
@@ -48,17 +48,8 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
   isSubscribed,
   notificationSettings,
   videoHash,
+  myChannelData
 }) => {
-  const cookie = await cookies();
-  // const meId = JSON.parse(cookie.get('channelData')?.value || '')?.id || ''
-
-  const myChannelData = cookie.get("channelData")?.value || "";
-  let meId;
-  if (myChannelData) {
-    meId = JSON.parse(myChannelData)?.id || "";
-  } else {
-    meId = "";
-  }
 
   return (
     <div className={styles.description}>
@@ -85,8 +76,10 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
         <SubscribeButton
           isSubscribed={isSubscribed}
           notificationSetting={notificationSettings}
-          meId={meId}
+          meId={myChannelData?.id || ''}
           channelId={channel.id}
+          videoHash={videoHash}
+          videoId={videoId}
         />
       </div>
 
@@ -96,7 +89,7 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
           isDisliked={isDisliked}
           likeCount={likeCount}
           dislikeCount={dislikeCount}
-          userId={meId}
+          userId={myChannelData?.id || ''}
           videoId={videoId}
         />
 

@@ -8,6 +8,7 @@ import { IChannel } from "@/entities/channels/modal/types";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
 import { getWordForm } from "@/shared/utils/getWordFrom";
+import { IChannelData } from "@/shared/utils/getChannelData";
 
 
 export type commentFilter = "famous" | "new";
@@ -24,7 +25,7 @@ export interface IPagination {
 
 interface IComments {
   videoId: string;
-  me: IChannel;
+  me: IChannelData | null;
   commentCount: number
 }
 
@@ -46,7 +47,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
         offset,
         limit,
         filter.value,
-        me.id
+        me?.id || ''
     );
     return res?.comments || [];
   };

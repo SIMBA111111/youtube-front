@@ -3,13 +3,15 @@
 import { SidebarContainer } from "@/widgets/sidebarContainer"
 import { Header } from "@/widgets/header"
 import { useSidebarStore } from '@/shared/store/sidebar'
+import { IChannelData } from "@/shared/utils/getChannelData"
 import styles from './styles.module.scss'
 
 interface LayoutWrapperProps {
-  children: React.ReactNode
+    children: React.ReactNode
+    myChannelData: IChannelData | null
 }
 
-export function PageWrapper({ children }: LayoutWrapperProps) {
+export function PageWrapper({ children, myChannelData }: LayoutWrapperProps) {
     const {isOpen} = useSidebarStore()
 
     return (
@@ -19,7 +21,7 @@ export function PageWrapper({ children }: LayoutWrapperProps) {
             </div>
             
             <div className={styles.headerWrapper}>
-                {/* <Header/> */}
+                <Header myChannelData={myChannelData}/>
             </div>
             
             <div className={isOpen ? styles.pageWrapper_opened : styles.pageWrapper}>

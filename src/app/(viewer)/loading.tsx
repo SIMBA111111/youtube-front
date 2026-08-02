@@ -1,3 +1,9 @@
+import { Spinner } from "@/shared/ui";
+
 export default function Loading() {
-  return <p>Loading...</p>
+  return (
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <Spinner size={132} />
+    </div>
+  )
 }

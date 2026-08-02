@@ -1,21 +1,21 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-
-import { BackgroundFon, Modal, Popover, Searcher, Svg, Text } from "@/shared/ui"
-
-import styles from './styles.module.scss'
+import { useState } from "react"
 import Link from "next/link"
+import { BackgroundFon, Popover, Svg, Text } from "@/shared/ui"
+import styles from './styles.module.scss'
 
 
 export const CreateContentBtn = ({channelId}: {channelId: string}) => {
     const [isOpenCreateModal, setIsOpenCreateModal] = useState<boolean>(false)
     
     return (
-        <div className={styles.create} onClick={() => setIsOpenCreateModal(true)}>
-            <BackgroundFon>
-                <div className={styles.createBtn}><Svg name='plus'/>Создать</div>
-            </BackgroundFon>
+        <div className={styles.create}>
+            <div onClick={() => setIsOpenCreateModal(true)}>
+                <BackgroundFon >
+                    <div className={styles.createBtn}><Svg name='plus'/>Создать</div>
+                </BackgroundFon>
+            </div>
             <Popover isOpen={isOpenCreateModal} onClose={() => setIsOpenCreateModal(false)} className={styles.customModal}>
                 <div className={styles.createModal}>
                     <Link href={`/creator/${channelId}/videos?createVideo=true`} className={styles.createModal__item}>

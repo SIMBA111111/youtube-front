@@ -66,18 +66,10 @@ export const Modal: React.FC<IModal> = ({
 
     useEffect(() => {
 const handleClickOutside = (event: MouseEvent) => {
-    console.log('Clicked element:', event.target);
-    console.log('Modal element:', modalRef.current);
-    console.log('Is click inside modal?', modalRef.current?.contains(event.target as Node));
-    
     const isClickOnModal = modalRef.current?.contains(event.target as Node);
     const isClickOnOverlay = (event.target as HTMLElement).classList?.contains(styles.overlay);
     
-    console.log('isClickOnModal:', isClickOnModal);
-    console.log('isClickOnOverlay:', isClickOnOverlay);
-    
     if (!isClickOnModal && !isClickOnOverlay && isTopModal(modalId.current)) {
-        console.log('Closing modal');
         setIsVisible(false);
     }
 };

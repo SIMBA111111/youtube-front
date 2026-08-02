@@ -3,10 +3,11 @@
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { Mousewheel, Pagination, Navigation } from "swiper/modules";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { useRouter } from "next/navigation";
 
 import { Spinner, Svg, Text } from "@/shared/ui";
 import { getVideoById } from "@/shared/api/video/getVideoById";
@@ -17,7 +18,7 @@ import { SubscribeButton } from "@/features";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { IShortVideoListItem } from "@/entities/thumbnailShortVideo/modal/types";
 import styles from "./styles.module.scss";
-import { useRouter } from "next/navigation";
+import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 
 
 const ShortPlayer = dynamic(
@@ -32,10 +33,21 @@ interface IPagination {
 
 const PAGINATION_STEP = 5
 
-export const ShortsSwiper = ({videos, initVideo, videoId, myChannelData }: {videos: IShortVideoListItem[], initVideo: any, videoId: string, myChannelData: any }) => {
+interface IShortsSwiper {
+  videos: IShortVideoListItem[]
+  initVideo: IVideo
+  videoId: string
+  myChannelData: any
+}
+
+export const ShortsSwiper: FC<IShortsSwiper> = ({
+  videos,
+  initVideo,
+  videoId,
+  myChannelData
+}) => {
   const router = useRouter();
   const swiperRef = useRef(null);
-  const isUpdatingRef = useRef(false); 
   const isActiveIndexRef = useRef(0); 
   const isFetchingRef = useRef(false);
   const [shortVideos, setShortVideos] = useState<IShortVideoListItem[]>(videos || []);
@@ -109,8 +121,6 @@ export const ShortsSwiper = ({videos, initVideo, videoId, myChannelData }: {vide
     }
   };
 
-  console.log('currentShortVideo: ', currentShortVideo);
-
   if (!shortVideos.length || !currentShortVideo) {
     return <div>Loading...</div>;
   }
@@ -139,6 +149,7 @@ export const ShortsSwiper = ({videos, initVideo, videoId, myChannelData }: {vide
         >
           {shortVideos.map((video, index) => (
             <SwiperSlide key={video.id} className={styles.slide}>
+              {({ isActive }) => (
                 <div className={styles.playerWrapper}>
                   <div className={styles.channelInfo}>
                     <div className={styles.channelBtn}>
@@ -150,18 +161,22 @@ export const ShortsSwiper = ({videos, initVideo, videoId, myChannelData }: {vide
                       <SubscribeButton 
                         channelId={currentShortVideo?.channel?.id} 
                         isSubscribed={currentShortVideo?.isSubscribed} 
-                        meId={myChannelData.id} 
+                        meId={myChannelData?.id || ''} 
                         notificationSetting={currentShortVideo?.isSubscribed?.notification_settings || false}
                       />
                     </div>
                     <Text className={styles.videoDescription}>{currentShortVideo.video?.videoDescription}</Text>
                   </div>
 
-                  <ShortPlayer
-                    key={`player-${currentShortVideo.video.id}`}
-                    duration={currentShortVideo.video.duration}
-                    playlistUrl={currentShortVideo.video.masterM3u8Url || ''}
-                  />
+                  {/* Рендерим плеер только для активного слайда */}
+                  {/* isActive - ключевое, что останавливает звук при паузе. Почему ?*/}
+                  {isActive && (
+                    <ShortPlayer
+                      key={`player-${currentShortVideo.video.id}`}
+                      duration={currentShortVideo.video.duration}
+                      playlistUrl={currentShortVideo.video.masterM3u8Url || ''}
+                    />
+                  )}
 
                   <div className={styles.actionsPlayerWrapper}>
                     <EvaluateVideo
@@ -169,7 +184,7 @@ export const ShortsSwiper = ({videos, initVideo, videoId, myChannelData }: {vide
                       isDisliked={currentShortVideo?.stat?.disliked}
                       likeCount={currentShortVideo?.video?.likeCount}
                       dislikeCount={currentShortVideo?.video?.dislikeCount}
-                      userId={myChannelData.id}
+                      userId={myChannelData?.id || ''}
                       videoId={currentShortVideo?.video?.id}
                     />
                     <ShareVideo videoHash={currentShortVideo?.video?.id} isShort />
@@ -180,6 +195,7 @@ export const ShortsSwiper = ({videos, initVideo, videoId, myChannelData }: {vide
                     />
                   </div>
                 </div>
+              )}
             </SwiperSlide>
           ))}
         </Swiper>
