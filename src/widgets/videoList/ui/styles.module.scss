@@ -14,13 +14,16 @@
 }
 
 .videosContainer {
-  @include scrollPage;
+  // @include scrollPage;
 }
 
 .tagList {
   display: flex;
   gap: 8px;
   margin: 0px 0px 20px 0px;
+  max-width: 1920px;
+  margin: auto;
+  padding-left: 10px;
 
   &__item {
     padding: 8px 12px;

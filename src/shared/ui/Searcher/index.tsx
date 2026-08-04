@@ -1,6 +1,6 @@
     'use client';
 
-    import { Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
+    import { Dispatch, ReactNode, RefObject, SetStateAction, useEffect, useRef, useState } from 'react';
 
     import { SearcherDropDown } from './dropdown/dropdown';
 
@@ -19,6 +19,7 @@
         setSelectedElement: Dispatch<SetStateAction<IElement>>
         getElementsByName: (name: string) => Promise<Array<IElement>>
         placeholder: string;
+        valueRef: RefObject<string>
         addonLeft?: ReactNode;
         addonRight?: ReactNode;
         isActiveDefault?: boolean;
@@ -30,6 +31,7 @@
         setSelectedElement,
         getElementsByName,
         placeholder,
+        valueRef,
         addonLeft,
         addonRight,
         isActiveDefault = true,
@@ -53,6 +55,7 @@
 
         const handleOnChange = async (value: string) => {
             setIsVisible(true);
+            valueRef.current = value
             setValue(value);
         };
 

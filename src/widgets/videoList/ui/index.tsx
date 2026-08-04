@@ -34,13 +34,9 @@ export const VideoList = ({
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
   const fetchVideoList = useCallback(async ({offset, limit}: {offset: number, limit: number}) => {
-    console.log('activeTag 2: ', activeTag);
     const res = await getVideos(jwt, activeTag, null, offset, limit);
     return res?.videos || []
   }, [jwt, activeTag]);
-
-  console.log('activeTag: ', activeTag);
-  
 
   const {
     data,

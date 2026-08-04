@@ -9,6 +9,8 @@ import { voiceSearchHook } from "@/shared/hooks"
 import { getVideoListByName } from '../api/getVideoListByName'
 
 import styles from './styles.module.scss'
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 
 export const VideoSearch = () => {
@@ -18,7 +20,18 @@ export const VideoSearch = () => {
     })
     const [isOpenVoice, setIsOpenVoice] = useState<boolean>(false)
     const { startRecording, stopRecording, voiceText, isRecording }  = voiceSearchHook()
-    
+    const valueRef = useRef<string>('')
+    const router = useRouter()
+
+    const fetchSearch = (search: string) => {
+
+    }
+
+    const handleSearch = () => {
+        console.log('valueRef.current: ', valueRef.current);
+        router.push(`/search?query=${valueRef.current}`)
+    }
+
     useEffect(() => {
         setSelectedElement({
             ...selectedElement,
@@ -31,8 +44,9 @@ export const VideoSearch = () => {
     
     const handleCloseModal = (e: boolean) => {
         stopRecording()
-            setIsOpenVoice(false)
+        setIsOpenVoice(false)
     }
+
 
     return (
         <div className={styles.videoSearch}>
@@ -42,15 +56,16 @@ export const VideoSearch = () => {
                     setSelectedElement={setSelectedElement}
                     getElementsByName={getVideoListByName}
                     placeholder="Введите запрос"
+                    valueRef={valueRef}
                     addonRight={
                         <div className={styles.addonRight}>
                             <Svg name="keyboard"/>
                         </div>
                     }
                 />
-                <div className={styles.magnifier}>
+                <button onClick={handleSearch} className={styles.magnifier}>
                     <Svg name="magnifier" size="middle"/>
-                </div>
+                </button>
             </div>
             <div className={styles.micro} onClick={() => {setIsOpenVoice(true)}}>
                 <BackgroundFon backgroundHoverColor='lightGray'>

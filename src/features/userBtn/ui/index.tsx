@@ -57,12 +57,18 @@ export const UserBtn: React.FC<IUserBtn> = ({
     
   return (
     <>
-      <img
-        src={avatarUrl || "defaultImages/defaultAvatar.png"}
-        alt=""
-        className={styles.headerAvatar}
-        onClick={() => setIsOpenModal(true)}
-      />
+      {jwt ? (
+        <img
+          src={avatarUrl || "defaultImages/defaultAvatar.png"}
+          alt=""
+          className={styles.headerAvatar}
+          onClick={() => setIsOpenModal(true)}
+        />
+      ) : (
+        <button className={styles.settingBtn} onClick={() => setIsOpenModal(true)}>
+          <Svg name='verticalEllipsis'/>
+        </button>
+      )}
 
       <Popover
         isOpen={isOpenModal}
@@ -116,15 +122,17 @@ export const UserBtn: React.FC<IUserBtn> = ({
                 <Text>Настройки</Text>
               </Link>
 
-              <div
-                className={styles.settings__item}
-                onClick={() => {
-                  logout();
-                }}
-              >
-                <Svg name="exit" />
-                <Text>Выйти</Text>
-              </div>
+              {jwt && (
+                <div
+                  className={styles.settings__item}
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  <Svg name="exit" />
+                  <Text>Выйти</Text>
+                </div>
+              )}
             </div>
           </>
         )}
@@ -158,8 +166,8 @@ export const UserBtn: React.FC<IUserBtn> = ({
                     handleThemeChange(theme.id, setTheme, setCurrentTheme)
                   }
                 >
-                  <div className={styles.svgColor}>
-                    {currentTheme === theme.id && <Svg name="check" />}
+                  <div className={currentTheme === theme.id ? styles.checkActive : styles.checkHide}>
+                    <Svg name="check" size="small" />
                   </div>
                   <Text weight={400}>{theme.name}</Text>
                 </div>
@@ -174,9 +182,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
               className={styles.subMenu__header}
               onClick={() => setSubModal(null)}
             >
-              <BackgroundFon bacgroundColor="">
-                <Svg name="arrowLeftFull" />
-              </BackgroundFon>
+              <Svg name="arrowLeftFull" />
               <Text weight={400}>{t("Interface Language")}</Text>
             </div>
             <Text
@@ -196,10 +202,10 @@ export const UserBtn: React.FC<IUserBtn> = ({
                   }`}
                   onClick={() => handleLanguageChange(lang.id)}
                 >
-                  <div>
-                    {activeLanguage === lang.id && <Svg name="check" />}
+                  <div className={activeLanguage === lang.id ? styles.checkActive : styles.checkHide}>
+                    <Svg name="check" size="small" />
                   </div>
-                  <Text weight={400}>{lang.name}</Text>
+                  <Text weight={400} size={16}>{lang.name}</Text>
                 </div>
               ))}
             </div>

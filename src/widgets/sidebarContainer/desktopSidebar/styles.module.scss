@@ -58,7 +58,6 @@
     // gap: 8px;
     text-align: center;
     margin-top: 40px;
-    
 
 
     &__item {
@@ -69,12 +68,11 @@
         padding: 20px 8px;
         border-radius: 8px;
 
-            &:hover {
+        &:hover {
             background-color: var(--grayDarkBackground);
+        }
 
-            }
-
-            &__open {
+        &__open {
             display: flex;
             padding: 10px 16px;
             border-radius: 16px;
@@ -88,7 +86,6 @@
 
             &:hover {
                 background-color: var(--grayDarkBackground);
-
             }
 
             &_active {

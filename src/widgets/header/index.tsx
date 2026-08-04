@@ -5,7 +5,6 @@ import {
   CreateContentBtn,
   LoginBtn,
   Notifications,
-  UnauthoredSettingsBtn,
   UserBtn,
   VideoSearch,
 } from "@/features";
@@ -39,7 +38,7 @@ export const Header = ({myChannelData}: {myChannelData: IChannelData | null}) =>
           </>
         ) : (
           <>
-            <UnauthoredSettingsBtn />
+            <UserBtn/>
             <LoginBtn />
           </>
         )}

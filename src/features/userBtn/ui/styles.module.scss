@@ -20,6 +20,20 @@
   overflow: hidden;
 }
 
+.settingBtn {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 100%;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--grayDarkBackground);
+    }
+}
+
 .channel {
   display: flex;
   padding: 16px;
@@ -91,15 +105,15 @@
   &__item {
     cursor: pointer;
     padding: 12px 16px;
-    display: grid;
-    grid-template-columns: 1fr 6fr;
-    row-gap: 10px;
+    display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 10px;
 
     &:hover {
       background-color: var(--grayBackground);
     }
+
 
     &.active {
       background-color: var(--grayBackground);
@@ -122,4 +136,12 @@
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.checkActive {
+  display: block;
+}
+
+.checkHide {
+  opacity: 0;
 }

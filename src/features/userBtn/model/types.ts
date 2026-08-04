@@ -1,6 +1,6 @@
 export interface IUserBtn {
-    id: string
-    channelName: string
-    username: string
-    avatarUrl: string
+    id?: string
+    channelName?: string
+    username?: string
+    avatarUrl?: string
 }

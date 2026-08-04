@@ -2,7 +2,7 @@
   display: grid;
   height: 100vh;
   width: 100vw;
-  // grid-template-rows: var(--header-height) 1fr;
+  grid-template-rows: var(--header-height) 1fr;
   transition: grid-template-columns 0.3s ease;
   
   &SidebarOpen {
@@ -49,6 +49,7 @@
 .headerWrapper {
   grid-area: header;
   // position: sticky;
+  height: 50px;
   top: 0;
   z-index: 10;
   background-color: var(--background);

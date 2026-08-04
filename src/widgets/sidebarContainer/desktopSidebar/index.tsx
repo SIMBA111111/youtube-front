@@ -42,7 +42,7 @@ export const DesktopSidebar = ({
   const handleMouseLeave = (menuItem: menuItems) => {
     timeoutRef.current = setTimeout(() => {
       setIsOpenedMenu(null);
-    }, 200000);
+    }, 1000);
   };
 
   return (

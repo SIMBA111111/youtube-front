@@ -1,0 +1,163 @@
+"use client";
+
+import React, { useState, useRef, useEffect, MouseEvent } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie'
+
+import { IVideo } from "../../modal/types";
+import { formatDuration } from "@/shared/utils/formatDuration";
+import { formatViews } from "@/shared/utils/formatViews";
+import { formatDate } from "@/shared/utils/formatDate";
+import { getEllipsisText } from "@/shared/utils/getEllipsisText";
+import { Modal, Svg, Text } from "@/shared/ui";
+
+import { handleMenuClick } from "../../lib/handlers";
+import { SettigsVideoModal } from "../settingsModal";
+
+import styles from "./styles.module.scss";
+
+
+interface ISearchVideoItem {
+  video: IVideo;
+  isRow?: boolean;
+}
+
+export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
+  video,
+  isRow = false,
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isSoundOn, setIsSoundOn] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const colorRef = useRef<string>("rgba(249, 98, 98, 0.1)");
+
+  let userId
+
+  if (Cookies.get('channelData')) {
+    userId = JSON.parse(Cookies.get('channelData')).id
+  }
+
+  const handleSound = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsSoundOn((prev: boolean) => !prev);
+  };
+
+  return (
+    <div className={styles.wrap}>
+      <Link
+        className={styles.cardContainer}
+        href={`/watch?v=${video?.videoHash}`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div
+          className={isRow ? styles.card_Row : styles.card}
+        >
+          {/* Контейнер для превью */}
+          <div
+            className={
+              isRow ? styles.thumbnailContainer_Row : styles.thumbnailContainer
+            }
+          >
+            {/* Превью изображение */}
+            <img
+              src={video?.previewUrl || "/defaultImages/defaultAvatar.png"}
+              alt={video?.name}
+              ref={imgRef}
+              className={isRow ? styles.thumbnail_Row : styles.thumbnail}
+            />
+
+            {/* Видеопревью при наведении */}
+            {isHovered && video?.videoPreviewUrl && (
+              <video
+                className={styles.videoPreview}
+                src={video?.videoPreviewUrl}
+                autoPlay
+                muted={!isSoundOn}
+                loop
+                playsInline
+              />
+            )}
+
+            {/* Длительность видео */}
+            <div className={styles.durationBadge}>
+              {formatDuration(video?.duration)}
+            </div>
+
+            {/* Прогресс-бар */}
+            <div className={styles.progressBar}>
+              <div
+                className={`${styles.progressFill} ${
+                  isHovered ? styles.progressFillActive : ""
+                }`}
+              ></div>
+            </div>
+          </div>
+
+          {/* Информация о видео */}
+          <div
+            className={isRow ? styles.infoContainer_Row : styles.infoContainer}
+          >
+            {/* Аватар канала */}
+            {!isRow && (
+              <img
+                src={video?.channel?.avatarUrl || "/default-avatar.png"}
+                alt={video?.channel?.username || "Channel"}
+                className={styles.channelAvatar}
+              />
+            )}
+
+            <div className={styles.header}>
+              <h3 className={styles.title}>
+                {getEllipsisText(video?.name, 90)}
+              </h3>
+
+              <div
+                className={styles.ellipsis}
+                onClick={(e: MouseEvent) => handleMenuClick(e, setIsOpenModal)}
+              >
+                <Svg name="verticalEllipsis" />
+              </div>
+                <SettigsVideoModal
+                  isOpenModal={isOpenModal}
+                  setIsOpenModal={setIsOpenModal}
+                  videoId={video.id}
+                  videoHash={video.videoHash}
+                  userId={userId}
+                />
+            </div>
+
+            {/* Название канала */}
+            <p className={styles.channelName}>
+              <Text size={isRow ? 12 : 14} color="var(--gray)">
+                {video?.channel?.name}
+              </Text>
+            </p>
+
+            {/* Статистика */}
+            <div className={styles.stats}>
+              <Text size={isRow ? 12 : 14} color="var(--gray)">
+                {formatViews(video?.viewersCount || 0)} просмотров
+              </Text>
+              <span className={styles.dot}></span>
+              <Text size={isRow ? 12 : 14} color="var(--gray)">
+                {video?.datePublication
+                  ? formatDate(video?.datePublication)
+                  : "давно"}
+              </Text>
+            </div>
+          </div>
+        </div>
+
+        {isHovered && !isRow && (
+          <button className={styles.soundBadge} onClick={(e) => handleSound(e)}>
+            {isSoundOn ? <Svg name={"soundOn"} /> : <Svg name={"soundOff"} />}
+          </button>
+        )}
+      </Link>
+    </div>
+  );
+};
