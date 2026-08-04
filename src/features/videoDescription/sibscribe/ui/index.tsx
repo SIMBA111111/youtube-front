@@ -5,7 +5,7 @@ import { Popover, Svg, Text } from "@/shared/ui";
 import { handleSubscribe } from "../lib/handleSubscribe";
 import { handleNotificationSettings } from "../lib/handleNotificationSettings";
 import styles from "./styles.module.scss";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AUTH_STAGES } from "@/shared/constants/authStages";
 
 export enum notificationSettings {
@@ -18,8 +18,8 @@ interface ISubscribeButton {
   notificationSetting: boolean
   meId: string
   channelId: string
-  videoId: string
-  videoHash: string
+  videoId?: string
+  videoHash?: string
 }
 
 export const SubscribeButton: React.FC<ISubscribeButton> = ({
@@ -30,27 +30,37 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
   videoId,
   videoHash
 }) => {
+  const path = usePathname()
   const [popoverIsVisible, setPopoverIsVisible] = useState<boolean>(false);
   const [isSub, setIsSub] = useState<boolean>(isSubscribed);
   const [isNotifSettings, setIsnotifSettings] = useState<boolean>(notificationSetting);
   const router = useRouter()
+  console.log('path: ', path);
 
-  if (channelId === meId) {
-    return (
+  path.includes('/channel/') ? (
+    channelId === meId && (
       <div className={styles.myChannelBtns}>
         <a href={`/video/${videoId}/${videoHash}/analytics`} className={styles.subscribeButton_btn}>
-          <Text>
-            Просмотреть аналитику
-          </Text>
+          <Text>Просмотреть аналитику</Text>
         </a>
         <a href={`/video/${videoId}/${videoHash}/edit`} className={styles.subscribeButton_btn}>
-          <Text>
-            Изменить видео
-          </Text>
+          <Text>Изменить видео</Text>
         </a>
       </div>
-    );
-  }
+    )
+  ) : (
+    channelId === meId && (
+      <div className={styles.myChannelBtns}>
+        <a href={`/video/${videoId}/${videoHash}/analytics`} className={styles.subscribeButton_btn}>
+          <Text>Просмотреть аналитику</Text>
+        </a>
+        <a href={`/video/${videoId}/${videoHash}/edit`} className={styles.subscribeButton_btn}>
+          <Text>Изменить видео</Text>
+        </a>
+      </div>
+    )
+  )
+
 
   if (isSub) {
     return (

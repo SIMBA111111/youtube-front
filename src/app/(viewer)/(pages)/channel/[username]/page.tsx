@@ -24,13 +24,12 @@ export default async function ChannelMain ({
     const cookie = await cookies()
     const myChannelData = await getChannelData(cookie)
 
-    const channelInfo = await getChannelInfoByUsername(channelUsername, myChannelData.id)
+    const channelInfo = await getChannelInfoByUsername(channelUsername, myChannelData?.id || '')
     
-    const [ videoList, shortVideoList, playlists, postList ] = await Promise.all([
+    const [ videoList, shortVideoList, playlists ] = await Promise.all([
         getVideoListByChannelUsername(channelUsername, false),
         getVideoListByChannelUsername(channelUsername, true),
         getPlaylistsByUsername(channelUsername),
-        getPostsByUsername(channelUsername)
     ])
     
     return (
@@ -61,7 +60,7 @@ export default async function ChannelMain ({
                         <SubscribeButton 
                             channelId={channelInfo.channel.id} 
                             isSubscribed={channelInfo.subData ? true : false} 
-                            meId={myChannelData.id} 
+                            meId={myChannelData?.id || ''} 
                             notificationSetting={channelInfo.subData?.notification_settings}
                         />
                     </div>
@@ -71,7 +70,6 @@ export default async function ChannelMain ({
                 videoList={videoList.videos} 
                 channelUsername={channelUsername} 
                 shortVideoList={shortVideoList?.videos || []} 
-                communityPosts={postList.posts} 
                 playlists={playlists.playlists}
             />
         </div>
