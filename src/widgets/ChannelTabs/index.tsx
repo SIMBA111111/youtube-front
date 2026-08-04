@@ -1,23 +1,17 @@
 'use client'
 
-import React, { useEffect, useState } from "react";
 import { Tabs } from "@/shared/ui/Tab";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import { VideoList } from "../videoList/ui";
 import { ChannelVideoList } from "@/features/ChannelVideoList/ui";
 import { ChannelShortVideoList } from "@/features/ChannelShortVideoList/ui";
 import { ChannelPlaylists } from "@/features/ChannelPlaylists/ui";
-import { ChannelCommunity } from "@/features/ChannelCommunity/ui";
-import { ChannelMainTab } from "@/features/ChannelMainTab/ui";
 import { IPlaylist } from "@/entities/playlist/ui";
-import { IChannelCommunityPost } from "@/entities/communityPost/ui";
 import styles from "./styles.module.scss";
 
 interface IChannelTabs {
     videoList: IVideo[]
     shortVideoList: IVideo[]
     playlists: IPlaylist[]
-    communityPosts: IChannelCommunityPost[]
     channelUsername: string
 }
 
@@ -25,7 +19,6 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
     videoList,
     shortVideoList,
     playlists,
-    communityPosts,
     channelUsername
 }) => {
 
@@ -42,16 +35,12 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
                     <ChannelVideoList initVideoList={videoList} channelUsername={channelUsername}/>
                 </Tabs.Tab>
                 
-                <Tabs.Tab id="shorts" label="Shorts">
+                <Tabs.Tab id="shorts" label="Шортсы">
                     <ChannelShortVideoList initShortVideoList={shortVideoList} channelUsername={channelUsername}/>
                 </Tabs.Tab>
                 
                 <Tabs.Tab id="playlists" label="Плейлисты">
                     <ChannelPlaylists playlists={playlists} />
-                </Tabs.Tab>
-                
-                <Tabs.Tab id="community" label="Записи">
-                    <ChannelCommunity communityPosts={communityPosts}/>
                 </Tabs.Tab>
             </Tabs.Root>
         </div>

@@ -34,13 +34,8 @@
 }
 
 .videoCardWrapper {
-    // box-sizing: border-box;
     width: 100%;
     border-radius: 28px;
-
-    &:last-child {
-        margin-bottom: 250px;
-    }
 }
 
 .loadingContainer {
@@ -71,26 +66,4 @@
     font-size: 16px;
     color: #aaa;
     font-family: 'Roboto', Arial, sans-serif;
-}
-
-.filter {
-    display: flex;
-    gap: 12px;
-
-    &_button {
-        background: none;
-        background-color: var(--grayDarkBackground);
-        border: none;
-        border-radius: 4px;
-        padding: 4 8;
-        cursor: pointer;
-
-        &_active {
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            padding: 4 8;
-            background-color: var(--foreground);
-        }
-    }
 }
