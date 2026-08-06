@@ -30,7 +30,7 @@ export const SettigsVideoModal: React.FC<ISettigsVideoModal> = ({
 
     return (
         <>
-            <Popover isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} className={styles.modal} offset={10}>
+            <Popover isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} className={styles.modal} offset={25}>
                 <div className={styles.modalContainer}>
                     <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleViewLater(e, videoId, userId)}>
                         <Svg name='clock'/>

@@ -137,7 +137,7 @@ export const VideoList = ({
 
             <div
               ref={loadingRef}
-              style={{ height: "60px", margin: "20px" }}
+              style={{ height: "15px", margin: "15px" }}
               className={styles.videoGrid}
             >
               {isLoading &&

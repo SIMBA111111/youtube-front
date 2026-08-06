@@ -29,7 +29,6 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
   const colorRef = useRef<string>("rgba(249, 98, 98, 0.1)");
   
   const handleSound = (e: React.MouseEvent) => {
@@ -38,35 +37,21 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
     setIsSoundOn((prev: boolean) => !prev);
   };
 
-  console.log('video:', video);
-  
-
   return (
-    <div className={styles.wrap}>
+    <div className={styles.wrapper}>
       <Link
-        className={styles.cardContainer}
+        className={isRow ? styles.searchVideoItem_row : styles.searchVideoItem}
         href={`/watch?v=${video?.videoHash}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div
-          className={isRow ? styles.card_Row : styles.card}
-        >
-          {/* Контейнер для превью */}
-          <div
-            className={
-              isRow ? styles.thumbnailContainer_Row : styles.thumbnailContainer
-            }
-          >
-            {/* Превью изображение */}
+          <div className={ isRow ? styles.thumbnailContainer_Row : styles.thumbnailContainer }>
             <img
               src={video?.previewUrl || "/defaultImages/defaultAvatar.png"}
               alt={video?.name}
-              ref={imgRef}
               className={isRow ? styles.thumbnail_Row : styles.thumbnail}
             />
 
-            {/* Видеопревью при наведении */}
             {isHovered && video?.videoPreviewUrl && (
               <video
                 className={styles.videoPreview}
@@ -78,60 +63,55 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
               />
             )}
 
-            {/* Длительность видео */}
-            <div className={styles.durationBadge}>
-              {formatDuration(video?.duration)}
-            </div>
+              <div className={styles.durationBadge}>
+                <Text color="var(--whiteText)">
+                  {formatDuration(video?.duration)}
+                </Text>
+              </div>
 
-            {/* Прогресс-бар */}
-            <div className={styles.progressBar}>
-              <div
-                className={`${styles.progressFill} ${
-                  isHovered ? styles.progressFillActive : ""
-                }`}
-              ></div>
-            </div>
+            {isHovered && (
+              <button className={styles.soundBadge} onClick={(e) => handleSound(e)}>
+                {isSoundOn ? <Svg name={"soundOn"} /> : <Svg name={"soundOff"} />}
+              </button>
+            )}
           </div>
 
+
           {/* Информация о видео */}
-          <div
-            className={isRow ? styles.infoContainer_Row : styles.infoContainer}
-          >
+          <div className={isRow ? styles.infoContainer_Row : styles.infoContainer}>
 
             <div className={styles.header}>
               <h3 className={styles.title}>
-                {getEllipsisText(video?.name, 90)}
+                {video?.name}
               </h3>
 
               <div
-                className={styles.ellipsis}
+                className={styles.settings}
                 onClick={(e: MouseEvent) => handleMenuClick(e, setIsOpenModal)}
               >
                 <Svg name="verticalEllipsis" />
               </div>
-                <SettigsVideoModal
+                {/* <SettigsVideoModal
                   isOpenModal={isOpenModal}
                   setIsOpenModal={setIsOpenModal}
                   videoId={video.id}
                   videoHash={video.videoHash}
                   userId={userId}
-                />
+                /> */}
             </div>
 
-            {/* Статистика */}
             <div className={styles.stats}>
-              <Text size={isRow ? 12 : 14} color="var(--gray)">
+              <Text size={16} color="var(--gray)">
                 {formatViews(video?.viewersCount || 0)} просмотров
               </Text>
               <span className={styles.dot}></span>
-              <Text size={isRow ? 12 : 14} color="var(--gray)">
+              <Text size={16} color="var(--gray)">
                 {video?.datePublication
                   ? formatDate(video?.datePublication)
                   : "давно"}
               </Text>
             </div>
 
-            {/* Название канала */}
             <div className={styles.name}>
               <img
                 src={video?.channel?.avatarUrl || "/default-avatar.png"}
@@ -139,21 +119,14 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
                 className={styles.channelAvatar}
               />
               <p className={styles.channelName}>
-                <Text size={isRow ? 12 : 14} color="var(--gray)">
+                <Text size={16} color="var(--gray)">
                   {video?.channel?.name}
                 </Text>
               </p>
             </div>
 
-            <Text>{video.videoDescription}</Text>
+            <Text className={styles.description}>{video.videoDescription}</Text>
           </div>
-        </div>
-
-        {isHovered && !isRow && (
-          <button className={styles.soundBadge} onClick={(e) => handleSound(e)}>
-            {isSoundOn ? <Svg name={"soundOn"} /> : <Svg name={"soundOff"} />}
-          </button>
-        )}
       </Link>
     </div>
   );

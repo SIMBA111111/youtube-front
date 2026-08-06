@@ -32,19 +32,19 @@ export const SearchVideoList = ({query} : {query: string}) => {
     })
 
     return (
-        <div>
+        <>
             <div className={styles.videoList}>
                 {data.map(i =>
-                    <SearchVideoItem video={i} userId={myChannelData?.id || ''} isRow />
+                    <SearchVideoItem key={i.id} video={i} userId={myChannelData?.id || ''} isRow />
                 )}
             </div>
 
             <div
                 ref={loadingRef}
-                style={{ height: "60px", margin: "20px" }}
+                style={{ height: "10px", margin: "10px" }}
             >
                 <InfinityScrollLoader isLoading={isLoading} />
           </div>
-        </div>
+        </>
     )
 }

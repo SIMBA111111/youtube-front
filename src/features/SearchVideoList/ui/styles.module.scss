@@ -1,5 +1,8 @@
+// styles.module.scss для SearchVideoList
 .videoList {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    max-width: 1280px;
+    margin: 0 auto;
 }
