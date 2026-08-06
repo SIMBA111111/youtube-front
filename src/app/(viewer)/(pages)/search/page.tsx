@@ -8,14 +8,9 @@ export default async function SearchPage({
 }) {
     const { query } = await searchParams
 
-    
-    
-    console.log('query: ', query);
-    
-
     return (
         <div className={styles.page}>
-            <SearchVideoList query={query}/>
+            <SearchVideoList query={query as string}/>
         </div>
     );
 }

@@ -29,6 +29,14 @@ export default async function WatchVideo({
 
   const cookie = await cookies();
   const myChannelData = await getChannelData(cookie)
+
+  if (!videoHash) {
+    return (
+      <div>
+        404...
+      </div>
+    )
+  }
   
   const videoData = await getVideoByHash(videoHash, myChannelData?.id);
   const res = await updateViewVideo({
@@ -52,7 +60,7 @@ export default async function WatchVideo({
         </div>
         <div className={styles.description}>
           <Text weight={600} size={18}>
-            {videoData.video.name}
+            {videoData.video?.name || ''}
           </Text>
           <VideoDescription
             videoId={videoData?.video?.id}
@@ -79,7 +87,7 @@ export default async function WatchVideo({
           <Comments
             me={myChannelData}
             videoId={videoData.video?.id}
-            commentCount={videoData.video.commentsCount}
+            commentCount={videoData.video?.commentsCount || 0}
           />
         </div>
       </div>

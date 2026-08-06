@@ -23,25 +23,39 @@ export const VideoSearch = () => {
     const valueRef = useRef<string>('')
     const router = useRouter()
 
-    const fetchSearch = (search: string) => {
+    useEffect(() => {
+        const handleEnterKey = (e: any) => {
+            if (e.key === 'Enter') {
+                handleSearch()
+            }
+        }
 
+        document.addEventListener("keydown", handleEnterKey)
+
+        return () => {
+            document.removeEventListener("keydown", handleEnterKey)
+        }
+    }, [])
+
+    const fetchSelectedVideo = () => {
+        router.push(`/watch?v=${selectedElement.id}`)
     }
 
     const handleSearch = () => {
-        console.log('valueRef.current: ', valueRef.current);
         router.push(`/search?query=${valueRef.current}`)
     }
+
+    useEffect(() => {
+        fetchSelectedVideo()
+    }, [selectedElement])
 
     useEffect(() => {
         setSelectedElement({
             ...selectedElement,
             value: voiceText
         })
-
-        setIsOpenVoice(false)
     }, [voiceText])
 
-    
     const handleCloseModal = (e: boolean) => {
         stopRecording()
         setIsOpenVoice(false)

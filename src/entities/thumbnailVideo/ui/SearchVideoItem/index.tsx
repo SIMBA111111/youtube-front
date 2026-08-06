@@ -2,8 +2,6 @@
 
 import React, { useState, useRef, useEffect, MouseEvent } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import Cookies from 'js-cookie'
 
 import { IVideo } from "../../modal/types";
 import { formatDuration } from "@/shared/utils/formatDuration";
@@ -14,36 +12,34 @@ import { Modal, Svg, Text } from "@/shared/ui";
 
 import { handleMenuClick } from "../../lib/handlers";
 import { SettigsVideoModal } from "../settingsModal";
-
 import styles from "./styles.module.scss";
 
 
 interface ISearchVideoItem {
   video: IVideo;
   isRow?: boolean;
+  userId: string
 }
 
 export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
   video,
   isRow = false,
+  userId
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   const colorRef = useRef<string>("rgba(249, 98, 98, 0.1)");
-
-  let userId
-
-  if (Cookies.get('channelData')) {
-    userId = JSON.parse(Cookies.get('channelData')).id
-  }
-
+  
   const handleSound = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
     setIsSoundOn((prev: boolean) => !prev);
   };
+
+  console.log('video:', video);
+  
 
   return (
     <div className={styles.wrap}>
@@ -101,14 +97,6 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
           <div
             className={isRow ? styles.infoContainer_Row : styles.infoContainer}
           >
-            {/* Аватар канала */}
-            {!isRow && (
-              <img
-                src={video?.channel?.avatarUrl || "/default-avatar.png"}
-                alt={video?.channel?.username || "Channel"}
-                className={styles.channelAvatar}
-              />
-            )}
 
             <div className={styles.header}>
               <h3 className={styles.title}>
@@ -130,13 +118,6 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
                 />
             </div>
 
-            {/* Название канала */}
-            <p className={styles.channelName}>
-              <Text size={isRow ? 12 : 14} color="var(--gray)">
-                {video?.channel?.name}
-              </Text>
-            </p>
-
             {/* Статистика */}
             <div className={styles.stats}>
               <Text size={isRow ? 12 : 14} color="var(--gray)">
@@ -149,6 +130,22 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
                   : "давно"}
               </Text>
             </div>
+
+            {/* Название канала */}
+            <div className={styles.name}>
+              <img
+                src={video?.channel?.avatarUrl || "/default-avatar.png"}
+                alt={video?.channel?.username || "Channel"}
+                className={styles.channelAvatar}
+              />
+              <p className={styles.channelName}>
+                <Text size={isRow ? 12 : 14} color="var(--gray)">
+                  {video?.channel?.name}
+                </Text>
+              </p>
+            </div>
+
+            <Text>{video.videoDescription}</Text>
           </div>
         </div>
 

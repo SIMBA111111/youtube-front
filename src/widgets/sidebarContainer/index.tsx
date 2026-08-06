@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 
 import { IThumbnailShortVideo } from "@/entities/thumbnailShortVideo/modal/types";
 import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
 import { getVideos } from "@/shared/api/video/getVideoList";
-import { getChannelDataClient } from "@/shared/utils/getChannelDataClient";
+import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient";
 
 import { MobileSidebar } from "./MobileSidebar";
 import { DesktopSidebar } from "./desktopSidebar";
-
 import styles from "./styles.module.scss";
+
 
 export const SidebarContainer = () => {
   const [randomShortVideo, setRandomShortVideo] =
-    useState<IThumbnailShortVideo>();
+    useState<IThumbnailShortVideo | null>(null);
   const [channels, setChannels] = useState([]);
 
   useEffect(() => {
     const handleGetRandomVideo = async () => {
-      const myChannelData = await getChannelDataClient(Cookies);
+      const myChannelData = getChannelDataClient();
 
       const res = await getVideos(" ", " ", true);
       setRandomShortVideo(res.videos[0]);

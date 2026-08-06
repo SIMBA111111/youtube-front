@@ -22,7 +22,7 @@ export const DesktopSidebar = ({
   randomShortVideo,
 }: {
   channels: IChannel[];
-  randomShortVideo: IThumbnailShortVideo;
+  randomShortVideo: IThumbnailShortVideo | null;
 }) => {
   const [isOpenedMenu, setIsOpenedMenu] = useState<menuItems>(null);
   const pathname = usePathname();

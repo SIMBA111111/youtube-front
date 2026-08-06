@@ -6,7 +6,7 @@ export const getVideoListByName = async (name: string): Promise<Array<IElement>>
         if (res.status === 200) {
             const data = await res.json()
             return data.map((el: any) => {
-                return {id: el.id, value: el.name}
+                return {id: el.video_hash, value: el.name}
             })
         }
         return []

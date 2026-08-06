@@ -14,7 +14,7 @@ import { useDeviceIsMobile } from '@/shared/hooks/getDeviceIsMobile'
 import styles from './styles.module.scss'
 
 
-export const MobileSidebar = ({channels, randomShortVideo}: {channels: IChannel[], randomShortVideo: IThumbnailShortVideo}) => {
+export const MobileSidebar = ({channels, randomShortVideo}: {channels: IChannel[], randomShortVideo: IThumbnailShortVideo | null}) => {
     const sidebarContainerRef = useRef<HTMLDivElement>(null)
     const pathname = usePathname()
     const {isOpen, closeSideBar} = useSidebarStore()
