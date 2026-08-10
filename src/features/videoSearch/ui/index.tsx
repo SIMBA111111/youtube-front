@@ -38,6 +38,14 @@ export const VideoSearch = () => {
     }, [])
 
     const fetchSelectedVideo = () => {
+        if (!valueRef.current) {
+            return
+        }
+        
+        setSelectedElement({
+            id: '',
+            value: ''
+        })
         router.push(`/watch?v=${selectedElement.id}`)
     }
 
@@ -61,6 +69,9 @@ export const VideoSearch = () => {
         setIsOpenVoice(false)
     }
 
+    const handleMagnifierClick = () => {
+        fetchSelectedVideo()
+    }
 
     return (
         <div className={styles.videoSearch}>
@@ -72,7 +83,7 @@ export const VideoSearch = () => {
                     placeholder="Введите запрос"
                     valueRef={valueRef}
                     addonRight={
-                        <div className={styles.addonRight}>
+                        <div className={styles.addonRight} onClick={() => handleMagnifierClick()}>
                             <Svg name="keyboard"/>
                         </div>
                     }

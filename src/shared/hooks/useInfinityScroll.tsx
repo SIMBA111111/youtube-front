@@ -10,7 +10,7 @@ interface IFetchDataArgs<Y> {
 
 interface IUseInfitityScroll<T, Y> {
     paginationStep: number;
-    filter: Y;
+    filter?: Y;
     fetchData: (args: IFetchDataArgs<Y>) => Promise<T[]>;
     triggerRef: RefObject<HTMLElement | null>;
 }
@@ -121,25 +121,6 @@ export const useInfinityScroll = <T, Y>({
             }
         };
     }, [hasMore, triggerRef.current]); // ✅ Убираем pagination из зависимостей
-
-    // ✅ Первоначальная загрузка
-    // useEffect(() => {
-    //     const loadInitialData = async () => {
-    //         console.log('loadInitialData');
-            
-    //         setData([]);
-    //         setPagination({ offset: 0, limit: paginationStep });
-    //         setHasMore(true);
-            
-    //         await loadData(0, paginationStep);
-    //     };
-
-    //     loadInitialData();
-
-    //     return () => {
-    //         // Очистка
-    //     };
-    // }, [filter]);
 
     const refreshData = async () => {
         if (observerRef.current) {

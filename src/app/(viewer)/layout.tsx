@@ -19,7 +19,6 @@ export default async function RootLayout({
 
   const currentTheme = theme ? theme : "device";
 
-
   return (
     <ThemeProvider initialTheme={currentTheme as any}>
       <ToastProvider>

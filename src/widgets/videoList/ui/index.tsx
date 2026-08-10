@@ -10,6 +10,7 @@ import { ThumbnailShortVideoCard, VideoTags } from "@/entities";
 import { getVideosCount } from "@/shared/utils/getVideosCount";
 import { getShortsCount } from "@/shared/utils/getShortsCount";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
+import { InfinityScrollLoader } from "@/shared/ui/InfinityScrollLoader";
 
 import { VideoGrid } from "./videoGrid";
 import { ShortTag } from "./shortsTag";
@@ -51,7 +52,6 @@ export const VideoList = ({
   })
 
   const handleActiveTag = (tagId: string) => {
-    console.log('handleActiveTag: ', tagId);
     setActiveTag(tagId);
   };
 
@@ -136,14 +136,11 @@ export const VideoList = ({
             )}
 
             <div
-              ref={loadingRef}
-              style={{ height: "15px", margin: "15px" }}
-              className={styles.videoGrid}
+                ref={loadingRef}
+                style={{ height: "10px", margin: "10px" }}
             >
-              {isLoading &&
-                <Spinner size={32}/>
-              }
-          </div>
+                <InfinityScrollLoader isLoading={isLoading} />
+            </div>
         </div>
       </div>
     </div>

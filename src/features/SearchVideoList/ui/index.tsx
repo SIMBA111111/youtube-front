@@ -5,9 +5,8 @@ import { SearchVideoItem } from "@/entities/thumbnailVideo/ui/SearchVideoItem";
 import { getVideosByName } from "@/shared/api/video/getVideosByName";
 import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
-import { Spinner } from "@/shared/ui";
 import { InfinityScrollLoader } from "@/shared/ui/InfinityScrollLoader";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import styles from "./styles.module.scss";
 
 export const SearchVideoList = ({query} : {query: string}) => {
@@ -19,17 +18,26 @@ export const SearchVideoList = ({query} : {query: string}) => {
         return res?.videos || []
     }, [query]);
 
+    useEffect(() => {
+        refreshData()
+    }, [query])
+
     const {
         data,
         hasMore,
         isLoading,
         refreshData
     } = useInfinityScroll<IVideo, string>({
-        paginationStep: 5,
-        filter: '',
+        paginationStep: 15,
         fetchData: fetchVideoList,
         triggerRef: loadingRef
     })
+
+    if (data && data.length < 1) {
+        return (
+            <div>Ничего не найдено</div>
+        )
+    }
 
     return (
         <>

@@ -222,7 +222,7 @@ export const Popover = ({
             window.removeEventListener("resize", handleResize);
             window.removeEventListener("scroll", handleResize);
         };
-    }, [isOpen, handleClose]);
+    }, [isOpen]);
 
     // Закрытие по Escape
     useEffect(() => {
@@ -237,21 +237,6 @@ export const Popover = ({
         document.addEventListener("keydown", handleEscape);
         return () => document.removeEventListener("keydown", handleEscape);
     }, [isOpen, handleClose]);
-
-    // Пересчет позиции при изменении контента
-    // useEffect(() => {
-    //     if (isOpen) {
-    //         const observer = new ResizeObserver(() => {
-    //             calculatePosition();
-    //         });
-            
-    //         if (popoverRef.current) {
-    //             observer.observe(popoverRef.current);
-    //         }
-            
-    //         return () => observer.disconnect();
-    //     }
-    // }, [isOpen, calculatePosition]);
 
     return (
         <>

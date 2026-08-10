@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState, useRef, useEffect, MouseEvent } from "react";
+import React, { useState, MouseEvent } from "react";
 import Link from "next/link";
 
 import { IVideo } from "../../modal/types";
 import { formatDuration } from "@/shared/utils/formatDuration";
 import { formatViews } from "@/shared/utils/formatViews";
 import { formatDate } from "@/shared/utils/formatDate";
-import { getEllipsisText } from "@/shared/utils/getEllipsisText";
 import { Modal, Svg, Text } from "@/shared/ui";
 
 import { handleMenuClick } from "../../lib/handlers";
 import { SettigsVideoModal } from "../settingsModal";
 import styles from "./styles.module.scss";
+import { useRouter } from "next/navigation";
 
 
 interface ISearchVideoItem {
@@ -29,13 +29,19 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const colorRef = useRef<string>("rgba(249, 98, 98, 0.1)");
+  const router = useRouter()
   
   const handleSound = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
     setIsSoundOn((prev: boolean) => !prev);
   };
+
+  const handleGoToChannel = (e: MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    router.push(`/channel/${video.channel.username}`)
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -64,7 +70,7 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
             )}
 
               <div className={styles.durationBadge}>
-                <Text color="var(--whiteText)">
+                <Text color="white">
                   {formatDuration(video?.duration)}
                 </Text>
               </div>
@@ -91,13 +97,13 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
               >
                 <Svg name="verticalEllipsis" />
               </div>
-                {/* <SettigsVideoModal
+                <SettigsVideoModal
                   isOpenModal={isOpenModal}
                   setIsOpenModal={setIsOpenModal}
                   videoId={video.id}
                   videoHash={video.videoHash}
                   userId={userId}
-                /> */}
+                />
             </div>
 
             <div className={styles.stats}>
@@ -112,7 +118,7 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
               </Text>
             </div>
 
-            <div className={styles.name}>
+            <div className={styles.name} onClick={handleGoToChannel}>
               <img
                 src={video?.channel?.avatarUrl || "/default-avatar.png"}
                 alt={video?.channel?.username || "Channel"}

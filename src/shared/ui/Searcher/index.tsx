@@ -54,7 +54,6 @@
         };
 
         const handleOnChange = async (value: string) => {
-            setIsVisible(true);
             valueRef.current = value
             setValue(value);
         };
@@ -64,11 +63,16 @@
             inputRef.current?.focus()
         }
 
+        const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === 'Enter') {
+                setIsVisible(false);
+                inputRef.current?.blur();
+            }
+        };
+
         useEffect(() => {
             if (value.length > 2) {
-                getElementsByName(value).then((data: IElement[] | string) => {
-                    console.log('data = ', data);
-                    
+                getElementsByName(value).then((data: IElement[]) => {
                     if (Array.isArray(data)) {
                         setElements(data);
                     }
@@ -91,9 +95,11 @@
                     }
                     ref={inputRef}
                     value={value}
+                    onFocus={() => setIsVisible(true)}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleOnChange(e.target.value)
                     }
+                    onKeyDown={handleKeyDown}
                 />
                 {!isActive && (
                     <div onClick={() => handleIsAvtive()}>{facadeWord}</div>
