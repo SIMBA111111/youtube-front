@@ -11,6 +11,7 @@ export const AddVideo: FC = () => {
 
     const handleSetFile = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null
+        
         if (file) {
             addStoredFile(file)
         }
@@ -75,7 +76,7 @@ export const AddVideo: FC = () => {
                     </div>
                 </div>
                 <Text size={20}>Перетащите файлы сюда или нажмите кнопку ниже, чтобы выбрать их на компьютере</Text>
-                <Text size={16} color="var(--descriptionText)">Пока вы не опубликуете видео,доступ к ним будет ограниченный</Text>
+                <Text size={16} color="var(--descriptionText)">Пока вы не опубликуете видео, доступ к ним будет ограниченный</Text>
                 <Text>{storedFile?.name}</Text>
                 <button className={styles.inputBtn} onClick={handleOpenInput}>
                     <Text size={16} weight={500} color="var(--whiteText)">Выбрать файлы</Text>

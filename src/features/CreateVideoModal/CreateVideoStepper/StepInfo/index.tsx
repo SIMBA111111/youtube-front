@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useRef, useState, FormEvent, useEffect, Dispatch, SetStateAction } from "react";
+import { useRef, useState, FormEvent, useEffect, Dispatch, SetStateAction, ChangeEvent } from "react";
 import Cookies from "js-cookie"
 import { useCreateVideoModal } from "@/shared/store/createVideoModal"
 import { Svg, Text } from "@/shared/ui"
@@ -24,6 +24,7 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
     const [tagsSelectorOptions, setTagsSelectorOptions] = useState<IOption[]>(videoData.playlistIds ? [...videoData.playlistIds] : [])
     const [videoName, setVideoName] = useState<string>(videoData.videoName || '')
     const [videoDescription, setVideoDescription] = useState<string>(videoData.videoDescription || '')
+    const [isShortVideo, setIsShortVideo] = useState<boolean>(videoData.isShort || false)
     const [iconFile, setIconFile] = useState<File | null>(null)
 
     const iconInputRef = useRef<HTMLInputElement>(null);
@@ -94,12 +95,12 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
 
     const handleVideoNameChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setVideoName(e.target.value);
-        addVideoData({ name: e.target.value });
+        addVideoData({ ...videoData, name: e.target.value });
     };
 
     const handleVideoDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setVideoDescription(e.target.value);
-        addVideoData({ description: e.target.value });
+        addVideoData({ ...videoData, description: e.target.value });
     };
 
     const handleIconUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,7 +166,11 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
             formData['tags'] = selectedtags
         }
 
-        addVideoData(formData)
+        if (isShortVideo) {
+            formData['isShort'] = isShortVideo
+        }
+
+        addVideoData({...videoData, ...formData})
         if (!lastCompletedStep) {
             setLastCompletedStep(0)
         }
@@ -286,6 +291,10 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
                     />
                 </div>
 
+                <div className={styles.short}>
+                    <input type="checkbox" name="" id="short" onChange={(e: ChangeEvent<HTMLInputElement>) => setIsShortVideo(e.target.checked)} />
+                    <label htmlFor='short'>это Short видео</label>
+                </div>
 
                 <button 
                     type="submit" 

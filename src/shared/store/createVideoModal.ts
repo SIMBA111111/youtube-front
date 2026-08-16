@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { IOption } from '../ui/Selector'
-import { VideoAccessId } from '../constants/radioButtons'
+import { VIDEO_ACCESS, VideoAccessId } from '../constants/radioButtons'
 
 interface IFragment {
     index: number
@@ -17,11 +17,12 @@ interface ICreateVideoModal {
         videoDescription: string,
         videoPreview: File | null,
         iconPreview: string,
-        videoAccess: VideoAccessId,
+        videoAccess: string,
         playlistIds: IOption[],
         fragments: IFragment[],
         tags: IOption[]
         hashTags: any[]
+        isShort: boolean
     }
     // openedCreateModal: () => void,
     toggleCreateModal: () => void;
@@ -42,7 +43,8 @@ export const useCreateVideoModal = create<ICreateVideoModal>((set) => ({
         playlistIds: [],
         fragments: [],
         tags: [],
-        hashTags: []
+        hashTags: [],
+        isShort: false
     },
     // openedCreateModal: () => set({isOpened: true}),
     toggleCreateModal: () => set((state) => ({ isOpened: !state.isOpened })),

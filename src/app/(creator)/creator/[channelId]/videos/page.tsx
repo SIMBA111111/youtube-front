@@ -2,11 +2,16 @@
 import { cookies } from "next/headers";
 import { ContentWidget } from "@/widgets/creator";
 import styles from "./styles.module.scss";
+import { getChannelData } from "@/shared/utils/getChannelData";
 
 export default async function CreatorChannel() {
   const cookieStore = await cookies()
-  const userData = JSON.parse(cookieStore.get('channelData')?.value || '{}')
+  const userData = await getChannelData(cookieStore)
   const jwt = cookieStore.get('jwt')?.value || ''
+
+  if (!userData) {
+    return
+  }
 
   return (
     <div className={styles.page}>

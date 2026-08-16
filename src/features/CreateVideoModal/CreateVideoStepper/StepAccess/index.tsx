@@ -61,6 +61,9 @@ export const StepAccess = ({setActiveStep, setLastCompletedStep, lastCompletedSt
         if (storedFile) {
             const preparedVideoData = {...videoData, iconPreview: ''}
 
+            console.log('videoData: ', videoData);
+            console.log('videoAccess: ', videoAccess);
+
             const res = await createVideo(userId, 'asopkdopkasd', videoData, storedFile)
             setIsVideoUploaded(true)
         }
@@ -83,6 +86,7 @@ export const StepAccess = ({setActiveStep, setLastCompletedStep, lastCompletedSt
             videoAccess: "public",
             playlistIds: [],
             fragments: [],
+            isShort: false,
         })
         addStoredFile(null)
         setLoadedPercentage(null)

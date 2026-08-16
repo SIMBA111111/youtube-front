@@ -5,11 +5,11 @@ import { Tabs } from "@/shared/ui/Tab"
 import { VideosTable } from "@/features/creator";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
-import styles from "./styles.module.scss";
 import { FiltersEnum } from "@/features/ChannelVideoList/ui";
 import { CreateVideoModal } from "@/features/CreateVideoModal";
 import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCreateVideoModal } from "@/shared/store/createVideoModal";
+import styles from "./styles.module.scss";
 
 
 interface IContentWidget {
@@ -60,15 +60,15 @@ export const ContentWidget: FC<IContentWidget> = ({
     return (
         <div>
             <Tabs.Root defaultActiveTabId="videos" onTabChange={(tabId) => setActiveTab(tabId as TTabs)}>
-            <Tabs.List classNameList={styles.tabHeader} classNameItem={styles.tabHeader_item} classNameActiveItem={styles.tabHeader_item_active}/>
+                <Tabs.List classNameList={styles.tabHeader} classNameItem={styles.tabHeader_item} classNameActiveItem={styles.tabHeader_item_active}/>
 
-            <Tabs.Tab id="videos" label="Видео">
-                <VideosTable videos={videos} filter={filter} handleFilter={handleFilter} channelId={channelId}/>
-            </Tabs.Tab>
-            
-            <Tabs.Tab id="shorts" label="Shorts">
-                <VideosTable videos={videos} filter={filter} handleFilter={handleFilter} channelId={channelId}/>
-            </Tabs.Tab>
+                <Tabs.Tab id="videos" label="Видео">
+                    <VideosTable videos={videos} filter={filter} handleFilter={handleFilter} channelId={channelId}/>
+                </Tabs.Tab>
+                
+                <Tabs.Tab id="shorts" label="Shorts">
+                    <VideosTable videos={videos} filter={filter} handleFilter={handleFilter} channelId={channelId}/>
+                </Tabs.Tab>
 
             </Tabs.Root>
             <CreateVideoModal/>

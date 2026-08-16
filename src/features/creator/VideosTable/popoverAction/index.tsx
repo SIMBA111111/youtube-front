@@ -23,9 +23,6 @@ export const PopoverAction: FC<IPopoverAction> = ({
 }) => {
     const { openToast } = useToast()
 
-    console.log(videoMp4Url);
-    
-
     const handleDownloadVideo = async () => {
         try {
             const response = await fetch(videoMp4Url);

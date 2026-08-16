@@ -158,9 +158,6 @@ export const SelectorPlaylist: FC<ISelectorPlaylistProps> = ({
         setIsOpen(!isOpen);
     };
 
-    console.log('defaultValue = ', defaultValue);
-    console.log('selectedOption = ', selectedOption);
-
     return (
         <div ref={selectorRef} style={{ position: 'relative', width: '350px' }} className={styles.selectorPlaylist}>
             <div

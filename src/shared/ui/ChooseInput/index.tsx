@@ -34,9 +34,6 @@ export const ChooseInput = <T extends { name: string }>({
         setChoosenData(prev => prev.filter((_, i) => i !== index))
     }
 
-    console.log('choosenData ====== ', choosenData);
-    
-
     return (
         <div className={styles.choosenInput}>
             <div className={styles.items}>

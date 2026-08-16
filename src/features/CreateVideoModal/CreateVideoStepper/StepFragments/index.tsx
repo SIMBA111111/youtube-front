@@ -4,6 +4,7 @@ import { useCreateVideoModal } from "@/shared/store/createVideoModal";
 import { Text } from "@/shared/ui";
 import { TSteps } from ".."
 import styles from "./styles.module.scss";
+import clsx from "clsx";
 
 interface IFragment {
     index: number;
@@ -78,7 +79,7 @@ export const StepFragments = ({ setActiveStep, setLastCompletedStep, lastComplet
         defaultValues: {
             fragments: videoData.fragments && videoData.fragments.length > 0 
                 ? videoData.fragments 
-                : [{ index: 0, start: 0, end: 0, title: "" }]
+                : []
         },
         mode: "onChange"
     });
@@ -108,7 +109,7 @@ export const StepFragments = ({ setActiveStep, setLastCompletedStep, lastComplet
     // Проверка, можно ли перейти на следующий шаг
     const isNextDisabled = () => {
         if (!videoDuration) return true;
-        if (!fragments || fragments.length === 0) return true;
+        if (!fragments || fragments.length === 0) return false;
         
         const lastEnd = getLastFragmentEnd();
         // Используем isEqual с погрешностью 0.1 секунды
@@ -229,7 +230,7 @@ export const StepFragments = ({ setActiveStep, setLastCompletedStep, lastComplet
     return (
         <div className={styles.container}>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                <div className={styles.section}>
+                <div className={clsx(styles.section, {[styles.hideBlock]: videoData.isShort})}>
                     <h2 className={styles.subtitle}>Фрагменты</h2>
                     <p className={styles.description}>
                         Добавьте временные метки для навигации по видео
@@ -369,7 +370,7 @@ export const StepFragments = ({ setActiveStep, setLastCompletedStep, lastComplet
                                 <span>
                                     {lastFragmentEnd.toFixed(2)} сек / {videoDuration.toFixed(2)} сек
                                 </span>
-                                {!isLastFragmentValid && (
+                                {fields.length > 0 && !isLastFragmentValid && (
                                     <span className={styles.warning}>
                                         ⚠️ Последний фрагмент должен заканчиваться в конце видео ({formatDuration(videoDuration)})
                                     </span>
@@ -384,6 +385,12 @@ export const StepFragments = ({ setActiveStep, setLastCompletedStep, lastComplet
                     )}
                 </div>
 
+                <div>
+                    {videoData.isShort && (
+                        <Text>Для коротких видео недостопны фрагменты</Text>
+                    )}
+                </div>
+
                 <div className={styles.actions}>
                     <button
                         type="button"
@@ -394,8 +401,8 @@ export const StepFragments = ({ setActiveStep, setLastCompletedStep, lastComplet
                     </button>
                     <button 
                         type="submit" 
-                        className={`${styles.submitBtn} ${isNextDisabled() ? styles.disabled : ""}`}
-                        // disabled={isNextDisabled()}
+                        className={`${styles.submitBtn} ${videoData.isShort ? false : isNextDisabled() ? styles.disabled : ""}`}
+                        disabled={videoData.isShort ? false : isNextDisabled()}
                     >
                         Продолжить
                     </button>
