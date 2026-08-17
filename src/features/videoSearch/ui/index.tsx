@@ -1,16 +1,14 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useRouter } from "next/navigation"
 
-import { BackgroundFon, Modal, Searcher, Svg, Text } from "@/shared/ui"
+import { Modal, Searcher, Svg, Text } from "@/shared/ui"
 import { IElement } from "@/shared/ui/Searcher"
 import { voiceSearchHook } from "@/shared/hooks"
 
 import { getVideoListByName } from '../api/getVideoListByName'
-
 import styles from './styles.module.scss'
-import Link from "next/link"
-import { useRouter } from "next/navigation"
 
 
 export const VideoSearch = () => {
@@ -93,11 +91,9 @@ export const VideoSearch = () => {
                 </button>
             </div>
             <div className={styles.micro} onClick={() => {setIsOpenVoice(true)}}>
-                <BackgroundFon backgroundHoverColor='lightGray'>
-                    <div style={{marginTop: '2px'}}>
-                        <Svg name='micro'/>
-                    </div>
-                </BackgroundFon>
+                <div className={styles.microIcon} style={{marginTop: '2px'}}>
+                    <Svg name='micro'/>
+                </div>
                 <div className={styles.voiceSearchText}>
                     <Text size={14} color='var(--whiteText)' weight={300}>Голосовой поиск</Text>
                 </div>

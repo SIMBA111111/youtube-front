@@ -1,3 +1,5 @@
+@use '../../../../app/mixins.scss' as *;
+
 .notifCard {
     display: flex;
     align-items: center;
@@ -97,4 +99,9 @@
             background-color: var(--grayBackground);
         }
     }
+}
+
+.settingsButton {
+    @include circleBackground;
+    background: transparent;
 }

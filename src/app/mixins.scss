@@ -12,3 +12,27 @@
       border-radius: 4px;
   }
 }
+
+
+@mixin buttonBackground {
+    background-color: var(--navigatorBackground);
+    padding: 10px 10px;
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;  
+
+    &:hover {
+        background-color: var(--lightGray) !important;
+    }  
+}
+
+@mixin circleBackground {
+    @include buttonBackground;
+    border-radius: 50%;  
+}
+
+@mixin ellipseBackground {
+    @include buttonBackground;
+    border-radius: 28px;
+}

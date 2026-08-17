@@ -1,15 +1,16 @@
 "use client"
 
 import Link from "next/link";
-import { INotifCard, INotificationItem } from "../../modal/types";
-
-import styles from './styles.module.scss'
-import { getFormatRelativeTime } from "@/shared/utils/getElapsedTime";
-import { BackgroundFon, Modal, Popover, Svg, Text } from "@/shared/ui";
 import { useState } from "react";
+
+import { getFormatRelativeTime } from "@/shared/utils/getElapsedTime";
+import { Popover, Svg, Text } from "@/shared/ui";
+import { useToast } from "@/app/providers/toastProvider";
+
 import { handleHideNotif } from "../../lib/handleHideNotif";
 import { handleOffNotifByChannel } from "../../lib/handleOffNotifByChannel";
-import { useToast } from "@/app/providers/toastProvider";
+import { INotifCard } from "../../modal/types";
+import styles from './styles.module.scss'
 
 
 export const NotifCard: React.FC<INotifCard> = ({notif}) => {
@@ -57,9 +58,7 @@ export const NotifCard: React.FC<INotifCard> = ({notif}) => {
                 
                 {/* Кнопка с обработчиком */}
                 <div onClick={handleSettingsClick} className={styles.settingsButton}>
-                    <BackgroundFon bacgroundColor="" backgroundHoverColor="lightGray">
-                        <Svg name="verticalEllipsis"/>
-                    </BackgroundFon>
+                    <Svg name="verticalEllipsis"/>
                 </div>
             </Link>
 

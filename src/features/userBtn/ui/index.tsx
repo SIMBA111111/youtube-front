@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { themes } from "@/shared/constants/themes";
 import { languages } from "@/shared/constants/langs";
 import { logout } from "@/shared/api/auth/logout";
-import { BackgroundFon, Modal, Popover, Svg, Text } from "@/shared/ui";
+import { Popover, Svg, Text } from "@/shared/ui";
 import { Theme, Themes, useTheme } from "@/app/providers/themeProvider";
 
 import { handleThemeChange } from "../lib/handleThemeChange";

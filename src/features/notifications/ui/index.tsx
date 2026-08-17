@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 
-import { BackgroundFon, Modal, Popover, Searcher, Svg, Text } from "@/shared/ui"
+import { Popover, Searcher, Svg, Text } from "@/shared/ui"
 
 import { NotifCard } from "@/entities/notifs/ui/card/notifCard"
 import { INotificationItem } from "@/entities/notifs/modal/types"
@@ -14,7 +14,22 @@ import styles from './styles.module.scss'
 
 export const Notifications = ({userId} : {userId: string}) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
-  const [notifs, setNotifs] = useState<INotificationItem[]>([])
+  const [notifs, setNotifs] = useState<INotificationItem[]>([{
+        id: 'slkdfks',
+        channel: {
+          id: 'string',
+          name: 'string',
+          avatarUrl: 'string'
+        },
+        createdAt: '206-02-02',
+        video: {
+              id: 'string',
+    previewUrl: 'string',
+    videoHash: 'string',
+    isShort: false
+        },
+        isViewed: false
+  }])
   const [isExistNewNotif, setIsExistNewNotif] = useState<boolean>(false)
   const eventSourceRef = useRef<EventSource>(null)
 
@@ -57,18 +72,18 @@ export const Notifications = ({userId} : {userId: string}) => {
     })
   }, [userId])
 
-  useEffect(() => {
-    const fetchNotifs = async () => {
-      try {
-        const notifsData = await getNotifs(userId)
+  // useEffect(() => {
+  //   const fetchNotifs = async () => {
+  //     try {
+  //       const notifsData = await getNotifs(userId)
 
-        setNotifs(notifsData.notifs)
-      } catch (error) {
-        console.error('Ошибка при загрузке уведомлений:', error)
-      }
-    }
-    fetchNotifs()
-  }, [])
+  //       setNotifs(notifsData.notifs)
+  //     } catch (error) {
+  //       console.error('Ошибка при загрузке уведомлений:', error)
+  //     }
+  //   }
+  //   fetchNotifs()
+  // }, [])
 
   const handleOpenPopover = () => {
     setIsOpenModal(true)
@@ -78,15 +93,13 @@ export const Notifications = ({userId} : {userId: string}) => {
   return (
     <div className={styles.notificationsContainer}>
       <div className={styles.notifications} onClick={handleOpenPopover}>
-        <BackgroundFon bacgroundColor=''>
-          <div className={styles.bellContainer}>
-            <div className={isExistNewNotif ? styles.pointer : ''} />
-            <Svg name='bell'/>
-          </div>
-          <div className={styles.notificationTooltip}>
-            <Text size={14} color='var(--whiteText)' weight={300}>Уведомления</Text>
-          </div>
-        </BackgroundFon>
+        <div className={styles.bellContainer}>
+          <div className={isExistNewNotif ? styles.bell : ''} />
+          <Svg name='bell'/>
+        </div>
+        <div className={styles.notificationTooltip}>
+          <Text size={14} color='var(--whiteText)' weight={300}>Уведомления</Text>
+        </div>
       </div>
       <Popover 
         isOpen={isOpenModal} 

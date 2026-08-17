@@ -1,5 +1,4 @@
 export { Svg } from './Svg'
-export { BackgroundFon } from './BackgroundFon'
 export { DropDown } from './Dropdown'
 export { Searcher } from './Searcher'
 export { Text } from './Text'

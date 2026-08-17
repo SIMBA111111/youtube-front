@@ -1,9 +1,5 @@
 import { cookies } from "next/headers";
-
-import { getVideos } from "@/shared/api/video/getVideoList";
-import { VideoList } from "@/widgets";
 import { getTags } from "@/shared/api/tags/getTags";
-
 import styles from "./styles.module.scss";
 
 
@@ -13,7 +9,7 @@ export default async function MainPage() {
 
   return (
     <div className={styles.page}>
-      <VideoList tags={tags.tags} jwt={jwt?.value || ''}/>
+      {/* <VideoList tags={tags.tags} jwt={jwt?.value || ''}/> */}
     </div>
   );
 }

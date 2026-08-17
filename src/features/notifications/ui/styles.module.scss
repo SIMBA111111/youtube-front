@@ -1,7 +1,7 @@
 .notifications {
     position: relative;
-    cursor: pointer;
     display: inline-block;
+    padding: 0 12px;
 
     &:hover {
         .notificationTooltip {
@@ -11,8 +11,9 @@
 
     .bellContainer {
         position: relative;
+        cursor: pointer;
 
-        .pointer {
+        .bell {
             &::before {
                 content: '';
                 height: 6px;
@@ -32,7 +33,7 @@
     position: absolute;
     width: fit-content;
     white-space: nowrap;
-    top: 60px;
+    top: 50px;
     right: -70%;
     padding: 10px;
     color: var(--whiteText);

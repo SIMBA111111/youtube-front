@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { BackgroundFon, Popover, Svg, Text } from "@/shared/ui"
+import { Popover, Svg, Text } from "@/shared/ui"
 import styles from './styles.module.scss'
 
 
@@ -12,9 +12,7 @@ export const CreateContentBtn = ({channelId}: {channelId: string}) => {
     return (
         <div className={styles.create}>
             <div onClick={() => setIsOpenCreateModal(true)}>
-                <BackgroundFon >
-                    <div className={styles.createBtn}><Svg name='plus'/>Создать</div>
-                </BackgroundFon>
+            <div className={styles.createBtn}><Svg name='plus'/>Создать</div>
             </div>
             <Popover isOpen={isOpenCreateModal} onClose={() => setIsOpenCreateModal(false)} className={styles.customModal}>
                 <div className={styles.createModal}>
