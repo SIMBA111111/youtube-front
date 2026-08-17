@@ -6,7 +6,7 @@ import { VideoAnalytics } from "@/widgets/creator/VideoAnalytics";
 export default async function VideoAnalynics({
   params
 }: Readonly<{
-  params: Promise<{videoId: string, videoHash: string}>
+  params: Promise<{videoId: string}>
 }>) {
   const { videoId } = await params
   const cookieStore = await cookies()

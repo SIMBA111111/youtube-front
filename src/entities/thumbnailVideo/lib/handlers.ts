@@ -12,10 +12,10 @@ export const handleViewLater = (e: React.MouseEvent, video: string, userId: stri
     console.log('смотреть позже');
 };
 
-export const handleShareVideo = async (e: React.MouseEvent, videoHash: string, userId: string, openToast: (text: string) => void) => {
+export const handleShareVideo = async (e: React.MouseEvent, videoId: string, userId: string, openToast: (text: string) => void) => {
     e.preventDefault();
     e.stopPropagation();
-    const videoLink = window.location.origin + '/watch?=' + videoHash
+    const videoLink = window.location.origin + '/watch?=' + videoId
     await navigator.clipboard.writeText(videoLink)
     openToast('Ссылка на видео скопирована в буфер обмена')
 };

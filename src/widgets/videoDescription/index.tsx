@@ -28,7 +28,6 @@ interface IVideoDescription {
   subscribersCount: number;
   isSubscribed: boolean;
   notificationSettings: boolean;
-  videoHash: string;
   myChannelData: IChannelData | null
 }
 
@@ -47,7 +46,6 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
   subscribersCount,
   isSubscribed,
   notificationSettings,
-  videoHash,
   myChannelData
 }) => {
 
@@ -78,7 +76,6 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
           notificationSetting={notificationSettings}
           meId={myChannelData?.id || ''}
           channelId={channel.id}
-          videoHash={videoHash}
           videoId={videoId}
         />
       </div>
@@ -93,10 +90,10 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
           videoId={videoId}
         />
 
-        <ShareVideo videoHash={videoHash} />
+        <ShareVideo videoId={videoId} />
 
         <div className={styles.rating_settings}>
-          <SettingsVideo videoHash={videoHash} />
+          <SettingsVideo videoId={videoId} />
         </div>
       </div>
 

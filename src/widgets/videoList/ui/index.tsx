@@ -81,6 +81,9 @@ export const VideoList = ({
   const firstShortsSection = shorts.slice(0, shortsCount)
   const secondShortsSection = shorts.slice(shortsCount, shortsCount * 2)
 
+  console.log(data);
+  
+
   return (
     <div className={styles.container} id="videoListContainer">
         {tags && tags.length > 0 && (

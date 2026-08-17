@@ -5,20 +5,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Cookies from 'js-cookie'
 
-import { IVideo } from "../modal/types";
 import { formatDuration } from "@/shared/utils/formatDuration";
 import { formatViews } from "@/shared/utils/formatViews";
 import { formatDate } from "@/shared/utils/formatDate";
 import { Modal, Svg, Text } from "@/shared/ui";
-import {
-  handleMenuClick,
-} from "../lib/handlers";
+import { hexToRgb } from "@/shared/utils/hexToRgb";
 import { getEllipsisText } from "@/shared/utils/getEllipsisText";
 
+import { handleMenuClick } from "../lib/handlers";
 import { SettigsVideoModal } from "./settingsModal";
-
+import { IVideo } from "../modal/types";
 import styles from "./styles.module.scss";
-
 
 interface IThumbnailVideoCard {
   video: IVideo;
@@ -32,38 +29,12 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const colorRef = useRef<string>("rgba(249, 98, 98, 0.1)");
-  const router = useRouter();
 
   let userId
 
   if (Cookies.get('channelData')) {
     userId = JSON.parse(Cookies.get('channelData')).id
   }
-
-  // useEffect(() => {
-  //     if (video.previewUrl && imgRef.current) {
-  //         const img = imgRef.current;
-  //         img.crossOrigin = 'Anonymous'
-
-  //         const extractAverageColor = () => {
-  //             try {
-  //                 const avgColor = getAverageColor(img);
-  //                 colorRef.current = avgColor;
-  //             } catch (error) {
-  //                 console.error('Error extracting average color:', error);
-  //                 colorRef.current = 'rgb(249, 98, 98)';
-  //             }
-  //         };
-
-  //         if (img.complete) {
-  //             extractAverageColor();
-  //         } else {
-  //             img.onload = extractAverageColor;
-  //         }
-  //     }
-  // }, [video.previewUrl]);
 
   const handleSound = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -73,7 +44,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
 
   // const handleRoute = (e: React.MouseEvent) => {
   //     e.stopPropagation()
-  //     router.push(`videos/${video.videoHash}`)
+  //     router.push(`videos/${video.id}`)
   // }
 
   return (
@@ -81,14 +52,14 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
       <Link
         // onClick={(e: React.MouseEvent) => handleRoute(e)}
         className={styles.cardContainer}
-        href={`/watch?v=${video?.videoHash}`}
+        href={`/watch?v=${video?.id}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <div
           style={
             {
-              "--custom-color": colorRef.current,
+              "--custom-color": hexToRgb(video.averageColor),
             } as React.CSSProperties
           }
           className={isRow ? styles.card_Row : styles.card}
@@ -103,7 +74,6 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
             <img
               src={video?.previewUrl || "/defaultImages/defaultAvatar.png"}
               alt={video?.name}
-              ref={imgRef}
               className={isRow ? styles.thumbnail_Row : styles.thumbnail}
             />
 
@@ -162,7 +132,6 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
                   isOpenModal={isOpenModal}
                   setIsOpenModal={setIsOpenModal}
                   videoId={video.id}
-                  videoHash={video.videoHash}
                   userId={userId}
                 />
             </div>

@@ -6,17 +6,15 @@ import { EditingVideo } from "@/widgets/creator/EditingVideo";
 export default async function VideoEditing({
   params,
 }: {
-  params: Promise<{ videoId: string, videoHash: string }>
+  params: Promise<{ videoId: string}>
 }) {
   const cookieStore = await cookies()
-  const { videoId, videoHash } = await params
-  const userData = JSON.parse(cookieStore.get('channelData')?.value || '{}')
-  const jwt = cookieStore.get('jwt')?.value || ''
+  const { videoId } = await params
 
   return (
     <div className={styles.page}>
       <div className={styles.page}>
-        <EditingVideo videoHash={videoHash} videoId={videoId}/>
+        <EditingVideo videoId={videoId}/>
       </div>
     </div>
   );

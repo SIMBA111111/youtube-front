@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 
-import { getVideoByHash } from "@/shared/api/video/getVideoByHash";
 import { RecommentedVideos, VideoDescription } from "@/widgets";
 import { Text } from "@/shared/ui";
 import { Comments } from "@/widgets/Comments";
@@ -9,7 +8,7 @@ import { IChannel } from "@/entities/channels/modal/types";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { getChannelData } from "@/shared/utils/getChannelData";
 import {Player} from "@webitch/player";
-
+import { getVideoById } from "@/shared/api/video/getVideoById";
 import styles from "./styles.module.scss";
 
 interface IVideoPage {
@@ -25,12 +24,12 @@ export default async function WatchVideo({
   searchParams: Promise<{ [key: string]: string }>;
 }) {
   const params  = await searchParams;
-  const videoHash = Object.values(params)[0]
+  const videoId = Object.values(params)[0]
 
   const cookie = await cookies();
   const myChannelData = await getChannelData(cookie)
 
-  if (!videoHash) {
+  if (!videoId) {
     return (
       <div>
         404...
@@ -38,15 +37,18 @@ export default async function WatchVideo({
     )
   }
   
-  const videoData = await getVideoByHash(videoHash, myChannelData?.id);
+  const videoData = await getVideoById(videoId, myChannelData?.id);
   const res = await updateViewVideo({
-    videoId: videoData.video?.id,
+    videoId: videoId,
     userId: myChannelData?.id || '',
   });
 
   const isSubscribed = videoData?.isSubscribed
     ? "id" in videoData.isSubscribed
     : false;
+
+  console.log('videoData: ', videoData);
+  
 
   return (
     <div className={styles.page}>
@@ -79,7 +81,6 @@ export default async function WatchVideo({
             }
             videoDescription={videoData.video?.videoDescription || ""}
             hashtags={videoData.video?.hashtags || ""}
-            videoHash={videoHash}
             myChannelData={myChannelData}
           />
         </div>
@@ -93,7 +94,7 @@ export default async function WatchVideo({
       </div>
       <div className={styles.recommendations}>
         <RecommentedVideos
-          videoHash={videoHash}
+          videoId={videoId}
           myChannelId={myChannelData?.id}
         />
       </div>

@@ -1,7 +1,8 @@
-export const getVideoById = async (videoId: string): Promise<any> => {
+export const getVideoById = async (videoId: string, channelId?: string): Promise<any> => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos/${videoId}`, {
             method: 'GET',
+            body: JSON.stringify({channelId: channelId}),
             credentials: 'include'
         })
 

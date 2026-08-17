@@ -4,7 +4,6 @@ import ProgressBarProvider from "../../../../providers/progressProvider";
 import { ThemeProvider } from "../../../../providers/themeProvider";
 import { ToastProvider } from "../../../../providers/toastProvider";
 import { CreatorVideoPageProvider } from "../../../../providers/creatorVideoPageProvider";
-
 import "../../../../globals.scss";
 
 
@@ -13,9 +12,9 @@ export default async function RootLayout({
   params
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{videoId: string, videoHash: string}>
+  params: Promise<{videoId: string}>
 }>) {
-  const {videoHash, videoId} = await params
+  const {videoId} = await params
   const cookieStore = await cookies()
   const userData = JSON.parse(cookieStore.get('channelData')?.value || '{}')
   const jwt = cookieStore.get('jwt')?.value
@@ -30,7 +29,6 @@ export default async function RootLayout({
         <ProgressBarProvider>
           <CreatorVideoPageProvider 
             channelAvatar={userData.avatarUrl}
-            videoHash={videoHash}
             videoId={videoId}
             videoName=""
             videoPrevieww=""

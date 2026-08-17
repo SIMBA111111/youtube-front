@@ -4,24 +4,21 @@ import { Dispatch, FC, FormEvent, MouseEvent, SetStateAction, useEffect, useRef,
 import Cookies from "js-cookie"
 import clsx from "clsx"
 import { IOption } from "@/shared/ui/Selector"
-import { useCreateVideoModal } from "@/shared/store/createVideoModal"
 import { Svg, Text } from "@/shared/ui"
 import { ChooseInput } from "@/shared/ui/ChooseInput"
 import { SelectorPlaylist } from "@/shared/ui/Selector/SelectorPlaylists"
-import { getVideoByHash } from "@/shared/api/video/getVideoByHash"
 import { getTags } from "@/shared/api/tags/getTags"
-import styles from './styles.module.scss'
 import { getPlaylistsByUsername } from "@/shared/api/playlists/getPlaylistsByChannelHash"
 import { updateVideoById } from "@/shared/api/video/updateVideoById"
+import { getVideoById } from "@/shared/api/video/getVideoById"
+import styles from './styles.module.scss'
 
 
 interface IEditingVideo {
     videoId: string
-    videoHash: string
 }
 
 export const EditingVideo: FC<IEditingVideo> = ({
-    videoHash,
     videoId
 }) => {
     const [selectedPlaylist, setSelectedPlaylist] = useState<IOption[]>([])
@@ -42,7 +39,7 @@ export const EditingVideo: FC<IEditingVideo> = ({
         const userId = JSON.parse(Cookies.get('channelData') || '{}').username
 
         const playlists = await getPlaylistsByUsername(userId)
-        const videoData = await getVideoByHash(videoHash);
+        const videoData = await getVideoById(videoId);
         const tags = await getTags();
 
         setVideoName(videoData.video.name)

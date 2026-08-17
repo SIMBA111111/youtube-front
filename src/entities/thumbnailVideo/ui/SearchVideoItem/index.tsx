@@ -47,7 +47,7 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
     <div className={styles.wrapper}>
       <Link
         className={isRow ? styles.searchVideoItem_row : styles.searchVideoItem}
-        href={`/watch?v=${video?.videoHash}`}
+        href={`/watch?v=${video?.id}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -101,7 +101,6 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
                   isOpenModal={isOpenModal}
                   setIsOpenModal={setIsOpenModal}
                   videoId={video.id}
-                  videoHash={video.videoHash}
                   userId={userId}
                 />
             </div>

@@ -8,7 +8,6 @@ interface IPopoverAction {
     onClose: () => void
     isOpen: boolean
     videoId: string
-    videoHash: string
     videoMp4Url: string
     channelId: string
 }
@@ -17,7 +16,6 @@ export const PopoverAction: FC<IPopoverAction> = ({
     isOpen,
     onClose,
     videoId,
-    videoHash,
     videoMp4Url,
     channelId
 }) => {
@@ -31,7 +29,7 @@ export const PopoverAction: FC<IPopoverAction> = ({
             
             const a = document.createElement('a');
             a.href = url;
-            a.download = videoHash;
+            a.download = videoId;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -45,7 +43,7 @@ export const PopoverAction: FC<IPopoverAction> = ({
     
     const handleCopyVideoLink = async () => {
         if (process.env.NEXT_PUBLIC_FRONTEND_URL) {
-            await navigator.clipboard.writeText(process.env.NEXT_PUBLIC_FRONTEND_URL + `/watch?v=${videoHash}`) 
+            await navigator.clipboard.writeText(process.env.NEXT_PUBLIC_FRONTEND_URL + `/watch?v=${videoId}`) 
             openToast('Ссылка на видео скопирована!')
         }
     }

@@ -2,7 +2,6 @@ const VIDEOS = [
     {
         id: '0',
         name: 'M1111111111111111111111111111111',
-        videoHash: '895asd5a8s5d',
         isShort: false,
         previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -18,7 +17,6 @@ const VIDEOS = [
     {
         id: '1',
         name: 'M2222222222222222222222',
-        videoHash: '$&(^#@)$(^#',
         isShort: false,
         previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -34,7 +32,6 @@ const VIDEOS = [
     {
         id: '2',
         name: 'M33333333333333333333333333333',
-        videoHash: 'aSkj[kasjd',
         isShort: false,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -50,7 +47,6 @@ const VIDEOS = [
     {
         id: '3',
         name: 'M44444444444444444444444444444444444444',
-        videoHash: '65576GB4Y',
         isShort: false,
         previewUrl: '/testImages/preview2.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -66,7 +62,6 @@ const VIDEOS = [
     {
         id: '4',
         name: 'M555555555555555555555555555555555555555555',
-        videoHash: 'awdqwfwegwergf',
         isShort: false,
         previewUrl: '/testImages/preview3.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -82,7 +77,6 @@ const VIDEOS = [
     {
         id: '51',
         name: 'M666666666666666666666666666666666666666666666',
-        videoHash: 'e354y746',
         isShort: false,
         previewUrl: '/testImages/preview.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -99,7 +93,6 @@ const VIDEOS = [
     {
         id: '52',
         name: 'M777777777777777777777777777777777777777777',
-        videoHash: 'e354y746',
         isShort: false,
         previewUrl: '/testImages/preview4.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -116,7 +109,6 @@ const VIDEOS = [
     {
         id: '53',
         name: 'M88888888888888888888888888888888888888888888888',
-        videoHash: 'e354y746',
         isShort: false,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -133,7 +125,6 @@ const VIDEOS = [
     {
         id: '54',
         name: 'MA999999999999999999999999999999999999999999',
-        videoHash: 'e354y746',
         isShort: false,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -150,7 +141,6 @@ const VIDEOS = [
     {
         id: '55',
         name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
-        videoHash: 'e354y746',
         isShort: false,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -167,7 +157,6 @@ const VIDEOS = [
     {
         id: '56',
         name: 'MAPHRA - Doomed (кавер на Bring Me The Horizon) | Стоит ли оно того?',
-        videoHash: 'e354y746',
         isShort: false,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -183,7 +172,6 @@ const VIDEOS = [
     {
         id: '6',
         name: 'SHORT11111111111111111111111111111111111111111111111111',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -199,7 +187,6 @@ const VIDEOS = [
     {
         id: '7',
         name: 'SHORT2222222222222222222222222222222222222222222222222222222222',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -215,7 +202,6 @@ const VIDEOS = [
     {
         id: '8',
         name: 'SHORT33333333333333333333333333333333333333333333333333333333333333333',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -231,7 +217,6 @@ const VIDEOS = [
     {
         id: '9',
         name: 'SHORT4444444444444444444444444444444444444444444444444444444444444444444444444',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -247,7 +232,6 @@ const VIDEOS = [
     {
         id: '10',
         name: 'SHORT4444444444444444444444444444444444444444444444444444444444444444444444444',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -263,7 +247,6 @@ const VIDEOS = [
     {
         id: '11',
         name: 'SHORT4444444444444444444444444444444444444444444444444444444444444444444444444',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -279,7 +262,6 @@ const VIDEOS = [
     {
         id: '12',
         name: 'SHORT4444444444444444444444444444444444444444444444444444444444444444444444444',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -294,9 +276,9 @@ const VIDEOS = [
     },
 ]
 
-export const getRecommentedVideos = async (videoHash: string, offset: number, limit: number, myChannelId: string | null = null) => {
+export const getRecommentedVideos = async (videoId: string, offset: number, limit: number, myChannelId: string | null = null) => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recommended-videos/${videoHash}?offset=${offset}&limit=${limit}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recommended-videos/${videoId}?offset=${offset}&limit=${limit}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({myChannelId})

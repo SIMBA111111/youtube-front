@@ -15,7 +15,6 @@ import styles from './styles.module.scss'
 export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
     id,
     name,
-    videoHash,
     duration,
     previewUrl,
     videoPreviewUrl,
@@ -37,7 +36,6 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
 
     return (
         <Link 
-            // href={`/shorts/${videoHash}`} style={{'--custom-color': getAverageColor(colorRef.current)} as React.CSSProperties} 
             href={`/shorts/${id}`} 
             className={styles.shortContainer}
             onMouseEnter={() => setIsHovered(true)}
@@ -60,10 +58,10 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
             
             <div className={styles.header}>
                 <Text size={14} weight={600} className={styles.shortVideoName}>{name}</Text>
-                <div className={styles.ellipsis} onClick={(e: MouseEvent) => handleMenuClick(e)}>
+                <div className={styles.ellipsis} onClick={(e: React.MouseEvent) => handleMenuClick(e)}>
                     <Svg name="verticalEllipsis" />
                 </div>
-                <SettigsVideoModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} videoId={id} videoHash={videoHash} userId={channel.id}/>
+                <SettigsVideoModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} videoId={id} userId={channel.id}/>
             </div>
             <Text color="var(--gray)" size={12}>{formatViews(viewersCount)} просмотров</Text>
         </Link>

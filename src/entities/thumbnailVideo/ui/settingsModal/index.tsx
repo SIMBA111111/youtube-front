@@ -13,7 +13,6 @@ interface ISettigsVideoModal {
     isOpenModal: boolean
     setIsOpenModal: Dispatch<SetStateAction<boolean>>
     videoId: string
-    videoHash: string
     userId: string
 }
 
@@ -21,7 +20,6 @@ export const SettigsVideoModal: React.FC<ISettigsVideoModal> = ({
     isOpenModal,
     setIsOpenModal,
     videoId,
-    videoHash,
     userId
 }) => {
     const [isOpenedReportModal, setIsOpenedReportModal] = useState<boolean>(false)
@@ -36,7 +34,7 @@ export const SettigsVideoModal: React.FC<ISettigsVideoModal> = ({
                         <Svg name='clock'/>
                         <Text>Смотреть позже</Text>
                     </div>
-                    <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleShareVideo(e, videoHash, userId, openToast)}>
+                    <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleShareVideo(e, videoId, userId, openToast)}>
                         <Svg name='replay'/>
                         <Text>Поделиться</Text>
                     </div>

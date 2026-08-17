@@ -255,7 +255,7 @@ const COMMENTS = [
         relatedCommentsCount: 2
     }
 ]
-export const getCommentsByVideoHash = async (videoId: string, offset: number, limit: number, filter: string, userId: string, parentCommentId: string = '') => {
+export const getCommentsByVideoId = async (videoId: string, offset: number, limit: number, filter: string, userId: string, parentCommentId: string = '') => {
     
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/${videoId}?offset=${offset}&limit=${limit}`, {
@@ -267,10 +267,10 @@ export const getCommentsByVideoHash = async (videoId: string, offset: number, li
         if (res.status === 200) {
             return await res.json()
         } else {
-            return console.error('getCommentsByVideoHash non 200 status');
+            return console.error('getCommentsByVideoId non 200 status');
         }
     } catch (error) {
-        new Error(`Error getCommentsByVideoHash: ${error}`);
+        new Error(`Error getCommentsByVideoId: ${error}`);
         return []
     }
 }

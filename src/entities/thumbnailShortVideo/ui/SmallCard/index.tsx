@@ -11,7 +11,6 @@ import styles from './styles.module.scss'
 export const ThumbnailShortVideoSmallCard: React.FC<IThumbnailShortVideo> = ({
     id,
     name,
-    videoHash,
     previewUrl,
     videoPreviewUrl,
     viewersCount,
@@ -21,7 +20,7 @@ export const ThumbnailShortVideoSmallCard: React.FC<IThumbnailShortVideo> = ({
 
     return (
         <Link 
-            href={`/shorts/${videoHash}`} 
+            href={`/shorts/${id}`} 
             className={styles.shortContainer}
         >
             <div className={styles.contentWrapper}>

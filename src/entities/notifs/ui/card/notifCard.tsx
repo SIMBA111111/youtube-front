@@ -20,7 +20,7 @@ export const NotifCard: React.FC<INotifCard> = ({notif}) => {
     
     const { openToast } = useToast()
     
-    const linkToVideo = video.isShort ? `/shorts/${video.videoHash}` : `/watch/${video.videoHash}`
+    const linkToVideo = video.isShort ? `/shorts/${video.id}` : `/watch/${video.id}`
 
     const handleSettingsClick = (e: React.MouseEvent) => {
         e.preventDefault(); // Предотвращает переход по ссылке

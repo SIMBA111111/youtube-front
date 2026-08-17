@@ -12,11 +12,11 @@ import styles from './styles.module.scss'
 import { UnauthReportModal } from "@/shared/ui/Modal/Modals/UnauthReportModal"
 
 interface ISettingsVideo{
-    videoHash: string,
+    videoId: string,
 }
 
 export const SettingsVideo: React.FC<ISettingsVideo> = ({
-    videoHash
+    videoId
 }) => {
     const [isOpenedPopover, setIsOpenedPopover] = useState<boolean>(false)
     const [isOpenedModal, setIsOpenedModal] = useState<boolean>(false)

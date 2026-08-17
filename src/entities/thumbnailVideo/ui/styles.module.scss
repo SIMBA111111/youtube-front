@@ -16,7 +16,7 @@
   font-family: "Roboto", Arial, sans-serif;
   text-decoration: none;
   display: block;
-  border-radius: 6px;
+  border-radius: 12px;
   padding: 12px;
   margin: -12px;
   display: flex;
@@ -37,7 +37,7 @@
   }
 
   &:hover {
-    background-color: var(--custom-color);
+    background-color: rgba(var(--custom-color), 0.2);
     border-radius: 6px;
   }
 }

@@ -187,7 +187,7 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
                       userId={myChannelData?.id || ''}
                       videoId={currentShortVideo?.video?.id}
                     />
-                    <ShareVideo videoHash={currentShortVideo?.video?.id} isShort />
+                    <ShareVideo videoId={currentShortVideo?.video?.id} isShort />
                     <CommentsVideo 
                       commentsCount={currentShortVideo?.video?.commentsCount} 
                       videoId={currentShortVideo?.video?.id} 

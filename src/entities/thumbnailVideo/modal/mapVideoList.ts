@@ -5,7 +5,6 @@ export const mapVideoList = (videoList: any[] = []): IVideo[] => {
         return {
             id: v.id,
             name: v.name,
-            videoHash: v.video_hash,
             duration: v.duration,
             previewUrl: v.thumbnail_url,
             videoPreviewUrl: v.video_preview_url,

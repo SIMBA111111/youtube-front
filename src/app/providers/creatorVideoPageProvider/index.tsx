@@ -8,7 +8,6 @@ interface ICreatorPageProvider {
     videoPrevieww: string
     videoName: string
     videoId: string
-    videoHash: string,
     channelUsername: string
     activeLanguage: string
     activeTheme: string
@@ -22,7 +21,6 @@ export const CreatorVideoPageProvider: FC<ICreatorPageProvider> = ({
     videoPrevieww, 
     videoName,
     videoId,
-    videoHash,
     channelUsername,
     activeTheme,
     activeLanguage,
@@ -33,7 +31,7 @@ export const CreatorVideoPageProvider: FC<ICreatorPageProvider> = ({
     return (
         <div className={`${styles.grid} ${styles.gridSidebarOpen}`} id="page-wrapper">
             <div className={styles.sidebarWrapper}>
-                <CreatorVideoSidebar videoPrevieww={videoPrevieww} videoName={videoName} videoId={videoId} videoHash={videoHash}/>
+                <CreatorVideoSidebar videoPrevieww={videoPrevieww} videoName={videoName} videoId={videoId}/>
             </div>
             
             <div className={styles.headerWrapper}>

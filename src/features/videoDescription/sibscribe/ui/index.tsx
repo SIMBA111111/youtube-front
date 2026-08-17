@@ -19,7 +19,6 @@ interface ISubscribeButton {
   meId: string
   channelId: string
   videoId?: string
-  videoHash?: string
 }
 
 export const SubscribeButton: React.FC<ISubscribeButton> = ({
@@ -28,22 +27,20 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
   meId,
   channelId,
   videoId,
-  videoHash
 }) => {
   const path = usePathname()
   const [popoverIsVisible, setPopoverIsVisible] = useState<boolean>(false);
   const [isSub, setIsSub] = useState<boolean>(isSubscribed);
   const [isNotifSettings, setIsnotifSettings] = useState<boolean>(notificationSetting);
   const router = useRouter()
-  console.log('path: ', path);
 
   path.includes('/channel/') ? (
     channelId === meId && (
       <div className={styles.myChannelBtns}>
-        <a href={`/video/${videoId}/${videoHash}/analytics`} className={styles.subscribeButton_btn}>
+        <a href={`/video/${videoId}/analytics`} className={styles.subscribeButton_btn}>
           <Text>Просмотреть аналитику</Text>
         </a>
-        <a href={`/video/${videoId}/${videoHash}/edit`} className={styles.subscribeButton_btn}>
+        <a href={`/video/${videoId}/edit`} className={styles.subscribeButton_btn}>
           <Text>Изменить видео</Text>
         </a>
       </div>
@@ -51,10 +48,10 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
   ) : (
     channelId === meId && (
       <div className={styles.myChannelBtns}>
-        <a href={`/video/${videoId}/${videoHash}/analytics`} className={styles.subscribeButton_btn}>
+        <a href={`/video/${videoId}/analytics`} className={styles.subscribeButton_btn}>
           <Text>Просмотреть аналитику</Text>
         </a>
-        <a href={`/video/${videoId}/${videoHash}/edit`} className={styles.subscribeButton_btn}>
+        <a href={`/video/${videoId}/edit`} className={styles.subscribeButton_btn}>
           <Text>Изменить видео</Text>
         </a>
       </div>

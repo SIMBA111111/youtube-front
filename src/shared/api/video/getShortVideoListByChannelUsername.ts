@@ -2,7 +2,6 @@ const VIDEOS = [
    {
         id: '6',
         name: 'SHORT11111111111111111111111111111111111111111111111111',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -18,7 +17,6 @@ const VIDEOS = [
     {
         id: '7',
         name: 'SHORT2222222222222222222222222222222222222222222222222222222222',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/pr.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -34,7 +32,6 @@ const VIDEOS = [
     {
         id: '8',
         name: 'SHORT33333333333333333333333333333333333333333333333333333333333333333',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -50,7 +47,6 @@ const VIDEOS = [
     {
         id: '9',
         name: 'SHORT4444444444444444444444444444444444444444444444444444444444444444444444444',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -66,7 +62,6 @@ const VIDEOS = [
     {
         id: '10',
         name: 'SHORT5555555555555555555555555555555555555555555555555555555555555555555555555',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/pr.mp4',
@@ -82,7 +77,6 @@ const VIDEOS = [
     {
         id: '12',
         name: 'SHORT666666666666666666666666666666666666666666666666666666666666666666666',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -98,7 +92,6 @@ const VIDEOS = [
     {
         id: '13',
         name: 'SHORT77777777777777777777777777777777777777777777777777777777777777777777777',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -114,7 +107,6 @@ const VIDEOS = [
     {
         id: '14',
         name: 'SHORT8888888888888888888888888888888888888888888888888888888888888888888888888',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -130,7 +122,6 @@ const VIDEOS = [
     {
         id: '15',
         name: 'SHORT99999999999999999999999999999999999999999999999999999999999999999999999',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',
@@ -146,7 +137,6 @@ const VIDEOS = [
     {
         id: '16',
         name: 'SHORT101010101010101010101010101010101010101010101010101010101010101',
-        videoHash: 'e354y746',
         isShort: true,
         previewUrl: '/testImages/testChannelAvatar.png',
         videoPreviewUrl: '/videos/qqq.mp4',

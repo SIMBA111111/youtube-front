@@ -13,7 +13,7 @@ export default async function Shorts({
 }: {
   params: Promise<{ [key: string]: string }>,
 }) {
-  const { videoHash } = await params;
+  const { videoId } = await params;
 
   const cookie = await cookies();
   const myChannelData = await getChannelData(cookie)
@@ -21,5 +21,5 @@ export default async function Shorts({
   const resGetVideos = await getShortVideos(0, 5);
   const resGetVideoById = await getVideoById(resGetVideos.result[0].id);
 
-  return <ShortsSwiper videos={resGetVideos.result} initVideo={resGetVideoById} videoId={videoHash} myChannelData={myChannelData}/>;
+  return <ShortsSwiper videos={resGetVideos.result} initVideo={resGetVideoById} videoId={videoId} myChannelData={myChannelData}/>;
 }

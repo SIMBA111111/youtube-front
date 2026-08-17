@@ -73,18 +73,18 @@ export const VideosTable: FC<IVideosTable> = ({
                     <div className={styles.descr}>
                       <span className={styles.videoTitle}>{video.name}</span>
                       <div className={styles.videoActions}>
-                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/${video.videoHash}/edit`)}>
+                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/edit`)}>
                           <Svg name="pancel"/>
                           <div className={styles.notificationTooltip}>
                             <Text size={14} color='var(--whiteText)' weight={300}>Сведения</Text>
                           </div>
                         </div>
-                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/${video.videoHash}/analytics`)}>
+                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/analytics`)}>
                           <Svg name="analytics"/>
                           <div className={styles.notificationTooltip}>
                             <Text size={14} color='var(--whiteText)' weight={300}>Аналитика</Text>
                           </div></div>
-                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/${video.videoHash}/comments`)}>
+                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/comments`)}>
                           <Svg name="comments"/>
                           <div className={styles.notificationTooltip}>
                             <Text size={14} color='var(--whiteText)' weight={300}>Комментарии</Text>
@@ -104,7 +104,6 @@ export const VideosTable: FC<IVideosTable> = ({
                           <PopoverAction 
                             isOpen={isOpenedActionPopover} 
                             onClose={() => setIsOpenedActionPopover(false)} 
-                            videoHash={video.videoHash} 
                             videoId={video.id} 
                             videoMp4Url={video.videoMp4Url}
                             channelId={channelId}

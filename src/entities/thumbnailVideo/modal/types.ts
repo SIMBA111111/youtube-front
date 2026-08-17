@@ -5,7 +5,6 @@ import { VideoAccessId } from "@/shared/constants/radioButtons"
 export interface IVideo {
     id: string
     name: string
-    videoHash: string
     duration: number
     previewUrl: string
     videoPreviewUrl: string
@@ -15,6 +14,7 @@ export interface IVideo {
     dislikeCount: number
     commentsCount?: number
     videoAccess: VideoAccessId
+    averageColor: string
     masterM3u8Url: string
     channel: IChannel
     datePublication?: string

@@ -11,7 +11,6 @@ const NOTIFS = [
         video: {
             id: 'aksdjkasjkd',
             previewUrl: '/testImages/testVideoPreview.png',
-            videoHash: '8dy)sdy00A8&7h',
             isShort: false
         }
     },
@@ -27,7 +26,6 @@ const NOTIFS = [
         video: {
             id: 'aksdjkasjkd',
             previewUrl: '/testImages/testVideoPreview.png',
-            videoHash: '8dy)sdy00A8&7h',
             isShort: false
         }
     },
@@ -43,7 +41,6 @@ const NOTIFS = [
         video: {
             id: 'aksdjkasjkd',
             previewUrl: '/testImages/testVideoPreview.png',
-            videoHash: '8dy)sdy00A8&7h',
             isShort: false
         }
     },
@@ -59,7 +56,6 @@ const NOTIFS = [
         video: {
             id: 'aksdjkasjkd',
             previewUrl: '/testImages/testVideoPreview.png',
-            videoHash: '8dy)sdy00A8&7h',
             isShort: false
         }
     },
@@ -75,7 +71,6 @@ const NOTIFS = [
         video: {
             id: 'aksdjkasjkd',
             previewUrl: '/testImages/testVideoPreview.png',
-            videoHash: '8dy)sdy00A8&7h',
             isShort: false
         }
     },    {
@@ -90,7 +85,6 @@ const NOTIFS = [
         video: {
             id: 'aksdjkasjkd',
             previewUrl: '/testImages/testVideoPreview.png',
-            videoHash: '8dy)sdy00A8&7h',
             isShort: false
         }
     },
@@ -106,7 +100,6 @@ const NOTIFS = [
         video: {
             id: 'aksdjkasjkd',
             previewUrl: '/testImages/testVideoPreview.png',
-            videoHash: '8dy)sdy00A8&7h',
             isShort: false
         }
     },
@@ -122,7 +115,6 @@ const NOTIFS = [
         video: {
             id: 'aksdjkasjkd',
             previewUrl: '/testImages/testVideoPreview.png',
-            videoHash: '8dy)sdy00A8&7h',
             isShort: false
         }
     },

@@ -1,14 +1,12 @@
 'use client'
 
 import { FC, useEffect, useState } from "react";
-import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideoHash";
 import { CreatorCommentCard, ICreatorComment } from "@/entities/comments/ui/CreatorComments";
+import { getCommentsByVideoId } from "@/shared/api/comments/getCommentsByVideoId";
 import styles from "./styles.module.scss";
-
 
 interface IComments {
     videoId: string
-    videoHash: string
     me: any
 }
 
@@ -21,7 +19,6 @@ interface IPagination {
 
 export const Comments: FC<IComments> = ({
     videoId,
-    videoHash,
     me
 }) => {
     const [pagination, setPagination] = useState<IPagination>({
@@ -33,7 +30,7 @@ export const Comments: FC<IComments> = ({
     const [comments, setComments] = useState<ICreatorComment[]>([])
 
     const fetchData = async () => {
-        const res = await getCommentsByVideoHash(videoHash, pagination.offset, pagination.limit, '', me.Id, '')
+        const res = await getCommentsByVideoId(videoId, pagination.offset, pagination.limit, '', me.Id, '')
         setComments(res.comments)
     }
 

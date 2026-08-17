@@ -3,12 +3,12 @@
 import { CommentCard, IComment } from "@/entities/comments/ui/VideoComment";
 import { AddComment, CommentFilter } from "@/features";
 import { useEffect, useRef, useState } from "react";
-import { getCommentsByVideoHash } from "@/shared/api/comments/getCommentsByVideoHash";
 import { IChannel } from "@/entities/channels/modal/types";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
 import { getWordForm } from "@/shared/utils/getWordFrom";
 import { IChannelData } from "@/shared/utils/getChannelData";
+import { getCommentsByVideoId } from "@/shared/api/comments/getCommentsByVideoId";
 
 
 export type commentFilter = "famous" | "new";
@@ -42,7 +42,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
     offset, 
     limit, 
   }: IPagination) => {
-    const res = await getCommentsByVideoHash(
+    const res = await getCommentsByVideoId(
         videoId,
         offset,
         limit,

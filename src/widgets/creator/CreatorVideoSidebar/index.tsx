@@ -11,19 +11,11 @@ interface ICreatorVideoSidebar {
     videoPrevieww: string
     videoName: string
     videoId: string
-    videoHash: string
 }
 
 export const CreatorVideoSidebar: FC<ICreatorVideoSidebar> = async ({
-    videoPrevieww,
-    videoName,
     videoId,
-    videoHash,
 }) => {
-    console.log('videoId = ', videoId);
-    console.log('videoHash = ', videoHash);
-    
-
     return (
         <div className={styles.sidebar}>
             {/* <div className={styles.channel}>
@@ -35,7 +27,7 @@ export const CreatorVideoSidebar: FC<ICreatorVideoSidebar> = async ({
             <div className={styles.routes}>
                 {
                     CREATOR_VIDEO_SIDEBAR.map(el => 
-                        <NavigationItem href={el.href(videoId, videoHash)} name={el.name} svgName={el.svgName as keyof typeof svgs} key={el.id}/>
+                        <NavigationItem href={el.href(videoId)} name={el.name} svgName={el.svgName as keyof typeof svgs} key={el.id}/>
                     )
                 }
             </div>        

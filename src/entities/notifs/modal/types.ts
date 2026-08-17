@@ -7,7 +7,6 @@ export interface IChannelItem {
 interface IVideoItem {
     id: string
     previewUrl: string
-    videoHash: string
     isShort: boolean
 }
 

@@ -25,7 +25,6 @@ export const Notifications = ({userId} : {userId: string}) => {
         video: {
               id: 'string',
     previewUrl: 'string',
-    videoHash: 'string',
     isShort: false
         },
         isViewed: false

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Spinner, Svg } from "@/shared/ui";
@@ -9,8 +9,7 @@ import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
 
 interface IRecommentedVideos {
-  // initVideos: IVideo[];
-  videoHash: string;
+  videoId: string;
   myChannelId?: string;
 }
 
@@ -21,8 +20,7 @@ interface IFetchRecommendedVideoList {
 }
 
 export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
-  // initVideos,
-  videoHash,
+  videoId,
   myChannelId,
 }) => {
   const loadingRef = useRef<HTMLDivElement | null>(null);
@@ -32,7 +30,7 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
     limit,
   }: IFetchRecommendedVideoList) => {
     const res = await getRecommentedVideos(
-      videoHash,
+      videoId,
       offset,
       limit,
       myChannelId
@@ -55,7 +53,7 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
   return (
     <div className={styles.container}>
       {data
-        .filter((video: IVideo[]) => !video.isShort)
+        .filter((video: IVideo) => !video.isShort)
         .map((video: IVideo, index) => {
           return (
             <div key={index} className={styles.videoCardWrapper}>
