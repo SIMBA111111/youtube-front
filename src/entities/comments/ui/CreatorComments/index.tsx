@@ -73,7 +73,6 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleShowReplies = async () => {
-    // const res = await getCommentsByVideoHash('sadfasdf')
     const res = await getRepliesCommentsById(id, me?.id);
     setRelatedComments(res.comments);
     setShowReplies(true);
