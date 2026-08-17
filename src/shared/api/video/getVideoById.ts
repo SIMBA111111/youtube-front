@@ -1,9 +1,7 @@
 export const getVideoById = async (videoId: string, channelId?: string): Promise<any> => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos/${videoId}`, {
-            method: 'GET',
-            body: JSON.stringify({channelId: channelId}),
-            credentials: 'include'
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos/${videoId}?channelId=${channelId}`, {
+            method: 'GET'
         })
 
         if (res.status === 200) {

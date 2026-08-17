@@ -17,13 +17,14 @@ export const VideoSearch = () => {
         value: ''
     })
     const [isOpenVoice, setIsOpenVoice] = useState<boolean>(false)
+    const [isFocused, setIsFocused] = useState<boolean>(false)
     const { startRecording, stopRecording, voiceText, isRecording }  = voiceSearchHook()
     const valueRef = useRef<string>('')
     const router = useRouter()
 
     useEffect(() => {
         const handleEnterKey = (e: any) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && isFocused) {
                 handleSearch()
             }
         }
@@ -33,7 +34,7 @@ export const VideoSearch = () => {
         return () => {
             document.removeEventListener("keydown", handleEnterKey)
         }
-    }, [])
+    }, [isFocused])
 
     const fetchSelectedVideo = () => {
         if (!valueRef.current) {
@@ -73,7 +74,11 @@ export const VideoSearch = () => {
 
     return (
         <div className={styles.videoSearch}>
-            <div className={styles.search}>
+            <div 
+                className={styles.search} 
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+            >
                 <Searcher 
                     selectedElement={selectedElement}
                     setSelectedElement={setSelectedElement}

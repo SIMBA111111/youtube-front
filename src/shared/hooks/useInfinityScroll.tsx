@@ -36,10 +36,10 @@ export const useInfinityScroll = <T, Y>({
 }: IUseInfitityScroll<T, Y>): IHookResponse<T> => {
     const [data, setData] = useState<T[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
     const [pagination, setPagination] = useState({ offset: 0, limit: paginationStep });
     
     // ✅ Реф для актуальных значений пагинации
+    const hasMoreRef = useRef(true);
     const paginationRef = useRef(pagination);
     
     const observerRef = useRef<IntersectionObserver | null>(null);
@@ -64,7 +64,7 @@ export const useInfinityScroll = <T, Y>({
             });
 
             if (!res || res.length === 0) {
-                setHasMore(false);
+                hasMoreRef.current = false
                 setIsLoading(false)
                 return;
             }
@@ -72,7 +72,7 @@ export const useInfinityScroll = <T, Y>({
             setData(prev => [...prev, ...res]);
 
             if (res.length < paginationStep) {
-                setHasMore(false);
+                hasMoreRef.current = false
                 setIsLoading(false)
             } else {
                 setPagination(prev => ({
@@ -92,8 +92,8 @@ export const useInfinityScroll = <T, Y>({
     // ✅ callback использует paginationRef для получения актуальных значений
     const callback = async (entries: IntersectionObserverEntry[]) => {
         const entry = entries[0];
-        
-        if (!entry.isIntersecting || isLoading || !hasMore || isFetchingRef.current) {
+
+        if (!entry.isIntersecting || isLoading || !hasMoreRef.current || isFetchingRef.current) {
             return;
         }
 
@@ -104,7 +104,7 @@ export const useInfinityScroll = <T, Y>({
 
     // ✅ Настройка IntersectionObserver с обновленным callback
     useEffect(() => {
-        if (!triggerRef.current || !hasMore) return;
+        if (!triggerRef.current || !hasMoreRef.current) return;
 
         if (observerRef.current) {
             observerRef.current.disconnect();
@@ -120,7 +120,7 @@ export const useInfinityScroll = <T, Y>({
                 observerRef.current = null;
             }
         };
-    }, [hasMore, triggerRef.current]); // ✅ Убираем pagination из зависимостей
+    }, [hasMoreRef.current, triggerRef.current]); // ✅ Убираем pagination из зависимостей
 
     const refreshData = async () => {
         if (observerRef.current) {
@@ -130,7 +130,7 @@ export const useInfinityScroll = <T, Y>({
 
         setData([]);
         setPagination({ offset: 0, limit: paginationStep });
-        setHasMore(true);
+        hasMoreRef.current = true;
 
         await loadData(0, paginationStep);
     };
@@ -138,7 +138,7 @@ export const useInfinityScroll = <T, Y>({
     return { 
         data, 
         isLoading, 
-        hasMore, 
+        hasMore: hasMoreRef.current, 
         refreshData 
     };
 };

@@ -66,7 +66,7 @@
         const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
             if (e.key === 'Enter') {
                 setIsVisible(false);
-                inputRef.current?.blur();
+                // inputRef.current?.blur();
             }
         };
 

@@ -47,8 +47,6 @@ export default async function WatchVideo({
     ? "id" in videoData.isSubscribed
     : false;
 
-  console.log('videoData: ', videoData);
-  
 
   return (
     <div className={styles.page}>
