@@ -9,14 +9,14 @@ import { IPlaylist } from "@/entities/playlist/ui";
 import styles from "./styles.module.scss";
 
 interface IChannelTabs {
-    videoList: IVideo[]
+    // videoList: IVideo[]
     shortVideoList: IVideo[]
     playlists: IPlaylist[]
     channelUsername: string
 }
 
 export const ChannelTabs: React.FC<IChannelTabs> = ({
-    videoList,
+    // videoList,
     shortVideoList,
     playlists,
     channelUsername
@@ -32,7 +32,7 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
                 </Tabs.Tab> */}
 
                 <Tabs.Tab id="videos" label="Видео">
-                    <ChannelVideoList initVideoList={videoList} channelUsername={channelUsername}/>
+                    <ChannelVideoList channelUsername={channelUsername}/>
                 </Tabs.Tab>
                 
                 <Tabs.Tab id="shorts" label="Шортсы">

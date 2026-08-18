@@ -49,7 +49,7 @@ export default async function WatchVideo({
 
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} key={videoId}>
       <div className={styles.video}>
         <div className={styles.player}>
           <Player

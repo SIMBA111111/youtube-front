@@ -10,11 +10,11 @@ import { formatViews } from "@/shared/utils/formatViews";
 import { formatDate } from "@/shared/utils/formatDate";
 import { Modal, Svg, Text } from "@/shared/ui";
 import { hexToRgb } from "@/shared/utils/hexToRgb";
-import { getEllipsisText } from "@/shared/utils/getEllipsisText";
 
 import { handleMenuClick } from "../lib/handlers";
 import { SettigsVideoModal } from "./settingsModal";
 import { IVideo } from "../modal/types";
+import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient";
 import styles from "./styles.module.scss";
 
 interface IThumbnailVideoCard {
@@ -29,12 +29,8 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-
-  let userId
-
-  if (Cookies.get('channelData')) {
-    userId = JSON.parse(Cookies.get('channelData')).id
-  }
+  const channelData = getChannelDataClient() 
+  const router = useRouter()
 
   const handleSound = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -42,19 +38,46 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
     setIsSoundOn((prev: boolean) => !prev);
   };
 
-  // const handleRoute = (e: React.MouseEvent) => {
-  //     e.stopPropagation()
-  //     router.push(`videos/${video.id}`)
-  // }
+
+  // Обработчик клика по карточке
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Игнорируем клики по ссылкам и кнопкам внутри
+    const target = e.target as HTMLElement;
+    if (target.closest('a') || target.closest('button')) {
+      return;
+    }
+    
+    // Обычный клик
+    if (e.button === 0) {
+      router.push(`/watch?v=${video?.id}`);
+    }
+  };
+
+  // Обработчик для средней кнопки (колесико)
+  const handleCardAuxClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('a') || target.closest('button')) {
+      return;
+    }
+    
+    // Клик колесиком (button === 1)
+    if (e.button === 1) {
+      e.preventDefault();
+      window.open(`/watch?v=${video?.id}`, '_blank');
+    }
+  };
 
   return (
     <div className={styles.wrap}>
-      <Link
-        // onClick={(e: React.MouseEvent) => handleRoute(e)}
+      <div
         className={styles.cardContainer}
-        href={`/watch?v=${video?.id}`}
+        onClick={handleCardClick}
+        onAuxClick={handleCardAuxClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        role="link"
+        tabIndex={0}
+        style={{ cursor: 'pointer' }}
       >
         <div
           style={
@@ -93,15 +116,6 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
             <div className={styles.durationBadge}>
               {formatDuration(video?.duration)}
             </div>
-
-            {/* Прогресс-бар */}
-            <div className={styles.progressBar}>
-              <div
-                className={`${styles.progressFill} ${
-                  isHovered ? styles.progressFillActive : ""
-                }`}
-              ></div>
-            </div>
           </div>
 
           {/* Информация о видео */}
@@ -119,7 +133,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
 
             <div className={styles.header}>
               <h3 className={styles.title}>
-                {getEllipsisText(video?.name, 90)}
+                {video?.name}
               </h3>
 
               <div
@@ -132,16 +146,20 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
                   isOpenModal={isOpenModal}
                   setIsOpenModal={setIsOpenModal}
                   videoId={video.id}
-                  userId={userId}
+                  userId={channelData?.id || ''}
                 />
             </div>
 
-            {/* Название канала */}
-            <p className={styles.channelName}>
+            {/* Название канала - обернуто в Link */}
+            <Link
+              href={`/channel/${video.channel.username}`}
+              onClick={(e) => e.stopPropagation()} // Останавливаем всплытие, чтобы не сработал Link видео
+              className={styles.channelName}
+            >
               <Text size={isRow ? 12 : 14} color="var(--gray)">
                 {video?.channel?.name}
               </Text>
-            </p>
+            </Link>
 
             {/* Статистика */}
             <div className={styles.stats}>
@@ -163,7 +181,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
             {isSoundOn ? <Svg name={"soundOn"} /> : <Svg name={"soundOff"} />}
           </button>
         )}
-      </Link>
+      </div>
     </div>
   );
 };

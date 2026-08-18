@@ -3,10 +3,8 @@
 .container {
     max-width: 1920px;
     margin: 0 auto;
-    overflow: hidden;
-    @include scrollPage;
-
-        &::-webkit-scrollbar {
+    
+    &::-webkit-scrollbar {
         width: 0px;
         background: transparent;
     }
@@ -36,6 +34,7 @@
 .videoCardWrapper {
     width: 100%;
     border-radius: 28px;
+    margin: 0 -15px;
 }
 
 .loadingContainer {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Spinner, Text, VideoThumbnailSkeleton } from "@/shared/ui";
@@ -17,13 +17,13 @@ export enum FiltersEnum {
 
 export type filterType = keyof typeof FiltersEnum
 
-export const ChannelVideoList = ({initVideoList, channelUsername}: {initVideoList: IVideo[], channelUsername: string}) => {
+export const ChannelVideoList = ({initVideoList, channelUsername}: {initVideoList?: IVideo[], channelUsername: string}) => {
     const [activeFilter, setActiveFilter] = useState<filterType>(FiltersEnum.NEWS)
     const loadingRef = useRef<HTMLDivElement | null>(null)
 
     const fetchChannelVideoList = async ({
         offset,
-        limit
+        limit,
     }: {
         offset: number,
         limit: number
@@ -46,24 +46,24 @@ export const ChannelVideoList = ({initVideoList, channelUsername}: {initVideoLis
 
     const changeFilterAndRefresh = (newFilter: filterType) => {
         setActiveFilter(newFilter)
-        refreshData()
     }
 
-    // Если нет видео и не идет загрузка
-    if(data?.length === 0 && !isLoading) {
-        return (
-            <div className={styles.container}>
-                <ChannelVideosFilter activeFilter={activeFilter} changeFilterAndRefresh={changeFilterAndRefresh} />
-                <div className={styles.videoGrid}>
-                    <Text>Видео не найдены</Text>
-                </div>
-            </div>
-        )   
-    }
+    useEffect(() => {
+        refreshData()
+    }, [activeFilter])
 
     return (
         <div className={styles.container} id='videoListContainer'>
             <ChannelVideosFilter activeFilter={activeFilter} changeFilterAndRefresh={changeFilterAndRefresh} />
+
+            { data?.length === 0 && (
+                <div className={styles.container}>
+                    <div className={styles.videoGrid}>
+                        <Text>Видео не найдены</Text>
+                    </div>
+                </div>
+            )} 
+
 
             <div className={styles.videoGrid}>
                 {data.map((video: IVideo) => (
@@ -74,7 +74,7 @@ export const ChannelVideoList = ({initVideoList, channelUsername}: {initVideoLis
             </div>
 
             {/* Индикатор загрузки и триггер для бесконечного скролла */}
-            <div ref={loadingRef} style={{ height: '40px', margin: '20px' }}>
+            <div ref={loadingRef} style={{ height: '10px', margin: '10px' }}>
                 {isLoading && (
                     <Spinner size={32} />
                 )}

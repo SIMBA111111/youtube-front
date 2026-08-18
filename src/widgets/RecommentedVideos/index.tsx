@@ -61,7 +61,7 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
             </div>
           );
         })}
-      {<div ref={loadingRef} style={{ height: "50px", margin: "20px" }}>
+      {<div ref={loadingRef} style={{ height: "10px", margin: "10px" }}>
         {isLoading && (
           <div className={styles.recommendedVideoLoader}>
             <Spinner />
