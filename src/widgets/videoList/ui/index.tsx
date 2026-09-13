@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, FC } from "react";
 
 import { IVideo } from "@/entities/thumbnailVideo/modal/types";
 import { Spinner, Svg, Text, VideoThumbnailSkeleton } from "@/shared/ui";
@@ -11,25 +11,21 @@ import { getVideosCount } from "@/shared/utils/getVideosCount";
 import { getShortsCount } from "@/shared/utils/getShortsCount";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import { InfinityScrollLoader } from "@/shared/ui/InfinityScrollLoader";
+import { ITagEntity } from "@/entities/videoTags/model";
 
 import { VideoGrid } from "./videoGrid";
 import { ShortTag } from "./shortsTag";
 import styles from "./styles.module.scss";
 
-interface ITAG {
-  id: string;
-  name: string;
-}
 
 export type deviceType = 'isMobile' | 'isTablet' | 'isDesktop'
 
-export const VideoList = ({
-  tags,
-  jwt,
-}: {
-  tags?: ITAG[];
+interface IVideoList {
+  tags: ITagEntity[];
   jwt: string;
-}) => {
+}
+
+export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
   const [activeTag, setActiveTag] = useState<string>(tags?.[0].name || "");
   const device = useDeviceIsMobile();
   const loadingRef = useRef<HTMLDivElement | null>(null);
@@ -88,7 +84,7 @@ export const VideoList = ({
     <div className={styles.container} id="videoListContainer">
         {tags && tags.length > 0 && (
           <div className={styles.tagList}>
-            {tags.map((tag: ITAG, index) => {
+            {tags.map((tag: ITagEntity, index) => {
               return (
                 <VideoTags
                   key={index}

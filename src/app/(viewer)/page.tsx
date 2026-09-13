@@ -8,9 +8,12 @@ export default async function MainPage() {
   const jwt = await (await cookies()).get('jwt')
   const tags = await getTags()
 
+  console.log('tags: ', tags);
+  
+
   return (
     <div className={styles.page}>
-      <VideoList tags={tags.tags} jwt={jwt?.value || ''}/>
+      <VideoList tags={tags.data} jwt={jwt?.value || ''}/>
     </div>
   );
 }
