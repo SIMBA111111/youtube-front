@@ -1,4 +1,9 @@
-export const HISTORY_TAGS = [
+export type THISTORY_TAGS = {
+    id: string
+    name: string
+}
+
+export const HISTORY_TAGS: THISTORY_TAGS[] = [
     {
         id: '1',
         name: 'all'
@@ -19,7 +24,7 @@ export const HISTORY_TAGS = [
         id: '5',
         name: 'Музыка'
     },
-]
+] as const
 
 export const LIKED_TAGS = [
     {

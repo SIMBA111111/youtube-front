@@ -40,7 +40,8 @@
   --sidebar-mobile-width-closed: 5px;
 }
 
-[data-theme="dark"] {
+[data-theme="dark"],
+[data-theme="device based"] {
   --gray: #909090;
   --lightGray: #717171;
   --backgroungGray: #212121;

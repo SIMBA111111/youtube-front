@@ -23,7 +23,7 @@ export default async function RootLayout({
                     ? 'dark' 
                     : 'light';
                 } else {
-                  initTheme = initTheme[0].split('=')[1]
+                  initTheme = decodeURIComponent(initTheme[0].split('=')[1])
                 }
 
                 const root = document.documentElement;

@@ -57,6 +57,8 @@ export const useInfinityScroll = <T, Y>({
         // setIsLoading(true);
 
         try {
+            console.log('ВЫЗОВ');
+            
             const res = await fetchData({
                 offset,
                 limit,
