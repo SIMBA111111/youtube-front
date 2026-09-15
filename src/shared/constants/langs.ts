@@ -1,5 +1,5 @@
 export type TLangShort = 'ru' | 'en'
-export type TLangFull = 'Русский' | 'English'
+export type TLangFull = 'russian' | 'english'
 
 interface ILanguage {
     id: TLangShort
@@ -7,6 +7,6 @@ interface ILanguage {
 }
 
 export const languages = [
-    { id: 'ru', name: 'Русский' },
-    { id: 'en', name: 'English' },
+    { id: 'ru', name: 'russian' },
+    { id: 'en', name: 'english' },
 ] as ILanguage[]

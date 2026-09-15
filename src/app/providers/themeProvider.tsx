@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-export type Theme = "light" | "dark" | "device";
+export type Theme = "light" | "dark" | "device based";
 
 interface ThemeContextType {
   theme: Theme;
@@ -11,9 +11,9 @@ interface ThemeContextType {
 }
 
 export enum Themes {
-  light = "светлая",
-  dark = "темная",
-  device = "как на устройстве",
+  light = "light",
+  dark = "dark",
+  'device based' = "device based",
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -36,7 +36,7 @@ export function ThemeProvider({
   const applyTheme = (themeValue: Theme) => {
     const root = document.documentElement;
 
-    if (themeValue === "device") {
+    if (themeValue === "device based") {
       const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       root.setAttribute("data-theme", isDark ? "dark" : "light");
     } else {
@@ -49,8 +49,8 @@ export function ThemeProvider({
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
     const handleChange = () => {
-      if (theme === "device") {
-        applyTheme("device");
+      if (theme === "device based") {
+        applyTheme("device based");
       }
     };
 

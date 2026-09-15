@@ -1,3 +1,6 @@
+
+export type TSvgs = keyof typeof svgs;
+
 export const svgs = {
     uploadImage: 'uploadImage',
     arrowDown: 'arrowDown',
@@ -80,4 +83,4 @@ export const svgs = {
     magic: 'magic',
     magicFill: 'magicFill',
     pancel: 'pancel'
-}
+} as const

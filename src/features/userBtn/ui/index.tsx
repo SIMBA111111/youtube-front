@@ -90,7 +90,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
                   <Text>{channelName}</Text>
                   <Text>{username}</Text>
                   <Link href={"/"}>
-                    <Text color="blue">Посмотреть канал</Text>
+                    <Text color="blue">{t('view channel')}</Text>
                   </Link>
                 </div>
               </div>
@@ -101,7 +101,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
                 onClick={() => setSubModal("theme")}
               >
                 <Svg name="moon" />
-                <Text>Тема: {Themes[currentTheme]}</Text>
+                <Text>{t('theme')}: {t(Themes[currentTheme])}</Text>
                 <Svg name="arrowLeft" />
               </div>
 
@@ -111,7 +111,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
               >
                 <Svg name="lenguage" />
                 <Text>
-                  Язык интерфейса:{" "}
+                  {t('Interface Language')}:{" "}
                   {languages.find((lang) => lang.id === activeLanguage)?.name}
                 </Text>
                 <Svg name="arrowLeft" />
@@ -119,7 +119,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
 
               <Link href={"/account"} className={styles.settings__item}>
                 <Svg name="settings" />
-                <Text>Настройки</Text>
+                <Text>{t('settings')}</Text>
               </Link>
 
               {jwt && (
@@ -130,7 +130,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
                   }}
                 >
                   <Svg name="exit" />
-                  <Text>Выйти</Text>
+                  <Text>{t('logout')}</Text>
                 </div>
               )}
             </div>
@@ -145,7 +145,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
               onClick={() => setSubModal(null)}
             >
               <Svg name="arrowLeftFull" />
-              <Text weight={400}>Тема</Text>
+              <Text weight={400}>{t('theme')}</Text>
             </div>
             <div className={styles.subMenu__list}>
               <Text
@@ -154,7 +154,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
                 weight={400}
                 className={styles.warningText}
               >
-                Настройка будет применена только в этом браузере.
+                {t('The setting will be applied only in this browser')}
               </Text>
               {themes.map((theme) => (
                 <div
@@ -169,7 +169,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
                   <div className={currentTheme === theme.id ? styles.checkActive : styles.checkHide}>
                     <Svg name="check" size="small" />
                   </div>
-                  <Text weight={400}>{theme.name}</Text>
+                  <Text weight={400}>{t(theme.name)}</Text>
                 </div>
               ))}
             </div>
@@ -191,7 +191,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
               weight={400}
               className={styles.warningText}
             >
-              Кнопки и текст на экране в этом браузере
+              {t('Buttons and on-screen text in this browser')}
             </Text>
             <div className={styles.subMenu__list}>
               {languages.map((lang) => (
@@ -205,7 +205,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
                   <div className={activeLanguage === lang.id ? styles.checkActive : styles.checkHide}>
                     <Svg name="check" size="small" />
                   </div>
-                  <Text weight={400} size={16}>{lang.name}</Text>
+                  <Text weight={400} size={16}>{t(lang.name)}</Text>
                 </div>
               ))}
             </div>

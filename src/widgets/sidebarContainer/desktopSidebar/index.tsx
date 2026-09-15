@@ -7,13 +7,15 @@ import Cookies from "js-cookie";
 
 import { Popover, Svg, Text } from "@/shared/ui";
 import { IChannel } from "@/entities/channels/modal/types";
-import { SIDEBAR_NAVIGATION, SIDEBAR_YOU } from "@/shared/constants/sidebar";
+import { SIDEBAR_NAVIGATION, SIDEBAR_YOU, TSIDEBAR_NAVIGATION, TSIDEBAR_YOU } from "@/shared/constants/sidebar";
 import { useSidebarStore } from "@/shared/store/sidebar";
 import { IThumbnailShortVideo } from "@/entities/thumbnailShortVideo/modal/types";
 import { Menu } from "@/shared/ui/Menu";
 
 import styles from "./styles.module.scss";
 import { LoginBtn } from "@/features";
+import { t } from "i18next";
+import { getRegisteredTranslate } from "@/shared/utils/getRegisteredTranslate";
 
 type menuItems = "subs" | "you" | null;
 
@@ -58,7 +60,7 @@ export const DesktopSidebar = ({
                   <Svg name="home" />
                 )}
                 <Text weight={400} size={12}>
-                  Главная
+                  {getRegisteredTranslate('main', true)}
                 </Text>
               </Link>
 
@@ -72,7 +74,7 @@ export const DesktopSidebar = ({
                   <Svg name="shorts" />
                 )}
                 <Text weight={400} size={12}>
-                  Shorts
+                  {getRegisteredTranslate('shorts', true)}
                 </Text>
               </Link>
 
@@ -88,7 +90,7 @@ export const DesktopSidebar = ({
                   <Svg name="subscriptions" />
                 )}
                 <Text weight={400} size={12}>
-                  Подписки
+                  {getRegisteredTranslate('subscriptions', true)}
                 </Text>
                 <Menu
                   delay={150}
@@ -102,7 +104,7 @@ export const DesktopSidebar = ({
                     weight={600}
                     className={styles.youMenu_header}
                   >
-                    Подписки
+                  {getRegisteredTranslate('subscriptions', true)}
                   </Text>
                   <div className={styles.youMenu}>
                     {channels?.map((channel: IChannel) => (
@@ -140,7 +142,7 @@ export const DesktopSidebar = ({
                   <Svg name="myAccount" />
                 )}
                 <Text weight={400} size={12}>
-                  Вы
+                  {getRegisteredTranslate('you', true)}
                 </Text>
                 <Menu
                   delay={150}
@@ -154,7 +156,7 @@ export const DesktopSidebar = ({
                     weight={600}
                     className={styles.youMenu_header}
                   >
-                    Вы
+                  {getRegisteredTranslate('you', true)}
                   </Text>
                   <div className={styles.youMenu}>
                     <Link
@@ -162,39 +164,39 @@ export const DesktopSidebar = ({
                       className={styles.youMenu_item}
                     >
                       <Svg name="history" />
-                      <Text>История</Text>
+                      <Text>{getRegisteredTranslate('you', true)}</Text>
                     </Link>
                     <Link
                       href={"/feed/playlists"}
                       className={styles.youMenu_item}
                     >
                       <Svg name="playlist" />
-                      <Text>Плейлисты</Text>
+                      <Text>{getRegisteredTranslate('playlists', true)}</Text>
                     </Link>
                     <Link
                       href={"/feed/see-later"}
                       className={styles.youMenu_item}
                     >
                       <Svg name="clock" />
-                      <Text>Смотреть позже</Text>
+                      <Text>{getRegisteredTranslate('playlists', true)}Понравившиеся</Text>
                     </Link>
                     <Link href={"/feed/liked"} className={styles.youMenu_item}>
                       <Svg name="like" />
-                      <Text>Понравившиеся</Text>
+                      <Text>{getRegisteredTranslate('playlists', true)}Понравившиеся</Text>
                     </Link>
                     <Link
                       href={"/feed/my-videos"}
                       className={styles.youMenu_item}
                     >
                       <Svg name="video" />
-                      <Text>Ваши видео</Text>
+                      <Text>{getRegisteredTranslate('playlists', true)}Ваши видео</Text>
                     </Link>
                     <Link
                       href={"/feed/dowloaded"}
                       className={styles.youMenu_item}
                     >
                       <Svg name="download" />
-                      <Text>Скачанное</Text>
+                      <Text>{getRegisteredTranslate('playlists', true)}Скачанное</Text>
                     </Link>
                   </div>
                 </Menu>
@@ -223,7 +225,7 @@ export const DesktopSidebar = ({
                     <Svg name="home" />
                   )}
                   <Text weight={400} size={14}>
-                    Главная
+                    {getRegisteredTranslate('main', true)}
                   </Text>
                 </Link>
 
@@ -241,7 +243,7 @@ export const DesktopSidebar = ({
                     <Svg name="shorts" />
                   )}
                   <Text weight={400} size={14}>
-                    Shorts
+                    {getRegisteredTranslate('shorts', true)}
                   </Text>
                 </Link>
               </div>
@@ -250,7 +252,7 @@ export const DesktopSidebar = ({
                 <>
                   <div className={styles.divider}>
                     <Link href={"/subscriptions"} className={styles.btns__item__open}>
-                      <Text>Подписки</Text>
+                      <Text>{getRegisteredTranslate('subscriptions', true)}</Text>
                       <Svg name="arrowLeft" size="small" />
                     </Link>
                     {channels.map((channel: IChannel) => (
@@ -273,11 +275,11 @@ export const DesktopSidebar = ({
 
                   <div className={styles.divider}>
                     <Link href={"/you"} className={styles.btns__item__open}>
-                      <Text>Вы</Text>
+                      <Text>{getRegisteredTranslate('you', true)}</Text>
                       <Svg name="arrowLeft" size="small" />
                     </Link>
 
-                    {SIDEBAR_YOU.map((el: any) => (
+                    {SIDEBAR_YOU.map((el: TSIDEBAR_YOU) => (
                       <Link
                         key={el.id}
                         href={el.href}
@@ -285,7 +287,7 @@ export const DesktopSidebar = ({
                       >
                         <Svg name={el.svgName} />
                         <Text weight={400} size={14}>
-                          {el.name}
+                          {getRegisteredTranslate(el.name, true)}
                         </Text>
                       </Link>
                     ))}
@@ -293,7 +295,7 @@ export const DesktopSidebar = ({
                 </> :
                 (
                   <div className={styles.unauth}>
-                    <Text lineHeight={20}>Вы сможете ставить отметки "Нравится", писать комментарии и подписываться на каналы.</Text>
+                    <Text lineHeight={20}>{getRegisteredTranslate("you will be able to like, comment, and subscribe to channels", true)}</Text>
                     <LoginBtn/>
                   </div>
                 )
@@ -303,10 +305,10 @@ export const DesktopSidebar = ({
                 <div
                   className={`${styles.navigator} ${styles.btns__item__open}`}
                 >
-                  <Text>Навигатор</Text>
+                  <Text>{getRegisteredTranslate('navigator', true)}</Text>
                 </div>
 
-                {SIDEBAR_NAVIGATION.map((el: any) => (
+                {SIDEBAR_NAVIGATION.map((el: TSIDEBAR_NAVIGATION) => (
                   <Link
                     key={el.id}
                     href={el.href}
@@ -314,7 +316,7 @@ export const DesktopSidebar = ({
                   >
                     <Svg name={el.svgName} />
                     <Text weight={400} size={14}>
-                      {el.name}
+                      {getRegisteredTranslate(el.name, true)}
                     </Text>
                   </Link>
                 ))}

@@ -1,5 +1,5 @@
 export const themes = [
-    { id: 'device', name: 'Как на устройстве' },
-    { id: 'dark', name: 'Темная' },
-    { id: 'light', name: 'Светлая' },
+    { id: 'device based', name: 'device based' },
+    { id: 'dark', name: 'dark' },
+    { id: 'light', name: 'light' },
 ]

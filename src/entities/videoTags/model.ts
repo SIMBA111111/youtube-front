@@ -5,7 +5,6 @@ export interface ITagEntity {
   updatedDate: string;
 }
 
-
 export interface IVideoTag {
     id: string
     name: string
