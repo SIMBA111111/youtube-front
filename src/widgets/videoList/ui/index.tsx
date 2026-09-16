@@ -31,13 +31,6 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
   const fetchVideoList = useCallback(async ({offset, limit}: {offset: number, limit: number}) => {
-    
-    console.log('===============');
-    console.log('activeTag: ', activeTag);
-    console.log('limit: ', limit);
-    console.log('===============');
-    
-    
     const res = await getVideos(jwt, activeTag, null, offset, limit);
     if(res.success)
       return res.data
@@ -86,6 +79,9 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
 
   const firstShortsSection = shorts.slice(0, shortsCount)
   const secondShortsSection = shorts.slice(shortsCount, shortsCount * 2)
+
+  console.log('data: ', data);
+  
 
   return (
     <div className={styles.container} id="videoListContainer">
