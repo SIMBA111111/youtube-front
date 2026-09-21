@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Svg, Text } from "@/shared/ui";
 import { HorizontalCollaps, HorizontalCollapsBody, HorizontalCollapsHeader} from "@/shared/ui/HorizontalCollaps";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { getVideosCount } from "@/shared/utils/getVideosCount";
 import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";

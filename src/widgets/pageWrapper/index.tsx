@@ -9,9 +9,10 @@ import styles from './styles.module.scss'
 interface LayoutWrapperProps {
     children: React.ReactNode
     myChannelData: IChannelData | null
+    jwt: string | undefined
 }
 
-export function PageWrapper({ children, myChannelData }: LayoutWrapperProps) {
+export function PageWrapper({ children, myChannelData, jwt }: LayoutWrapperProps) {
     const {isOpen} = useSidebarStore()
 
     return (
@@ -21,7 +22,7 @@ export function PageWrapper({ children, myChannelData }: LayoutWrapperProps) {
             </div>
             
             <div className={styles.headerWrapper}>
-                <Header myChannelData={myChannelData}/>
+                <Header myChannelData={myChannelData} jwt={jwt}/>
             </div>
             
             <div className={isOpen ? styles.pageWrapper_opened : styles.pageWrapper}>

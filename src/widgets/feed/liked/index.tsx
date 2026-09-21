@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from "react";
-import { IVideo, IVideoViewed } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo, IVideoViewed } from "@/entities/thumbnailVideo/model/types";
 import { ITag, VideoTags } from "@/entities/videoTags/ui";
 import { LIKED_TAGS } from "@/shared/constants/tags";
 import { Spinner, Text } from "@/shared/ui";

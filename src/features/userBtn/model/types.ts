@@ -3,4 +3,5 @@ export interface IUserBtn {
     channelName?: string
     username?: string
     avatarUrl?: string
+    jwt?: string | undefined
 }

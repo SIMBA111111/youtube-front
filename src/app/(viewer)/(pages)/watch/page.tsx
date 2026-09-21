@@ -5,7 +5,7 @@ import { Text } from "@/shared/ui";
 import { Comments } from "@/widgets/Comments";
 import { updateViewVideo } from "@/shared/api/video/updateViewVideo";
 import { IChannel } from "@/entities/channels/modal/types";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { getChannelData } from "@/shared/utils/getChannelData";
 import {Player} from "@webitch/player";
 import { getVideoById } from "@/shared/api/video/getVideoById";

@@ -18,7 +18,7 @@ import { SubscribeButton } from "@/features";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { IShortVideoListItem } from "@/entities/thumbnailShortVideo/modal/types";
 import styles from "./styles.module.scss";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 
 
 const ShortPlayer = dynamic(

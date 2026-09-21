@@ -3,6 +3,7 @@ import { TTraslates } from "@/shared/types/translates";
 export interface ITagEntity {
   id: string;
   name: TTraslates;
+  isAuth: boolean;
   createdDate: string;
   updatedDate: string;
 }

@@ -12,7 +12,12 @@ import { MainLogoBtn } from "@/features/mainLogoBtn/ui";
 import { IChannelData } from "@/shared/utils/getChannelData";
 import styles from "./styles.module.scss";
 
-export const Header = ({myChannelData}: {myChannelData: IChannelData | null}) => {
+export const Header = ({myChannelData, jwt}: {myChannelData: IChannelData | null, jwt: string | undefined}) => {
+  console.log('-------------------');
+  console.log('myChannelData: ', myChannelData);
+  console.log('jwt: ', jwt);
+  
+  
   return (
     <div className={styles.headerContainer}>
       <div className={styles.headerContainer__block}>
@@ -25,7 +30,7 @@ export const Header = ({myChannelData}: {myChannelData: IChannelData | null}) =>
         </div>
       </div>
       <div className={styles.headerContainer__block}>
-        {myChannelData ? (
+        {myChannelData && jwt ? (
           <>
             <CreateContentBtn channelId={myChannelData.id} />
             <Notifications userId={myChannelData.id}/>
@@ -34,6 +39,7 @@ export const Header = ({myChannelData}: {myChannelData: IChannelData | null}) =>
               username={myChannelData.username}
               channelName={myChannelData.name}
               avatarUrl={myChannelData.avatarUrl}
+              jwt={jwt}
             />
           </>
         ) : (

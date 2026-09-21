@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react"
 import { Tabs } from "@/shared/ui/Tab"
 import { VideosTable } from "@/features/creator";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
 import { FiltersEnum } from "@/features/ChannelVideoList/ui";
 import { CreateVideoModal } from "@/features/CreateVideoModal";

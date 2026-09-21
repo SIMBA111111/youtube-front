@@ -124,10 +124,6 @@ const VIDEOS = [
 export const getVideos = async (jwt: string | null = null, tag: string | null = 'all', isShorts: boolean | null = null, offset: number = 0, limit: number = 2) => {
     try {
         const params = new URLSearchParams(`tagName=${tag}&isShorts=${isShorts}&offset=${offset}&limit=${limit}`)
-        console.log('params: ', params.toString());
-        console.log('tag: ', tag);
-        console.log('tag: ', null);
-        
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos?tagName=${tag}&isShorts=${isShorts}&offset=${offset}&limit=${limit}`, {
             headers: { 

@@ -24,6 +24,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
   username,
   channelName,
   avatarUrl,
+  jwt
 }) => {
   const { theme, setTheme } = useTheme();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -37,7 +38,6 @@ export const UserBtn: React.FC<IUserBtn> = ({
   };
 
   const activeLanguage = Cookies.get("lang") || navigator.language.slice(0, 2);
-  const jwt = Cookies.get("jwt");
 
   useEffect(() => {
     const handleStorageChanged = (e: StorageEvent) => {
@@ -54,6 +54,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
 
   }, [])
  
+  console.log('jwt: ', jwt)
     
   return (
     <>

@@ -1,7 +1,7 @@
 'use client'
 
 import { Tabs } from "@/shared/ui/Tab";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { ChannelVideoList } from "@/features/ChannelVideoList/ui";
 import { ChannelShortVideoList } from "@/features/ChannelShortVideoList/ui";
 import { ChannelPlaylists } from "@/features/ChannelPlaylists/ui";

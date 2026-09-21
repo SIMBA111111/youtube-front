@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Spinner, Text, VideoThumbnailSkeleton } from "@/shared/ui";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";

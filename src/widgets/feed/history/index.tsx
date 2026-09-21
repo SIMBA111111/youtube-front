@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from "react";
-import { IVideoViewed } from "@/entities/thumbnailVideo/modal/types";
+import { IVideoViewed } from "@/entities/thumbnailVideo/model/types";
 import { ITag, VideoTags } from "@/entities/videoTags/ui";
 import { HISTORY_TAGS } from "@/shared/constants/tags";
 import { ShortsSwiper, Spinner, Text } from "@/shared/ui";

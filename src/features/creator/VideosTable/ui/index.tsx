@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { Svg, Text } from "@/shared/ui";
 import { formatDate } from "@/shared/utils/formatDate";
 import { formatViews } from "@/shared/utils/formatViews";

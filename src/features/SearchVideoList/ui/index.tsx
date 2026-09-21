@@ -1,6 +1,6 @@
 'use client'
 
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { SearchVideoItem } from "@/entities/thumbnailVideo/ui/SearchVideoItem";
 import { getVideosByName } from "@/shared/api/video/getVideosByName";
 import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient";

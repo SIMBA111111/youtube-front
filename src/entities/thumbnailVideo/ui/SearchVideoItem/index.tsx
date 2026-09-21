@@ -3,7 +3,7 @@
 import React, { useState, MouseEvent } from "react";
 import Link from "next/link";
 
-import { IVideo } from "../../modal/types";
+import { IVideo } from "../../model/types";
 import { formatDuration } from "@/shared/utils/formatDuration";
 import { formatViews } from "@/shared/utils/formatViews";
 import { formatDate } from "@/shared/utils/formatDate";

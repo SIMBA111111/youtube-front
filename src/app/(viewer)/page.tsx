@@ -6,10 +6,9 @@ import styles from "./styles.module.scss";
 
 export default async function MainPage() {
   const jwt = await (await cookies()).get('jwt')
-  const tags = await getTags()
+  const tags = await getTags(jwt?.value)
 
   console.log('tags: ', tags);
-  
 
   return (
     <div className={styles.page}>

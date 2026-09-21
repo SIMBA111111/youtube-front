@@ -6,7 +6,7 @@ import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 
 import { IPlaylist, Playlist } from "@/entities/playlist/ui";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Svg, Text } from "@/shared/ui";
 

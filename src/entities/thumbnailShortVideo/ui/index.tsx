@@ -10,18 +10,16 @@ import { SettigsVideoModal } from "@/entities/thumbnailVideo/ui/settingsModal"
 import { IThumbnailShortVideo } from "../modal/types"
 
 import styles from './styles.module.scss'
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types"
 
 
-export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
-    id,
-    name,
-    duration,
-    previewUrl,
-    videoPreviewUrl,
-    viewersCount,
-    channel,
-    datePublication,
-    isShort,
+interface IThumbnailShortVideoCard {
+    video: IVideoFullInfo
+    isRow?: boolean
+}
+
+export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideoCard> = ({
+    video,
     isRow = false
 }) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -36,18 +34,18 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
 
     return (
         <Link 
-            href={`/shorts/${id}`} 
+            href={`/shorts/${video.video.id}`} 
             className={styles.shortContainer}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className={styles.contentWrapper}>
-                <img ref={colorRef} src={previewUrl} alt="preview" className={styles.img}/>
+                <img ref={colorRef} src={video.video?.thumbnailUrl} alt="thumbnailUrl" className={styles.img}/>
 
-                {isHovered && videoPreviewUrl && (
+                {isHovered && video.video?.videoPreviewUrl && (
                     <video
                         className={styles.videoPreview}
-                        src={videoPreviewUrl}
+                        src={video.video.videoPreviewUrl}
                         autoPlay
                         // muted = {!isSoundOn}
                         loop
@@ -57,13 +55,13 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideo> = ({
             </div>
             
             <div className={styles.header}>
-                <Text size={14} weight={600} className={styles.shortVideoName}>{name}</Text>
+                <Text size={14} weight={600} className={styles.shortVideoName}>{video.video.name}</Text>
                 <div className={styles.ellipsis} onClick={(e: React.MouseEvent) => handleMenuClick(e)}>
                     <Svg name="verticalEllipsis" />
                 </div>
-                <SettigsVideoModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} videoId={id} userId={channel.id}/>
+                <SettigsVideoModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} videoId={video.video.id} userId={video.channel.channelId}/>
             </div>
-            <Text color="var(--gray)" size={12}>{formatViews(viewersCount)} просмотров</Text>
+            <Text color="var(--gray)" size={12}>{formatViews(video.video.viewersCount)} просмотров</Text>
         </Link>
     )
 }

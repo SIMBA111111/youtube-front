@@ -15,6 +15,7 @@ export default async function RootLayout({
 }>) {
   const cookieStore = await cookies();
   const theme = cookieStore.get("theme")?.value;
+  const jwt = cookieStore.get("jwt")?.value;
   const myChannelData = await getChannelData(cookieStore)
 
   const currentTheme = theme ? theme : "device";
@@ -23,7 +24,7 @@ export default async function RootLayout({
     <ThemeProvider initialTheme={currentTheme as any}>
       <ToastProvider>
         <ProgressBarProvider>
-          <PageWrapper myChannelData={myChannelData}>{children}</PageWrapper>
+          <PageWrapper myChannelData={myChannelData} jwt={jwt}>{children}</PageWrapper>
         </ProgressBarProvider>
       </ToastProvider>
     </ThemeProvider>

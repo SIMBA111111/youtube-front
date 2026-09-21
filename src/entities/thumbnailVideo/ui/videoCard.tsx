@@ -13,12 +13,12 @@ import { hexToRgb } from "@/shared/utils/hexToRgb";
 
 import { handleMenuClick } from "../lib/handlers";
 import { SettigsVideoModal } from "./settingsModal";
-import { IVideo } from "../modal/types";
+import { IVideoFullInfo } from "../model/types";
 import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient";
 import styles from "./styles.module.scss";
 
 interface IThumbnailVideoCard {
-  video: IVideo;
+  video: IVideoFullInfo;
   isRow?: boolean;
 }
 
@@ -49,7 +49,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
     
     // Обычный клик
     if (e.button === 0) {
-      router.push(`/watch?v=${video?.id}`);
+      router.push(`/watch?v=${video.video.id}`);
     }
   };
 
@@ -63,7 +63,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
     // Клик колесиком (button === 1)
     if (e.button === 1) {
       e.preventDefault();
-      window.open(`/watch?v=${video?.id}`, '_blank');
+      window.open(`/watch?v=${video.video.id}`, '_blank');
     }
   };
 
@@ -82,7 +82,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
         <div
           style={
             {
-              "--custom-color": hexToRgb(video.averageColor),
+              "--custom-color": hexToRgb(video.video.averageColor),
             } as React.CSSProperties
           }
           className={isRow ? styles.card_Row : styles.card}
@@ -95,16 +95,16 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
           >
             {/* Превью изображение */}
             <img
-              src={video?.previewUrl || "/defaultImages/defaultAvatar.png"}
-              alt={video?.name}
+              src={video.video.thumbnailUrl || "/defaultImages/defaultAvatar.png"}
+              alt={video.video.name}
               className={isRow ? styles.thumbnail_Row : styles.thumbnail}
             />
 
             {/* Видеопревью при наведении */}
-            {isHovered && video?.videoPreviewUrl && (
+            {isHovered && video.video?.videoPreviewUrl && (
               <video
                 className={styles.videoPreview}
-                src={video?.videoPreviewUrl}
+                src={video.video?.videoPreviewUrl}
                 autoPlay
                 muted={!isSoundOn}
                 loop
@@ -114,7 +114,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
 
             {/* Длительность видео */}
             <div className={styles.durationBadge}>
-              {formatDuration(video?.duration)}
+              {formatDuration(video.video.duration)}
             </div>
           </div>
 
@@ -125,15 +125,15 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
             {/* Аватар канала */}
             {!isRow && (
               <img
-                src={video?.channel?.avatarUrl || "/default-avatar.png"}
-                alt={video?.channel?.username || "Channel"}
+                src={video.channel.channelAvatarUrl || "/default-avatar.png"}
+                alt={video.channel.channelName || "Channel"}
                 className={styles.channelAvatar}
               />
             )}
 
             <div className={styles.header}>
               <h3 className={styles.title}>
-                {video?.name}
+                {video.video.name}
               </h3>
 
               <div
@@ -145,31 +145,31 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
                 <SettigsVideoModal
                   isOpenModal={isOpenModal}
                   setIsOpenModal={setIsOpenModal}
-                  videoId={video.id}
+                  videoId={video.video.id}
                   userId={channelData?.id || ''}
                 />
             </div>
 
             {/* Название канала - обернуто в Link */}
             <Link
-              href={`/channel/${video.channel.username}`}
+              href={`/channel/${video.channel.channelUsername}`}
               onClick={(e) => e.stopPropagation()} // Останавливаем всплытие, чтобы не сработал Link видео
               className={styles.channelName}
             >
               <Text size={isRow ? 12 : 14} color="var(--gray)">
-                {video?.channel?.name}
+                {video.channel.channelName}
               </Text>
             </Link>
 
             {/* Статистика */}
             <div className={styles.stats}>
               <Text size={isRow ? 12 : 14} color="var(--gray)">
-                {formatViews(video?.viewersCount || 0)} просмотров
+                {formatViews(video.video.viewersCount || 0)} просмотров
               </Text>
               <span className={styles.dot}></span>
               <Text size={isRow ? 12 : 14} color="var(--gray)">
-                {video?.datePublication
-                  ? formatDate(video?.datePublication)
+                {video.video?.datePublication
+                  ? formatDate(video.video.datePublication)
                   : "давно"}
               </Text>
             </div>

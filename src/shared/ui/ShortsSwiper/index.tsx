@@ -5,7 +5,7 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from 'swiper';
 
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailShortVideoCard } from "@/entities";
 import { Svg } from "@/shared/ui";
 

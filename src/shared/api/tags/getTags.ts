@@ -42,9 +42,9 @@ const TAGS = [
 ]
 
 
-export const getTags = async () => {
+export const getTags = async (jwt: string | undefined) => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tags`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tags?isAuth=${jwt}`)
 
         if (res.status === 200) {
             return await res.json()

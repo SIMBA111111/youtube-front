@@ -7,7 +7,7 @@ import { ru } from "date-fns/locale";
 import { IChannel, ILink } from "@/entities/channels/modal/types"
 import { EllipsisText, Modal, Popover, Svg, Text } from "@/shared/ui"
 import { useToast } from "@/app/providers/toastProvider";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 
 import styles from "./styles.module.scss";
 

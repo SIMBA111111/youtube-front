@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 import { getVideoListBySubs } from "@/shared/api/video/getVideoListBySubs";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailShortVideoSmallCard } from "@/entities/thumbnailShortVideo/ui/SmallCard";
 import { Text } from "@/shared/ui";
 

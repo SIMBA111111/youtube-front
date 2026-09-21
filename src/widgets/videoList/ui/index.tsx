@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo, FC } from "react";
 
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
-import { Spinner, Svg, Text, VideoThumbnailSkeleton } from "@/shared/ui";
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
+import { VideoThumbnailSkeleton } from "@/shared/ui";
 import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
 import { getVideos } from "@/shared/api/video/getVideoList";
-import { ThumbnailShortVideoCard, VideoTags } from "@/entities";
+import { VideoTags } from "@/entities";
 import { getVideosCount } from "@/shared/utils/getVideosCount";
 import { getShortsCount } from "@/shared/utils/getShortsCount";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
@@ -43,7 +43,7 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
     hasMore,
     isLoading,
     refreshData
-  } = useInfinityScroll<IVideo, string>({
+  } = useInfinityScroll<IVideoFullInfo, string>({
     paginationStep: 5,
     filter: activeTag,
     fetchData: fetchVideoList,
@@ -61,9 +61,9 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
   const longsCount = useMemo(() => getVideosCount(device), [device])
   const shortsCount = useMemo(() => getShortsCount(device), [device])
   
-  const { shorts, longs } = data.reduce<{ shorts: IVideo[]; longs: IVideo[] }>(
-    (acc, video: IVideo) => {
-      if (video.isShort) {
+  const { shorts, longs } = data.reduce<{ shorts: IVideoFullInfo[]; longs: IVideoFullInfo[] }>(
+    (acc, video: IVideoFullInfo) => {
+      if (video.video.isShort) {
         acc.shorts.push(video);
       } else {
         acc.longs.push(video);
@@ -81,7 +81,8 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
   const secondShortsSection = shorts.slice(shortsCount, shortsCount * 2)
 
   console.log('data: ', data);
-  
+  console.log('firstLongSection: ', firstLongSection);
+  console.log('firstShortsSection: ', firstShortsSection);
 
   return (
     <div className={styles.container} id="videoListContainer">

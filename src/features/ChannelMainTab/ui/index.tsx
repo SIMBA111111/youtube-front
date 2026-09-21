@@ -6,7 +6,7 @@ import { ILink } from "@/entities/channels/modal/types"
 import { EllipsisText, Modal, Popover, Svg, Text } from "@/shared/ui"
 import { useToast } from "@/app/providers/toastProvider";
 
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { IChannelCommunityPost } from "@/entities/communityPost/ui";
 import { IPlaylist } from "@/entities/playlist/ui";
 import styles from "./styles.module.scss";

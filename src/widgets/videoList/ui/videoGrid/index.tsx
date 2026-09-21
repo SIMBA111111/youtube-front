@@ -1,11 +1,11 @@
 import { memo } from "react";
-import { IVideo } from "@/entities/thumbnailVideo/modal/types";
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { ThumbnailShortVideoCard } from "@/entities";
 import styles from "./styles.module.scss";
 
 interface IVideoGrid {
-    videos: IVideo[]
+    videos: IVideoFullInfo[]
     isShort?: boolean
 }
 
@@ -14,15 +14,15 @@ export const VideoGrid = memo(({ videos, isShort = false }: IVideoGrid) => {
     
     return isShort ? (
         <div className={styles.videoGridHorts}>
-            {videos?.map((video: IVideo, index) => (
+            {videos?.map((video: IVideoFullInfo, index) => (
                 <div key={index} className={styles.hortsVideoCardWrapper}>
-                    <ThumbnailShortVideoCard {...video} />
+                    <ThumbnailShortVideoCard video={video} />
                 </div>
             ))}
         </div>
     ) : (
         <div className={styles.videoGrid}>
-            {videos.map((video: IVideo, index) => (
+            {videos.map((video: IVideoFullInfo, index) => (
                 <div key={index} className={styles.videoCardWrapper}>
                     <ThumbnailVideoCard video={video} />
                 </div>
