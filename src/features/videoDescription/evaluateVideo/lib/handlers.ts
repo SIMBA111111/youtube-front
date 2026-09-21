@@ -14,9 +14,9 @@ export const handleLikeVideo = async (
     }
 
     const res = await updateEvaluateVideo({isLiked: !isLiked, isDisliked: false, userId: userId, videoId: videoId})
-    if(res.success) {
-        setMyMark({isLiked: res.stats.liked, isDisliked: res.stats.disliked}) 
-        setVideoMarks({likeCount: res.video.likeCount, dislikeCount: res.video.dislikeCount}) 
+    if(res && res.success && res?.data) {
+        setMyMark({isLiked: res.data.stats.liked, isDisliked: res.data.stats.disliked}) 
+        setVideoMarks({likeCount: res.data.video.likesCount, dislikeCount: res.data.video.dislikesCount}) 
     }
 }
 
@@ -34,8 +34,8 @@ export const handleDislikeVideo = async (
     }
 
     const res = await updateEvaluateVideo({isLiked: false, isDisliked: !isDisliked, userId: userId, videoId: videoId})
-    if(res.success) {
-        setMyMark({isLiked: res.stats.liked, isDisliked: res.stats.disliked}) 
-        setVideoMarks({likeCount: res.video.likeCount, dislikeCount: res.video.dislikeCount}) 
+    if(res && res.success && res?.data) {
+        setMyMark({isLiked: res.data.stats.liked, isDisliked: res.data.stats.disliked}) 
+        setVideoMarks({likeCount: res.data.video.likesCount, dislikeCount: res.data.video.dislikesCount}) 
     }
 }

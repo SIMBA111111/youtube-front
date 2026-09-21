@@ -54,8 +54,6 @@ export const UserBtn: React.FC<IUserBtn> = ({
 
   }, [])
  
-  console.log('jwt: ', jwt)
-    
   return (
     <>
       {jwt ? (

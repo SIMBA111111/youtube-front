@@ -11,11 +11,15 @@ import { getChannelData } from "@/shared/utils/getChannelData";
 import { getVideoById } from "@/shared/api/video/getVideoById";
 import { ISubscriptionEntity } from "@/shared/types/subscriptionEntity";
 import { IVideoStatisticEntity } from "@/shared/types/videoStatisticEntity";
+import { IFragmentEntity } from "@/shared/types/fragmentEntity";
+import { mapVideoFragments } from "@/shared/maps/mapVideoFragments";
 import styles from "./styles.module.scss";
+
 
 interface IVideoPage {
     video: IVideoEntity
     videoOwnerChannel: IChannelEntity,
+    videoFragments: IFragmentEntity[],
     subscriptionData: ISubscriptionEntity | null,
     videoStatData: IVideoStatisticEntity | null,
 }
@@ -45,10 +49,15 @@ export default async function WatchVideo({
     userId: myChannelData?.id || '',
   });
 
-  const isSubscribed = videoData?.isSubscribed
-    ? "id" in videoData.isSubscribed
-    : false;
+  if (!videoData) {
+    return (
+      <div>
+        ...Ошибка
+      </div>
+    )
+  }
 
+  const fragments = mapVideoFragments(videoData?.videoFragments || [])
 
   return (
     <div className={styles.page} key={videoId}>
@@ -57,7 +66,7 @@ export default async function WatchVideo({
           <Player
             playlistUrl={videoData.video?.masterM3u8Url}
             duration={videoData.video?.duration}
-            fragments={videoData.video?.fragments}
+            fragments={fragments}
           />
         </div>
         <div className={styles.description}>
@@ -65,22 +74,22 @@ export default async function WatchVideo({
             {videoData.video?.name || ''}
           </Text>
           <VideoDescription
-            videoId={videoData?.video?.id}
-            channel={videoData?.channel}
-            dislikeCount={videoData.video?.dislikeCount}
-            likeCount={videoData.video?.likeCount}
+            videoId={videoData.video?.id}
+            channel={videoData.videoOwnerChannel}
+            dislikeCount={videoData.video?.dislikesCount}
+            likeCount={videoData.video?.likesCount}
             name={videoData.video?.name}
             viewersCount={videoData.video?.viewersCount}
             datePublication={videoData.video?.datePublication}
-            subscribersCount={videoData.channel?.subscribersCount}
-            isSubscribed={isSubscribed}
-            isLiked={videoData.stat?.liked}
-            isDisliked={videoData.stat?.disliked}
+            subscribersCount={videoData.videoOwnerChannel?.subscribersCount || 0}
+            isSubscribed={!!videoData.subscriptionData}
+            isLiked={videoData.videoStatData?.liked || false}
+            isDisliked={videoData.videoStatData?.disliked || false}
             notificationSettings={
-              videoData.isSubscribed?.notification_settings || false
+              videoData.subscriptionData?.notificationSettings || false
             }
-            videoDescription={videoData.video?.videoDescription || ""}
-            hashtags={videoData.video?.hashtags || ""}
+            videoDescription={videoData.video?.description || ""}
+            hashtags={videoData.video?.hashtags || []}
             myChannelData={myChannelData}
           />
         </div>

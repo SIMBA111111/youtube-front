@@ -13,11 +13,6 @@ import { IChannelData } from "@/shared/utils/getChannelData";
 import styles from "./styles.module.scss";
 
 export const Header = ({myChannelData, jwt}: {myChannelData: IChannelData | null, jwt: string | undefined}) => {
-  console.log('-------------------');
-  console.log('myChannelData: ', myChannelData);
-  console.log('jwt: ', jwt);
-  
-  
   return (
     <div className={styles.headerContainer}>
       <div className={styles.headerContainer__block}>

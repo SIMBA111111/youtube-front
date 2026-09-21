@@ -1,18 +1,36 @@
-export const getVideoById = async (videoId: string, channelId?: string): Promise<any> => {
-    console.log('getVideoById=-=-')
-    
-    try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/video/${videoId}?channelId=${channelId}`)
+import { IChannelEntity } from "@/entities/channels/model/types"
+import { IVideoEntity } from "@/entities/thumbnailVideo/model/types"
+import { IFragmentEntity } from "@/shared/types/fragmentEntity"
+import { ISubscriptionEntity } from "@/shared/types/subscriptionEntity"
+import { IVideoStatisticEntity } from "@/shared/types/videoStatisticEntity"
 
-        console.log('res: ', res);
 
-        if (res.status === 200) {
-            return await res.json()
-        } else {
-            return 'getVideoById non 200 status'
-        }
-    } catch (error) {
-        new Error(`Error getVideoById: ${error}`);
-        return []
-    }
+export interface IGetVideoById {
+    video: IVideoEntity
+    videoFragments: IFragmentEntity[],
+    videoOwnerChannel: IChannelEntity,
+    subscriptionData: ISubscriptionEntity | null,
+    videoStatData: IVideoStatisticEntity | null,
 }
+
+export const getVideoById = async (
+  videoId: string,
+  channelId?: string
+): Promise<IGetVideoById | null> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/video/${videoId}?channelId=${channelId}`
+    );
+
+    const data = await res.json();
+    
+    if (data.success) {
+        return data.data
+    }
+    
+    return null
+  } catch (error) {
+    console.log(`Error getVideoById: ${error}`)
+    return null
+  }
+};

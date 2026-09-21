@@ -1,7 +1,7 @@
 import React from "react";
 import { cookies } from "next/headers";
 
-import { IChannel } from "@/entities/channels/model/types";
+import { IChannelEntity } from "@/entities/channels/model/types";
 import { EllipsisText, Popover, Svg, Text } from "@/shared/ui";
 import { formatViews } from "@/shared/utils/formatViews";
 import { formatDate } from "@/shared/utils/formatDate";
@@ -17,7 +17,7 @@ interface IVideoDescription {
   videoId: string;
   name: string;
   viewersCount: number;
-  channel: IChannel;
+  channel: IChannelEntity;
   datePublication: string;
   videoDescription: string;
   hashtags: string[];
@@ -48,13 +48,12 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
   notificationSettings,
   myChannelData
 }) => {
-
   return (
     <div className={styles.description}>
       <div className={styles.channel}>
         <a href={`/channel/${channel.username}`}>
           <img
-            src={channel.avatar_url ?? "/defaultImages/defaultAvatar.png"}
+            src={channel.avatarUrl ?? "/defaultImages/defaultAvatar.png"}
             alt="avatarUrl"
             className={styles.channel_img}
           />
@@ -68,7 +67,7 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
             {channel.name}
           </a>
           <Text size={12} weight={400}>
-            {formatViews(channel.subscribers_count)} подписчиков
+            {formatViews(channel.subscribersCount)} подписчиков
           </Text>
         </div>
         <SubscribeButton

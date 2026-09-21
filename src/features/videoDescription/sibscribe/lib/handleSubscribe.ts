@@ -18,6 +18,8 @@ export const handleSubscribe = async (
     }
 
     const res = await updateSubscription(channelId, meId, isSubscribed)
-    setIsSub(res.isSubscribed)
-    setPopoverIsVisible(false)
+    if (res && res.success && res?.data) {
+        setIsSub(res.data.isSubscribed)
+        setPopoverIsVisible(false)
+    }
 }
