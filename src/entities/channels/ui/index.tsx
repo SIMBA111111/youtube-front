@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { formatViews } from "@/shared/utils/formatViews";
-import { IChannel } from "../modal/types";
+import { IChannel } from "../model/types";
 import { Text } from "@/shared/ui";
 import { SubscribeButton } from "@/features";
 

@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 import { Svg, Text } from '@/shared/ui'
-import { IChannel } from '@/entities/channels/modal/types'
+import { IChannel } from '@/entities/channels/model/types'
 import { SIDEBAR_NAVIGATION, SIDEBAR_YOU } from '@/shared/constants/sidebar'
 import { useSidebarStore } from '@/shared/store/sidebar'
 import { IThumbnailShortVideo } from '@/entities/thumbnailShortVideo/modal/types'

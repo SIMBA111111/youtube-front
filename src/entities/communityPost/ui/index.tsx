@@ -4,7 +4,7 @@ import { useState } from "react"
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
 
-import { IChannel, ILink } from "@/entities/channels/modal/types"
+import { IChannel, ILink } from "@/entities/channels/model/types"
 import { EllipsisText, Modal, Popover, Svg, Text } from "@/shared/ui"
 import { useToast } from "@/app/providers/toastProvider";
 import { IVideo } from "@/entities/thumbnailVideo/model/types";

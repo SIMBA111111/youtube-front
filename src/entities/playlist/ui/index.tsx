@@ -1,6 +1,6 @@
 'use client'
 
-import { IChannel } from "@/entities/channels/modal/types"
+import { IChannel } from "@/entities/channels/model/types"
 import { IVideo } from "@/entities/thumbnailVideo/model/types";
 
 import styles from "./styles.module.scss";

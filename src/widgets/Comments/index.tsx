@@ -3,7 +3,7 @@
 import { CommentCard, IComment } from "@/entities/comments/ui/VideoComment";
 import { AddComment, CommentFilter } from "@/features";
 import { useEffect, useRef, useState } from "react";
-import { IChannel } from "@/entities/channels/modal/types";
+import { IChannel } from "@/entities/channels/model/types";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
 import { getWordForm } from "@/shared/utils/getWordFrom";

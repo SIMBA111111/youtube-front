@@ -1,6 +1,6 @@
 'use client'
 
-import { ILink } from "@/entities/channels/modal/types"
+import { ILink } from "@/entities/channels/model/types"
 
 interface IEllipsisChannelText {
         name?: string

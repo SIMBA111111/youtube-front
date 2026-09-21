@@ -1,4 +1,4 @@
-import { IChannel } from "@/entities/channels/modal/types"
+import { IChannel } from "@/entities/channels/model/types"
 import { ITagEntity } from "@/entities/videoTags/model"
 import { VideoAccessId } from "@/shared/constants/radioButtons"
 

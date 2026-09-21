@@ -1,7 +1,7 @@
 'use client'
 
 import { FC, useRef } from "react";
-import { IChannel } from "@/entities/channels/modal/types"
+import { IChannel } from "@/entities/channels/model/types"
 import { ChannelCard } from "@/entities/channels/ui"
 import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";

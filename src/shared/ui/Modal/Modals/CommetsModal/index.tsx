@@ -1,7 +1,7 @@
 import { FC, useRef, useEffect, useState, ChangeEventHandler, Dispatch, SetStateAction } from "react"
 import { Text } from "@/shared/ui/Text"
 import { Comments } from "@/widgets/Comments"
-import { IChannel } from "@/entities/channels/modal/types"
+import { IChannel } from "@/entities/channels/model/types"
 import { Modal } from "../.."
 import styles from './styles.module.scss'
 

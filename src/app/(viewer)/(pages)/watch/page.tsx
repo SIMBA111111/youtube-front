@@ -1,21 +1,23 @@
 import { cookies } from "next/headers";
 
+import {Player} from "@webitch/player";
 import { RecommentedVideos, VideoDescription } from "@/widgets";
 import { Text } from "@/shared/ui";
 import { Comments } from "@/widgets/Comments";
 import { updateViewVideo } from "@/shared/api/video/updateViewVideo";
-import { IChannel } from "@/entities/channels/modal/types";
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import { IChannelEntity } from "@/entities/channels/model/types";
+import { IVideoEntity, IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { getChannelData } from "@/shared/utils/getChannelData";
-import {Player} from "@webitch/player";
 import { getVideoById } from "@/shared/api/video/getVideoById";
+import { ISubscriptionEntity } from "@/shared/types/subscriptionEntity";
+import { IVideoStatisticEntity } from "@/shared/types/videoStatisticEntity";
 import styles from "./styles.module.scss";
 
 interface IVideoPage {
-  video?: IVideo;
-  channel?: IChannel;
-  stat?: {};
-  isSubscribed?: {};
+    video: IVideoEntity
+    videoOwnerChannel: IChannelEntity,
+    subscriptionData: ISubscriptionEntity | null,
+    videoStatData: IVideoStatisticEntity | null,
 }
 
 export default async function WatchVideo({

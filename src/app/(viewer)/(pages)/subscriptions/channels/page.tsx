@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 import { Text } from "@/shared/ui";
 import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
-import { IChannel } from "@/entities/channels/modal/types";
+import { IChannel } from "@/entities/channels/model/types";
 import { ChannelCard } from "@/entities/channels/ui";
 
 import styles from "./styles.module.scss";

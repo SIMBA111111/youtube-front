@@ -1,7 +1,7 @@
 import React from "react";
 import { cookies } from "next/headers";
 
-import { IChannel } from "@/entities/channels/modal/types";
+import { IChannel } from "@/entities/channels/model/types";
 import { EllipsisText, Popover, Svg, Text } from "@/shared/ui";
 import { formatViews } from "@/shared/utils/formatViews";
 import { formatDate } from "@/shared/utils/formatDate";

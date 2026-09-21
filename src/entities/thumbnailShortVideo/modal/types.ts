@@ -1,4 +1,4 @@
-import { IChannel } from "@/entities/channels/modal/types"
+import { IChannel } from "@/entities/channels/model/types"
 
 export interface IThumbnailShortVideo {
     id: string

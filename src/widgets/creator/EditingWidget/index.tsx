@@ -2,7 +2,7 @@
 
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { Svg, Text } from "@/shared/ui";
-import { IChannel } from "@/entities/channels/modal/types";
+import { IChannel } from "@/entities/channels/model/types";
 import { FormProvider, useFieldArray, useForm,  } from "react-hook-form";
 import styles from './styles.module.scss'
 import { updateChannelInfoById } from "@/shared/api/channels/updateChannelInfo";

@@ -6,7 +6,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 
 import { Popover, Svg, Text } from "@/shared/ui";
-import { IChannel } from "@/entities/channels/modal/types";
+import { IChannel } from "@/entities/channels/model/types";
 import { SIDEBAR_NAVIGATION, SIDEBAR_YOU, TSIDEBAR_NAVIGATION, TSIDEBAR_YOU } from "@/shared/constants/sidebar";
 import { useSidebarStore } from "@/shared/store/sidebar";
 import { IThumbnailShortVideo } from "@/entities/thumbnailShortVideo/modal/types";
