@@ -80,10 +80,6 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
   const firstShortsSection = shorts.slice(0, shortsCount)
   const secondShortsSection = shorts.slice(shortsCount, shortsCount * 2)
 
-  console.log('data: ', data);
-  console.log('firstLongSection: ', firstLongSection);
-  console.log('firstShortsSection: ', firstShortsSection);
-
   return (
     <div className={styles.container} id="videoListContainer">
         {tags && tags.length > 0 && (

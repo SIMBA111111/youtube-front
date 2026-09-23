@@ -13,26 +13,11 @@ import { handleReplayComment } from "../../lib/handleReplayComment";
 import styles from "./styles.module.scss";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { CreateCommentUnauthPopover } from "@/shared/ui/Popover/Popovers/CreateCommentUnauthPopover";
+import { ICommentFullInfo } from "../../model/types";
 
-export interface IComment {
-  id: string;
-  text: string;
-  likes: number;
-  dislikes: number;
-  datePublication: string;
-  parentCommentId: string;
-  isLiked: boolean;
-  isDisliked: boolean;
-  channel: {
-    id: string;
-    username: string;
-    avatarUrl?: string;
-  };
-  repliesCount: number;
-}
 
 export interface ICommentCard {
-  comment: IComment;
+  comment: ICommentFullInfo;
   videoId: string;
   me: any;
   refreshCommentsList?: any;
@@ -44,32 +29,19 @@ export const CommentCard: React.FC<ICommentCard> = ({
   me,
   refreshCommentsList
 }) => {
-  const {
-    id,
-    text,
-    likes,
-    dislikes,
-    datePublication,
-    parentCommentId,
-    channel,
-    repliesCount,
-    isLiked,
-    isDisliked,
-  } = comment;
-  
-  const [isLikedMe, setIsLiked] = useState(isLiked);
-  const [isDislikedMe, setIsDisliked] = useState(isDisliked);
-  const [likesCount, setLikesCount] = useState(likes);
-  const [dislikesCount, setDislikesCount] = useState(dislikes);
+  const [isLikedMe, setIsLiked] = useState(comment.userLiked);
+  const [isDislikedMe, setIsDisliked] = useState(comment.userDisliked);
+  const [likesCount, setLikesCount] = useState(comment.likeCount);
+  const [dislikesCount, setDislikesCount] = useState(comment.dislikeCount);
   const [showReplies, setShowReplies] = useState(false);
-  const [relatedComments, setRelatedComments] = useState<IComment[]>([]);
+  const [relatedComments, setRelatedComments] = useState<ICommentFullInfo[]>([]);
   const [isEmojiesOpened, setIsEmojiesOpened] = useState<boolean>(false);
   const [isOpenedReplayInput, setIsOpenedReplayInput] = useState<boolean>(false);
   const [isOpenedUnauthPopover, setIsOpenedUnauthPopover] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleShowReplies = async () => {
-    const res = await getRepliesCommentsById(id, me?.id);
+    const res = await getRepliesCommentsById(comment.id, me?.id);
     setRelatedComments(res.comments);
     setShowReplies(true);
   };
@@ -90,23 +62,23 @@ export const CommentCard: React.FC<ICommentCard> = ({
     <div className={styles.comment}>
       <div className={styles.comment_avatar}>
         <img
-          src={channel.avatarUrl ? process.env.NEXT_PUBLIC_BACKEND_URL + channel.avatarUrl : "/defaultImages/defaultAvatar.png"}
-          alt={channel.username}
+          src={comment.channel.avatarUrl ? process.env.NEXT_PUBLIC_BACKEND_URL + comment.channel.avatarUrl : "/defaultImages/defaultAvatar.png"}
+          alt={comment.channel.name}
         />
       </div>
 
       <div className={styles.comment_content}>
         <div className={styles.comment_header}>
           <Text className={styles.comment_username} weight={600}>
-            {channel.username}
+            {comment.channel.name}
           </Text>
           <Text size={12} color="var(--grayText)">
-            {formatDate(datePublication)}
+            {formatDate(comment.createdDate)}
           </Text>
         </div>
 
         <div className={styles.comment_text}>
-          <Text>{text}</Text>
+          <Text>{comment.text}</Text>
         </div>
 
         <div className={styles.comment_actions}>
@@ -114,7 +86,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
             className={`${styles.action_btn} ${isLikedMe ? styles.active : ""}`}
             onClick={() =>
               handleLikeComment(
-                isLikedMe,
+                !!isLikedMe,
                 me?.id,
                 comment.id,
                 setLikesCount,
@@ -136,7 +108,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
             }`}
             onClick={() =>
               handleDislikeComment(
-                isDislikedMe,
+                !!isDislikedMe,
                 me?.id,
                 comment.id,
                 setDislikesCount,
@@ -215,7 +187,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
                         inputRef.current?.value,
                         videoId,
                         me?.id,
-                        id,
+                        comment.id,
                         setIsOpenedReplayInput,
                         inputRef,
                         refreshCommentsList
@@ -231,7 +203,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
           </div>
         )}
 
-        {repliesCount > 0 && (
+        {comment.repliesCount > 0 && (
           <Accordion
             header={
               !showReplies && (
@@ -240,8 +212,8 @@ export const CommentCard: React.FC<ICommentCard> = ({
                   onClick={() => handleShowReplies()}
                 >
                   <Text size={14}>
-                    {`${formatViews(repliesCount)} ответ${
-                      repliesCount % 10 === 1 && repliesCount !== 11 ? "" : "ов"
+                    {`${formatViews(comment.repliesCount)} ответ${
+                      comment.repliesCount % 10 === 1 && comment.repliesCount !== 11 ? "" : "ов"
                     }`}
                   </Text>
                   <Svg name="shortArrowDown" />
@@ -259,7 +231,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
             }
           >
             <div className={styles.comments_comments}>
-              {relatedComments.map((comment: IComment) => (
+              {relatedComments.map((comment: ICommentFullInfo) => (
                 <CommentCard
                   key={comment.id}
                   comment={comment}

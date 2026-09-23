@@ -1,6 +1,6 @@
 "use client";
 
-import { CommentCard, IComment } from "@/entities/comments/ui/VideoComment";
+import { CommentCard } from "@/entities/comments/ui/VideoComment";
 import { AddComment, CommentFilter } from "@/features";
 import { useEffect, useRef, useState } from "react";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
@@ -8,6 +8,7 @@ import { getWordForm } from "@/shared/utils/getWordFrom";
 import { IChannelData } from "@/shared/utils/getChannelData";
 import { getCommentsByVideoId } from "@/shared/api/comments/getCommentsByVideoId";
 import styles from "./styles.module.scss";
+import { ICommentFullInfo } from "@/entities/comments/model/types";
 
 
 export type commentFilter = "famous" | "new";
@@ -26,6 +27,11 @@ interface IComments {
   videoId: string;
   me: IChannelData | null;
   commentCount: number
+}
+
+interface IResponse {
+  comments: ICommentFullInfo
+  commentsCount: number
 }
 
 const PAGINATION_STEP = 20
@@ -48,7 +54,8 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
         filter.value,
         me?.id || ''
     );
-    return res?.comments || [];
+    
+    return res.data.comments || [];
   };
 
   const { 
@@ -56,7 +63,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
     isLoading,
     hasMore,
     refreshData
-  } = useInfinityScroll<IComment, IFilter>({
+  } = useInfinityScroll<ICommentFullInfo, IFilter>({
     paginationStep: 10,
     filter: filter,
     fetchData: fetchCommentsList,
@@ -66,6 +73,8 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
   useEffect(() => {
     refreshData();
   }, [filter.id, filter.value]);
+
+  console.log('data:', data);
 
   return (
     <div className={styles.comments}>
@@ -79,7 +88,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
         handleRefreshCommentsList={refreshData}
       />
       <div className={styles.comments_comments}>
-        {data?.map((comment: IComment) => (
+        {data.map((comment: ICommentFullInfo) => (
           <CommentCard
             key={comment.id}
             comment={comment}

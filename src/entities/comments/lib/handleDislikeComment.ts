@@ -18,11 +18,11 @@ export const handleDislikeComment = async (
       commentId,
     });
 
-    if (res.success) {
-      setDislikesCount(res.comment.dislike_count);
-      setLikesCount(res.comment.like_count);
-      setIsDisliked(res.stats.disliked);
-      setIsLiked(res.stats.liked);
+    if (res && res.success && res.data) {
+      setDislikesCount(res.data.updatedComment.dislikeCount);
+      setLikesCount(res.data.updatedComment.likeCount);
+      setIsDisliked(res.data.updatedStatistic.disliked);
+      setIsLiked(res.data.updatedStatistic.liked);
     }
   } catch (error) {
     console.log("Error handleDislikeComment = ", error);

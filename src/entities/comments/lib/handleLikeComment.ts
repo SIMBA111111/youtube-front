@@ -12,11 +12,11 @@ export const handleLikeComment = async (
 ) => {
     try {   
         const res = await updateEvaluateComment({isLiked: !isLiked, isDisliked: false, userId, commentId})
-        if(res.success) {
-            setLikesCount(res.comment.like_count)
-            setDislikesCount(res.comment.dislike_count)
-            setIsLiked(res.stats.liked)
-            setIsDisliked(res.stats.disliked)
+        if(res && res.success && res.data) {
+            setLikesCount(res.data.updatedComment.likeCount)
+            setDislikesCount(res.data.updatedComment.dislikeCount)
+            setIsLiked(res.data.updatedStatistic.liked)
+            setIsDisliked(res.data.updatedStatistic.disliked)
         }
     } catch (error) {
         console.log('Error handleLikeComment');
