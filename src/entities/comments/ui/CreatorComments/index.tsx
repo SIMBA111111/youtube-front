@@ -130,6 +130,7 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
                 isLikedMe,
                 me?.id,
                 comment.id,
+                videoId,
                 setLikesCount,
                 setDislikesCount,
                 setIsLiked,
@@ -152,6 +153,7 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
                 isDislikedMe,
                 me?.id,
                 comment.id,
+                videoId,
                 setDislikesCount,
                 setLikesCount,
                 setIsDisliked,
@@ -229,7 +231,8 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
                         me?.id,
                         id,
                         setIsOpenedReplayInput,
-                        inputRef
+                        inputRef,
+                        refreshData
                       )
                     }
                     className={styles.actions_btns_2}

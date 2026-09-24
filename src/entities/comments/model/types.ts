@@ -23,9 +23,6 @@ export interface ICommentFullInfo {
   createdDate: string;
   updatedDate: string;
   channel: ICommentChannelDto;
-  userLiked: boolean | null;
-  userDisliked: boolean | null;
-  userStatId: string | null;
 }
 
 interface ICommentChannelDto {

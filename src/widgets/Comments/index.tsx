@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import { getWordForm } from "@/shared/utils/getWordFrom";
 import { IChannelData } from "@/shared/utils/getChannelData";
-import { getCommentsByVideoId } from "@/shared/api/comments/getCommentsByVideoId";
+import { getCommentsByVideoId, IMapCommentStatistic } from "@/shared/api/comments/getCommentsByVideoId";
 import styles from "./styles.module.scss";
 import { ICommentFullInfo } from "@/entities/comments/model/types";
 
@@ -41,6 +41,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
     id: "1",
     value: "famous",
   });
+  const [commentStatistic, setCommentStatistic] = useState<IMapCommentStatistic | null>(null)
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
   const fetchCommentsList = async ({ 
@@ -54,8 +55,15 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
         filter.value,
         me?.id || ''
     );
+
+    console.log(res);
     
-    return res.data.comments || [];
+
+    if (typeof res !== 'string' && res && res.data) {
+      setCommentStatistic(res.data.commentsStatistic)
+      return res.data.comments || [];
+    }
+    return []
   };
 
   const { 
@@ -74,7 +82,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
     refreshData();
   }, [filter.id, filter.value]);
 
-  console.log('data:', data);
+  
 
   return (
     <div className={styles.comments}>
@@ -88,15 +96,18 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
         handleRefreshCommentsList={refreshData}
       />
       <div className={styles.comments_comments}>
-        {data.map((comment: ICommentFullInfo) => (
-          <CommentCard
+        {data.map((comment: ICommentFullInfo) => {
+          console.log('commentStatistic && commentStatistic[comment.id]: ', commentStatistic && commentStatistic[comment.id]);
+        
+          return <CommentCard
             key={comment.id}
             comment={comment}
+            commentStatistic={commentStatistic && commentStatistic[comment.id]}
             videoId={videoId}
             me={me}
             refreshCommentsList={refreshData}
           />
-        ))}
+        })}
       </div>
 
       {/* ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}

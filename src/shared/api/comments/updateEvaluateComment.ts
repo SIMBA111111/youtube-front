@@ -8,6 +8,7 @@ interface IUpdateEvaluateCommentDto {
   isDisliked: boolean;
   userId: string;
   commentId: string;
+  videoId: string;
 }
 
 export interface IMarkCommentResponse {
@@ -20,6 +21,7 @@ export const updateEvaluateComment = async ({
   isDisliked,
   userId,
   commentId,
+  videoId,
 }: IUpdateEvaluateCommentDto): Promise<ApiResponse<IMarkCommentResponse> | null> => {
   try {
     const res = await fetch(
@@ -27,7 +29,7 @@ export const updateEvaluateComment = async ({
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, isLiked, isDisliked }),
+        body: JSON.stringify({ videoId, userId, isLiked, isDisliked }),
         credentials: 'include',
       }
     );

@@ -14,10 +14,13 @@ import styles from "./styles.module.scss";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { CreateCommentUnauthPopover } from "@/shared/ui/Popover/Popovers/CreateCommentUnauthPopover";
 import { ICommentFullInfo } from "../../model/types";
+import { IMapCommentStatistic } from "@/shared/api/comments/getCommentsByVideoId";
+import { ICommentStatisticEntity } from "@/shared/types/commentStatisticEntity";
 
 
 export interface ICommentCard {
   comment: ICommentFullInfo;
+  commentStatistic: ICommentStatisticEntity | null;
   videoId: string;
   me: any;
   refreshCommentsList?: any;
@@ -25,12 +28,13 @@ export interface ICommentCard {
 
 export const CommentCard: React.FC<ICommentCard> = ({
   comment,
+  commentStatistic,
   videoId,
   me,
   refreshCommentsList
 }) => {
-  const [isLikedMe, setIsLiked] = useState(comment.userLiked);
-  const [isDislikedMe, setIsDisliked] = useState(comment.userDisliked);
+  const [isLikedMe, setIsLiked] = useState(commentStatistic?.liked);
+  const [isDislikedMe, setIsDisliked] = useState(commentStatistic?.disliked);
   const [likesCount, setLikesCount] = useState(comment.likeCount);
   const [dislikesCount, setDislikesCount] = useState(comment.dislikeCount);
   const [showReplies, setShowReplies] = useState(false);
@@ -57,6 +61,9 @@ export const CommentCard: React.FC<ICommentCard> = ({
       setIsOpenedUnauthPopover(true)
     }
   }
+
+  console.log('commentStatistic: ', commentStatistic);
+  
 
   return (
     <div className={styles.comment}>
@@ -89,6 +96,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
                 !!isLikedMe,
                 me?.id,
                 comment.id,
+                videoId,
                 setLikesCount,
                 setDislikesCount,
                 setIsLiked,
@@ -111,6 +119,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
                 !!isDislikedMe,
                 me?.id,
                 comment.id,
+                videoId,
                 setDislikesCount,
                 setLikesCount,
                 setIsDisliked,

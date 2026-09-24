@@ -5,6 +5,7 @@ export const handleDislikeComment = async (
   isDisliked: boolean,
   userId: string,
   commentId: string,
+  videoId: string,
   setDislikesCount: Dispatch<SetStateAction<number>>,
   setLikesCount: Dispatch<SetStateAction<number>>,
   setIsDisliked: (value: boolean) => void,
@@ -16,6 +17,7 @@ export const handleDislikeComment = async (
       isDisliked: !isDisliked,
       userId,
       commentId,
+      videoId
     });
 
     if (res && res.success && res.data) {

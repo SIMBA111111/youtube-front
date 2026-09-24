@@ -4,6 +4,7 @@ export interface ICommentStatisticEntity {
     disliked: boolean
     channelId: string
     commentId: string
+    videoId: string
     createdDate: string
     updatedDate: string
 }
