@@ -26,17 +26,17 @@ interface IVideoList {
 }
 
 export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
-  const [activeTag, setActiveTag] = useState<string>(tags?.[0].name || "asd");
+  const [activeTag, setActiveTag] = useState<string>(tags?.[0].name || "");
   const device = useDeviceIsMobile();
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchVideoList = useCallback(async ({offset, limit}: {offset: number, limit: number}) => {
+  const fetchVideoList = async ({offset, limit}: {offset: number, limit: number}) => {
     const res = await getVideos(jwt, activeTag, null, offset, limit);
     if(res.success)
       return res.data
 
     return []
-  }, [jwt, activeTag]);
+  }
 
   const {
     data,

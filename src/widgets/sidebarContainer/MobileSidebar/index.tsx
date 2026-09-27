@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 import { Svg, Text } from '@/shared/ui'
-import { IChannel } from '@/entities/channels/model/types'
+import { IChannel, IChannelEntity } from '@/entities/channels/model/types'
 import { SIDEBAR_NAVIGATION, SIDEBAR_YOU } from '@/shared/constants/sidebar'
 import { useSidebarStore } from '@/shared/store/sidebar'
 import { IThumbnailShortVideo } from '@/entities/thumbnailShortVideo/modal/types'
@@ -65,9 +65,9 @@ export const MobileSidebar = ({channels, randomShortVideo}: {channels: IChannel[
                             <Text>Подписки</Text>
                             <Svg name='arrowLeft' size='small'/>
                         </div>
-                        {channels?.map((channel: IChannel) => (
+                        {channels?.map((channel: IChannelEntity) => (
                             <Link key={channel.id} onClick={() => closeSideBar()} href={`/channel/${channel.username}`} className={styles.btns__item__open}>
-                                <img src={channel.avatar_url} alt="" className={styles.channelAvatar}/>
+                                <img src={channel.avatarUrl ?? "/defaultImages/defaultAvatar.png"} alt="" className={styles.channelAvatar}/>
                                 <Text weight={400} size={14}>{channel.name}</Text>
                             </Link>
                         ))}

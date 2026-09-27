@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 
 
 export default async function MainPage() {
-  const jwt = await (await cookies()).get('jwt')
+  const jwt = (await cookies()).get('jwt')
   const tags = await getTags(jwt?.value)
 
   return (

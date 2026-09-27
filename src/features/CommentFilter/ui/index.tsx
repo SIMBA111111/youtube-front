@@ -1,26 +1,23 @@
 'use client'
 
 import { DropDown, Svg, Text } from "@/shared/ui"
-import { commentFilter, IFilter } from "@/widgets/Comments"
+import { IFilter } from "@/widgets/Comments"
 import { Dispatch, SetStateAction, useState } from "react"
+import { getRegisteredTranslate } from "@/shared/utils/getRegisteredTranslate";
 import styles from "./styles.module.scss";
-import { IElement } from "@/shared/ui/Searcher";
+
+
+export type TCommentFilter = 'famous' | 'new';
+
+export const FILTERS: IFilter[] = [
+  { id: 'famous', value: getRegisteredTranslate('famous') as TCommentFilter },
+  { id: 'new', value: getRegisteredTranslate('new') as TCommentFilter },
+];
 
 interface ICommetFilter {
     filter: IFilter
     setFilter: Dispatch<SetStateAction<IFilter>>
 }
-
-const FILTERS = [
-    {
-        id: '1',
-        value: 'famous'
-    },
-    {
-        id: '2',
-        value: 'new'
-    }
-]
 
 export const CommentFilter: React.FC<ICommetFilter> = ({
     filter,
@@ -34,7 +31,7 @@ export const CommentFilter: React.FC<ICommetFilter> = ({
                 <Svg name="order"/>
                 <Text>Упорядочить</Text>
             </div>
-            <DropDown elements={FILTERS} isVisible={isVisible} setIsVisible={setIsVisible} selectedElement={filter} setSelectedElement={setFilter}/>
+            <DropDown className={styles.customFilters} elements={FILTERS} isVisible={isVisible} setIsVisible={setIsVisible} selectedElement={filter} setSelectedElement={setFilter}/>
         </div>
     )
 }

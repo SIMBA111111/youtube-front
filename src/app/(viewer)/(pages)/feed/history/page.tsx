@@ -9,9 +9,9 @@ import { HISTORY_TAGS, THISTORY_TAGS } from "@/shared/constants/tags";
 import { getMe } from "@/shared/api/me/getMe";
 import { UnauthorizedWidget } from "@/widgets/UnauthorizedWidget/UnauthorizedWidget";
 import { getChannelData } from "@/shared/utils/getChannelData";
+import { ITagEntity } from "@/entities/videoTags/model";
 
 import styles from "./styles.module.scss";
-import { ITagEntity } from "@/entities/videoTags/model";
 
 
 export default async function HistoryPage() {
@@ -19,12 +19,12 @@ export default async function HistoryPage() {
   const myChannelData = await getChannelData(cookie)
 
   let jwt
-  let videos
+  // let videos
   let myChannel
 
   if(myChannelData) {
     jwt = cookie.get('jwt')?.value || ''
-    videos = await getHistoryVideos(myChannelData?.id, jwt)
+    // videos = await getHistoryVideos(myChannelData?.id, jwt)
     myChannel = await getMe(jwt, myChannelData?.id)
   } else {
     return (
@@ -32,20 +32,33 @@ export default async function HistoryPage() {
     )
   }
 
-  const tags = await getTags()
+  const tags = await getTags('')
 
-  const filteredTags = tags.tags.filter((t: ITagEntity) => HISTORY_TAGS.find((tag: THISTORY_TAGS) => tag.name === t.name))
-
+  if (
+    !tags?.data || 
+    // !videos?.data || 
+    !myChannel || 
+    !myChannel.data) {
+    return (
+      <div>Ошибка...</div>
+    )
+  }
+  
   return (
     <div className={styles.mainPage}>
       <Text size={36} weight={600}>История просмотра</Text>
 
       <div className={styles.mainPage_body}>
         <div className={styles.mainPage_body_videos}>
-          <History initVideos={videos.viewsHistory} userId={myChannelData.meId} jwt={jwt} tags={filteredTags}/>
+          <History
+            // initVideos={videos.data}
+            userId={myChannelData.id} 
+            jwt={jwt} 
+            tags={tags.data}
+          />
         </div>
         <div className={styles.mainPage_body_settings}>
-          <HistorySettings meId={myChannelData.id} isSaveHistory={myChannel.meInfo.is_save_history}/>
+          <HistorySettings meId={myChannelData.id} isSaveHistory={myChannel.data.isSaveHistory}/>
         </div>
       </div>
     </div>

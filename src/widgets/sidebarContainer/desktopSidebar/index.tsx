@@ -6,7 +6,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 
 import { Popover, Svg, Text } from "@/shared/ui";
-import { IChannel } from "@/entities/channels/model/types";
+import { IChannelEntity } from "@/entities/channels/model/types";
 import { SIDEBAR_NAVIGATION, SIDEBAR_YOU, TSIDEBAR_NAVIGATION, TSIDEBAR_YOU } from "@/shared/constants/sidebar";
 import { useSidebarStore } from "@/shared/store/sidebar";
 import { IThumbnailShortVideo } from "@/entities/thumbnailShortVideo/modal/types";
@@ -23,7 +23,7 @@ export const DesktopSidebar = ({
   channels,
   randomShortVideo,
 }: {
-  channels: IChannel[];
+  channels: IChannelEntity[];
   randomShortVideo: IThumbnailShortVideo | null;
 }) => {
   const [isOpenedMenu, setIsOpenedMenu] = useState<menuItems>(null);
@@ -95,6 +95,7 @@ export const DesktopSidebar = ({
                 <Menu
                   delay={150}
                   isOpened={isOpenedMenu === "subs" && isAuth}
+                  // isOpened={true}
                   onClose={() => setIsOpenedMenu(null)}
                   offset={50}
                   className={styles.youMenu_container}
@@ -107,7 +108,7 @@ export const DesktopSidebar = ({
                   {getRegisteredTranslate('subscriptions', true)}
                   </Text>
                   <div className={styles.youMenu}>
-                    {channels?.map((channel: IChannel) => (
+                    {channels?.map((channel: IChannelEntity) => (
                       <Link
                         key={channel.id}
                         href={`/channel/${channel.username}`}
@@ -115,7 +116,7 @@ export const DesktopSidebar = ({
                       >
                         <img
                           src={
-                            channel.avatar_url ??
+                            channel.avatarUrl ??
                             "/defaultImages/defaultAvatar.png"
                           }
                           alt=""

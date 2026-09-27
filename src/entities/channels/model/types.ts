@@ -23,4 +23,5 @@ export interface IChannelEntity {
     createdAt: string;
     links: string[] | null;
     notificationSetting: string[] | null;
+    isSaveHistory: boolean;
 }

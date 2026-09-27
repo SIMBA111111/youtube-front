@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import { useRouter } from "next/navigation";
 
 import { Spinner, Svg, Text } from "@/shared/ui";
-import { getVideoById } from "@/shared/api/video/getVideoById";
+import { getVideoById, IGetVideoById } from "@/shared/api/video/getVideoById";
 import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui";
 import { ShareVideo } from "@/features/videoDescription/shareVideo/ui";
 import { CommentsVideo } from "@/features/videoDescription/commentsVideo/ui";
@@ -18,7 +18,8 @@ import { SubscribeButton } from "@/features";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { IShortVideoListItem } from "@/entities/thumbnailShortVideo/modal/types";
 import styles from "./styles.module.scss";
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import { getVideos } from "@/shared/api/video/getVideoList";
+import { IVideoEntity } from "@/entities/thumbnailVideo/model/types";
 
 
 const ShortPlayer = dynamic(
@@ -34,8 +35,8 @@ interface IPagination {
 const PAGINATION_STEP = 5
 
 interface IShortsSwiper {
-  videos: IShortVideoListItem[]
-  initVideo: IVideo
+  videos: IVideoEntity[]
+  initVideo: IGetVideoById
   videoId: string
   myChannelData: any
 }
@@ -50,8 +51,8 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
   const swiperRef = useRef(null);
   const isActiveIndexRef = useRef(0); 
   const isFetchingRef = useRef(false);
-  const [shortVideos, setShortVideos] = useState<IShortVideoListItem[]>(videos || []);
-  const [currentShortVideo, setCurrentShortVideo] = useState(initVideo);
+  const [shortVideos, setShortVideos] = useState<IVideoEntity[]>(videos || []);
+  const [currentShortVideo, setCurrentShortVideo] = useState<IGetVideoById>(initVideo);
   const [pagination, setPagination] = useState<IPagination>({
     offset: 5,
     limit: 10
@@ -79,12 +80,13 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
       router.replace(`/shorts/${video.id}`, { scroll: false });
 
       const resGetVideoById = await getVideoById(video.id);
-      setCurrentShortVideo(resGetVideoById);
-
+      if (resGetVideoById) {
+        setCurrentShortVideo(resGetVideoById);
+      }
 
       if (newIndex > shortVideos.length - 2) {
-        const res = await getShortVideos(pagination.offset, pagination.limit);
-        setShortVideos((prev: IShortVideoListItem[]) => [...prev, ...res.result]);
+        const res = await getVideos(null, 'shorts', true, pagination.offset, pagination.limit);
+        setShortVideos((prev: IVideoEntity[]) => [...prev, ...res.result]);
         setPagination(prev => ({
           offset: prev.offset + PAGINATION_STEP,
           limit: prev.limit + PAGINATION_STEP,
@@ -121,6 +123,9 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
     }
   };
 
+  console.log('currentShortVideo: ', currentShortVideo);
+  console.log('shortVideos: ', shortVideos);
+
   if (!shortVideos.length || !currentShortVideo) {
     return <div>Loading...</div>;
   }
@@ -154,18 +159,18 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
                   <div className={styles.channelInfo}>
                     <div className={styles.channelBtn}>
                       <img 
-                        src={currentShortVideo?.channel?.avatar_url ?? '/defaultImages/defaultAvatar.png'} 
+                        src={currentShortVideo?.videoOwnerChannel.avatarUrl ?? '/defaultImages/defaultAvatar.png'} 
                         alt="avatar" 
                         className={styles.channelAvatar}
                       />
                       <SubscribeButton 
-                        channelId={currentShortVideo?.channel?.id} 
-                        isSubscribed={currentShortVideo?.isSubscribed} 
+                        channelId={currentShortVideo?.videoOwnerChannel.id} 
+                        isSubscribed={!!currentShortVideo?.subscriptionData?.deleted} 
                         meId={myChannelData?.id || ''} 
-                        notificationSetting={currentShortVideo?.isSubscribed?.notification_settings || false}
+                        notificationSetting={currentShortVideo?.subscriptionData?.notificationSettings || false}
                       />
                     </div>
-                    <Text className={styles.videoDescription}>{currentShortVideo.video?.videoDescription}</Text>
+                    <Text className={styles.videoDescription}>{currentShortVideo.video.description}</Text>
                   </div>
 
                   {/* Рендерим плеер только для активного слайда */}
@@ -180,10 +185,10 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
 
                   <div className={styles.actionsPlayerWrapper}>
                     <EvaluateVideo
-                      isLiked={currentShortVideo?.stat?.liked}
-                      isDisliked={currentShortVideo?.stat?.disliked}
-                      likeCount={currentShortVideo?.video?.likeCount}
-                      dislikeCount={currentShortVideo?.video?.dislikeCount}
+                      isLiked={!!currentShortVideo?.videoStatData?.liked}
+                      isDisliked={!!currentShortVideo?.videoStatData?.disliked}
+                      likeCount={currentShortVideo?.video.likesCount}
+                      dislikeCount={currentShortVideo?.video?.dislikesCount}
                       userId={myChannelData?.id || ''}
                       videoId={currentShortVideo?.video?.id}
                     />

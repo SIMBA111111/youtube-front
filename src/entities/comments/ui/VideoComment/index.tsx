@@ -16,13 +16,14 @@ import { CreateCommentUnauthPopover } from "@/shared/ui/Popover/Popovers/CreateC
 import { ICommentFullInfo } from "../../model/types";
 import { IMapCommentStatistic } from "@/shared/api/comments/getCommentsByVideoId";
 import { ICommentStatisticEntity } from "@/shared/types/commentStatisticEntity";
+import { IChannelData } from "@/shared/utils/getChannelData";
 
 
 export interface ICommentCard {
   comment: ICommentFullInfo;
   commentStatistic: ICommentStatisticEntity | null;
   videoId: string;
-  me: any;
+  me: IChannelData | null;
   refreshCommentsList?: any;
 }
 
@@ -42,12 +43,16 @@ export const CommentCard: React.FC<ICommentCard> = ({
   const [isEmojiesOpened, setIsEmojiesOpened] = useState<boolean>(false);
   const [isOpenedReplayInput, setIsOpenedReplayInput] = useState<boolean>(false);
   const [isOpenedUnauthPopover, setIsOpenedUnauthPopover] = useState<boolean>(false);
+  const [repliesCommentsStatistic, setRepliesCommentsStatistic] = useState<IMapCommentStatistic | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleShowReplies = async () => {
-    const res = await getRepliesCommentsById(comment.id, me?.id);
-    setRelatedComments(res.comments);
-    setShowReplies(true);
+    const res = await getRepliesCommentsById(comment.id, me?.id, videoId);
+    if(res && res.success && res.data) {
+      setRelatedComments(res.data.comments);
+      setRepliesCommentsStatistic(res.data.commentsStatistic);
+      setShowReplies(true)
+    }
   };
 
   const handleAddEmoji = async (e: EmojiClickData) => {
@@ -55,21 +60,18 @@ export const CommentCard: React.FC<ICommentCard> = ({
   }
 
   const handleOpenReplyInput = () => {
-    if ('id' in me) {
+    if (me) {
       setIsOpenedReplayInput((prev: boolean) => !prev)
     } else {
       setIsOpenedUnauthPopover(true)
     }
   }
 
-  console.log('commentStatistic: ', commentStatistic);
-  
-
   return (
     <div className={styles.comment}>
       <div className={styles.comment_avatar}>
         <img
-          src={comment.channel.avatarUrl ? process.env.NEXT_PUBLIC_BACKEND_URL + comment.channel.avatarUrl : "/defaultImages/defaultAvatar.png"}
+          src={comment.channel.avatarUrl ? comment.channel.avatarUrl : "/defaultImages/defaultAvatar.png"}
           alt={comment.channel.name}
         />
       </div>
@@ -100,7 +102,8 @@ export const CommentCard: React.FC<ICommentCard> = ({
                 setLikesCount,
                 setDislikesCount,
                 setIsLiked,
-                setIsDisliked
+                setIsDisliked,
+                setIsOpenedUnauthPopover
               )
             }
           >
@@ -123,7 +126,8 @@ export const CommentCard: React.FC<ICommentCard> = ({
                 setDislikesCount,
                 setLikesCount,
                 setIsDisliked,
-                setIsLiked
+                setIsLiked,
+                setIsOpenedUnauthPopover
               )
             }
           >
@@ -152,7 +156,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
         {isOpenedReplayInput && (
           <div className={styles.container}>
             <img
-              src={me?.avatarUrl ? process.env.NEXT_PUBLIC_BACKEND_URL + me?.avatarUrl : "defaultImages/defaultAvatar.png"}
+              src={me?.avatarUrl ? me?.avatarUrl : "defaultImages/defaultAvatar.png"}
               className={styles.headerAvatar}
               alt=""
             />
@@ -244,6 +248,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
                 <CommentCard
                   key={comment.id}
                   comment={comment}
+                  commentStatistic={repliesCommentsStatistic && repliesCommentsStatistic[comment.id]}
                   videoId={videoId}
                   me={me}
                   refreshCommentsList={refreshCommentsList}

@@ -4,7 +4,7 @@ import { createReplyComment } from "@/shared/api/comments/createReplyComment";
 export const handleReplayComment = async (
   value: string | undefined,
   videoId: string,
-  userId: string,
+  userId: string = '',
   parentCommentId: string,
   setIsOpenedReplayInput: (v: boolean) => void,
   inputRef: RefObject<HTMLInputElement | null>,

@@ -7,6 +7,7 @@ import "swiper/css/pagination";
 import { getChannelData } from "@/shared/utils/getChannelData";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { getVideoById } from "@/shared/api/video/getVideoById";
+import { getVideos } from "@/shared/api/video/getVideoList";
 
 export default async function Shorts({
   params
@@ -17,9 +18,26 @@ export default async function Shorts({
 
   const cookie = await cookies();
   const myChannelData = await getChannelData(cookie)
+  
+  const res = await getVideos(null, 'shorts', null, 0, 5);
 
-  const resGetVideos = await getShortVideos(0, 5);
-  const resGetVideoById = await getVideoById(resGetVideos.result[0].id);
+  console.log('res: ', res);
+  
 
-  return <ShortsSwiper videos={resGetVideos.result} initVideo={resGetVideoById} videoId={videoId} myChannelData={myChannelData}/>;
+  const resGetVideoById = await getVideoById(videoId);
+
+  if (!resGetVideoById) {
+    return (
+      <div>
+        Ошибка...
+      </div>
+    )
+  }
+
+  return <ShortsSwiper
+            videos={res.data}
+            initVideo={resGetVideoById} 
+            videoId={videoId} 
+            myChannelData={myChannelData}
+          />;
 }

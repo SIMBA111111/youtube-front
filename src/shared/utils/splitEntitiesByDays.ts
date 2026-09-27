@@ -3,13 +3,13 @@ interface IWithDateViewed {
     [key: string]: any;
 }
 
-export const splitEntitiesByDays = <T extends IWithDateViewed>(
+export const splitVideoEntitiesByDays = <T extends IWithDateViewed>(
     items: T[]
 ): Map<string, T[]> => {
     const daysMap = new Map<string, T[]>();
 
     items.forEach(item => {
-        const date = new Date(item.dateviewed);
+        const date = new Date(item.video.dateViewed);
         const day = date.getDate();
         const month = date.toLocaleString('ru', { month: 'short' });
         const dateKey = `${day} ${month}`;

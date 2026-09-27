@@ -3,15 +3,21 @@ import { Dispatch, SetStateAction } from "react";
 
 export const handleDislikeComment = async (
   isDisliked: boolean,
-  userId: string,
+  userId: string = '',
   commentId: string,
   videoId: string,
   setDislikesCount: Dispatch<SetStateAction<number>>,
   setLikesCount: Dispatch<SetStateAction<number>>,
   setIsDisliked: (value: boolean) => void,
-  setIsLiked: (value: boolean) => void
+  setIsLiked: (value: boolean) => void,
+  setIsOpenedUnauthPopover: Dispatch<SetStateAction<boolean>>
 ) => {
   try {
+    if (!userId) {
+      setIsOpenedUnauthPopover(true)
+      return
+    }
+
     const res = await updateEvaluateComment({
       isLiked: false,
       isDisliked: !isDisliked,

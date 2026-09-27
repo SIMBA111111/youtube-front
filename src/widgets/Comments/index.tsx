@@ -7,15 +7,14 @@ import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import { getWordForm } from "@/shared/utils/getWordFrom";
 import { IChannelData } from "@/shared/utils/getChannelData";
 import { getCommentsByVideoId, IMapCommentStatistic } from "@/shared/api/comments/getCommentsByVideoId";
-import styles from "./styles.module.scss";
 import { ICommentFullInfo } from "@/entities/comments/model/types";
+import { FILTERS, TCommentFilter } from "@/features/CommentFilter/ui";
+import styles from "./styles.module.scss";
 
-
-export type commentFilter = "famous" | "new";
 
 export interface IFilter {
-  id: string;
-  value: commentFilter;
+  id: TCommentFilter;
+  value: TCommentFilter;
 }
 
 export interface IPagination {
@@ -29,18 +28,10 @@ interface IComments {
   commentCount: number
 }
 
-interface IResponse {
-  comments: ICommentFullInfo
-  commentsCount: number
-}
-
 const PAGINATION_STEP = 20
 
 export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => {
-  const [filter, setFilter] = useState<IFilter>({
-    id: "1",
-    value: "famous",
-  });
+  const [filter, setFilter] = useState<IFilter>(FILTERS[0]);
   const [commentStatistic, setCommentStatistic] = useState<IMapCommentStatistic | null>(null)
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
@@ -52,12 +43,9 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
         videoId,
         offset,
         limit,
-        filter.value,
+        filter.id,
         me?.id || ''
     );
-
-    console.log(res);
-    
 
     if (typeof res !== 'string' && res && res.data) {
       setCommentStatistic(res.data.commentsStatistic)
@@ -82,8 +70,6 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
     refreshData();
   }, [filter.id, filter.value]);
 
-  
-
   return (
     <div className={styles.comments}>
       <div className={styles.comments_header}>
@@ -96,10 +82,8 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
         handleRefreshCommentsList={refreshData}
       />
       <div className={styles.comments_comments}>
-        {data.map((comment: ICommentFullInfo) => {
-          console.log('commentStatistic && commentStatistic[comment.id]: ', commentStatistic && commentStatistic[comment.id]);
-        
-          return <CommentCard
+        {data.map((comment: ICommentFullInfo) => (
+          <CommentCard
             key={comment.id}
             comment={comment}
             commentStatistic={commentStatistic && commentStatistic[comment.id]}
@@ -107,7 +91,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
             me={me}
             refreshCommentsList={refreshData}
           />
-        })}
+        ))}
       </div>
 
       {/* ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}

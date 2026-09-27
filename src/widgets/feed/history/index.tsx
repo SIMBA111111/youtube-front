@@ -2,16 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 import { IVideoViewed } from "@/entities/thumbnailVideo/model/types";
-import { ITag, VideoTags } from "@/entities/videoTags/ui";
+import { VideoTags } from "@/entities/videoTags/ui";
 import { HISTORY_TAGS } from "@/shared/constants/tags";
 import { ShortsSwiper, Spinner, Text } from "@/shared/ui";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { getHistoryVideos } from "@/shared/api/video/getHistoryVideos";
-import { splitEntitiesByDays } from "@/shared/utils/splitEntitiesByDays";
+import { splitVideoEntitiesByDays } from "@/shared/utils/splitEntitiesByDays";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
+import { ITagEntity } from "@/entities/videoTags/model";
 import styles from "./styles.module.scss";
 
-export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags: ITag[]}) => {
+
+export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags: ITagEntity[]}) => {
     const [activeTag, setActiveTag] = useState<string>(tags[0].name);
     const loadingRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,7 +42,7 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
             limit,
         );
 
-        return res?.viewsHistory || []
+        return res?.data || []
     }
 
     const {
@@ -55,7 +57,11 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
         fetchData: fetchHistoryVideosData
     })
 
-    const groupedVideos = splitEntitiesByDays(data);
+    console.log('data: ', data);
+
+    const groupedVideos = splitVideoEntitiesByDays(data);
+
+    console.log('groupedVideos: ', groupedVideos);
 
     const renderVideoList = () => {
         if (isLoading && data.length === 0) {
@@ -106,7 +112,7 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
     return (
         <div className={styles.container}>
             <div className={styles.tagList}>
-                {tags.map((tag: ITag) => (
+                {tags.map((tag: ITagEntity) => (
                     <VideoTags 
                         key={tag.id} 
                         name={tag.name} 

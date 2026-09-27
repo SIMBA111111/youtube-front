@@ -12,6 +12,7 @@ interface ISelectorDropDown {
     selectedElement: IElement;
     isVisible: boolean;
     setIsVisible: (el: boolean) => void;
+    className?: string
 }
 
 export const DropDown: React.FC<ISelectorDropDown> = ({
@@ -20,6 +21,7 @@ export const DropDown: React.FC<ISelectorDropDown> = ({
     selectedElement,
     isVisible,
     setIsVisible,
+    className
 }) => {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +54,7 @@ export const DropDown: React.FC<ISelectorDropDown> = ({
     return (
         <div
             ref={dropdownRef}
-            className={`${styles.dropdownContainer} ${styles.dropdown} ${
+            className={`${styles.dropdownContainer} ${styles.dropdown} ${className} ${
                 isVisible && elements.length > 0
                     ? styles.visibleDropdown
                     : styles.unvisibleDropdown

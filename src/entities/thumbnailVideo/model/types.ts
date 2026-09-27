@@ -1,7 +1,3 @@
-import { IChannel } from "@/entities/channels/model/types"
-import { ITagEntity } from "@/entities/videoTags/model"
-import { VideoAccessId } from "@/shared/constants/radioButtons"
-
 export enum VIDEO_ACCESS {
     PUBLIC = 'PUBLIC',
     PRIVATE = 'PRIVATE'
@@ -50,4 +46,10 @@ export interface IVideoFullInfo {
 
 export interface IVideoViewed extends IVideoEntity {
     dateViewed: string
+}
+
+
+export interface IViewedVideoFullInfo {
+    video: IVideoViewed
+    channel: IShortChannel
 }

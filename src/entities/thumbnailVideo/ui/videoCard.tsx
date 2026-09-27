@@ -13,12 +13,12 @@ import { hexToRgb } from "@/shared/utils/hexToRgb";
 
 import { handleMenuClick } from "../lib/handlers";
 import { SettigsVideoModal } from "./settingsModal";
-import { IVideoFullInfo } from "../model/types";
+import { IVideoFullInfo, IViewedVideoFullInfo } from "../model/types";
 import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient";
 import styles from "./styles.module.scss";
 
 interface IThumbnailVideoCard {
-  video: IVideoFullInfo;
+  video: IVideoFullInfo | IViewedVideoFullInfo;
   isRow?: boolean;
 }
 
@@ -31,6 +31,9 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
   const [isOpenModal, setIsOpenModal] = useState(false);
   const channelData = getChannelDataClient() 
   const router = useRouter()
+
+  console.log(video);
+  
 
   const handleSound = (e: React.MouseEvent) => {
     e.stopPropagation();
