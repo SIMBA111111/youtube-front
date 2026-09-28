@@ -123,9 +123,6 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
     }
   };
 
-  console.log('currentShortVideo: ', currentShortVideo);
-  console.log('shortVideos: ', shortVideos);
-
   if (!shortVideos.length || !currentShortVideo) {
     return <div>Loading...</div>;
   }
@@ -165,7 +162,7 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
                       />
                       <SubscribeButton 
                         channelId={currentShortVideo?.videoOwnerChannel.id} 
-                        isSubscribed={!!currentShortVideo?.subscriptionData?.deleted} 
+                        isSubscribed={!currentShortVideo?.subscriptionData?.deleted} 
                         meId={myChannelData?.id || ''} 
                         notificationSetting={currentShortVideo?.subscriptionData?.notificationSettings || false}
                       />

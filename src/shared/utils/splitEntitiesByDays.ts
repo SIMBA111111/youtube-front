@@ -1,9 +1,4 @@
-interface IWithDateViewed {
-    dateViewed: string;
-    [key: string]: any;
-}
-
-export const splitVideoEntitiesByDays = <T extends IWithDateViewed>(
+export const splitVideoEntitiesByDays = <T extends { video: { dateViewed: string } }>(
     items: T[]
 ): Map<string, T[]> => {
     const daysMap = new Map<string, T[]>();
@@ -12,12 +7,13 @@ export const splitVideoEntitiesByDays = <T extends IWithDateViewed>(
         const date = new Date(item.video.dateViewed);
         const day = date.getDate();
         const month = date.toLocaleString('ru', { month: 'short' });
-        const dateKey = `${day} ${month}`;
-        
+        const year = date.getFullYear();
+        const dateKey = `${day} ${month} ${year}`;
+
         if (!daysMap.has(dateKey)) {
             daysMap.set(dateKey, []);
         }
-        
+
         daysMap.get(dateKey)!.push(item);
     });
 

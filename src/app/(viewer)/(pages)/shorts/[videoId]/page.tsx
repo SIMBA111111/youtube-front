@@ -8,6 +8,7 @@ import { getChannelData } from "@/shared/utils/getChannelData";
 import { getShortVideos } from "@/shared/api/video/getShortVideos";
 import { getVideoById } from "@/shared/api/video/getVideoById";
 import { getVideos } from "@/shared/api/video/getVideoList";
+import { updateViewVideo } from "@/shared/api/video/updateViewVideo";
 
 export default async function Shorts({
   params
@@ -21,10 +22,12 @@ export default async function Shorts({
   
   const res = await getVideos(null, 'shorts', null, 0, 5);
 
-  console.log('res: ', res);
-  
+  const resGetVideoById = await getVideoById(videoId, myChannelData?.id);
 
-  const resGetVideoById = await getVideoById(videoId);
+  await updateViewVideo({
+    videoId: videoId,
+    userId: myChannelData?.id || '',
+  });
 
   if (!resGetVideoById) {
     return (
@@ -34,10 +37,15 @@ export default async function Shorts({
     )
   }
 
-  return <ShortsSwiper
-            videos={res.data}
-            initVideo={resGetVideoById} 
-            videoId={videoId} 
-            myChannelData={myChannelData}
-          />;
+  console.log('resGetVideoById: ', resGetVideoById);
+  
+
+  return (
+    <ShortsSwiper
+      videos={res.data}
+      initVideo={resGetVideoById} 
+      videoId={videoId} 
+      myChannelData={myChannelData}
+    />
+  ) 
 }

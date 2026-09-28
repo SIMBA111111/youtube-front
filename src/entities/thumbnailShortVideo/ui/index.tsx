@@ -7,14 +7,12 @@ import { formatViews } from "@/shared/utils/formatViews"
 import { useRef, useState } from "react"
 import { getAverageColor } from "@/shared/utils/getAverageColor"
 import { SettigsVideoModal } from "@/entities/thumbnailVideo/ui/settingsModal"
-import { IThumbnailShortVideo } from "../modal/types"
-
+import { IVideoFullInfo, IViewedVideoFullInfo } from "@/entities/thumbnailVideo/model/types"
 import styles from './styles.module.scss'
-import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types"
 
 
 interface IThumbnailShortVideoCard {
-    video: IVideoFullInfo
+    video: IVideoFullInfo | IViewedVideoFullInfo
     isRow?: boolean
 }
 

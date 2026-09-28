@@ -1,4 +1,4 @@
-import { IVideoEntity, IVideoViewed } from "@/entities/thumbnailVideo/model/types";
+import { IVideoEntity, IVideoViewed, IViewedVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { ApiResponse } from "@/shared/types/apiResponse";
 
 interface IVideoFilter {
@@ -13,7 +13,7 @@ export const getHistoryVideos = async (
     filter?: IVideoFilter,
     offset: number = 0,
     limit: number = 20
-): Promise<ApiResponse<IVideoViewed[]> | null> => {
+): Promise<ApiResponse<IViewedVideoFullInfo[]> | null> => {
     console.log('getHistoryVideos');
 
     try {

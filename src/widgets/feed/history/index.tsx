@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from "react";
-import { IVideoViewed } from "@/entities/thumbnailVideo/model/types";
+import { IVideoViewed, IViewedVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { VideoTags } from "@/entities/videoTags/ui";
 import { HISTORY_TAGS } from "@/shared/constants/tags";
 import { ShortsSwiper, Spinner, Text } from "@/shared/ui";
@@ -25,6 +25,7 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
         limit: number
     }) => {
         let isShort: boolean | null = null;
+        
         if (activeTag === HISTORY_TAGS[2].name) {
             isShort = true;
         } else if (activeTag === HISTORY_TAGS[1].name) {
@@ -36,7 +37,7 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
             jwt,
             {
                 isShort: isShort,
-                tags: activeTag === HISTORY_TAGS[0].name ? 'all' : activeTag
+                tags: activeTag
             }, 
             offset,
             limit,
@@ -50,18 +51,18 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
         hasMore,
         isLoading,
         refreshData
-    } = useInfinityScroll<IVideoViewed, any>({
+    } = useInfinityScroll<IViewedVideoFullInfo, any>({
         paginationStep: 5,
         filter: activeTag,
         triggerRef: loadingRef,
         fetchData: fetchHistoryVideosData
     })
 
-    console.log('data: ', data);
+    useEffect(() => {
+        refreshData()
+    }, [activeTag])
 
-    const groupedVideos = splitVideoEntitiesByDays(data);
-
-    console.log('groupedVideos: ', groupedVideos);
+    const groupedVideos = splitVideoEntitiesByDays<IViewedVideoFullInfo>(data);
 
     const renderVideoList = () => {
         if (isLoading && data.length === 0) {
@@ -73,8 +74,12 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
         }
 
         return Array.from(groupedVideos.entries()).map(([date, items]) => {
-            const shorts = items.filter((i) => i.isShort);
-            const fullVideos = items.filter((i) => !i.isShort);
+            
+            console.log(items);
+            
+            
+            const shorts = items.filter((i) => i.video.isShort);
+            const fullVideos = items.filter((i) => !i.video.isShort);
 
             return (
                 <div key={date} className={styles.date}>
@@ -85,7 +90,7 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
                         </div>
                     )}
                     {fullVideos.map((video) => (
-                        <ThumbnailVideoCard key={video.id} video={video} isRow />
+                        <ThumbnailVideoCard key={video.video.id} video={video} isRow />
                     ))}
                 </div>
             );
@@ -123,13 +128,7 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
                 ))}
             </div>
 
-            {activeTag === HISTORY_TAGS[0].name && (
-                <div className={styles.videoList}>
-                    {renderVideoList()}
-                </div>
-            )}
-
-            {activeTag === HISTORY_TAGS[1].name && (
+            {activeTag !== HISTORY_TAGS[2].name && (
                 <div className={styles.videoList}>
                     {renderVideoList()}
                 </div>
@@ -141,20 +140,9 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
                 </div>
             )}
 
-            {activeTag === HISTORY_TAGS[3].name && (
-                <div className={styles.videoList}>
-                    {renderVideoList()}
-                </div>
-            )}
-
-            {activeTag === HISTORY_TAGS[4].name && (
-                <div className={styles.videoList}>
-                    {renderVideoList()}
-                </div>
-            )}
 
             {(
-                <div ref={loadingRef} style={{ height: "100px", margin: "20px" }}>
+                <div ref={loadingRef} style={{ height: "50px", margin: "20px" }}>
                     {isLoading && (
                         <div className={styles.spinner}>
                             <Spinner />

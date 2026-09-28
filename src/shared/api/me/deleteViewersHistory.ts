@@ -1,6 +1,6 @@
 export const deleteViewersHistory = async (meId: string) => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-views-history/${meId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-delete-views-history/${meId}`, {
             method: 'DELETE',
         })
 

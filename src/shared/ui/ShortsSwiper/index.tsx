@@ -5,14 +5,14 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from 'swiper';
 
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import { IVideoViewed, IViewedVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailShortVideoCard } from "@/entities";
 import { Svg } from "@/shared/ui";
 
 import styles from "./styles.module.scss";
 
 
-export const ShortsSwiper = ({videos}: {videos : IVideo[]}) => {
+export const ShortsSwiper = ({videos}: {videos : IViewedVideoFullInfo[]}) => {
     const swiperRef = useRef(null);
     const [isBeginning, setIsBeginning] = useState(true);
     const [isEnd, setIsEnd] = useState(false);
@@ -59,7 +59,7 @@ export const ShortsSwiper = ({videos}: {videos : IVideo[]}) => {
                     {videos.map((short, index) => (
                         <SwiperSlide key={index} className={styles.slide}>
                             <div className={styles.shortVideoCardWrapper}>
-                                <ThumbnailShortVideoCard {...short} isRow/>
+                                <ThumbnailShortVideoCard video={short} isRow/>
                             </div>
                         </SwiperSlide>
                     ))}

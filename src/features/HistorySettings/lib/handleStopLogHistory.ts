@@ -6,8 +6,7 @@ export const handleStopLogHistory = async (setOpenedModal: Dispatch<SetStateActi
     
     const res = await updateSaveHistory(meId, isSaveHistory)
 
-    console.log('resresresres = ', res);
-    setHistoryIsSave(res.updatedChannel.is_save_history)
+    setHistoryIsSave(res.data.isSaveHistory)
 
     setOpenedModal(null)
 }
