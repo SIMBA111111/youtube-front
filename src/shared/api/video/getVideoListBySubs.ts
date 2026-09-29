@@ -1,3 +1,6 @@
+import { IVideoEntity } from "@/entities/thumbnailVideo/model/types"
+import { ApiResponse } from "@/shared/types/apiResponse"
+
 const VIDEOS = [
     {
         id: '561',
@@ -24,17 +27,31 @@ interface IGetVideoListBySubs {
     limit: number
 }
 
-export const getVideoListBySubs = async ({meId, onlyShorts, onlyFull, limit, offset}: IGetVideoListBySubs) => {
+export const getVideoListBySubs = async ({
+    meId,
+    onlyShorts,
+    onlyFull,
+    limit,
+    offset,
+}: IGetVideoListBySubs): Promise<ApiResponse<IVideoEntity[]>> => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos/my-subs/${meId}?limit=${limit}&offset=${offset}&onlyShorts=${onlyShorts}&onlyFull=${onlyFull}`)
+        const params = new URLSearchParams({
+            limit: String(limit),
+            offset: String(offset),
+            onlyShorts: String(onlyShorts),
+            onlyFull: String(onlyFull),
+        });
+
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos-my-subs/${meId}?${params}`
+        );
 
         if (res.status === 200) {
             return await res.json()
-        } else {
-            return false
         }
+
+        throw new Error(`Unexpected status: ${res.status}`);
     } catch (error) {
-        new Error(`Error getVideoListBySubs: ${error}`);
-        return []
+        throw new Error(`Error getVideoListBySubs: ${error}`);
     }
-}
+};

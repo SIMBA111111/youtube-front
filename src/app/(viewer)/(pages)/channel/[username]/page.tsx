@@ -6,12 +6,12 @@ import { formatViews } from "@/shared/utils/formatViews";
 import { ChannelTabs } from "@/widgets/ChannelTabs";
 import { EllipsisChannelText } from "@/features/channelDescriptionText/ui";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
-import { getPostsByUsername } from "@/shared/api/posts/getPostsByChannelHash";
 import { getPlaylistsByUsername } from "@/shared/api/playlists/getPlaylistsByChannelHash";
 import { SubscribeButton } from "@/features";
 import { getChannelData } from "@/shared/utils/getChannelData";
 
 import styles from "./styles.module.scss";
+import { getPlaylistById } from "@/shared/api/playlists/getPlaylistById";
 
 
 export default async function ChannelMain ({
@@ -19,17 +19,17 @@ export default async function ChannelMain ({
 }: {
   params: Promise<{ username: string }>
 }) {
-    const { username: channelUsername} = await params
+    const { username: channelId} = await params
 
     const cookie = await cookies()
     const myChannelData = await getChannelData(cookie)
 
-    const channelInfo = await getChannelInfoByUsername(channelUsername, myChannelData?.id || '')
+    const channelInfo = await getChannelInfoByUsername(channelId, myChannelData?.id || '')
     
     const [ shortVideoList, playlists ] = await Promise.all([
     //     getVideoListByChannelUsername(channelUsername, false),
-        getVideoListByChannelUsername(channelUsername, true),
-        getPlaylistsByUsername(channelUsername),
+        getVideoListByChannelUsername(channelId, true),
+        getPlaylistById([channelId]),
     ])
     
     return (

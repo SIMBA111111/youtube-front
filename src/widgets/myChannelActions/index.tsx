@@ -5,8 +5,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 
-import { IPlaylist, Playlist } from "@/entities/playlist/ui";
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import {  Playlist } from "@/entities/playlist/ui";
+import { IVideoFullInfo, IViewedVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Svg, Text } from "@/shared/ui";
 
@@ -14,16 +14,17 @@ import styles from "./styles.module.scss";
 
 import "swiper/css";
 import clsx from "clsx";
+import { IPlaylistEntity } from "@/entities/playlist/model/types";
 
 interface IMyChannelActions {
-  items: IVideo[] | IPlaylist[];
+  items: IVideoFullInfo[] | IViewedVideoFullInfo[] | IPlaylistEntity[] | undefined | null;
   title: string;
   link: string;
 }
 
 // Type guards для проверки типов
-const isVideo = (item: IVideo | IPlaylist): item is IVideo => {
-  return "videoId" in item || "duration" in item; // проверь реальные поля IVideo
+const isVideo = (item: IVideoFullInfo | IPlaylistEntity): item is IVideoFullInfo => {
+  return "video" in item; // проверь реальные поля IVideo
 };
 
 export const MyChannelActions: React.FC<IMyChannelActions> = ({
@@ -63,6 +64,14 @@ export const MyChannelActions: React.FC<IMyChannelActions> = ({
       swiperRef.current.swiper.slidePrev();
     }
   };
+
+  if (!items) {
+    return (
+      <div>
+        Нет данных...
+      </div>
+    )
+  }
 
   return (
     <div className={styles.section}>
@@ -109,7 +118,7 @@ export const MyChannelActions: React.FC<IMyChannelActions> = ({
           }}
         >
           {items
-            .filter((i) => !i.isShort)
+            .filter((i) => !i.isShorts)
             .map((item, index) => (
             <SwiperSlide
               key={index}
@@ -118,16 +127,11 @@ export const MyChannelActions: React.FC<IMyChannelActions> = ({
             >
               <div className={styles.shortVideoCardWrapper}>
                 {isVideo(item) ? (
-                  <ThumbnailVideoCard video={item as IVideo} />
+                  <ThumbnailVideoCard video={item} />
                 ) : (
                   <div className={styles.shortVideoCardWrapperPlayList}>
                     <Playlist
-                      channel={item.channel}
-                      playlistName={item.playlistName}
-                      playlistPreview={item.playlistPreview}
-                      videoCount={item.videoCount}
-                      updatedAt={item.updatedAt}
-                      createdAt={item.updatedAt}
+                      playlist={item}
                     />
                   </div>
                 )}

@@ -18,10 +18,17 @@ export default async function Subscriptions() {
   } else {
     return <UnauthorizedWidget svgName="channels" title="Тогда в этом разделе появятся новые видео с каналов, на которые вы подписаны."/>
   }
+  if (!videoList || !videoList.data) {
+    return (
+      <div>
+        Ошибка...
+      </div>
+    )
+  }
 
   return (
     <div className={styles.mainPage__container}>
-      <Subs videoList={videoList.videos} />
+      <Subs videoList={videoList.data} />
     </div>
   );
 }

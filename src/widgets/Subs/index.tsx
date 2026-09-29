@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Svg, Text } from "@/shared/ui";
 import { HorizontalCollaps, HorizontalCollapsBody, HorizontalCollapsHeader} from "@/shared/ui/HorizontalCollaps";
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import { IVideoEntity } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { getVideosCount } from "@/shared/utils/getVideosCount";
 import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
@@ -12,7 +12,7 @@ import { getShortsCount } from "@/shared/utils/getShortsCount";
 import { ThumbnailShortVideoCard } from "@/entities";
 import styles from "./styles.module.scss";
 
-export const  Subs = ({videoList} : {videoList: IVideo[]}) => {
+export const  Subs = ({videoList} : {videoList: IVideoEntity[]}) => {
 
   const device = useDeviceIsMobile()
 
@@ -28,9 +28,9 @@ export const  Subs = ({videoList} : {videoList: IVideo[]}) => {
         <HorizontalCollapsHeader>
           <div className={styles.videoGrid}>
             {videoList
-                .filter((video: IVideo) => !video.isShort)
+                .filter((video: IVideoEntity) => !video.isShort)
                 .slice(0, getVideosCount(device))
-                .map((video: IVideo) => (
+                .map((video: IVideoEntity) => (
                     <div key={video.id} className={styles.videoCardWrapper}>
                         <ThumbnailVideoCard video={video} />
                     </div>
@@ -40,9 +40,9 @@ export const  Subs = ({videoList} : {videoList: IVideo[]}) => {
         <HorizontalCollapsBody>
           <div className={styles.videoGrid}>
             {videoList
-                .filter((video: IVideo) => !video.isShort) 
+                .filter((video: IVideoEntity) => !video.isShort) 
                 .slice(getVideosCount(device), getVideosCount(device) * getVideosCount(device))
-                .map((video: IVideo) => (
+                .map((video: IVideoEntity) => (
                     <div key={video.id} className={styles.videoCardWrapper}>
                         <ThumbnailVideoCard video={video} />
                     </div>
@@ -51,7 +51,7 @@ export const  Subs = ({videoList} : {videoList: IVideo[]}) => {
         </HorizontalCollapsBody>
       </HorizontalCollaps>
 
-      {videoList.filter((v: IVideo) => v.isShort).length > 0 && <div className={styles.shorts}>
+      {videoList.filter((v: IVideoEntity) => v.isShort).length > 0 && <div className={styles.shorts}>
         <div className={styles.shortsTag}>
             <Svg name='shortsRed'/>
             <Text size={20}>Shorts</Text>
@@ -61,9 +61,9 @@ export const  Subs = ({videoList} : {videoList: IVideo[]}) => {
       
       <div className={styles.videoGridHorts}>
           {videoList
-              .filter((video: IVideo) => video.isShort) 
+              .filter((video: IVideoEntity) => video.isShort) 
               .slice(0, getShortsCount(device))
-              .map((video: IVideo) => (
+              .map((video: IVideoEntity) => (
                   <div key={video.id} className={styles.hortsVideoCardWrapper}>
                       <ThumbnailShortVideoCard {...video} />
                   </div>
@@ -71,8 +71,8 @@ export const  Subs = ({videoList} : {videoList: IVideo[]}) => {
       </div>
       <div className={styles.videoGrid}>
         {videoList
-            .filter((video: IVideo) => !video.isShort) 
-            .map((video: IVideo) => (
+            .filter((video: IVideoEntity) => !video.isShort) 
+            .map((video: IVideoEntity) => (
                 <div key={video.id} className={styles.videoCardWrapper}>
                     <ThumbnailVideoCard video={video} />
                 </div>
