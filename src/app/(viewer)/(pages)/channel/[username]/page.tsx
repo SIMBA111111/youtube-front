@@ -34,11 +34,18 @@ export default async function ChannelMain ({
         )
     }
 
-    const [ shortVideoList, playlists ] = await Promise.all([
+    const [ 
+        // shortVideoList, 
+        playlists
+    ] = await Promise.all([
     //     getVideoListByChannelUsername(channelUsername, false),
-        getVideoListByChannelUsername(username, true),
+        // getVideoListByChannelUsername(username, true),
         getPlaylistsByUsername(username),
     ])
+
+
+    console.log('channelInfo: ', channelInfo);
+    
     
     return (
         <div className={styles.pageContainer}>
@@ -77,7 +84,7 @@ export default async function ChannelMain ({
             <ChannelTabs 
                 // videoList={videoList.videos} 
                 channelUsername={username} 
-                shortVideoList={shortVideoList?.data || []} 
+                // videoList={shortVideoList?.data || []} 
                 playlists={playlists?.data || []} 
             />
         </div>

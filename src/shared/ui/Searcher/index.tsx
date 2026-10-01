@@ -42,9 +42,9 @@
         const [value, setValue] = useState<string>(selectedElement.value || '');
         const [elements, setElements] = useState<Array<IElement> | null>([]);
 
-        useEffect(() => {
-            setValue(selectedElement.value || '')
-        }, [selectedElement])
+        // useEffect(() => {
+        //     setValue(selectedElement.value || '')
+        // }, [selectedElement])
 
         const inputRef = useRef<HTMLInputElement>(null)
 

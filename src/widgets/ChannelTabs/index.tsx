@@ -1,23 +1,23 @@
 'use client'
 
 import { Tabs } from "@/shared/ui/Tab";
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
 import { ChannelVideoList } from "@/features/ChannelVideoList/ui";
 import { ChannelShortVideoList } from "@/features/ChannelShortVideoList/ui";
 import { ChannelPlaylists } from "@/features/ChannelPlaylists/ui";
-import { IPlaylist } from "@/entities/playlist/ui";
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
+import { IPlaylistEntity } from "@/entities/playlist/model/types";
 import styles from "./styles.module.scss";
 
 interface IChannelTabs {
     // videoList: IVideo[]
-    shortVideoList: IVideo[]
-    playlists: IPlaylist[]
+    // videoList: IVideoFullInfo[]
+    playlists: IPlaylistEntity[]
     channelUsername: string
 }
 
 export const ChannelTabs: React.FC<IChannelTabs> = ({
     // videoList,
-    shortVideoList,
+    // videoList,
     playlists,
     channelUsername
 }) => {
@@ -36,7 +36,7 @@ export const ChannelTabs: React.FC<IChannelTabs> = ({
                 </Tabs.Tab>
                 
                 <Tabs.Tab id="shorts" label="Шортсы">
-                    <ChannelShortVideoList initShortVideoList={shortVideoList} channelUsername={channelUsername}/>
+                    <ChannelShortVideoList channelUsername={channelUsername}/>
                 </Tabs.Tab>
                 
                 <Tabs.Tab id="playlists" label="Плейлисты">

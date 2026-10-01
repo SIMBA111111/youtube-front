@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Spinner, Text, VideoThumbnailSkeleton } from "@/shared/ui";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
@@ -17,7 +17,7 @@ export enum FiltersEnum {
 
 export type filterType = keyof typeof FiltersEnum
 
-export const ChannelVideoList = ({initVideoList, channelUsername}: {initVideoList?: IVideo[], channelUsername: string}) => {
+export const ChannelVideoList = ({channelUsername}: {channelUsername: string}) => {
     const [activeFilter, setActiveFilter] = useState<filterType>(FiltersEnum.NEWS)
     const loadingRef = useRef<HTMLDivElement | null>(null)
 
@@ -29,7 +29,7 @@ export const ChannelVideoList = ({initVideoList, channelUsername}: {initVideoLis
         limit: number
     }) => {
         const res = await getVideoListByChannelUsername(channelUsername, false, activeFilter, limit, offset)
-        return res.videos || []
+        return res?.data || []
     }
 
     const {
@@ -37,7 +37,7 @@ export const ChannelVideoList = ({initVideoList, channelUsername}: {initVideoLis
         hasMore,
         isLoading,
         refreshData
-    } = useInfinityScroll<IVideo, filterType>({
+    } = useInfinityScroll<IVideoFullInfo, filterType>({
         paginationStep: 10,
         filter: activeFilter,
         triggerRef: loadingRef,
@@ -66,8 +66,8 @@ export const ChannelVideoList = ({initVideoList, channelUsername}: {initVideoLis
 
 
             <div className={styles.videoGrid}>
-                {data.map((video: IVideo) => (
-                    <div key={video.id} className={styles.videoCardWrapper}>
+                {data.map((video: IVideoFullInfo) => (
+                    <div key={video.video.id} className={styles.videoCardWrapper}>
                         <ThumbnailVideoCard video={video} />
                     </div>
                 ))}

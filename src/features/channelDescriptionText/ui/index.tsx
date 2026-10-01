@@ -93,7 +93,7 @@ export const EllipsisChannelText: React.FC<IEllipsisChannelText> = ({
                         </div>
                         <div className={styles.customModal_additional_item}>
                             <Svg name="info"></Svg>
-                            <Text size={14}>Дата регистрации: {createdAt}</Text>
+                            <Text size={14}>Дата регистрации: {createdAt?.split('T')[0]}</Text>
                         </div>
                         <div className={styles.customModal_additional_item}>
                             <Svg name="viewers"></Svg>
@@ -125,7 +125,7 @@ export const EllipsisChannelText: React.FC<IEllipsisChannelText> = ({
                             isOpen={isOpenedReport} 
                             onClose={() => setIsOpenedReport(false)} 
                             className={styles.customPopover}
-                            offset={40}
+                            offset={0}
                         >
                             <div className={styles.customPopover_body}>
                                 <button className={styles.customPopover_body_item} onClick={() => sendChannelReport(setIsOpenedReport, id, 'FonImage')}>

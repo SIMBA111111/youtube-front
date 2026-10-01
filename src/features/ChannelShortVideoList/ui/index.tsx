@@ -1,14 +1,14 @@
 'use client'
 
-import { useRef } from "react";
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import { useEffect, useRef } from "react";
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { VideoThumbnailSkeleton } from "@/shared/ui";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
 import { ThumbnailShortVideoCard } from "@/entities";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
 
-export const ChannelShortVideoList = ({initShortVideoList, channelUsername}: {initShortVideoList: IVideo[], channelUsername: string}) => {
+export const ChannelShortVideoList = ({channelUsername}: {channelUsername: string}) => {
     const loadingRef = useRef<HTMLDivElement | null>(null)
 
     const fetchChannelVideoList = async ({
@@ -18,8 +18,13 @@ export const ChannelShortVideoList = ({initShortVideoList, channelUsername}: {in
         offset: number,
         limit: number
     }) => {
-        const res = await getVideoListByChannelUsername(channelUsername, false, undefined, limit, offset)
-        return res.videos || []
+        const res = await getVideoListByChannelUsername(channelUsername, true, undefined, limit, offset)
+        
+        if (!res) {
+            return []
+        }
+        
+        return res.data || []
     }
 
     const {
@@ -27,12 +32,16 @@ export const ChannelShortVideoList = ({initShortVideoList, channelUsername}: {in
         hasMore,
         isLoading,
         refreshData
-    } = useInfinityScroll<IVideo, any>({
+    } = useInfinityScroll<IVideoFullInfo, any>({
         paginationStep: 5,
         filter: '',
         triggerRef: loadingRef,
         fetchData: fetchChannelVideoList
     })
+
+    useEffect(() => {
+        refreshData()
+    }, [channelUsername])
 
     // Если нет видео и не идет загрузка
     if(data?.length === 0 && !isLoading) {
@@ -48,9 +57,9 @@ export const ChannelShortVideoList = ({initShortVideoList, channelUsername}: {in
     return (
         <div className={styles.container} id='shortVideoListContainer'>
             <div className={styles.videoGridHorts}>
-                {data.map((video: IVideo) => (
-                    <div key={video.id} className={styles.hortsVideoCardWrapper}>
-                        <ThumbnailShortVideoCard {...video} />
+                {data.map((video: IVideoFullInfo) => (
+                    <div key={video.video.id} className={styles.hortsVideoCardWrapper}>
+                        <ThumbnailShortVideoCard video={video} />
                     </div>
                 ))}
             </div>

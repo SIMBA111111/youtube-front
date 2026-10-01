@@ -97,6 +97,7 @@
 .customPopover {
     background-color: var(--backgroungGray);
     padding: 8 0;
+    z-index: 1001;
 
     &_body {
         display: flex;
