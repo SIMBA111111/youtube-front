@@ -19,58 +19,66 @@ export default async function ChannelMain ({
 }: {
   params: Promise<{ username: string }>
 }) {
-    const { username: channelId} = await params
+    const { username } = await params
 
     const cookie = await cookies()
     const myChannelData = await getChannelData(cookie)
 
-    const channelInfo = await getChannelInfoByUsername(channelId, myChannelData?.id || '')
+    const channelInfo = await getChannelInfoByUsername(username, myChannelData?.id || '')
     
+    if (!channelInfo || !channelInfo.data || channelInfo.error) {
+        return (
+            <div>
+                Ошибка...
+            </div>
+        )
+    }
+
     const [ shortVideoList, playlists ] = await Promise.all([
     //     getVideoListByChannelUsername(channelUsername, false),
-        getVideoListByChannelUsername(channelId, true),
-        getPlaylistById([channelId]),
+        getVideoListByChannelUsername(username, true),
+        getPlaylistsByUsername(username),
     ])
     
     return (
         <div className={styles.pageContainer}>
-            <img src={channelInfo?.channel.banner_url ?? 'defaultImages/defaultAvatar.png'} alt="banner" className={styles.channelBanner}/>
+            <img src={channelInfo?.data.channelData.bannerUrl ?? 'defaultImages/defaultAvatar.png'} alt="banner" className={styles.channelBanner}/>
             <div className={styles.channel}>
-                <img src={channelInfo?.channel.avatar_url ?? 'defaultImages/defaultAvatar.png'} alt="avatar" className={styles.channelAvatar}/>
+                <img src={channelInfo?.data.channelData.avatarUrl ?? 'defaultImages/defaultAvatar.png'} alt="avatar" className={styles.channelAvatar}/>
                 <div className={styles.channelInfo}>
-                    <Text size={36} weight={600}>{channelInfo?.channel.name}</Text>
+                    <Text size={36} weight={600}>{channelInfo?.data.channelData.name}</Text>
                     <div className={styles.channelInfo_description}>
-                        <Text color="var(--blackText)">{channelInfo?.channel.username}</Text>
-                        <Text color="var(--gray)">{formatViews(channelInfo?.channel.subscribers_count ?? 0)} подписчиков</Text>
-                        <Text color="var(--gray)">{formatViews(channelInfo?.channel.videos_count ?? 0)} видео</Text>
+                        <Text color="var(--blackText)">{channelInfo?.data.channelData.username}</Text>
+                        <Text color="var(--gray)">{formatViews(channelInfo?.data.channelData.subscribersCount ?? 0)} подписчиков</Text>
+                        <Text color="var(--gray)">{formatViews(channelInfo?.data.channelData.videosCount ?? 0)} видео</Text>
                     </div>
                     <EllipsisChannelText
-                        id={channelInfo.channel.id}
-                        country={channelInfo.channel.country}
-                        description={channelInfo.channel.description || ''}
-                        email={channelInfo.channel.email}
-                        links={channelInfo.channel.links}
-                        name={channelInfo.channel.name}
-                        subscribersCount={channelInfo.channel.subscribers_count}
-                        videosCount={channelInfo.channel.videos_count}
-                        viewersCount={channelInfo.channel.viewers_count}
-                        createdAt={channelInfo.channel.created_at}
+                        id={channelInfo.data.channelData.id}
+                        country={channelInfo.data.channelData.country || ''}
+                        description={channelInfo.data.channelData.description || ''}
+                        email={channelInfo.data.channelData.email}
+                        links={channelInfo.data.channelData.links || []}
+                        name={channelInfo.data.channelData.name}
+                        subscribersCount={channelInfo.data.channelData.subscribersCount}
+                        videosCount={channelInfo.data.channelData.videosCount}
+                        viewersCount={channelInfo.data.channelData.viewersCount}
+                        createdAt={channelInfo.data.channelData.createdAt}
                     />
                     <div className={styles.channelInfo_btns}>
                         <SubscribeButton 
-                            channelId={channelInfo.channel.id} 
-                            isSubscribed={channelInfo.subData ? true : false} 
+                            channelId={channelInfo.data.channelData.id} 
+                            isSubscribed={!channelInfo.data.subscriptionData?.deleted} 
                             meId={myChannelData?.id || ''} 
-                            notificationSetting={channelInfo.subData?.notification_settings}
+                            notificationSetting={!!channelInfo.data.subscriptionData?.notificationSettings}
                         />
                     </div>
                 </div>
             </div>
             <ChannelTabs 
                 // videoList={videoList.videos} 
-                channelUsername={channelUsername} 
-                shortVideoList={shortVideoList?.videos || []} 
-                playlists={playlists.playlists}
+                channelUsername={username} 
+                shortVideoList={shortVideoList?.data || []} 
+                playlists={playlists?.data || []} 
             />
         </div>
     )
