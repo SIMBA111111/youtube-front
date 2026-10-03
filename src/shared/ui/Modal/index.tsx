@@ -65,14 +65,14 @@ export const Modal: React.FC<IModal> = ({
     }, [isVisible]);
 
     useEffect(() => {
-const handleClickOutside = (event: MouseEvent) => {
-    const isClickOnModal = modalRef.current?.contains(event.target as Node);
-    const isClickOnOverlay = (event.target as HTMLElement).classList?.contains(styles.overlay);
-    
-    if (!isClickOnModal && !isClickOnOverlay && isTopModal(modalId.current)) {
-        setIsVisible(false);
-    }
-};
+        const handleClickOutside = (event: MouseEvent) => {
+            const isClickOnModal = modalRef.current?.contains(event.target as Node);
+            const isClickOnOverlay = (event.target as HTMLElement).classList?.contains(styles.overlay);
+            
+            if (!isClickOnModal && !isClickOnOverlay && isTopModal(modalId.current)) {
+                setIsVisible(false);
+            }
+        };
         const handleEscape = (event: KeyboardEvent) => {
             if (event.key === 'Escape' && isTopModal(modalId.current)) {
                 setIsVisible(false);
@@ -81,7 +81,7 @@ const handleClickOutside = (event: MouseEvent) => {
 
         if (isVisible && isTopModal(modalId.current)) {
             document.body.style.overflow = 'hidden';
-            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('click', handleClickOutside);
             document.addEventListener('keydown', handleEscape);
         }
 
@@ -92,7 +92,7 @@ const handleClickOutside = (event: MouseEvent) => {
                     document.body.style.overflow = '';
                 }
             }
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('click', handleClickOutside);
             document.removeEventListener('keydown', handleEscape);
         };
     }, [isVisible, setIsVisible]);

@@ -212,13 +212,13 @@ export const Popover = ({
         };
 
         calculatePosition();
-        
-        document.addEventListener("mousedown", handleClickOutside);
+
+        document.addEventListener("mousedown", handleClickOutside, true);
         window.addEventListener("resize", handleResize);
         window.addEventListener("scroll", handleResize);
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside, true);
             window.removeEventListener("resize", handleResize);
             window.removeEventListener("scroll", handleResize);
         };

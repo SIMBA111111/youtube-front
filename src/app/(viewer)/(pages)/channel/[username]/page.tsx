@@ -43,10 +43,6 @@ export default async function ChannelMain ({
         getPlaylistsByUsername(username),
     ])
 
-
-    console.log('channelInfo: ', channelInfo);
-    
-    
     return (
         <div className={styles.pageContainer}>
             <img src={channelInfo?.data.channelData.bannerUrl ?? 'defaultImages/defaultAvatar.png'} alt="banner" className={styles.channelBanner}/>

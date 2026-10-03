@@ -16,6 +16,7 @@ import { IUserBtn } from "../model/types";
 import "../../../shared/i18s/i18s";
 
 import styles from "./styles.module.scss";
+import { getRegisteredTranslate } from "@/shared/utils/getRegisteredTranslate";
 
 type SubModalType = "theme" | "language" | null;
 
@@ -53,6 +54,10 @@ export const UserBtn: React.FC<IUserBtn> = ({
     }
 
   }, [])
+
+  console.log('currentTheme: ', currentTheme);
+  console.log('languages: ', languages);
+  
  
   return (
     <>
@@ -111,7 +116,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
                 <Svg name="lenguage" />
                 <Text>
                   {t('Interface Language')}:{" "}
-                  {languages.find((lang) => lang.id === activeLanguage)?.name}
+                  {getRegisteredTranslate(languages.find((lang) => lang.id === activeLanguage)?.name)}
                 </Text>
                 <Svg name="arrowLeft" />
               </div>

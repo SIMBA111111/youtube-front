@@ -21,7 +21,7 @@ export const CreateCommentUnauthPopover: FC<ICreateCommentUnauthPopover> = ({
     const router = useRouter()
 
     return (
-        <Popover isOpen={isOpen} onClose={onClose} offset={offset}>
+        <Popover isOpen={isOpen} onClose={onClose} offset={offset} className={styles.unauthPopover}>
             <div className={styles.container}>
                 <Text size={20} weight={700}>Хотите присоединиться к обсуждению?</Text>
                 <Text size={14}>Чтобы продолжить, нужно войти в аккаунт.</Text>

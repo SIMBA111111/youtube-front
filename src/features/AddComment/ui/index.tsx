@@ -53,6 +53,7 @@ export const AddComment: React.FC<IAddComment> = ({
     if(me) {
       setInputHidden(false)
     } else {
+      inputRef.current?.blur()
       setIsOpenedUnauthPopover(true)
     } 
   }
@@ -60,7 +61,7 @@ export const AddComment: React.FC<IAddComment> = ({
   return (
     <div className={styles.container}>
       <img
-        src={me?.avatarUrl ? me?.avatarUrl : "defaultImages/defaultAvatar.png"}
+        src={me?.avatarUrl ? me?.avatarUrl : "/defaultImages/defaultAvatar.png"}
         className={inputHidden ? styles.headerAvatar : styles.headerAvatarBig}
         alt=""
       />

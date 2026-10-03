@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 import { Svg, Text } from '@/shared/ui'
-import { IChannel, IChannelEntity } from '@/entities/channels/model/types'
+import { IChannelEntity } from '@/entities/channels/model/types'
 import { SIDEBAR_NAVIGATION, SIDEBAR_YOU } from '@/shared/constants/sidebar'
 import { useSidebarStore } from '@/shared/store/sidebar'
 import { IThumbnailShortVideo } from '@/entities/thumbnailShortVideo/modal/types'
@@ -14,7 +14,7 @@ import { useDeviceIsMobile } from '@/shared/hooks/getDeviceIsMobile'
 import styles from './styles.module.scss'
 
 
-export const MobileSidebar = ({channels, randomShortVideo}: {channels: IChannel[], randomShortVideo: IThumbnailShortVideo | null}) => {
+export const MobileSidebar = ({channels, randomShortVideo}: {channels: IChannelEntity[], randomShortVideo: IThumbnailShortVideo | null}) => {
     const sidebarContainerRef = useRef<HTMLDivElement>(null)
     const pathname = usePathname()
     const {isOpen, closeSideBar} = useSidebarStore()
@@ -22,8 +22,6 @@ export const MobileSidebar = ({channels, randomShortVideo}: {channels: IChannel[
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            event.stopPropagation()
-            event.preventDefault()
 
             if ((isTablet || isMobile) && sidebarContainerRef.current && !sidebarContainerRef.current.contains(event.target as Node)) {
                 closeSideBar();

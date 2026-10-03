@@ -1,12 +1,14 @@
+'use client'
+
 import { t } from "i18next";
 import { TTraslates } from "../types/translates";
 
 export const getRegisteredTranslate = (
-  text: TTraslates,
+  text: TTraslates | null | undefined,
   capitalizeFirst: boolean = false
 ): string => {
   if (!text) return '';
-
+  
   const translated = t(text);
 
   return capitalizeFirst

@@ -1,8 +1,7 @@
 import { FC, useRef, useEffect, useState, ChangeEventHandler, Dispatch, SetStateAction } from "react"
-import { Text } from "@/shared/ui/Text"
 import { Comments } from "@/widgets/Comments"
-import { IChannel } from "@/entities/channels/model/types"
 import { Modal } from "../.."
+import { IChannelData } from "@/shared/utils/getChannelData"
 import styles from './styles.module.scss'
 
 
@@ -10,7 +9,7 @@ interface ICommentsModal {
     isOpened: boolean
     onClose: () => void
     videoId: string
-    me: IChannel
+    me: IChannelData | null
     commentsCount: number
 }
 

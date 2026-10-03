@@ -37,9 +37,6 @@ export default async function Shorts({
     )
   }
 
-  console.log('resGetVideoById: ', resGetVideoById);
-  
-
   return (
     <ShortsSwiper
       videos={res.data}

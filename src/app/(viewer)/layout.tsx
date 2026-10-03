@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { PageWrapper } from "@/widgets/pageWrapper";
 import ProgressBarProvider from "../providers/progressProvider";
-import { ThemeProvider } from "../providers/themeProvider";
+import { Theme, ThemeProvider } from "../providers/themeProvider";
 import { ToastProvider } from "../providers/toastProvider";
 
 import "normalize.css";
@@ -18,10 +18,10 @@ export default async function RootLayout({
   const jwt = cookieStore.get("jwt")?.value;
   const myChannelData = await getChannelData(cookieStore)
 
-  const currentTheme = theme ? theme : "device";
+  const currentTheme = theme ? theme : "device based";
 
   return (
-    <ThemeProvider initialTheme={currentTheme as any}>
+    <ThemeProvider initialTheme={currentTheme as Theme}>
       <ToastProvider>
         <ProgressBarProvider>
           <PageWrapper myChannelData={myChannelData} jwt={jwt}>{children}</PageWrapper>
