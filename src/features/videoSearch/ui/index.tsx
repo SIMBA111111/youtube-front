@@ -9,6 +9,8 @@ import { voiceSearchHook } from "@/shared/hooks"
 
 import { getVideoListByName } from '../api/getVideoListByName'
 import styles from './styles.module.scss'
+import { getQueriesList } from "@/shared/api/searching/getQueries"
+import { ISearchingEntity } from "@/entities/searching/types"
 
 
 export const VideoSearch = () => {
@@ -72,6 +74,15 @@ export const VideoSearch = () => {
         fetchSelectedVideo()
     }
 
+    const fetchQueries = async (searchQuery: string): Promise<IElement[]> => {
+        const res = await getQueriesList(searchQuery, 0, 10)
+
+        return res.map((query: ISearchingEntity) => ({
+            id: query.query,
+            value: query.query
+        }))
+    }
+
     return (
         <div className={styles.videoSearch}>
             <div 
@@ -82,7 +93,7 @@ export const VideoSearch = () => {
                 <Searcher 
                     selectedElement={selectedElement}
                     setSelectedElement={setSelectedElement}
-                    getElementsByName={getVideoListByName}
+                    getElementsByName={fetchQueries}
                     placeholder="Введите запрос"
                     valueRef={valueRef}
                     addonRight={

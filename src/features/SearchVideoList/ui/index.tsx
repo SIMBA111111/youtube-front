@@ -1,6 +1,6 @@
 'use client'
 
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import { IVideoEntity, IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { SearchVideoItem } from "@/entities/thumbnailVideo/ui/SearchVideoItem";
 import { getVideosByName } from "@/shared/api/video/getVideosByName";
 import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient";
@@ -15,23 +15,31 @@ export const SearchVideoList = ({query} : {query: string}) => {
 
     const fetchVideoList = useCallback(async ({offset, limit}: {offset: number, limit: number}) => {
         const res = await getVideosByName({videoName: query, offset, limit});
-        return res?.videos || []
+        
+        if (res.error || !res.data) {
+            return []
+        }
+        
+        return res.data || []
     }, [query]);
-
-    useEffect(() => {
-        refreshData()
-    }, [query])
 
     const {
         data,
         hasMore,
         isLoading,
         refreshData
-    } = useInfinityScroll<IVideo, string>({
+    } = useInfinityScroll<IVideoFullInfo, string>({
         paginationStep: 15,
         fetchData: fetchVideoList,
         triggerRef: loadingRef
     })
+
+    useEffect(() => {
+        refreshData()
+    }, [query])
+
+    console.log(data);
+    
 
     if (data && data.length < 1) {
         return (
@@ -43,7 +51,7 @@ export const SearchVideoList = ({query} : {query: string}) => {
         <>
             <div className={styles.videoList}>
                 {data.map(i =>
-                    <SearchVideoItem key={i.id} video={i} userId={myChannelData?.id || ''} isRow />
+                    <SearchVideoItem key={i.video.id} video={i} userId={myChannelData?.id || ''} isRow />
                 )}
             </div>
 

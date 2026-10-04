@@ -2,8 +2,8 @@
 
 import React, { useState, MouseEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import { IVideo } from "../../model/types";
 import { formatDuration } from "@/shared/utils/formatDuration";
 import { formatViews } from "@/shared/utils/formatViews";
 import { formatDate } from "@/shared/utils/formatDate";
@@ -11,12 +11,13 @@ import { Modal, Svg, Text } from "@/shared/ui";
 
 import { handleMenuClick } from "../../lib/handlers";
 import { SettigsVideoModal } from "../settingsModal";
+import { IVideoFullInfo } from "../../model/types";
+
 import styles from "./styles.module.scss";
-import { useRouter } from "next/navigation";
 
 
 interface ISearchVideoItem {
-  video: IVideo;
+  video: IVideoFullInfo;
   isRow?: boolean;
   userId: string
 }
@@ -40,28 +41,28 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
   const handleGoToChannel = (e: MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    router.push(`/channel/${video.channel.username}`)
+    router.push(`/channel/${video.channel.channelUsername}`)
   }
 
   return (
     <div className={styles.wrapper}>
       <Link
         className={isRow ? styles.searchVideoItem_row : styles.searchVideoItem}
-        href={`/watch?v=${video?.id}`}
+        href={`/watch?v=${video.video.id}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
           <div className={ isRow ? styles.thumbnailContainer_Row : styles.thumbnailContainer }>
             <img
-              src={video?.previewUrl || "/defaultImages/defaultAvatar.png"}
-              alt={video?.name}
+              src={video.video.videoPreviewUrl || "/defaultImages/defaultAvatar.png"}
+              alt={video.video.name}
               className={isRow ? styles.thumbnail_Row : styles.thumbnail}
             />
 
-            {isHovered && video?.videoPreviewUrl && (
+            {isHovered && video.video.videoPreviewUrl && (
               <video
                 className={styles.videoPreview}
-                src={video?.videoPreviewUrl}
+                src={video.video.videoPreviewUrl}
                 autoPlay
                 muted={!isSoundOn}
                 loop
@@ -71,7 +72,7 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
 
               <div className={styles.durationBadge}>
                 <Text color="white">
-                  {formatDuration(video?.duration)}
+                  {formatDuration(video.video.duration)}
                 </Text>
               </div>
 
@@ -88,7 +89,7 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
 
             <div className={styles.header}>
               <h3 className={styles.title}>
-                {video?.name}
+                {video.video.name}
               </h3>
 
               <div
@@ -100,37 +101,37 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
                 <SettigsVideoModal
                   isOpenModal={isOpenModal}
                   setIsOpenModal={setIsOpenModal}
-                  videoId={video.id}
+                  videoId={video.video.id}
                   userId={userId}
                 />
             </div>
 
             <div className={styles.stats}>
               <Text size={16} color="var(--gray)">
-                {formatViews(video?.viewersCount || 0)} просмотров
+                {formatViews(video.video.viewersCount || 0)} просмотров
               </Text>
               <span className={styles.dot}></span>
               <Text size={16} color="var(--gray)">
-                {video?.datePublication
-                  ? formatDate(video?.datePublication)
+                {video.video.datePublication
+                  ? formatDate(video.video.datePublication)
                   : "давно"}
               </Text>
             </div>
 
             <div className={styles.name} onClick={handleGoToChannel}>
               <img
-                src={video?.channel?.avatarUrl || "/default-avatar.png"}
-                alt={video?.channel?.username || "Channel"}
+                src={video.channel.channelAvatarUrl || "/default-avatar.png"}
+                alt={video.channel.channelUsername || "Channel"}
                 className={styles.channelAvatar}
               />
               <p className={styles.channelName}>
                 <Text size={16} color="var(--gray)">
-                  {video?.channel?.name}
+                  {video.channel.channelUsername}
                 </Text>
               </p>
             </div>
 
-            <Text className={styles.description}>{video.videoDescription}</Text>
+            <Text className={styles.description}>{video.video.description}</Text>
           </div>
       </Link>
     </div>
