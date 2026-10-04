@@ -2,14 +2,12 @@ import { cookies } from "next/headers";
 
 import { Text } from "@/shared/ui";
 import { History } from "@/widgets/feed/history";
-import { getHistoryVideos } from "@/shared/api/video/getHistoryVideos";
 import { HistorySettings } from "@/features/HistorySettings/ui";
 import { getTags } from "@/shared/api/tags/getTags";
-import { HISTORY_TAGS, THISTORY_TAGS } from "@/shared/constants/tags";
 import { getMe } from "@/shared/api/me/getMe";
 import { UnauthorizedWidget } from "@/widgets/UnauthorizedWidget/UnauthorizedWidget";
 import { getChannelData } from "@/shared/utils/getChannelData";
-import { ITagEntity } from "@/entities/videoTags/model";
+import { HistoryProvider } from "@/widgets/historyProvider/historyProvider";
 
 import styles from "./styles.module.scss";
 
@@ -50,15 +48,12 @@ export default async function HistoryPage() {
 
       <div className={styles.mainPage_body}>
         <div className={styles.mainPage_body_videos}>
-          <History
-            // initVideos={videos.data}
-            userId={myChannelData.id} 
-            jwt={jwt} 
+          <HistoryProvider 
+            userId={myChannelData.id}
+            jwt={jwt}
             tags={tags.data}
+            isSaveHistory={myChannel.data.isSaveHistory}
           />
-        </div>
-        <div className={styles.mainPage_body_settings}>
-          <HistorySettings meId={myChannelData.id} isSaveHistory={myChannel.data.isSaveHistory}/>
         </div>
       </div>
     </div>

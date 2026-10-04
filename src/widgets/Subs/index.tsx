@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Svg, Text } from "@/shared/ui";
 import { HorizontalCollaps, HorizontalCollapsBody, HorizontalCollapsHeader} from "@/shared/ui/HorizontalCollaps";
-import { IVideoEntity } from "@/entities/thumbnailVideo/model/types";
+import { IVideoEntity, IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { getVideosCount } from "@/shared/utils/getVideosCount";
 import { useDeviceIsMobile } from "@/shared/hooks/getDeviceIsMobile";
@@ -12,7 +12,7 @@ import { getShortsCount } from "@/shared/utils/getShortsCount";
 import { ThumbnailShortVideoCard } from "@/entities";
 import styles from "./styles.module.scss";
 
-export const  Subs = ({videoList} : {videoList: IVideoEntity[]}) => {
+export const  Subs = ({videoList} : {videoList: IVideoFullInfo[]}) => {
 
   const device = useDeviceIsMobile()
 
@@ -20,18 +20,18 @@ export const  Subs = ({videoList} : {videoList: IVideoEntity[]}) => {
     <div className={styles.mainPage__container}>
 
       <div className={styles.header}>
-        <Text size={20} weight={500}>Самые актуальные</Text>
+        <Text size={20} weight={500}>Новые</Text>
         <Link href={'/subscriptions/channels'} className={styles.channels}><Text weight={500}>Каналы, на которые вы подписаны</Text></Link>      
       </div>
 
-      <HorizontalCollaps>
+      {/* <HorizontalCollaps>
         <HorizontalCollapsHeader>
           <div className={styles.videoGrid}>
             {videoList
-                .filter((video: IVideoEntity) => !video.isShort)
+                .filter((video: IVideoFullInfo) => !video.video.isShort)
                 .slice(0, getVideosCount(device))
-                .map((video: IVideoEntity) => (
-                    <div key={video.id} className={styles.videoCardWrapper}>
+                .map((video: IVideoFullInfo) => (
+                    <div key={video.video.id} className={styles.videoCardWrapper}>
                         <ThumbnailVideoCard video={video} />
                     </div>
             ))}
@@ -40,18 +40,28 @@ export const  Subs = ({videoList} : {videoList: IVideoEntity[]}) => {
         <HorizontalCollapsBody>
           <div className={styles.videoGrid}>
             {videoList
-                .filter((video: IVideoEntity) => !video.isShort) 
+                .filter((video: IVideoFullInfo) => !video.video.isShort) 
                 .slice(getVideosCount(device), getVideosCount(device) * getVideosCount(device))
-                .map((video: IVideoEntity) => (
-                    <div key={video.id} className={styles.videoCardWrapper}>
+                .map((video: IVideoFullInfo) => (
+                    <div key={video.video.id} className={styles.videoCardWrapper}>
                         <ThumbnailVideoCard video={video} />
                     </div>
             ))}
           </div>
         </HorizontalCollapsBody>
-      </HorizontalCollaps>
+      </HorizontalCollaps> */}
 
-      {videoList.filter((v: IVideoEntity) => v.isShort).length > 0 && <div className={styles.shorts}>
+      <div className={styles.videoGrid}>
+        {videoList
+          .filter((video: IVideoFullInfo) => !video.video.isShort) 
+          .map((video: IVideoFullInfo) => (
+            <div key={video.video.id} className={styles.videoCardWrapper}>
+                <ThumbnailVideoCard video={video} />
+            </div>
+        ))}
+      </div>
+
+      {videoList.filter((v: IVideoFullInfo) => v.video.isShort).length > 0 && <div className={styles.shorts}>
         <div className={styles.shortsTag}>
             <Svg name='shortsRed'/>
             <Text size={20}>Shorts</Text>
@@ -61,22 +71,13 @@ export const  Subs = ({videoList} : {videoList: IVideoEntity[]}) => {
       
       <div className={styles.videoGridHorts}>
           {videoList
-              .filter((video: IVideoEntity) => video.isShort) 
+              .filter((video: IVideoFullInfo) => video.video.isShort) 
               .slice(0, getShortsCount(device))
-              .map((video: IVideoEntity) => (
-                  <div key={video.id} className={styles.hortsVideoCardWrapper}>
-                      <ThumbnailShortVideoCard {...video} />
+              .map((video: IVideoFullInfo ) => (
+                  <div key={video.video.id} className={styles.hortsVideoCardWrapper}>
+                      <ThumbnailShortVideoCard video={video} />
                   </div>
               ))}
-      </div>
-      <div className={styles.videoGrid}>
-        {videoList
-            .filter((video: IVideoEntity) => !video.isShort) 
-            .map((video: IVideoEntity) => (
-                <div key={video.id} className={styles.videoCardWrapper}>
-                    <ThumbnailVideoCard video={video} />
-                </div>
-        ))}
       </div>
     </div>
   );

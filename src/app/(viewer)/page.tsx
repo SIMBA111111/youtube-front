@@ -10,7 +10,7 @@ export default async function MainPage() {
 
   return (
     <div className={styles.page}>
-      <VideoList tags={tags.data} jwt={jwt?.value || ''}/>
+      <VideoList tags={tags?.data || []} jwt={jwt?.value || ''}/>
     </div>
   );
 }

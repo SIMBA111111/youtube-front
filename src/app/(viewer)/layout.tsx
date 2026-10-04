@@ -1,12 +1,12 @@
 import { cookies } from "next/headers";
 import { PageWrapper } from "@/widgets/pageWrapper";
+import { getChannelData } from "@/shared/utils/getChannelData";
 import ProgressBarProvider from "../providers/progressProvider";
 import { Theme, ThemeProvider } from "../providers/themeProvider";
 import { ToastProvider } from "../providers/toastProvider";
 
 import "normalize.css";
 import "../globals.scss";
-import { getChannelData } from "@/shared/utils/getChannelData";
 
 export default async function RootLayout({
   children,

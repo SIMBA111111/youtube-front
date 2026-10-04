@@ -29,7 +29,7 @@ export default async function Subscriptions() {
     )
   }
 
-  if (cookie.get("channelData")) {
+  if (myChannelData) {
     jwt = cookie.get("jwt")?.value || '' 
     me = await getMe(jwt, myChannelData.id);
     vieweredVideoList = await getHistoryVideos(
@@ -88,7 +88,7 @@ export default async function Subscriptions() {
           title="Понравившиеся"
           link="/feed/liked"
         />
-    </div>
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { FC, useRef } from "react";
-import { IChannel } from "@/entities/channels/model/types"
+import { IChannelEntity } from "@/entities/channels/model/types"
 import { ChannelCard } from "@/entities/channels/ui"
 import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
@@ -26,8 +26,13 @@ export const MySubChannels: FC<IMySubChannels> = ({
       offset: number,
       limit: number
   }) => {
-      const res = await getMySubsChannels(userId)
-      return res?.channels || []
+      const res = await getMySubsChannels(userId, offset, limit)
+
+      if (!res || !res.data || res.error) {
+        return []
+      }
+
+      return res?.data || []
   }
 
   const {
@@ -35,7 +40,7 @@ export const MySubChannels: FC<IMySubChannels> = ({
       hasMore,
       isLoading,
       refreshData
-  } = useInfinityScroll<IChannel, any>({
+  } = useInfinityScroll<IChannelEntity, any>({
       paginationStep: 5,
       filter: '',
       triggerRef: loadingRef,
@@ -45,22 +50,22 @@ export const MySubChannels: FC<IMySubChannels> = ({
   return (
     <>
       <div className={styles.channelList}>
-        {data.map((channel: IChannel) => (
+        {data.map((channel: IChannelEntity) => (
           <ChannelCard 
             id={channel.id} 
             name={channel.name} 
             username={channel.username} 
-            avatarUrl={channel.avatar_url} 
+            avatarUrl={channel.avatarUrl} 
             description={channel.description} 
-            subscribersCount={channel.subscribers_count} 
-            notificationSetting={channel.notification_settings} 
+            subscribersCount={channel.subscribersCount} 
+            notificationSetting={channel.notificationSetting} 
             meId={userId}
             links={[]}
           />
         ))}
       </div>
 
-      <div ref={loadingRef} style={{ height: "100px", margin: "20px" }}>
+      <div ref={loadingRef} style={{ height: "50px", margin: "20px" }}>
           {isLoading && (
               <div className={styles.spinner}>
                   <Spinner />

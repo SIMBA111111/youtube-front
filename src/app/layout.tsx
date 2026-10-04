@@ -15,19 +15,23 @@ export default async function RootLayout({
             __html: `
               // TO DO без этого будет моргание белой темы всегда при перезагрузке страницы
               (function() {
-                let initTheme = document.cookie.split(';').filter(cookie => cookie.includes('theme='))
+                try {
+                  let initTheme = document.cookie.split(';').filter(cookie => cookie.includes('theme='))
 
-                if(!initTheme) {
-                  // Если тема не сохранена, используем системную
-                  initTheme = window.matchMedia('(prefers-color-scheme: dark)').matches 
-                    ? 'dark' 
-                    : 'light';
-                } else {
-                  initTheme = decodeURIComponent(initTheme[0].split('=')[1])
+                  if(initTheme == false) {
+                    // Если тема не сохранена, используем системную
+                    initTheme = window.matchMedia('(prefers-color-scheme: dark)').matches 
+                      ? 'dark' 
+                      : 'light';
+                  } else {
+                    initTheme = decodeURIComponent(initTheme[0].split('=')[1])
+                  }
+
+                  const root = document.documentElement;
+                  root.setAttribute("data-theme", initTheme);
+                } catch (error) {
+                  console.log('error: ', error)
                 }
-
-                const root = document.documentElement;
-                root.setAttribute("data-theme", initTheme);
               })();
             `,
           }}

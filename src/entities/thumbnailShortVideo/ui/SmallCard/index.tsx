@@ -8,27 +8,26 @@ import { IThumbnailShortVideo } from "../../modal/types"
 
 import styles from './styles.module.scss'
 
+
 export const ThumbnailShortVideoSmallCard: React.FC<IThumbnailShortVideo> = ({
-    id,
-    name,
-    previewUrl,
-    videoPreviewUrl,
-    viewersCount,
-    channel,
+    video,
     isRow = false
 }) => {
 
+    console.log('video: ', video);
+    
+
     return (
         <Link 
-            href={`/shorts/${id}`} 
+            href={`/shorts/${video.video.id}`} 
             className={styles.shortContainer}
         >
             <div className={styles.contentWrapper}>
-                <img src={previewUrl} alt="preview" className={styles.img}/>
+                <img src={video.video.thumbnailUrl} alt="preview" className={styles.img}/>
             </div>
             
             <div className={styles.viewers}>
-                <Text color="var(--whiteText)" >{formatViews(viewersCount)} просмотров</Text>
+                <Text color="white" >{formatViews(video.video.viewersCount)} просмотров</Text>
             </div>
         </Link>
     )

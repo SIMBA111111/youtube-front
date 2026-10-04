@@ -14,7 +14,17 @@ import styles from './styles.module.scss'
 
 export type modalType = 'clearHistory' | 'dontSave' | null
 
-export const HistorySettings = ({meId, isSaveHistory}: {meId: string, isSaveHistory: boolean}) => {
+interface IHistorySettings {
+    meId: string, 
+    isSaveHistory: boolean
+    onHistoryCleared?: () => void
+}
+
+export const HistorySettings = ({
+    meId, 
+    isSaveHistory,
+    onHistoryCleared
+}: IHistorySettings) => {
     const [openedModal, setOpenedModal] = useState<modalType>(null)
     const [historyIsSave, setHistoryIsSave] = useState<boolean>(isSaveHistory)
     const { openToast } = useToast()
@@ -48,14 +58,13 @@ export const HistorySettings = ({meId, isSaveHistory}: {meId: string, isSaveHist
                 isOverlay
                 className={styles.modal}
             >
-                <Text>Влад Руднев (naaro2930@gmail.com)</Text>
                 <Text color="var(--gray)">Ваша история просмотра будет удалена со всех устройств.</Text>
                 <Text color="var(--gray)" lineHeight={18}>Список рекомендаций будет составлен заново с учетом вашей активности в других сервисах Google. </Text>
                 <div className={styles.modal_btns}>
                     <button className={clsx(styles.modal_btns_btn, styles.modal_btns_cancel)} onClick={() => setOpenedModal(null)}>
                         <Text>Отмена</Text>
                     </button>
-                    <button className={clsx(styles.modal_btns_btn, styles.modal_btns_blue)} onClick={() => handleClearHistory(setOpenedModal, meId, openToast)}>
+                    <button className={clsx(styles.modal_btns_btn, styles.modal_btns_blue)} onClick={() => handleClearHistory(setOpenedModal, meId, openToast, onHistoryCleared)}>
                         <Text color="#065fd4">Очистить историю просмотра</Text>
                     </button>
                 </div>
@@ -68,7 +77,6 @@ export const HistorySettings = ({meId, isSaveHistory}: {meId: string, isSaveHist
                 isOverlay
                 className={styles.modal}
             >
-                <Text>Влад Руднев (naaro2930@gmail.com)</Text>
                 <Text color="var(--gray)">Ваша история просмотра перестанет сохраняться</Text>
                 <Text color="var(--gray)">Список рекомендаций будет составлен заново с учетом вашей активности в других сервисах Google. </Text>
                 <div className={styles.modal_btns}>

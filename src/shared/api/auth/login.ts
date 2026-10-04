@@ -7,9 +7,6 @@ export const login = async (loginData: { username: string; password: string; }, 
             method: 'POST'
         })
 
-        const result = await res.json() 
-        console.log('result = ', result);
-        
         if (res.status === 201) {
             openToast('Успешная авторизация!')
             window.location.replace('/')

@@ -65,10 +65,6 @@ export const Liked = ({ tags, meId, jwt}: {tags: ITagEntity[], meId: string, jwt
             return <Text>Загрузка...</Text>;
         }
 
-        if (videos.length === 0) {
-            return <Text>Нет видео в понравившихся</Text>;
-        }
-
         return videos.map((video, index) => (
             <div key={video.video.id} className={styles.video}>
                 <Text>{index + 1}</Text>
@@ -78,13 +74,7 @@ export const Liked = ({ tags, meId, jwt}: {tags: ITagEntity[], meId: string, jwt
     };
 
     const renderShortsList = (videos: IVideoFullInfo[]) => {
-        if (isLoading && videos.length === 0) {
-            return <Text>Загрузка...</Text>;
-        }
 
-        if (videos.length === 0) {
-            return <Text>Нет коротких видео в понравившихся</Text>;
-        }
 
         return (
             <div className={styles.videoGridShorts}>
@@ -133,6 +123,14 @@ export const Liked = ({ tags, meId, jwt}: {tags: ITagEntity[], meId: string, jwt
                     <div className={styles.videoList}>
                         {renderShortsList(data)}
                     </div>
+                )}
+
+                {isLoading && (
+                    <Text>Загрузка...</Text>
+                )}
+
+                {!isLoading && data.length === 0 && (
+                    <Text>Нет видео в понравившихся</Text>
                 )}
             </div>
             

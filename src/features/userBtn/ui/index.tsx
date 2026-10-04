@@ -55,10 +55,6 @@ export const UserBtn: React.FC<IUserBtn> = ({
 
   }, [])
 
-  console.log('currentTheme: ', currentTheme);
-  console.log('languages: ', languages);
-  
- 
   return (
     <>
       {jwt ? (

@@ -28,7 +28,9 @@ export default async function Subscriptions() {
 
   return (
     <div className={styles.mainPage__container}>
+      <div className={styles.mainPage__wrapper}>
       <Subs videoList={videoList.data} />
+      </div>
     </div>
   );
 }

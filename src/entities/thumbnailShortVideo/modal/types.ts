@@ -1,15 +1,7 @@
-import { IChannel } from "@/entities/channels/model/types"
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types"
 
 export interface IThumbnailShortVideo {
-    id: string
-    name: string
-    duration: number
-    previewUrl: string
-    videoPreviewUrl: string
-    viewersCount: number
-    channel: IChannel
-    datePublication?: string
-    isShort: boolean
+    video: IVideoFullInfo
     isRow?: boolean
 }
 

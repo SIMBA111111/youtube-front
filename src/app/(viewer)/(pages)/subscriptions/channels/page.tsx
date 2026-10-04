@@ -1,13 +1,9 @@
 import { cookies } from "next/headers";
-
 import { Text } from "@/shared/ui";
-import { getMySubsChannels } from "@/shared/api/channels/getMySubsChannels";
-import { IChannel } from "@/entities/channels/model/types";
-import { ChannelCard } from "@/entities/channels/ui";
-
-import styles from "./styles.module.scss";
 import { MySubChannels } from "@/widgets/mySubChannels";
 import { getChannelData } from "@/shared/utils/getChannelData";
+import { UnauthorizedWidget } from "@/widgets/UnauthorizedWidget/UnauthorizedWidget";
+import styles from "./styles.module.scss";
 
 
 export default async function SubsChannels() {
@@ -16,8 +12,12 @@ export default async function SubsChannels() {
 
   let jwt
 
-  if(cookie.get('channelData')) {
-      jwt = cookie.get('jwt')?.value
+  if(myChannelData) {
+    jwt = cookie.get('jwt')?.value || ''
+  } else {
+    return (
+      <UnauthorizedWidget svgName="history" title="Чтобы посмотреть историю просмотра, войдите в аккаунт." />
+    )
   }
 
   return (

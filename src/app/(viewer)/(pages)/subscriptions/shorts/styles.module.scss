@@ -1,7 +1,10 @@
+@use '../../../../mixins.scss' as *;
+
 .mainPage {
     &__container {
         max-width: 1720px;
         margin: auto;
+        @include scrollPage;
     }
 }
 
