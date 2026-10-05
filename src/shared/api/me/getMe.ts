@@ -8,7 +8,11 @@ const ME = {
     avatarUrl:'/testImages/pr.png'
 }
 
-export const getMe = async (jwt: string, meId: string): Promise<ApiResponse<IChannelEntity> | null> => {
+interface Res {
+    channel: IChannelEntity,
+}
+
+export const getMe = async (jwt: string, meId: string): Promise<ApiResponse<Res> | null> => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-data/${meId}`, {
             headers: {

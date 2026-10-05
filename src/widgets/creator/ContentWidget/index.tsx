@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react"
 import { Tabs } from "@/shared/ui/Tab"
 import { VideosTable } from "@/features/creator";
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import { IVideoEntity, IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { getVideoListByChannelUsername } from "@/shared/api/video/getVideoListByChannelUsername";
 import { FiltersEnum } from "@/features/ChannelVideoList/ui";
 import { CreateVideoModal } from "@/features/CreateVideoModal";
@@ -26,7 +26,7 @@ export const ContentWidget: FC<IContentWidget> = ({
     channelUsername,
 }) => {
     const {isOpened, toggleCreateModal, openCreateModal} = useCreateVideoModal()
-    const [videos, setVideos] = useState<IVideo[]>([])
+    const [videos, setVideos] = useState<IVideoFullInfo[]>([])
     const [activeTab, setActiveTab] = useState<TTabs>('videos')
     const [filter, setFilter] = useState<keyof typeof FiltersEnum>('NEWS')
     const searchParams = useSearchParams();
@@ -43,12 +43,16 @@ export const ContentWidget: FC<IContentWidget> = ({
         (async () => {
             if (activeTab === 'videos') {
                 const videos = await getVideoListByChannelUsername(channelUsername, false, filter)
-                setVideos(videos.videos)
+                if (videos?.data) {
+                    setVideos(videos?.data)
+                }
             }
 
             if (activeTab === 'shorts') {
                 const videos = await getVideoListByChannelUsername(channelUsername, true, filter)
-                setVideos(videos.videos)
+                if (videos?.data) {
+                    setVideos(videos?.data)
+                }
             }
         })()
     }, [activeTab, filter])

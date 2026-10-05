@@ -30,20 +30,19 @@ export default async function Subscriptions() {
     )
   }
 
-  console.log('videoList: ', videoList);
-  
-
   return (
     <div className={styles.mainPage__container}>
-       <Text size={20} color="var(--blackText)" weight={600}>Shorts</Text>
+      <div className={styles.mainPage__wrapper}>
+        <Text size={20} color="var(--blackText)" weight={600}>Shorts</Text>
 
-      <div className={styles.videoGridHorts}>
-        {videoList.data
-          .map((video: IVideoFullInfo) => (
-            <div key={video.video.id} className={styles.hortsVideoCardWrapper}>
-                <ThumbnailShortVideoSmallCard video={video}/>
-            </div>
-        ))}
+        <div className={styles.videoGridHorts}>
+          {videoList.data
+            .map((video: IVideoFullInfo) => (
+              <div key={video.video.id} className={styles.hortsVideoCardWrapper}>
+                  <ThumbnailShortVideoSmallCard video={video}/>
+              </div>
+          ))}
+        </div>
       </div>
     </div>
   );

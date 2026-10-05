@@ -55,20 +55,20 @@ export default async function Subscriptions() {
       <div className={styles.pageWrapper}>
         <div className={styles.myChannel}>
           <img
-            src={me.data.avatarUrl ?? "/defaultImages/defaultAvatar.png"}
+            src={me.data.channel.avatarUrl ?? "/defaultImages/defaultAvatar.png"}
             alt="avatarUrl"
             className={styles.myChannel_avatar}
           />
           <div className={styles.myChannel_info}>
             <Text size={36} weight={600}>
-              {me.data.name}
+              {me.data.channel.name}
             </Text>
             <div>
               <a
-                href={`/channel/${me.data.id}`}
+                href={`/channel/${me.data.channel.username}`}
                 className={styles.myChannel_info_username}
               >
-                {me.data.username} • Перейти на канал
+                {me.data.channel.username} • Перейти на канал
               </a>
             </div>
           </div>
