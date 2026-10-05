@@ -197,6 +197,8 @@ export const Popover = ({
         if (!isOpen) return;
 
         const handleClickOutside = (event: MouseEvent) => {
+            console.log('handleClickOutside');
+            
             if (
                 triggerRef.current &&
                 !triggerRef.current.contains(event.target as Node) &&
@@ -213,12 +215,12 @@ export const Popover = ({
 
         calculatePosition();
 
-        document.addEventListener("mousedown", handleClickOutside, true);
+        document.addEventListener("click", handleClickOutside, true);
         window.addEventListener("resize", handleResize);
         window.addEventListener("scroll", handleResize);
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside, true);
+            document.removeEventListener("click", handleClickOutside, true);
             window.removeEventListener("resize", handleResize);
             window.removeEventListener("scroll", handleResize);
         };

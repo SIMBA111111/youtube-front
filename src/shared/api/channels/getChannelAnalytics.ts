@@ -6,8 +6,6 @@ export const getChannelAnalytics = async (channelId: string, dateRange: string, 
             body: JSON.stringify({dateRange: dateRange, tab: tab})
         })
 
-        console.log(res);
-
         if (res.status === 200) {
             return await res.json()
         } else {

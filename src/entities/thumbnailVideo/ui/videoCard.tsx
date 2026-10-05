@@ -32,11 +32,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
   const channelData = getChannelDataClient() 
   const router = useRouter()
 
-  console.log(video);
-  
-
   const handleSound = (e: React.MouseEvent) => {
-    e.stopPropagation();
     e.preventDefault();
     setIsSoundOn((prev: boolean) => !prev);
   };
@@ -139,12 +135,12 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
                 {video.video.name}
               </h3>
 
-              <div
+              <button
                 className={styles.ellipsis}
                 onClick={(e: MouseEvent) => handleMenuClick(e, setIsOpenModal)}
               >
                 <Svg name="verticalEllipsis" />
-              </div>
+              </button>
                 <SettigsVideoModal
                   isOpenModal={isOpenModal}
                   setIsOpenModal={setIsOpenModal}

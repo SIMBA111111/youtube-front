@@ -130,7 +130,6 @@ class VirtualKeyboard {
         const keys = this.keyboardElement.querySelectorAll('.keyboard-key');
         keys.forEach(key => {
             key.addEventListener('click', (e) => {
-                e.stopPropagation();
                 const keyValue = (e.currentTarget as HTMLButtonElement).dataset.key;
                 if (keyValue) this.handleKeyPress(keyValue);
             });

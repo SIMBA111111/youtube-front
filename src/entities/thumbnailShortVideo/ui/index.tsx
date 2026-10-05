@@ -25,7 +25,6 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideoCard> = ({
     const [isOpenModal, setIsOpenModal] = useState(false);
 
     const handleMenuClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
         e.preventDefault();
         setIsOpenModal(true)
     };
@@ -54,9 +53,9 @@ export const ThumbnailShortVideoCard: React.FC<IThumbnailShortVideoCard> = ({
             
             <div className={styles.header}>
                 <Text size={14} weight={600} className={styles.shortVideoName}>{video.video.name}</Text>
-                <div className={styles.ellipsis} onClick={(e: React.MouseEvent) => handleMenuClick(e)}>
+                <button className={styles.ellipsis} onClick={(e: React.MouseEvent) => handleMenuClick(e)}>
                     <Svg name="verticalEllipsis" />
-                </div>
+                </button>
                 <SettigsVideoModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} videoId={video.video.id} userId={video.channel.channelId}/>
             </div>
             <Text color="var(--gray)" size={12}>{formatViews(video.video.viewersCount)} просмотров</Text>

@@ -18,6 +18,7 @@
         selectedElement: IElement
         setSelectedElement: Dispatch<SetStateAction<IElement>>
         getElementsByName: (name: string) => Promise<Array<IElement>>
+        fetchVideos: () => void;
         placeholder: string;
         valueRef: RefObject<string>
         addonLeft?: ReactNode;
@@ -30,6 +31,7 @@
         selectedElement,
         setSelectedElement,
         getElementsByName,
+        fetchVideos,
         placeholder,
         valueRef,
         addonLeft,
@@ -71,7 +73,7 @@
         };
 
         useEffect(() => {
-            if (value.length > 2) {
+            if (value.length > 1) {
                 getElementsByName(value).then((data: IElement[]) => {
                     if (Array.isArray(data)) {
                         setElements(data);
@@ -114,6 +116,7 @@
                 <SearcherDropDown
                     elements={elements}
                     setSelectedElement={setSelectedElement}
+                    fetchVideos={fetchVideos}
                     isVisible={isVisible}
                     setIsVisible={setIsVisible}
                     isActive={isActive}

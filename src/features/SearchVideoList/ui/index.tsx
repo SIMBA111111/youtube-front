@@ -38,9 +38,6 @@ export const SearchVideoList = ({query} : {query: string}) => {
         refreshData()
     }, [query])
 
-    console.log(data);
-    
-
     if (data && data.length < 1) {
         return (
             <div>Ничего не найдено</div>

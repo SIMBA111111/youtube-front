@@ -40,7 +40,6 @@ export const ReportModal: React.FC<IReportModal> = ({
     }
 
     const handleSendReport = (formData: FormData) => {
-        console.log('formData = ', formData.get('reportText'));
         handleCloseModal()
     }
 

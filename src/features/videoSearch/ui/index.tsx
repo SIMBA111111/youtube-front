@@ -43,10 +43,10 @@ export const VideoSearch = () => {
             return
         }
         
-        setSelectedElement({
-            id: '',
-            value: ''
-        })
+        // setSelectedElement({
+        //     id: '',
+        //     value: ''
+        // })
         router.push(`/watch?v=${selectedElement.id}`)
     }
 
@@ -54,9 +54,9 @@ export const VideoSearch = () => {
         router.push(`/search?query=${valueRef.current}`)
     }
 
-    useEffect(() => {
-        fetchSelectedVideo()
-    }, [selectedElement])
+    // useEffect(() => {
+    //     fetchSelectedVideo()
+    // }, [selectedElement])
 
     useEffect(() => {
         setSelectedElement({
@@ -71,13 +71,17 @@ export const VideoSearch = () => {
     }
 
     const handleMagnifierClick = () => {
-        fetchSelectedVideo()
+        // fetchSelectedVideo()
     }
 
     const fetchQueries = async (searchQuery: string): Promise<IElement[]> => {
         const res = await getQueriesList(searchQuery, 0, 10)
 
-        return res.map((query: ISearchingEntity) => ({
+        if (res.error || !res.data || !res.success) {
+            return []
+        }
+
+        return res.data.map((query: ISearchingEntity) => ({
             id: query.query,
             value: query.query
         }))
@@ -94,6 +98,7 @@ export const VideoSearch = () => {
                     selectedElement={selectedElement}
                     setSelectedElement={setSelectedElement}
                     getElementsByName={fetchQueries}
+                    fetchVideos={handleSearch}
                     placeholder="Введите запрос"
                     valueRef={valueRef}
                     addonRight={

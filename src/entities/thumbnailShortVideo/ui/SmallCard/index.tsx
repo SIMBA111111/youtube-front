@@ -14,9 +14,6 @@ export const ThumbnailShortVideoSmallCard: React.FC<IThumbnailShortVideo> = ({
     isRow = false
 }) => {
 
-    console.log('video: ', video);
-    
-
     return (
         <Link 
             href={`/shorts/${video.video.id}`} 

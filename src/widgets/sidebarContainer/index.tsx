@@ -8,12 +8,13 @@ import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient";
 import { MobileSidebar } from "./MobileSidebar";
 import { DesktopSidebar } from "./desktopSidebar";
 import styles from "./styles.module.scss";
+import { IChannelEntity } from "@/entities/channels/model/types";
 
 
 export const SidebarContainer = () => {
   const [randomShortVideo, setRandomShortVideo] =
     useState<IThumbnailShortVideo | null>(null);
-  const [channels, setChannels] = useState([]);
+  const [channels, setChannels] = useState<IChannelEntity[]>([]);
 
   useEffect(() => {
     const handleGetRandomVideo = async () => {
@@ -25,7 +26,7 @@ export const SidebarContainer = () => {
       if (myChannelData && myChannelData.id) {
         const channels = await getMySubsChannels(myChannelData.id, 0, 5);
 
-        setChannels(channels?.data);
+        setChannels(channels?.data || []);
       }
     };
 

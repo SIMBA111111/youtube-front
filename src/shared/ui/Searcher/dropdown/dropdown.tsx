@@ -9,6 +9,7 @@ import { Svg } from '../../Svg';
 interface ISelectorDropDown {
     elements: Array<IElement> | null;
     setSelectedElement: any;
+    fetchVideos: () => void
     isVisible: boolean;
     isActive: boolean;
     setIsVisible: (el: boolean) => void;
@@ -18,6 +19,7 @@ interface ISelectorDropDown {
 export const SearcherDropDown: React.FC<ISelectorDropDown> = ({
     elements,
     setSelectedElement,
+    fetchVideos,
     isVisible,
     isActive,
     setIsVisible,
@@ -46,7 +48,7 @@ export const SearcherDropDown: React.FC<ISelectorDropDown> = ({
         setValue(el.value);
         setSelectedElement(el);
         setIsVisible(false);
-        router.push(`/services/${el.id}`);
+        fetchVideos()
     };
 
     if (!elements) {

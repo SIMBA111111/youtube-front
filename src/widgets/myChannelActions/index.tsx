@@ -118,7 +118,6 @@ export const MyChannelActions: React.FC<IMyChannelActions> = ({
           }}
         >
           {items
-            .filter((i) => !i.isShorts)
             .map((item, index) => (
             <SwiperSlide
               key={index}

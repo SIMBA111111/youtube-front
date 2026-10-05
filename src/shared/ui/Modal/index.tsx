@@ -98,12 +98,10 @@ export const Modal: React.FC<IModal> = ({
     }, [isVisible, setIsVisible]);
 
     const handleModalClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
     };
 
     const handleOverlayClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
         e.preventDefault();
         if (isTopModal(modalId.current)) {
             setIsVisible(false);

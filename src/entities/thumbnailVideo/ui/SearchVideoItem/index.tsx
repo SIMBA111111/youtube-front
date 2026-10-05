@@ -33,7 +33,6 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
   const router = useRouter()
   
   const handleSound = (e: React.MouseEvent) => {
-    e.stopPropagation();
     e.preventDefault();
     setIsSoundOn((prev: boolean) => !prev);
   };
@@ -45,95 +44,93 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
   }
 
   return (
-    <div className={styles.wrapper}>
-      <Link
-        className={isRow ? styles.searchVideoItem_row : styles.searchVideoItem}
-        href={`/watch?v=${video.video.id}`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-          <div className={ isRow ? styles.thumbnailContainer_Row : styles.thumbnailContainer }>
-            <img
-              src={video.video.videoPreviewUrl || "/defaultImages/defaultAvatar.png"}
-              alt={video.video.name}
-              className={isRow ? styles.thumbnail_Row : styles.thumbnail}
+    <Link
+      className={isRow ? styles.searchVideoItem_row : styles.searchVideoItem}
+      href={`/watch?v=${video.video.id}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+        <div className={ isRow ? styles.thumbnailContainer_Row : styles.thumbnailContainer }>
+          <img
+            src={video.video.thumbnailUrl || "/defaultImages/defaultAvatar.png"}
+            alt={video.video.name}
+            className={isRow ? styles.thumbnail_Row : styles.thumbnail}
+          />
+
+          {isHovered && video.video.videoPreviewUrl && (
+            <video
+              className={styles.videoPreview}
+              src={video.video.videoPreviewUrl}
+              autoPlay
+              muted={!isSoundOn}
+              loop
+              playsInline
             />
+          )}
 
-            {isHovered && video.video.videoPreviewUrl && (
-              <video
-                className={styles.videoPreview}
-                src={video.video.videoPreviewUrl}
-                autoPlay
-                muted={!isSoundOn}
-                loop
-                playsInline
-              />
-            )}
-
-              <div className={styles.durationBadge}>
-                <Text color="white">
-                  {formatDuration(video.video.duration)}
-                </Text>
-              </div>
-
-            {isHovered && (
-              <button className={styles.soundBadge} onClick={(e) => handleSound(e)}>
-                {isSoundOn ? <Svg name={"soundOn"} /> : <Svg name={"soundOff"} />}
-              </button>
-            )}
-          </div>
-
-
-          {/* Информация о видео */}
-          <div className={isRow ? styles.infoContainer_Row : styles.infoContainer}>
-
-            <div className={styles.header}>
-              <h3 className={styles.title}>
-                {video.video.name}
-              </h3>
-
-              <div
-                className={styles.settings}
-                onClick={(e: MouseEvent) => handleMenuClick(e, setIsOpenModal)}
-              >
-                <Svg name="verticalEllipsis" />
-              </div>
-                <SettigsVideoModal
-                  isOpenModal={isOpenModal}
-                  setIsOpenModal={setIsOpenModal}
-                  videoId={video.video.id}
-                  userId={userId}
-                />
-            </div>
-
-            <div className={styles.stats}>
-              <Text size={16} color="var(--gray)">
-                {formatViews(video.video.viewersCount || 0)} просмотров
-              </Text>
-              <span className={styles.dot}></span>
-              <Text size={16} color="var(--gray)">
-                {video.video.datePublication
-                  ? formatDate(video.video.datePublication)
-                  : "давно"}
+            <div className={styles.durationBadge}>
+              <Text color="white">
+                {formatDuration(video.video.duration)}
               </Text>
             </div>
 
-            <div className={styles.name} onClick={handleGoToChannel}>
-              <img
-                src={video.channel.channelAvatarUrl || "/default-avatar.png"}
-                alt={video.channel.channelUsername || "Channel"}
-                className={styles.channelAvatar}
-              />
-              <p className={styles.channelName}>
-                <Text size={16} color="var(--gray)">
-                  {video.channel.channelUsername}
-                </Text>
-              </p>
-            </div>
+          {isHovered && (
+            <button className={styles.soundBadge} onClick={(e) => handleSound(e)}>
+              {isSoundOn ? <Svg name={"soundOn"} /> : <Svg name={"soundOff"} />}
+            </button>
+          )}
+        </div>
 
-            <Text className={styles.description}>{video.video.description}</Text>
+
+        {/* Информация о видео */}
+        <div className={isRow ? styles.infoContainer_Row : styles.infoContainer}>
+
+          <div className={styles.header}>
+            <h3 className={styles.title}>
+              {video.video.name}
+            </h3>
+
+            <div
+              className={styles.settings}
+              onClick={(e: MouseEvent) => handleMenuClick(e, setIsOpenModal)}
+            >
+              <Svg name="verticalEllipsis" />
+            </div>
+              <SettigsVideoModal
+                isOpenModal={isOpenModal}
+                setIsOpenModal={setIsOpenModal}
+                videoId={video.video.id}
+                userId={userId}
+              />
           </div>
-      </Link>
-    </div>
+
+          <div className={styles.stats}>
+            <Text size={16} color="var(--gray)">
+              {formatViews(video.video.viewersCount || 0)} просмотров
+            </Text>
+            <span className={styles.dot}></span>
+            <Text size={16} color="var(--gray)">
+              {video.video.datePublication
+                ? formatDate(video.video.datePublication)
+                : "давно"}
+            </Text>
+          </div>
+
+          <div className={styles.name} onClick={handleGoToChannel}>
+            <img
+              src={video.channel.channelAvatarUrl || "/default-avatar.png"}
+              alt={video.channel.channelUsername || "Channel"}
+              className={styles.channelAvatar}
+            />
+            <p className={styles.channelName}>
+              <Text size={16} color="var(--gray)">
+                {video.channel.channelUsername}
+              </Text>
+            </p>
+          </div>
+
+          <Text className={styles.description}>{video.video.description}</Text>
+        </div>
+    </Link>
   );
 };

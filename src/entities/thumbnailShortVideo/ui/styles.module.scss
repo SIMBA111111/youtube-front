@@ -44,6 +44,8 @@
     height: 32px;
     padding: 4px 4px;
     margin: -6px -4px;
+    background: none;
+    border: none;
 
     &:hover {
         background-color: var(--foregroundRGB);

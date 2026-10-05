@@ -1,13 +1,12 @@
 'use client'
 
-import { Modal, Popover, Svg, Text } from "@/shared/ui"
+import { Popover, Svg, Text } from "@/shared/ui"
 import { Dispatch, SetStateAction, useState } from "react";
 import { handleHideChannel, handleHideVideo, handleReport, handleShareVideo, handleViewLater } from "../../lib/handlers";
-import { IVideo } from "../../model/types";
-import styles from "./styles.module.scss";
 import { useToast } from "@/app/providers/toastProvider";
 import { ReportModal } from "@/features/videoDescription/settingsVideo/modals";
 import { UnauthReportModal } from "@/shared/ui/Modal/Modals/UnauthReportModal";
+import styles from "./styles.module.scss";
 
 interface ISettigsVideoModal {
     isOpenModal: boolean

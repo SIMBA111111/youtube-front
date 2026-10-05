@@ -15,8 +15,6 @@ export const register = async (formData: IFormData, openToast: (text: string) =>
         })
 
         const result = await res.json()
-        console.log('result = ', result);
-
         if(res.status === 201) {
             openToast('Успешная регистрация!')
             window.location.replace('/')
