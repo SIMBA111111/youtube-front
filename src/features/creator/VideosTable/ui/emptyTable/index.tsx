@@ -6,12 +6,12 @@ import styles from "./styles.module.scss";
 
 
 export const EmptyTable = () => {
-    const {isOpened, toggleCreateModal} = useCreateVideoModal()
+    const { openCreateModal } = useCreateVideoModal()
 
     return (
         <div className={styles.emptyTable}>
             <Text color="var(--gray)" weight={500}>Здесь пока ничего нет.</Text>
-            <button className={styles.btn} onClick={() => toggleCreateModal()}><Text color="var(--whiteText)">Добавить видео</Text></button>
+            <button className={styles.btn} onClick={() => openCreateModal()}><Text color="var(--whiteText)">Добавить видео</Text></button>
         </div>
     )
 }

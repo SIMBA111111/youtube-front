@@ -25,19 +25,9 @@ export const ContentWidget: FC<IContentWidget> = ({
     channelId,
     channelUsername,
 }) => {
-    const {isOpened, toggleCreateModal, openCreateModal} = useCreateVideoModal()
     const [videos, setVideos] = useState<IVideoFullInfo[]>([])
     const [activeTab, setActiveTab] = useState<TTabs>('videos')
     const [filter, setFilter] = useState<keyof typeof FiltersEnum>('NEWS')
-    const searchParams = useSearchParams();
-
-    useEffect(() => {
-        const isOpenCreateVideoModal = searchParams.get('createVideo')
-        
-        if (isOpenCreateVideoModal == 'true') {
-            openCreateModal()
-        }
-    }, [])
 
     useEffect(() => {
         (async () => {

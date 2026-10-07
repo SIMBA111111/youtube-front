@@ -3,16 +3,20 @@ import { Text } from "@/shared/ui/Text"
 import { Modal } from "../../shared/ui/Modal"
 import { AddVideo } from "./AddVideo"
 import { CreateVideoStepper } from "./CreateVideoStepper"
+import { useSearchParams } from "next/navigation"
 import styles from './styles.module.scss'
 
 
 export const CreateVideoModal = () => {
-    const {isOpened, toggleCreateModal, storedFile} = useCreateVideoModal()
+    const { closeCreateModal, storedFile} = useCreateVideoModal()
+
+    const searchParams = useSearchParams()
+    const isOpened = searchParams.get('createVideo') === 'true'
 
     return (
         <Modal 
             isVisible={isOpened} 
-            setIsVisible={() => toggleCreateModal()} 
+            setIsVisible={() => closeCreateModal()} 
             isOverlay 
             title={<Text weight={600} size={24}>{storedFile ? storedFile.name : 'Загрузка видео'}</Text>}
             className={styles.modal}
