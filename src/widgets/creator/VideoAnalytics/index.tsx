@@ -21,9 +21,11 @@ import styles from './styles.module.scss'
 // придётся как-то на бэке считать сколько подписок и просмотров в какой день было (просто связанные таблицы взять и их updated_at смотреть)
 // как минимум для этого не надо удалть объекты из таблицы subscriptions, а юзать поле deleted (наверно)
 
+
+
 export const VideoAnalytics: FC<{videoId: string}> = ({ videoId }) => {
     const [activeDateRange, setActiveDateRange] = useState<AnalyticsDateRange>(ANALYTICS_DATA_RANGES[2])
-    const [analyticData, setAnalyticData] = useState<[]>([])
+    const [analyticData, setAnalyticData] = useState<Record<string, number>>()
     const [tabHeaderData, setTabHeaderData] = useState({})
 
     const fetchData = async (videoId: string, dateRange: AnalyticsDateRange) => {
@@ -35,18 +37,30 @@ export const VideoAnalytics: FC<{videoId: string}> = ({ videoId }) => {
         (async () => {
             const res = await fetchData(videoId, activeDateRange)
             
-            console.log('res.result = ', res.result)
+            console.log('res.result = ', res)
 
-            setAnalyticData(res.result)
+            if (res.error || !res.data || !res.success) {
+                return {}
+            }
+
+            setAnalyticData(res.data)
         })()
     }, [activeDateRange])
 
+    // if (!analyticData) {
+    //     return (
+    //         <div>
+    //             Нет данных
+    //         </div>
+    //     )
+    // }
+
     const labels = useMemo(() => {
-        return Object.keys(analyticData)
+        return Object.keys(analyticData || {})
     }, [analyticData])
 
     const values = useMemo(() => {
-        return Object.values(analyticData)
+        return Object.values(analyticData || {})
     }, [analyticData])
 
     const { min, max } = useMemo((): { min: number; max: number } => {

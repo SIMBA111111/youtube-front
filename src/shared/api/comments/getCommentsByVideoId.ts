@@ -1,6 +1,6 @@
 import { ICommentFullInfo } from "@/entities/comments/model/types"
 import { TCommentFilter } from "@/features/CommentFilter/ui";
-import { ApiResponse } from "@/shared/types/apiResponse";
+import { ApiResponse, ApiResponseDTO } from "@/shared/types/apiResponse";
 import { ICommentStatisticEntity } from "@/shared/types/commentStatisticEntity";
 
 
@@ -14,7 +14,7 @@ export interface IGetCommentsByVideoId {
 
 export const getCommentsByVideoId = async (
     videoId: string, offset: number, limit: number, filter: TCommentFilter, userId: string, parentCommentId: string = ''
-): Promise<ApiResponse<IGetCommentsByVideoId> | string> => {
+): Promise<ApiResponse<IGetCommentsByVideoId> | null> => {
     console.log('getCommentsByVideoId');
     
     try {
@@ -28,10 +28,10 @@ export const getCommentsByVideoId = async (
             return await res.json()
         } else {
             console.error('getCommentsByVideoId non 200 status');
-            return 'getCommentsByVideoId non 200 status'
+            return new ApiResponseDTO(null)
         }
     } catch (error) {
         new Error(`Error getCommentsByVideoId: ${error}`);
-        return `Error getCommentsByVideoId: ${error}`
+        return new ApiResponseDTO(null)
     }
 }

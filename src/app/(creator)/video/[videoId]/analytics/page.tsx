@@ -1,7 +1,8 @@
 // app/creator/channel/page.tsx
 import { cookies } from "next/headers";
-import styles from "./styles.module.scss";
 import { VideoAnalytics } from "@/widgets/creator/VideoAnalytics";
+import styles from "./styles.module.scss";
+import { getChannelData } from "@/shared/utils/getChannelData";
 
 export default async function VideoAnalynics({
   params
@@ -10,7 +11,7 @@ export default async function VideoAnalynics({
 }>) {
   const { videoId } = await params
   const cookieStore = await cookies()
-  const userData = JSON.parse(cookieStore.get('channelData')?.value || '{}')
+  const userData = getChannelData(cookieStore)
   const jwt = cookieStore.get('jwt')?.value || ''
 
   return (

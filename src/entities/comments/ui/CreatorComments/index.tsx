@@ -7,7 +7,7 @@ import { Accordion, Svg, Text } from "@/shared/ui";
 import { CreateCommentUnauthPopover } from "@/shared/ui/Popover/Popovers/CreateCommentUnauthPopover";
 import { formatViews } from "@/shared/utils/formatViews";
 import { formatDate } from "@/shared/utils/formatDate";
-import { getRepliesCommentsById } from "@/shared/api/comments/getRepliesCommentsById";
+import { getRepliesCommentsById, IGetRepliesCommentsByIdResponse } from "@/shared/api/comments/getRepliesCommentsById";
 import { handleLikeComment } from "../../lib/handleLikeComment";
 import { handleDislikeComment } from "../../lib/handleDislikeComment";
 import { handleCancel } from "../../lib/handleCanel";
@@ -15,6 +15,9 @@ import { handleReplayComment } from "../../lib/handleReplayComment";
 
 import styles from "./styles.module.scss";
 import { CreatorCommentSettingPopover } from "./CreatorCommentSettingPopover";
+import { ICommentFullInfo } from "../../model/types";
+import { IGetCommentsByVideoId, IMapCommentStatistic } from "@/shared/api/comments/getCommentsByVideoId";
+import { ICommentStatisticEntity } from "@/shared/types/commentStatisticEntity";
 
 
 export interface ICreatorComment {
@@ -35,7 +38,8 @@ export interface ICreatorComment {
 }
 
 export interface ICreatorCommentCard {
-  comment: ICreatorComment;
+  comment: ICommentFullInfo;
+  commentStatistic: ICommentStatisticEntity | null;
   videoId: string;
   me: any;
   refreshData: () => void
@@ -43,29 +47,17 @@ export interface ICreatorCommentCard {
 
 export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
   comment,
+  commentStatistic,
   videoId,
   me,
   refreshData
 }) => {
-  const {
-    id,
-    text,
-    likes,
-    dislikes,
-    datePublication,
-    parentCommentId,
-    channel,
-    repliesCount,
-    isLiked,
-    isDisliked,
-  } = comment;
-  
-  const [isLikedMe, setIsLiked] = useState(isLiked);
-  const [isDislikedMe, setIsDisliked] = useState(isDisliked);
-  const [likesCount, setLikesCount] = useState(likes);
-  const [dislikesCount, setDislikesCount] = useState(dislikes);
+  const [isLikedMe, setIsLiked] = useState(commentStatistic?.liked ?? false);
+  const [isDislikedMe, setIsDisliked] = useState(commentStatistic?.disliked ?? false);
+  const [likesCount, setLikesCount] = useState(comment.likeCount);
+  const [dislikesCount, setDislikesCount] = useState(comment.dislikeCount);
   const [showReplies, setShowReplies] = useState(false);
-  const [relatedComments, setRelatedComments] = useState<ICreatorComment[]>([]);
+  const [relatedComments, setRelatedComments] = useState<IGetRepliesCommentsByIdResponse>();
   const [isEmojiesOpened, setIsEmojiesOpened] = useState<boolean>(false);
   const [isOpenedReplayInput, setIsOpenedReplayInput] = useState<boolean>(false);
   const [isOpenedUnauthPopover, setIsOpenedUnauthPopover] = useState<boolean>(false);
@@ -73,8 +65,13 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleShowReplies = async () => {
-    const res = await getRepliesCommentsById(id, me?.id);
-    setRelatedComments(res.comments);
+    const res = await getRepliesCommentsById(comment.id, me?.id, videoId);
+    
+    if (!res || res.error || !res.data) {
+        return 
+    }
+    
+    setRelatedComments(res.data);
     setShowReplies(true);
   };
 
@@ -94,23 +91,23 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
     <div className={styles.comment}>
       <div className={styles.comment_avatar}>
         <img
-          src={channel.avatarUrl || "/defaultImages/defaultAvatar.png"}
-          alt={channel.username}
+          src={comment.channel.avatarUrl || "/defaultImages/defaultAvatar.png"}
+          alt={comment.channel.name}
         />
       </div>
 
       <div className={styles.comment_content}>
         <div className={styles.comment_header}>
           <Text className={styles.comment_username} weight={600}>
-            {channel.username}
+            {comment.channel.name}
           </Text>
           <Text size={12} color="var(--grayText)">
-            {formatDate(datePublication)}
+            {formatDate(comment.updatedDate)}
           </Text>
         </div>
 
         <div className={styles.comment_text}>
-          <Text>{text}</Text>
+          <Text>{comment.text}</Text>
         </div>
 
         <div className={styles.comment_actions}>
@@ -178,8 +175,7 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
             <Svg name="verticalEllipsis" />
           </button>
 
-          <CreatorCommentSettingPopover isOpened={isOpenedSettingPopover} onClose={() => setIsOpenedSettingPopover(false)} commentId={id} refreshData={refreshData}/>
-          <CreateCommentUnauthPopover isOpen={isOpenedUnauthPopover} onClose={() => setIsOpenedUnauthPopover(false)} offset={30}/>
+          <CreatorCommentSettingPopover isOpened={isOpenedSettingPopover} onClose={() => setIsOpenedSettingPopover(false)} commentId={comment.id} refreshData={refreshData}/>
         </div>
 
         {isOpenedReplayInput && (
@@ -229,7 +225,7 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
                         inputRef.current?.value,
                         videoId,
                         me?.id,
-                        id,
+                        comment.id,
                         setIsOpenedReplayInput,
                         inputRef,
                         refreshData
@@ -245,7 +241,7 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
           </div>
         )}
 
-        {repliesCount > 0 && (
+        {comment.repliesCount > 0 && (
           <Accordion
             header={
               !showReplies && (
@@ -254,8 +250,8 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
                   onClick={() => handleShowReplies()}
                 >
                   <Text size={14}>
-                    {`${formatViews(repliesCount)} ответ${
-                      repliesCount % 10 === 1 && repliesCount !== 11 ? "" : "ов"
+                    {`${formatViews(comment.repliesCount)} ответ${
+                      comment.repliesCount % 10 === 1 && comment.repliesCount !== 11 ? "" : "ов"
                     }`}
                   </Text>
                   <Svg name="shortArrowDown" />
@@ -273,10 +269,11 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
             }
           >
             <div className={styles.comments_comments}>
-              {relatedComments.map((comment: ICreatorComment) => (
+              {relatedComments?.comments.map((comment: ICommentFullInfo) => (
                 <CreatorCommentCard
                   key={comment.id}
                   comment={comment}
+                  commentStatistic={relatedComments.commentsStatistic?.[comment.id] || null}
                   videoId={videoId}
                   me={me}
                   refreshData={refreshData}

@@ -1,12 +1,12 @@
-export type VideoAccessId = 'public' | 'byLink';
+export type VideoAccessId = 'PUBLIC' | 'PRIVATE';
 
 export const VIDEO_ACCESS = [
     {
-        id: 'public' as VideoAccessId,
+        id: 'PUBLIC' as VideoAccessId,
         name: 'Публичное'
     },
     {
-        id: 'byLink' as VideoAccessId,
+        id: 'PRIVATE' as VideoAccessId,
         name: 'По ссылке'
     }
 ];

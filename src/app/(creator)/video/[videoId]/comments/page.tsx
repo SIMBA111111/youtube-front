@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { Comments } from "@/widgets/creator";
 import styles from "./styles.module.scss";
+import { getChannelData } from "@/shared/utils/getChannelData";
 
 
 export default async function VideoComments({
@@ -9,7 +10,7 @@ export default async function VideoComments({
   params: Promise<{ videoId: string }>
 }) {
   const cookieStore = await cookies()
-  const userData = JSON.parse(cookieStore.get('channelData')?.value || '{}')
+  const userData = await getChannelData(cookieStore)
   const { videoId } = await params
 
   return (

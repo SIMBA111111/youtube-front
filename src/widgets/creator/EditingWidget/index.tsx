@@ -2,14 +2,14 @@
 
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { Svg, Text } from "@/shared/ui";
-import { IChannel } from "@/entities/channels/model/types";
 import { FormProvider, useFieldArray, useForm,  } from "react-hook-form";
-import styles from './styles.module.scss'
 import { updateChannelInfoById } from "@/shared/api/channels/updateChannelInfo";
+import { IGetChannelInfoById } from "@/shared/api/channels/getChannelInfoById";
+import styles from './styles.module.scss'
 
 
 interface IEditingWidget {
-    channelData: IChannel
+    channelData: IGetChannelInfoById
 }
 
 interface IFormValues {
@@ -26,18 +26,20 @@ type inputId = 'bannerUrl' | 'avatarUrl'
 export const EditingWidget: FC<IEditingWidget> = ({
     channelData
 }) => {
+    console.log('channelData: ', channelData);
+    
 
-    const [bannerImage, setBannerImage] = useState<string>(channelData.banner_url || '')
-    const [avatarImage, setAvatarImage] = useState<string>(channelData.avatar_url || '')
+    const [bannerImage, setBannerImage] = useState<string>(channelData.channel.bannerUrl || '')
+    const [avatarImage, setAvatarImage] = useState<string>(channelData.channel.avatarUrl || '')
 
     const methods = useForm<IFormValues>({
         defaultValues: {
             bannerUrl: bannerImage,
             avatarUrl: avatarImage,
-            channelName: channelData.name || '',
-            channelDescription: channelData.description || '',
-            links: channelData.links ? channelData.links : [],
-            email: channelData.email || ''
+            channelName: channelData.channel.name || '',
+            channelDescription: channelData.channel.description || '',
+            links: channelData.channel.links ? channelData.channel.links : [],
+            email: channelData.channel.email || ''
         }
     });
 
@@ -49,9 +51,11 @@ export const EditingWidget: FC<IEditingWidget> = ({
     });
 
     const handleBannerChange = (e: ChangeEvent, fieldName: inputId) => {
+        console.log('handleBannerChange')
+        
         const file = e.target.files?.[0]
         
-        const reader = new FileReader();
+        const reader = new FileReader()
         
         reader.onloadend = () => {
             fieldName === 'bannerUrl' ? (
@@ -59,7 +63,6 @@ export const EditingWidget: FC<IEditingWidget> = ({
             ) : (
                 setAvatarImage(reader.result as string)
             )
-
         };
         reader.readAsDataURL(file);
 
@@ -87,23 +90,23 @@ export const EditingWidget: FC<IEditingWidget> = ({
         const changes: Partial<IFormValues> = {};
         
         // Проверяем название канала
-        if (data.channelName !== channelData.name) {
+        if (data.channelName !== channelData.channel.name) {
             changes.channelName = data.channelName;
         }
         
         // Проверяем описание канала
-        if (data.channelDescription !== channelData.description) {
+        if (data.channelDescription !== channelData.channel.description) {
             changes.channelDescription = data.channelDescription;
         }
         
         // Проверяем email
-        if (data.email !== channelData.email) {
+        if (data.email !== channelData.channel.email) {
             changes.email = data.email;
         }
         
         // Проверяем ссылки (сравниваем массивы)
         const currentLinks = data.links || [];
-        const originalLinks = channelData.links || [];
+        const originalLinks = channelData.channel.links || [];
         
         // Проверяем, изменился ли массив ссылок
         if (currentLinks.length !== originalLinks.length || 
@@ -112,12 +115,12 @@ export const EditingWidget: FC<IEditingWidget> = ({
         }
         
         // Проверяем баннер (если загружен новый файл)
-        if (bannerImage !== channelData.banner_url) {
+        if (bannerImage !== channelData.channel.bannerUrl) {
             changes.bannerUrl = data.bannerUrl;
         }
         
         // Проверяем аватар (если загружен новый файл)
-        if (avatarImage !== channelData.avatar_url) {
+        if (avatarImage !== channelData.channel.avatarUrl) {
             changes.avatarUrl = data.avatarUrl;
         }
 
@@ -144,7 +147,7 @@ export const EditingWidget: FC<IEditingWidget> = ({
                 }
             });
 
-            await updateChannelInfoById(channelData.id, formData);
+            await updateChannelInfoById(channelData.channel.id, formData);
             console.log('Данные успешно обновлены');
         } catch (error) {
             console.error('Ошибка при обновлении:', error);
@@ -165,14 +168,13 @@ export const EditingWidget: FC<IEditingWidget> = ({
                             Это изображение показывается в верхней части страницы канала.
                         </Text>
                         <div className={styles.cardWrapper}>
-                            <div className={styles.contentRow}>
+                            <div className={styles.contentColumn}>
                                 <div className={styles.previewArea}>
                                     <div className={styles.bannerPreview}>
                                         <input type="file" id="bannerUrl" style={{display: 'none'}} onChange={(e: ChangeEvent) => handleBannerChange(e, 'bannerUrl')} />
                                         <img 
                                             src={bannerImage} 
                                             alt="Баннер" 
-                                            
                                         />
                                     </div>
                                 </div>
@@ -229,7 +231,7 @@ export const EditingWidget: FC<IEditingWidget> = ({
                             type="text" 
                             className={styles.channelNameInput}
                             placeholder="Название канала"
-                            defaultValue={channelData.name}
+                            defaultValue={channelData.channel.name}
                             {...register('channelName')}
                         />
                     </div>
@@ -239,7 +241,7 @@ export const EditingWidget: FC<IEditingWidget> = ({
                         <textarea 
                             className={styles.textarea}
                             placeholder="Расскажите о своем канале..."
-                            defaultValue={channelData.description}
+                            defaultValue={channelData.channel.description || ''}
                             {...register('channelDescription')}
                         />
                     </div>

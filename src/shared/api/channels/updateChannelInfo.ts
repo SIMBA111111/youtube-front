@@ -6,7 +6,8 @@ export const updateChannelInfoById = async (channelId: string, newChannelInfo: F
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-update/${channelId}`, {
             method: "PUT",
-            body: newChannelInfo
+            body: newChannelInfo,
+            credentials: 'include'
         })
 
         if (res.status === 200) {

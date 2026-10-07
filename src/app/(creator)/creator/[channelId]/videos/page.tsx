@@ -10,7 +10,9 @@ export default async function CreatorChannel() {
   const jwt = cookieStore.get('jwt')?.value || ''
 
   if (!userData) {
-    return
+    return (
+      <div>Нет юзера</div>
+    )
   }
 
   return (

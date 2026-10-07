@@ -10,11 +10,11 @@ export const handleDislikeComment = async (
   setLikesCount: Dispatch<SetStateAction<number>>,
   setIsDisliked: (value: boolean) => void,
   setIsLiked: (value: boolean) => void,
-  setIsOpenedUnauthPopover: Dispatch<SetStateAction<boolean>>
+  setIsOpenedUnauthPopover?: Dispatch<SetStateAction<boolean>>
 ) => {
   try {
     if (!userId) {
-      setIsOpenedUnauthPopover(true)
+      setIsOpenedUnauthPopover?.(true)
       return
     }
 

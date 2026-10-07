@@ -38,6 +38,16 @@
   margin-top: 16px;
 }
 
+.contentColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }  
+}
+
 .contentRow {
   display: flex;
   gap: 24px;
@@ -61,6 +71,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 8px;
   
   .hint {
     font-size: 12px;

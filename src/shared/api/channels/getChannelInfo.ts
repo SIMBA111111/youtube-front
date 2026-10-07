@@ -2,7 +2,7 @@ import { IChannelEntity } from "@/entities/channels/model/types";
 import { ApiResponse } from "@/shared/types/apiResponse";
 import { ISubscriptionEntity } from "@/shared/types/subscriptionEntity";
 
-interface IGetChannelInfoByUsername {
+export interface IGetChannelInfoByUsername {
     channelData: IChannelEntity
     subscriptionData: ISubscriptionEntity | null
 }

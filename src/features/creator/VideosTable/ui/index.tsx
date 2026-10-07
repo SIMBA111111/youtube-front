@@ -1,18 +1,18 @@
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { Svg, Text } from "@/shared/ui";
 import { formatDate } from "@/shared/utils/formatDate";
 import { formatViews } from "@/shared/utils/formatViews";
 import { FiltersEnum } from "@/features/ChannelVideoList/ui";
 import { getVideoAccess } from "@/shared/utils/getVideoAccess";
 import { EmptyTable } from "./emptyTable";
-import { PopoverAction } from "../popoverAction";
+import { ActionsPanel } from "./actionsPanel";
 import styles from "./styles.module.scss";
 
 
 interface IVideosTable {
-  videos?: IVideo[];
+  videos?: IVideoFullInfo[];
   filter: keyof typeof FiltersEnum
   handleFilter: () => void
   channelId: string
@@ -24,18 +24,12 @@ export const VideosTable: FC<IVideosTable> = ({
   handleFilter,
   channelId
 }) => {
-  const [isOpenedActionPopover, setIsOpenedActionPopover] = useState<boolean>(false)
-  const router = useRouter()
 
   const getLikePercentage = (likes: number, dislikes: number) => {
     const total = likes + dislikes;
     if (total === 0) return 0;
     return Math.round((likes / total) * 100);
   };
-
-  const handleOpenVideoInNewTab = (videoId: string) => {
-    window.open(process.env.NEXT_PUBLIC_FRONTEND_URL + '/watch?v=' + videoId, '_blank');
-  }
 
   return (
     <div className={styles.tableWrapper}>
@@ -46,8 +40,8 @@ export const VideosTable: FC<IVideosTable> = ({
             <th>Доступ</th>
             <th className={styles.tableDateFilter} onClick={() => handleFilter()}>
               <Text weight={600}>Дата</Text>
-              {filter === FiltersEnum.NEWS && <Svg size="small" name="arrowDown"/>}
-              {filter === FiltersEnum.OLD && <Svg name="arrowUp"/>}
+              {filter === FiltersEnum.OLD && <Svg size="small" name="arrowDown"/>}
+              {filter === FiltersEnum.NEWS && <Svg name="arrowUp"/>}
             </th>
             <th>Просмотры</th>
             <th>Комментарии</th>
@@ -62,72 +56,38 @@ export const VideosTable: FC<IVideosTable> = ({
               </td>
           ) : (
             videos.map((video) => (
-              <tr key={video.id}>
+              <tr key={video.video.id}>
                 <td className={styles.videoCell}>
                   <div className={styles.videoInfo}>
                     <img 
-                      src={video.previewUrl} 
-                      alt={video.name}
+                      src={video.video.thumbnailUrl} 
+                      alt={video.video.name}
                       className={styles.thumbnail}
                     />
                     <div className={styles.descr}>
-                      <span className={styles.videoTitle}>{video.name}</span>
-                      <div className={styles.videoActions}>
-                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/edit`)}>
-                          <Svg name="pancel"/>
-                          <div className={styles.notificationTooltip}>
-                            <Text size={14} color='var(--whiteText)' weight={300}>Сведения</Text>
-                          </div>
-                        </div>
-                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/analytics`)}>
-                          <Svg name="analytics"/>
-                          <div className={styles.notificationTooltip}>
-                            <Text size={14} color='var(--whiteText)' weight={300}>Аналитика</Text>
-                          </div></div>
-                        <div className={styles.videoAction} onClick={() => router.push(`/video/${video.id}/comments`)}>
-                          <Svg name="comments"/>
-                          <div className={styles.notificationTooltip}>
-                            <Text size={14} color='var(--whiteText)' weight={300}>Комментарии</Text>
-                          </div>
-                        </div>
-                        <div className={styles.videoAction} onClick={() => handleOpenVideoInNewTab(video.id)}>
-                          <Svg name="doublePlayer"/>
-                          <div className={styles.notificationTooltip}>
-                            <Text size={14} color='var(--whiteText)' weight={300}>Видео</Text>
-                          </div>
-                        </div>
-                        <div className={styles.videoAction} onClick={() => setIsOpenedActionPopover(prev => !prev)}>
-                          <Svg name="verticalEllipsis"/>
-                          <div className={styles.notificationTooltip}>
-                              <Text size={14} color='var(--whiteText)' weight={300}>Действия</Text>
-                          </div>
-                          <PopoverAction 
-                            isOpen={isOpenedActionPopover} 
-                            onClose={() => setIsOpenedActionPopover(false)} 
-                            videoId={video.id} 
-                            videoMp4Url={video.videoMp4Url}
-                            channelId={channelId}
-                          />
-                        </div>
-                      </div>
+                      <span className={styles.videoTitle}>{video.video.name}</span>
+                      <ActionsPanel
+                        video={video}
+                        channelId={channelId}
+                      />
                     </div>
                     
                   </div>
                 </td>
-                <td className={styles.dateCell}>{getVideoAccess(video.videoAccess)}</td>
-                <td className={styles.dateCell}>{formatDate(video.datePublication || '')}</td>
-                <td className={styles.numberCell}>{formatViews(video.viewersCount)}</td>
-                <td className={styles.numberCell}>{video.commentsCount}</td>
-                <td className={styles.numberCell}>{video.likeCount}</td>
+                <td className={styles.dateCell}>{getVideoAccess(video.video.videoAccess)}</td>
+                <td className={styles.dateCell}>{formatDate(video.video.datePublication || '')}</td>
+                <td className={styles.numberCell}>{formatViews(video.video.viewersCount)}</td>
+                <td className={styles.numberCell}>{video.video.commentsCount}</td>
+                <td className={styles.numberCell}>{video.video.likesCount}</td>
                 <td className={styles.likeCell}>
                   <div className={styles.likeBar}>
                     <div 
                       className={styles.likeBarFill}
-                      style={{ width: `${getLikePercentage(video.likeCount, video.dislikeCount)}%` }}
+                      style={{ width: `${getLikePercentage(video.video.likesCount, video.video.dislikesCount)}%` }}
                     />
                   </div>
                   <span className={styles.likePercentage}>
-                    {getLikePercentage(video.likeCount, video.dislikeCount)}%
+                    {getLikePercentage(video.video.likesCount, video.video.dislikesCount)}%
                   </span>
                 </td>
               </tr>

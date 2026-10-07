@@ -1,46 +1,28 @@
-const CHANNEL_INFO = {
-    id: 'sd09f8u09s8uf',
-    name: 'Restorator Games',
-    username: '@restor',
-    avatarUrl: '/testImages/pr.png',
-    bannerUrl: '/testImages/pr.png',
-    description: 'версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус версус',
-    email: 'fakowdude@gmail.com',
-    subscribersCount: 41703,
-    videosCount: 92,
-    viewersCount: 6982374,
-    country: 'RU',
-    createdAt: '05-05-2020T12:12:12',
-    isSubscribed: true,
-    links: [
-        {
-            id: 'oaijdfiojad',
-            name: 'стримы',
-            url: '/nansdk',
-            linkAvatar: '/asdkoapskd'
-        },
-        {
-            id: '2937898а',
-            name: 'твич',
-            url: '/nansdk',
-            linkAvatar: '/asdkoapskd'
-        }
-    ]
+import { ApiResponse, ApiResponseDTO } from "@/shared/types/apiResponse";
+import { IGetChannelInfoByUsername } from "./getChannelInfo";
+import { IChannelEntity } from "@/entities/channels/model/types";
+import { ISubscriptionEntity } from "@/shared/types/subscriptionEntity";
+
+export interface IGetChannelInfoById {
+    channel: IChannelEntity
+    subscriptionData: ISubscriptionEntity | null
 }
 
-export const getChannelInfoById = async (userId: string) => {
+export const getChannelInfoById = async (
+    channelId: string
+): Promise<ApiResponse<IGetChannelInfoByUsername | null>> => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-info-by-id/${userId}`)
-
-        console.log(res);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-data/${channelId}`)
 
         if (res.status === 200) {
-            return await res.json()
+            const data = await res.json()
+            console.log('data:', data);
+            return data
         } else {
-            return console.error('getChannelInfo non 200 status');
+            return new ApiResponseDTO(null)
         }
     } catch (error) {
         new Error(`Error getChannelInfo: ${error}`);
-        return []
+        return new ApiResponseDTO(null)
     }
 }
