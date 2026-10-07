@@ -1,4 +1,23 @@
-export const getChannelAnalytics = async (channelId: string, dateRange: string, tab: string) => {
+import { ApiResponse, ApiResponseDTO } from "@/shared/types/apiResponse";
+
+export type TAnalyticEntity = Record<string, number>
+
+interface IGetChannelAnalytics {
+    analyticData: TAnalyticEntity
+    totalViews: number;
+    totalSubscriptions: number;
+}
+
+export interface ITabHeaderData {
+    totalViews: number;
+    totalSubscriptions: number;
+}
+
+export const getChannelAnalytics = async (
+    channelId: string, 
+    dateRange: string, 
+    tab: string
+): Promise<ApiResponse<IGetChannelAnalytics | null>> => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-analytics/${channelId}`, {
             method: "POST",
@@ -6,13 +25,12 @@ export const getChannelAnalytics = async (channelId: string, dateRange: string, 
             body: JSON.stringify({dateRange: dateRange, tab: tab})
         })
 
-        if (res.status === 200) {
+        if (res.status === 200)
             return await res.json()
-        } else {
-            return console.error('getChannelAnalytics non 200 status');
-        }
+
+        return new ApiResponseDTO<null>
     } catch (error) {
         new Error(`Error getChannelAnalytics: ${error}`);
-        return []
+        return new ApiResponseDTO<null>
     }
 }

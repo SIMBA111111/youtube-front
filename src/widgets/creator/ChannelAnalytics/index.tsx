@@ -7,7 +7,7 @@ import { AnalyticsFilter } from "@/features/creator/AnalyticsFilter/ui"
 import { ANALYTICS_DATA_RANGES } from "@/shared/constants/analyticaDataRanges"
 import { TabHeader } from "./TabHeader/TabHeader"
 import { AnalyticsDateRange, getAnalyticsDataLabel } from "@/shared/utils/getDataRanges"
-import { getChannelAnalytics } from "@/shared/api/channels/getChannelAnalytics"
+import { getChannelAnalytics, ITabHeaderData, TAnalyticEntity } from "@/shared/api/channels/getChannelAnalytics"
 import { Text } from "@/shared/ui"
 import styles from './styles.module.scss'
 
@@ -24,8 +24,8 @@ export type TTab = 'views' | 'subscriptions'
 export const ChannelAnalytics: FC<{userId: string}> = ({ userId }) => {
     const [activeDateRange, setActiveDateRange] = useState<AnalyticsDateRange>(ANALYTICS_DATA_RANGES[2])
     const [activeTab, setActiveTab] = useState<TTab>('views')
-    const [analyticData, setAnalyticData] = useState<[]>([])
-    const [tabHeaderData, setTabHeaderData] = useState({})
+    const [analyticData, setAnalyticData] = useState<TAnalyticEntity>()
+    const [tabHeaderData, setTabHeaderData] = useState<ITabHeaderData>()
 
     const fetchData = async (userId: string, dateRange: AnalyticsDateRange, tab: TTab) => {
         const res = await getChannelAnalytics(userId, dateRange, tab)
@@ -35,13 +35,15 @@ export const ChannelAnalytics: FC<{userId: string}> = ({ userId }) => {
     useEffect(() => {
         (async () => {
             const res = await fetchData(userId, activeDateRange, activeTab)
-            
-            console.log('res.result = ', res.result)
 
-            setAnalyticData(res.result.analyticData)
+            if (res.error || !res.data || !res.success) {
+                return {}
+            }
+
+            setAnalyticData(res.data.analyticData)
             setTabHeaderData({
-                totalViews: res.result.totalViews,
-                totalSubscriptions: res.result.totalSubscriptions
+                totalViews: res.data.totalViews,
+                totalSubscriptions: res.data.totalSubscriptions
             })
         })()
     }, [activeDateRange, activeTab])
@@ -52,11 +54,11 @@ export const ChannelAnalytics: FC<{userId: string}> = ({ userId }) => {
     // const max = 10
 
     const labels = useMemo(() => {
-        return Object.keys(analyticData)
+        return Object.keys(analyticData || {})
     }, [analyticData])
 
     const values = useMemo(() => {
-        return Object.values(analyticData)
+        return Object.values(analyticData || {})
     }, [analyticData])
 
     const { min, max } = useMemo((): { min: number; max: number } => {
@@ -79,14 +81,14 @@ export const ChannelAnalytics: FC<{userId: string}> = ({ userId }) => {
     return (
         <div className={styles.channelAnalytics}>
             <div className={styles.table}>
-                <Text weight={600} size={20}>За {getAnalyticsDataLabel(activeDateRange).toLocaleLowerCase()} ваши видео набрали {tabHeaderData.totalViews} просмотров</Text>
+                <Text weight={600} size={20}>За {getAnalyticsDataLabel(activeDateRange).toLocaleLowerCase()} ваши видео набрали {tabHeaderData?.totalViews || '-'} просмотров</Text>
                 <div className={styles.analytics}>
                     <Tabs.Root defaultActiveTabId="views" onTabChange={(id) => setActiveTab(id as TTab)}>
                         <Tabs.List classNameList={styles.tabHeader} classNameItem={styles.tabHeader_item} classNameActiveItem={styles.tabHeader_item_active}/>
-                        <Tabs.Tab id="views" label={<TabHeader label="Просмотры" value={tabHeaderData.totalViews} />}>
+                        <Tabs.Tab id="views" label={<TabHeader label="Просмотры" value={tabHeaderData?.totalViews.toString() || '-'} />}>
                             <Analytics labels={labels} values={values} min={min} max={max} tab={activeTab}/>
                         </Tabs.Tab>
-                        <Tabs.Tab id="subscriptions" label={<TabHeader label="Подписчики" value={tabHeaderData.totalSubscriptions} />}>
+                        <Tabs.Tab id="subscriptions" label={<TabHeader label="Подписчики" value={tabHeaderData?.totalSubscriptions.toString() || '-'} />}>
                             <Analytics labels={labels} values={values} min={min} max={max} tab={activeTab}/>
                         </Tabs.Tab>
                     </Tabs.Root>

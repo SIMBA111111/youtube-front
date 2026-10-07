@@ -26,20 +26,21 @@ export const PopoverAction: FC<IPopoverAction> = ({
             const response = await fetch(videoMp4Url);
             const blob = await response.blob();
             const url = URL.createObjectURL(blob);
-            
+
             const a = document.createElement('a');
             a.href = url;
-            a.download = videoId;
+            a.download = `${videoId}.mp4`;   // ← расширение здесь
+
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            
+
             URL.revokeObjectURL(url);
             console.log('Скачивание начато');
         } catch (error) {
             console.error('Ошибка:', error);
-        }  
-    }
+        }
+    };
     
     const handleCopyVideoLink = async () => {
         if (process.env.NEXT_PUBLIC_FRONTEND_URL) {

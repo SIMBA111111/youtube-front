@@ -10,7 +10,7 @@ export interface IGetChannelInfoById {
 
 export const getChannelInfoById = async (
     channelId: string
-): Promise<ApiResponse<IGetChannelInfoByUsername | null>> => {
+): Promise<ApiResponse<IGetChannelInfoById | null>> => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-data/${channelId}`)
 
