@@ -197,8 +197,6 @@ export const Popover = ({
         if (!isOpen) return;
 
         const handleClickOutside = (event: MouseEvent) => {
-            console.log('handleClickOutside');
-            
             if (
                 triggerRef.current &&
                 !triggerRef.current.contains(event.target as Node) &&

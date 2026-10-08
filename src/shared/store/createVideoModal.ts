@@ -8,7 +8,7 @@ interface IFragment {
     index: number
     start: number
     end: number
-    title: string
+    name: string
 }
 
 interface ICreateVideoModal {

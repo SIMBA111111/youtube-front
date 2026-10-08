@@ -4,7 +4,6 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react"
 import { getReportReasons } from "@/shared/api/reports/getReportReasons"
 import { Modal, RadioButton, Svg, Text } from "@/shared/ui"
 import styles from './styles.module.scss'
-import { log } from "console"
 
 interface IReportModal {
     isOpenedModal: boolean

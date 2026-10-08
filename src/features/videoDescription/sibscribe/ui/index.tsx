@@ -35,30 +35,31 @@ export const SubscribeButton: React.FC<ISubscribeButton> = ({
   const [isNotifSettings, setIsnotifSettings] = useState<boolean>(notificationSetting);
   const router = useRouter()
 
-  path.includes('/channel/') ? (
-    channelId === meId && (
-      <div className={styles.myChannelBtns}>
-        <a href={`/video/${videoId}/analytics`} className={styles.subscribeButton_btn}>
-          <Text>Просмотреть аналитику</Text>
-        </a>
-        <a href={`/video/${videoId}/edit`} className={styles.subscribeButton_btn}>
-          <Text>Изменить видео</Text>
-        </a>
-      </div>
+  if (channelId === meId) {
+    return (
+      path.includes('/channel/') ? (
+          <div className={styles.myChannelBtns}>
+            <a href={`/creator/${channelId}/analytics`} className={styles.subscribeButton_btn}>
+              <Text>Просмотреть аналитику</Text>
+            </a>
+            <a href={`/creator/${channelId}/editing/profile`} className={styles.subscribeButton_btn}>
+              <Text>Редактировать</Text>
+            </a>
+          </div>
+      ) : (
+        channelId === meId && (
+          <div className={styles.myChannelBtns}>
+            <a href={`/video/${videoId}/analytics`} className={styles.subscribeButton_btn}>
+              <Text>Просмотреть аналитику</Text>
+            </a>
+            <a href={`/video/${videoId}/edit`} className={styles.subscribeButton_btn}>
+              <Text>Изменить видео</Text>
+            </a>
+          </div>
+        )
+      )
     )
-  ) : (
-    channelId === meId && (
-      <div className={styles.myChannelBtns}>
-        <a href={`/video/${videoId}/analytics`} className={styles.subscribeButton_btn}>
-          <Text>Просмотреть аналитику</Text>
-        </a>
-        <a href={`/video/${videoId}/edit`} className={styles.subscribeButton_btn}>
-          <Text>Изменить видео</Text>
-        </a>
-      </div>
-    )
-  )
-
+  }
 
   if (isSub) {
     return (

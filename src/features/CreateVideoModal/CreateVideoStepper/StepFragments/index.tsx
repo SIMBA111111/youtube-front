@@ -10,7 +10,7 @@ interface IFragment {
     index: number;
     start: number;
     end: number;
-    title: string;
+    name: string;
 }
 
 interface IFormValues {
@@ -124,7 +124,7 @@ export const StepFragments = ({ setActiveStep, setLastCompletedStep, lastComplet
             index: idx,  // Используем текущий индекс в массиве
             start: Number(f.start) || 0,
             end: Number(f.end) || 0,
-            title: f.title || "",
+            name: f.name || "",
         }));
         
         formData.append("fragments", JSON.stringify(fragmentsData));
@@ -150,7 +150,7 @@ export const StepFragments = ({ setActiveStep, setLastCompletedStep, lastComplet
             index: newIndex, 
             start: lastEnd, 
             end: lastEnd, 
-            title: "" 
+            name: "" 
         });
     };
     
@@ -325,15 +325,15 @@ export const StepFragments = ({ setActiveStep, setLastCompletedStep, lastComplet
                                     <label className={styles.label}>Заголовок</label>
                                     <input
                                         type="text"
-                                        {...register(`fragments.${index}.title` as const, {
+                                        {...register(`fragments.${index}.name` as const, {
                                             maxLength: { value: 100, message: "Максимум 100 символов" }
                                         })}
-                                        className={`${styles.input} ${errors.fragments?.[index]?.title ? styles.inputError : ""}`}
+                                        className={`${styles.input} ${errors.fragments?.[index]?.name ? styles.inputError : ""}`}
                                         placeholder="Название фрагмента"
                                     />
-                                    {errors.fragments?.[index]?.title && (
+                                    {errors.fragments?.[index]?.name && (
                                         <span className={styles.error}>
-                                            {errors.fragments[index]?.title?.message}
+                                            {errors.fragments[index]?.name?.message}
                                         </span>
                                     )}
                                 </div>

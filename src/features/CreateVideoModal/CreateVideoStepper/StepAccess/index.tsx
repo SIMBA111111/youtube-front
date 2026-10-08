@@ -1,35 +1,29 @@
 import { useEffect, useRef, useState } from "react";
-import Cookies from 'js-cookie'
 import { useCreateVideoModal } from "@/shared/store/createVideoModal";
 import { createVideo } from "@/shared/api/video/admin/createVideo";
 import LoadingDots from "@/shared/ui/LoadingDots";
 import { RadioButton, Text } from "@/shared/ui";
 import { VIDEO_ACCESS } from "@/shared/constants/radioButtons";
+import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient";
 import { TSteps } from "..";
 import styles from "./styles.module.scss";
-import { useRouter } from "next/navigation";
 
 
 export const StepAccess = ({setActiveStep, setLastCompletedStep, lastCompletedStep}: {setActiveStep: (newStep: TSteps) => void, setLastCompletedStep: (newStep: TSteps) => void, lastCompletedStep: number}) => {
 
-    const { storedFile, addVideoData, videoData, toggleCreateModal, addStoredFile } = useCreateVideoModal()
+    const { storedFile, addVideoData, videoData, closeCreateModal, addStoredFile } = useCreateVideoModal()
 
     const [loadedPercentage, setLoadedPercentage] = useState<number | null>(null)
     const [isVideoUploaded, setIsVideoUploaded] = useState<boolean>(false)
     const [videoAccess, setVideoAccess] = useState<string>(videoData.videoAccess)
     const eventSourceRef = useRef<EventSource>(null)
-
-    let userId: string
-
-    if (Cookies.get('channelData')) {
-        userId = JSON.parse(Cookies.get('channelData')).id
-    }
+    const userData = getChannelDataClient()
 
     useEffect(() => {
         (async() => {
             if (storedFile) {
                 try {
-                    eventSourceRef.current = new EventSource(`http://localhost:8080/api/event/video-process/${userId}`,{
+                    eventSourceRef.current = new EventSource(`http://localhost:8080/api/event/video-process/${userData?.id}`,{
                         withCredentials: true,
                     });
 
@@ -57,6 +51,12 @@ export const StepAccess = ({setActiveStep, setLastCompletedStep, lastCompletedSt
         })
     }, [])
 
+    if (!userData) {
+        return (
+            <div>Нет юзера</div>
+        )
+    }
+
     const handleStartUploadVideo = async () => {
         if (storedFile) {
             const preparedVideoData = {...videoData, iconPreview: ''}
@@ -64,7 +64,7 @@ export const StepAccess = ({setActiveStep, setLastCompletedStep, lastCompletedSt
             console.log('videoData: ', videoData);
             console.log('videoAccess: ', videoAccess);
 
-            const res = await createVideo(userId, 'asopkdopkasd', videoData, storedFile)
+            const res = await createVideo(userData.id, 'asopkdopkasd', videoData, storedFile)
             setIsVideoUploaded(true)
         }
     }
@@ -91,8 +91,8 @@ export const StepAccess = ({setActiveStep, setLastCompletedStep, lastCompletedSt
         addStoredFile(null)
         setLoadedPercentage(null)
         setIsVideoUploaded(false)
-        toggleCreateModal()
-        window.location.replace(`/creator/${userId}/videos`);
+        closeCreateModal()
+        window.location.replace(`/creator/${userData.id}/videos`);
     }
 
     return (

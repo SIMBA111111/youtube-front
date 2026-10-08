@@ -32,7 +32,7 @@ export const MySubChannels: FC<IMySubChannels> = ({
         return []
       }
 
-      return res?.data || []
+      return res.data || []
   }
 
   const {
@@ -52,15 +52,8 @@ export const MySubChannels: FC<IMySubChannels> = ({
       <div className={styles.channelList}>
         {data.map((channel: IChannelEntity) => (
           <ChannelCard 
-            id={channel.id} 
-            name={channel.name} 
-            username={channel.username} 
-            avatarUrl={channel.avatarUrl} 
-            description={channel.description} 
-            subscribersCount={channel.subscribersCount} 
-            notificationSetting={channel.notificationSetting} 
+            channel={channel}
             meId={userId}
-            links={[]}
           />
         ))}
       </div>
