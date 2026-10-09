@@ -75,9 +75,6 @@ export const History = ({ userId, jwt, tags}: {userId: string, jwt: string, tags
 
         return Array.from(groupedVideos.entries()).map(([date, items]) => {
             
-            console.log(items);
-            
-            
             const shorts = items.filter((i) => i.video.isShort);
             const fullVideos = items.filter((i) => !i.video.isShort);
 

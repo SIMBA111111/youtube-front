@@ -33,20 +33,25 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
   const router = useRouter()
   
   const handleSound = (e: React.MouseEvent) => {
-    e.preventDefault();
+    e.stopPropagation()
     setIsSoundOn((prev: boolean) => !prev);
   };
 
   const handleGoToChannel = (e: MouseEvent) => {
-    e.preventDefault()
     e.stopPropagation()
     router.push(`/channel/${video.channel.channelUsername}`)
   }
 
+  const handleGoToVideo = (e: MouseEvent) => {
+    e.stopPropagation()
+    router.push(`/watch?v=${video.video.id}`)
+  }
+
   return (
-    <Link
+    <div
       className={isRow ? styles.searchVideoItem_row : styles.searchVideoItem}
-      href={`/watch?v=${video.video.id}`}
+      onClick={handleGoToVideo}
+      // href={`/watch?v=${video.video.id}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -131,6 +136,6 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
 
           <Text className={styles.description}>{video.video.description}</Text>
         </div>
-    </Link>
+    </div>
   );
 };

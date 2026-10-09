@@ -22,8 +22,6 @@ export const getVideoListByChannelUsername = async (
 
         if (res.status === 200) {
             const videos = await res.json();
-            console.log('videos: ', videos);
-            
             return videos
         }
 

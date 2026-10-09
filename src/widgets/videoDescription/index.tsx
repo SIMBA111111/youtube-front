@@ -91,9 +91,7 @@ export const VideoDescription: React.FC<IVideoDescription> = async ({
 
         <ShareVideo videoId={videoId} />
 
-        <div className={styles.rating_settings}>
-          <SettingsVideo videoId={videoId} />
-        </div>
+        <SettingsVideo videoId={videoId} />
       </div>
 
       <div className={styles.videoDescription}>

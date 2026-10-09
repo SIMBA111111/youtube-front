@@ -111,8 +111,6 @@ export const StepInfo = ({setActiveStep, setLastCompletedStep, lastCompletedStep
                 if (file.size <= 10 * 1024 * 1024) {
                     setIconFile(file);
                     const reader = new FileReader();
-                    console.log('file = ', file);
-                    
                     reader.onloadend = () => {
                         setIconPreview(reader.result as string);
                     };

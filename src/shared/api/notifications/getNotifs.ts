@@ -122,8 +122,6 @@ const NOTIFS = [
 
 
 export const getNotifs = async (userId: string) => {
-    console.log('userId =-=-=-=- ', userId);
-    
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me/my-notifs/${userId}`, {
             credentials: "include"

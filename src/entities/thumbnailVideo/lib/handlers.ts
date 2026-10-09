@@ -29,6 +29,7 @@ export const handleHideChannel = (e: React.MouseEvent, video: string, userId: st
 
 export const handleReport = (e: React.MouseEvent, setIsOpenedReportModal: (newValue: boolean) => void) => {
     e.stopPropagation();
+    e.preventDefault()
     setIsOpenedReportModal(true)
     console.log('пожаловаться');
 };

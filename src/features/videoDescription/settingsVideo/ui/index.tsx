@@ -10,6 +10,7 @@ import { getReportReasons } from "@/shared/api/reports/getReportReasons"
 import { ReportModal } from "../modals"
 import styles from './styles.module.scss'
 import { UnauthReportModal } from "@/shared/ui/Modal/Modals/UnauthReportModal"
+import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient"
 
 interface ISettingsVideo{
     videoId: string,
@@ -21,7 +22,7 @@ export const SettingsVideo: React.FC<ISettingsVideo> = ({
     const [isOpenedPopover, setIsOpenedPopover] = useState<boolean>(false)
     const [isOpenedModal, setIsOpenedModal] = useState<boolean>(false)
 
-    const isAuth = Cookies.get('channelData') && Cookies.get('jwt') ? true : false
+    const userData = getChannelDataClient()
 
     const togglePopover = () => {
         if(isOpenedPopover)
@@ -50,8 +51,8 @@ export const SettingsVideo: React.FC<ISettingsVideo> = ({
                     <Text>Пожаловаться</Text>
                 </button>
             </Popover>
-            {!isAuth && <UnauthReportModal isVisibleModal={isOpenedModal} setIsVisibleModal={setIsOpenedModal} />}
-            {isAuth && <ReportModal isOpenedModal={isOpenedModal} setIsOpenedModal={setIsOpenedModal} />}
+            {!userData && <UnauthReportModal isVisibleModal={isOpenedModal} setIsVisibleModal={setIsOpenedModal} />}
+            <ReportModal isOpenedModal={isOpenedModal} setIsOpenedModal={setIsOpenedModal} />
         </>
    )
 }

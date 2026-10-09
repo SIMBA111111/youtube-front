@@ -36,8 +36,6 @@ export const VideoAnalytics: FC<{videoId: string}> = ({ videoId }) => {
     useEffect(() => {
         (async () => {
             const res = await fetchData(videoId, activeDateRange)
-            
-            console.log('res.result = ', res)
 
             if (res.error || !res.data || !res.success) {
                 return {}

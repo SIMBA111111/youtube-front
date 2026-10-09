@@ -28,12 +28,6 @@ export const CreatePlaylistModal: FC<ICreatePlaylistModal> = ({
     const userId = JSON.parse(Cookies.get('channelData') || '{}').id
     const jwt = Cookies.get('jwt')
 
-    // console.log('userId = ', userId);
-    // console.log('jwt = ', jwt);
-    // console.log('iconPreview = ', iconPreview);
-    // console.log('iconInputRef = ', iconInputRef.current?.files[0]);
-    
-
     // Сбрасываем значение при открытии
     useEffect(() => {
         if (isVisibleModal && nameRef.current) {
@@ -49,8 +43,6 @@ export const CreatePlaylistModal: FC<ICreatePlaylistModal> = ({
                 const responseCreatedPlaylist = await createPlaylist(userId, jwt, nameRef.current?.value, preview)
             
                 if (responseCreatedPlaylist && responseCreatedPlaylist.playlist) {
-                    console.log('responseCreatedPlaylist = ', responseCreatedPlaylist);
-                    
                     setOptionsState((prev: IOption[]) => [...prev, {value: responseCreatedPlaylist.playlist.id, label: responseCreatedPlaylist.playlist.name}])
                 } 
             }

@@ -69,7 +69,7 @@ export const Modal: React.FC<IModal> = ({
             const isClickOnModal = modalRef.current?.contains(event.target as Node);
             const isClickOnOverlay = (event.target as HTMLElement).classList?.contains(styles.overlay);
             
-            if (!isClickOnModal && !isClickOnOverlay && isTopModal(modalId.current)) {
+            if (!isClickOnModal && isClickOnOverlay && isTopModal(modalId.current)) {
                 setIsVisible(false);
             }
         };
@@ -98,11 +98,20 @@ export const Modal: React.FC<IModal> = ({
     }, [isVisible, setIsVisible]);
 
     const handleModalClick = (e: React.MouseEvent) => {
-        e.nativeEvent.stopImmediatePropagation();
+        e.stopPropagation();
     };
 
     const handleOverlayClick = (e: React.MouseEvent) => {
         e.preventDefault();
+        e.stopPropagation()
+        if (isTopModal(modalId.current)) {
+            setIsVisible(false);
+        }
+    };
+
+    const handleCloseBtnClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation()
         if (isTopModal(modalId.current)) {
             setIsVisible(false);
         }
@@ -141,7 +150,7 @@ export const Modal: React.FC<IModal> = ({
                         )}
                         &#8203;
                         {isCloseButton && (
-                            <div className={styles.closeBtn} onClick={() => setIsVisible(false)}>
+                            <div className={styles.closeBtn} onClick={handleCloseBtnClick}>
                                 <Svg name="cross" size="middle" color="black"/>
                             </div>
                         )}

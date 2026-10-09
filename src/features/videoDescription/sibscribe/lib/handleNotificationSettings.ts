@@ -10,8 +10,6 @@ export const handleNotificationSettings = async (
 ) => {
     const res = await updateNotifSetting(channelId, meId, isNotifSetting)
     
-    console.log();
-
     setIsnotifSettings(res.data.isNotifSetting)
     setPopoverIsVisible(false)
 }

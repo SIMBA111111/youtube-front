@@ -43,9 +43,6 @@ export const MyChannelActions: React.FC<IMyChannelActions> = ({
       setIsEnd(swiper.isEnd);
 
       swiper.on("slideChange", () => {
-        console.log(swiper.isBeginning);
-        console.log(swiper.isEnd);
-
         setIsBeginning(swiper.isBeginning);
         setIsEnd(swiper.isEnd);
       });

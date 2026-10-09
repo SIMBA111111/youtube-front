@@ -15,8 +15,6 @@ export interface IGetCommentsByVideoId {
 export const getCommentsByVideoId = async (
     videoId: string, offset: number, limit: number, filter: TCommentFilter, userId: string, parentCommentId: string = ''
 ): Promise<ApiResponse<IGetCommentsByVideoId> | null> => {
-    console.log('getCommentsByVideoId');
-    
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/${videoId}?offset=${offset}&limit=${limit}`, {
             method: 'POST',

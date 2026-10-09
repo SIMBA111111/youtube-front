@@ -202,9 +202,6 @@ export const getMyLikedVideoList = async (
       }
     );
 
-    console.log('res == ', res);
-    
-
     if (res.status === 200) {
       return await res.json();
     } else {

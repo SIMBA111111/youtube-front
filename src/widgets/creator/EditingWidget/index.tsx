@@ -26,9 +26,6 @@ type inputId = 'bannerUrl' | 'avatarUrl'
 export const EditingWidget: FC<IEditingWidget> = ({
     channelData
 }) => {
-    console.log('channelData: ', channelData);
-    
-
     const [bannerImage, setBannerImage] = useState<string>(channelData.channel.bannerUrl || '')
     const [avatarImage, setAvatarImage] = useState<string>(channelData.channel.avatarUrl || '')
 

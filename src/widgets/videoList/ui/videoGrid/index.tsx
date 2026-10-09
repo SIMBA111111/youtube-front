@@ -10,8 +10,6 @@ interface IVideoGrid {
 }
 
 export const VideoGrid = memo(({ videos, isShort = false }: IVideoGrid) => {
-    // console.log('ререндер VideoGrid');
-    
     return isShort ? (
         <div className={styles.videoGridHorts}>
             {videos?.map((video: IVideoFullInfo, index) => (

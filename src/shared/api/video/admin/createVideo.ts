@@ -23,9 +23,6 @@ export const createVideo = async (userId: string, jwt: string, videoData: any, v
             body: formData
         })
 
-        console.log('res === ', res);
-        
-
         if (res.status === 201) {
             return await res.json()
         } 

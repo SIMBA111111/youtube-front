@@ -14,21 +14,7 @@ import styles from './styles.module.scss'
 
 export const Notifications = ({userId} : {userId: string}) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
-  const [notifs, setNotifs] = useState<INotificationItem[]>([{
-        id: 'slkdfks',
-        channel: {
-          id: 'string',
-          name: 'string',
-          avatarUrl: 'string'
-        },
-        createdAt: '206-02-02',
-        video: {
-              id: 'string',
-    previewUrl: 'string',
-    isShort: false
-        },
-        isViewed: false
-  }])
+  const [notifs, setNotifs] = useState<INotificationItem[]>([])
   const [isExistNewNotif, setIsExistNewNotif] = useState<boolean>(false)
   const eventSourceRef = useRef<EventSource>(null)
 
@@ -36,7 +22,7 @@ export const Notifications = ({userId} : {userId: string}) => {
     (async () => {
       if (userId) {
         try {
-          eventSourceRef.current = new EventSource(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/event/notif-event/${userId}`);
+          eventSourceRef.current = new EventSource(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notif-event/${userId}`);
 
           eventSourceRef.current.onmessage = (event) => {
             const data = JSON.parse(event.data);

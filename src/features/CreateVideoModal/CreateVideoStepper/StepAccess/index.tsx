@@ -61,9 +61,6 @@ export const StepAccess = ({setActiveStep, setLastCompletedStep, lastCompletedSt
         if (storedFile) {
             const preparedVideoData = {...videoData, iconPreview: ''}
 
-            console.log('videoData: ', videoData);
-            console.log('videoAccess: ', videoAccess);
-
             const res = await createVideo(userData.id, 'asopkdopkasd', videoData, storedFile)
             setIsVideoUploaded(true)
         }

@@ -5,8 +5,10 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+background-color: var(--foregroundRGB);
+        padding: 8 8;
+        border-radius: 28px;
 }
-
 .customPopover {
     display: flex;
     flex-direction: column;

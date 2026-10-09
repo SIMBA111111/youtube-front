@@ -45,7 +45,7 @@ export const SettigsVideoModal: React.FC<ISettigsVideoModal> = ({
                         <Svg name='brick'/>
                         <Text>Не рекомендовать видео с этого канала</Text>
                     </div>
-                    <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleReport(e, setIsOpenedReportModal )}>
+                    <div className={styles.modal__item} onClick={(e: React.MouseEvent) => handleReport(e, setIsOpenedReportModal)}>
                         <Svg name='flag'/>
                         <Text>Пожаловаться</Text>
                     </div>
