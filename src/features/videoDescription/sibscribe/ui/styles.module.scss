@@ -57,7 +57,11 @@
 
 .myChannelBtns {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  
+  @media (width < 550px) {
+    flex-direction: column;
+  }
 }
 
 .popover {

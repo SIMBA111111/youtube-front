@@ -7,6 +7,10 @@
     background-color: var(--grayBackground);
     box-shadow: none !important;
     border-radius: 28px;
+
+    @media (width < 768px) {
+        width: 95%;
+    }
 }
 
 .container {

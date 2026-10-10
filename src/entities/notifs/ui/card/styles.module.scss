@@ -104,4 +104,5 @@
 .settingsButton {
     @include circleBackground;
     background: transparent;
+    cursor: pointer;
 }

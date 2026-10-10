@@ -53,7 +53,7 @@
 }
 
 .notifModal {
-    padding: 12px 0px;
+    padding-top: 12px;
     width: 100%;
     position: relative;
     background-color: var(--background);
@@ -62,13 +62,13 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0px 20px 10px 20px;
+        padding: 0px 20px 0px 20px;
     }
 
     &__body {
         scrollbar-width: none;
         overflow-y: auto;
-        height: 92%;
+        margin-top: 10px;
     }
 }
 
@@ -98,5 +98,6 @@
 
 .byCenter {
     margin: auto;
+    margin-top: 15px;
     text-align: center;
 }

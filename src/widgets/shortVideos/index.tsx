@@ -15,11 +15,10 @@ import { EvaluateVideo } from "@/features/videoDescription/evaluateVideo/ui";
 import { ShareVideo } from "@/features/videoDescription/shareVideo/ui";
 import { CommentsVideo } from "@/features/videoDescription/commentsVideo/ui";
 import { SubscribeButton } from "@/features";
-import { getShortVideos } from "@/shared/api/video/getShortVideos";
-import { IShortVideoListItem } from "@/entities/thumbnailShortVideo/modal/types";
-import styles from "./styles.module.scss";
 import { getVideos } from "@/shared/api/video/getVideoList";
-import { IVideoEntity } from "@/entities/thumbnailVideo/model/types";
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
+
+import styles from "./styles.module.scss";
 
 
 const ShortPlayer = dynamic(
@@ -35,7 +34,7 @@ interface IPagination {
 const PAGINATION_STEP = 5
 
 interface IShortsSwiper {
-  videos: IVideoEntity[]
+  videos: IVideoFullInfo[]
   initVideo: IGetVideoById
   videoId: string
   myChannelData: any
@@ -51,7 +50,7 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
   const swiperRef = useRef(null);
   const isActiveIndexRef = useRef(0); 
   const isFetchingRef = useRef(false);
-  const [shortVideos, setShortVideos] = useState<IVideoEntity[]>(videos || []);
+  const [shortVideos, setShortVideos] = useState<IVideoFullInfo[]>(videos || []);
   const [currentShortVideo, setCurrentShortVideo] = useState<IGetVideoById>(initVideo);
   const [pagination, setPagination] = useState<IPagination>({
     offset: 5,
@@ -64,29 +63,33 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
     // Проверяем, что индекс действительно изменился
     if (newIndex === isActiveIndexRef.current) return;
     
-    // isActiveIndexRef.current = newIndex
+    isActiveIndexRef.current = newIndex
     
     if (shortVideos.length === 0 || !shortVideos[newIndex]) return;
 
-    // Проверяем, что это видео еще не загружено
-    const video = shortVideos[newIndex];
-    if (currentShortVideo?.video?.id === video.id) return;
+    console.log('newIndex: ', newIndex);
     
+    // Проверяем, что это видео еще не загружено
+    const nextVideo = shortVideos[newIndex];
+    if (currentShortVideo?.video?.id === nextVideo.video.id) return;
+    
+    console.log('nextVideo: ', nextVideo);
+
     // Добавляем флаг загрузки
     if (isFetchingRef.current) return;
     isFetchingRef.current = true;
     
     try {
-      router.replace(`/shorts/${video.id}`, { scroll: false });
+      router.replace(`/shorts/${nextVideo.video.id}`, { scroll: false });
 
-      const resGetVideoById = await getVideoById(video.id);
+      const resGetVideoById = await getVideoById(nextVideo.video.id);
       if (resGetVideoById) {
         setCurrentShortVideo(resGetVideoById);
       }
 
       if (newIndex > shortVideos.length - 2) {
         const res = await getVideos(null, 'shorts', true, pagination.offset, pagination.limit);
-        setShortVideos((prev: IVideoEntity[]) => [...prev, ...res.result]);
+        setShortVideos((prev: IVideoFullInfo[]) => [...prev, ...res.result]);
         setPagination(prev => ({
           offset: prev.offset + PAGINATION_STEP,
           limit: prev.limit + PAGINATION_STEP,
@@ -127,6 +130,17 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
     return <div>Loading...</div>;
   }
 
+  const width = window.screen.width;
+  const height = window.screen.height;
+
+  // Функция для поиска наибольшего общего делителя (НОД)
+  const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+  const divisor = gcd(width, height);
+
+  // Результат в формате "9:16" или "3:4"
+  const aspectRatio = `${width / divisor}:${height / divisor}`;
+  console.log(`Экран устройства: ${aspectRatio}`);
+
   return (
     <div className={styles.mainPage__container}>
       <div className={styles.shortVideoWrapper}>
@@ -150,7 +164,7 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
           onSlideChangeTransitionEnd={handleSlideChange}
         >
           {shortVideos.map((video, index) => (
-            <SwiperSlide key={video.id} className={styles.slide}>
+            <SwiperSlide key={video.video.id} className={styles.slide}>
               {({ isActive }) => (
                 <div className={styles.playerWrapper}>
                   <div className={styles.channelInfo}>

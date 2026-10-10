@@ -37,27 +37,53 @@
 
 .swiper {
     width: 100%;
-    height: 100vh !important;
+    height: 100dvh !important;
 }
 
 .slide {
     display: flex;
     justify-content: center;
     width: 100% !important;
-    height: 100vh !important;
+    height: 100dvh !important;
+
+    [id*="fullScreenWrapper"] {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        
+        @media (width > 768px) {
+            aspect-ratio: 9/16;
+        }
+        
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain !important; // scale-down = contain + none, лучше явно contain
+        }
+    }
     
     .playerWrapper {
         display: flex;
         // width: 700px;
         height: 90vh;
-        aspect-ratio: 9 / 10;
         border-radius: 16px;
+        position: relative;
+        // width: 100%;
 
         .channelInfo {
             display: flex;
             flex-direction: column;
             gap: 12px;
             margin-right: 10px;
+
+            @media (width < 768px) {
+                position: absolute;
+                bottom: 3%;
+                left: 2%;
+                z-index: 1;
+            }
 
             .channelBtn {
                 margin-top: auto;
@@ -83,17 +109,8 @@
                 text-overflow: ellipsis;
             }
         }   
-
-        
-        @media (max-width: 768px) {
-            width: 100%;
-            height: auto;
-            max-width: none;
-            border-radius: 0;
-        }
     }
 }
-
 
 .actionsPlayerWrapper {
     display: flex;
@@ -101,6 +118,14 @@
     margin-top: auto;
     align-items: center;
     margin-left: 10px;
+
+
+    @media (width < 768px) {
+        position: absolute;
+        bottom: 3%;
+        right: 2%;
+        z-index: 1;
+    }
 
     [class*='rating_likeDislike'] {
         flex-direction: column;
@@ -155,6 +180,10 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+
+    @media (width < 768px) {
+        display: none;
+    }
 }
 
 .navButton {

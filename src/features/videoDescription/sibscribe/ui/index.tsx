@@ -5,7 +5,6 @@ import { Popover, Svg, Text } from "@/shared/ui";
 import { handleSubscribe } from "../lib/handleSubscribe";
 import { handleNotificationSettings } from "../lib/handleNotificationSettings";
 import { usePathname, useRouter } from "next/navigation";
-import { AUTH_STAGES } from "@/shared/constants/authStages";
 import styles from "./styles.module.scss";
 
 

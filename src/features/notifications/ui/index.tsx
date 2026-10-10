@@ -5,18 +5,45 @@ import { useEffect, useRef, useState } from "react"
 import { Popover, Searcher, Svg, Text } from "@/shared/ui"
 
 import { NotifCard } from "@/entities/notifs/ui/card/notifCard"
-import { INotificationItem } from "@/entities/notifs/modal/types"
-import { getNotifs } from "@/shared/api/notifications/getNotifs"
+import { getNotifs, INotifExtendInfo } from "@/shared/api/notifications/getNotifs"
 import Link from "next/link"
 
 import styles from './styles.module.scss'
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll"
 
 
 export const Notifications = ({userId} : {userId: string}) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
-  const [notifs, setNotifs] = useState<INotificationItem[]>([])
+  const [notifs, setNotifs] = useState<INotifExtendInfo[]>([])
   const [isExistNewNotif, setIsExistNewNotif] = useState<boolean>(false)
   const eventSourceRef = useRef<EventSource>(null)
+  const loadingRef = useRef<HTMLDivElement | null>(null)
+
+  const fetchNotifs = async ({offset, limit}: {offset: number, limit: number}) => {
+      const data = await getNotifs(userId, offset, limit)
+
+      if (!data.data || data.error || !data.success) {
+        return []
+      }
+
+      return data.data
+  }
+
+  const {
+    data,
+    hasMore,
+    isLoading,
+    refreshData
+  } = useInfinityScroll<INotifExtendInfo, any>({
+    paginationStep: 10,
+    filter: '',
+    triggerRef: loadingRef,
+    fetchData: fetchNotifs
+  })
+
+  useEffect(() => {
+    if (isOpenModal) refreshData()
+  }, [isOpenModal])
 
   useEffect(() => {
     (async () => {
@@ -57,19 +84,6 @@ export const Notifications = ({userId} : {userId: string}) => {
     })
   }, [userId])
 
-  // useEffect(() => {
-  //   const fetchNotifs = async () => {
-  //     try {
-  //       const notifsData = await getNotifs(userId)
-
-  //       setNotifs(notifsData.notifs)
-  //     } catch (error) {
-  //       console.error('Ошибка при загрузке уведомлений:', error)
-  //     }
-  //   }
-  //   fetchNotifs()
-  // }, [])
-
   const handleOpenPopover = () => {
     setIsOpenModal(true)
     setIsExistNewNotif(false)
@@ -104,9 +118,9 @@ export const Notifications = ({userId} : {userId: string}) => {
             </Link>
           </div>
 
-          {notifs.length > 0 ? (
+          {data.length > 0 ? (
             <div className={styles.notifModal__body}>
-              {notifs.map((notif, index) => (
+              {data.map((notif, index) => (
                 <NotifCard key={index} notif={notif}/>
               ))}
             </div>
@@ -114,8 +128,15 @@ export const Notifications = ({userId} : {userId: string}) => {
             null
           )}
         </div>
+
         <div className={styles.byCenter}>
-          <Text size={16} color='var(--grayText)'>Нет уведомлений</Text>
+          <div ref={loadingRef} style={{ height: "5px", margin: "1px 0" }}/>
+
+          {!hasMore && (
+            <div style={{ textAlign: "center", paddingBottom: "20px" }}>
+              Больше нет уведомлений
+            </div>
+          )}
         </div>
       </Popover>
     </div>

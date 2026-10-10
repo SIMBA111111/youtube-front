@@ -25,7 +25,7 @@ interface IHookResponse<T> {
 const options = {
     root: null,
     rootMargin: "100px",
-    threshold: 0.1,
+    threshold: 0,
 };
 
 export const useInfinityScroll = <T, Y>({
@@ -34,6 +34,8 @@ export const useInfinityScroll = <T, Y>({
     fetchData,
     triggerRef,
 }: IUseInfitityScroll<T, Y>): IHookResponse<T> => {
+    console.log('triggerRef: ', triggerRef);
+    
     const [data, setData] = useState<T[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [pagination, setPagination] = useState({ offset: 0, limit: paginationStep });
