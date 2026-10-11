@@ -50,6 +50,10 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
     if (e.button === 0) {
       router.push(`/watch?v=${video.video.id}`);
     }
+
+    if (e.button === 1) {
+      window.open(`/watch?v=${video.video.id}`, '_blank')
+    }
   };
 
   // Обработчик для средней кнопки (колесико)
@@ -70,7 +74,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
     <div className={styles.wrap}>
       <div
         className={styles.cardContainer}
-        onClick={handleCardClick}
+        onMouseDown={handleCardClick}
         onAuxClick={handleCardAuxClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
