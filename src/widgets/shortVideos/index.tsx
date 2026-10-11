@@ -17,9 +17,9 @@ import { CommentsVideo } from "@/features/videoDescription/commentsVideo/ui";
 import { SubscribeButton } from "@/features";
 import { getVideos } from "@/shared/api/video/getVideoList";
 import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
+import { mapIGetVideoToIVideoFullInfo } from "@/shared/maps/mapIGetVideoToIVideoFullInfo";
 
 import styles from "./styles.module.scss";
-import { mapIGetVideoToIVideoFullInfo } from "@/shared/maps/mapIGetVideoToIVideoFullInfo";
 
 const ShortPlayer = dynamic(
   () => import('@webitch/short-player'),
@@ -49,6 +49,7 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
   const isActiveIndexRef = useRef(0); 
   const isFetchingRef = useRef(false);
   const [shortVideos, setShortVideos] = useState<IVideoFullInfo[]>([mapIGetVideoToIVideoFullInfo(initVideo)]);
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentShortVideo, setCurrentShortVideo] = useState<IGetVideoById>(initVideo);
   const paginationRef = useRef<IPagination>({ offset: 0, limit: 5 });
 
@@ -68,6 +69,7 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
   }
 
   const handleSlideChange = async (swiper: SwiperClass) => {
+    setIsLoading(true)
     const newIndex = swiper.activeIndex;
     if (newIndex === isActiveIndexRef.current) return;
     isActiveIndexRef.current = newIndex;
@@ -81,6 +83,7 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
 
     const resGetVideoById = await getVideoById(nextVideo.video.id, null, null);
     if (resGetVideoById) setCurrentShortVideo(resGetVideoById);
+    setIsLoading(false)
 
     if (newIndex > shortVideos.length - 2) {
       await fetchVideos();
@@ -145,7 +148,7 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
           modules={[Mousewheel, Pagination, Navigation]}
           touchStartPreventDefault={false}
           touchMoveStopPropagation={false}
-          onSlideChangeTransitionEnd={handleSlideChange}
+          onSlideChangeTransitionStart={handleSlideChange}
         >
           {shortVideos.map((video, index) => (
             <SwiperSlide key={video.video.id} className={styles.slide}>
@@ -170,12 +173,14 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
 
                   {/* Рендерим плеер только для активного слайда */}
                   {/* isActive - ключевое, что останавливает звук при паузе. Почему ?*/}
-                  {isActive && (
+                  {isActive && !isLoading ? (
                     <ShortPlayer
                       key={`player-${currentShortVideo.video.id}`}
                       duration={currentShortVideo.video.duration}
                       playlistUrl={currentShortVideo.video.masterM3u8Url}
                     />
+                  ) : (
+                    <Spinner/>
                   )}
 
                   <div className={styles.actionsPlayerWrapper}>
