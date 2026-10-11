@@ -20,7 +20,7 @@ export const SidebarContainer = () => {
     const handleGetRandomVideo = async () => {
       const myChannelData = getChannelDataClient();
 
-      const res = await getVideos(null, null, true, 0, 1);
+      const res = await getVideos(null, 'shorts', true, 0, 1);
       setRandomShortVideo(res.data[0].video);
 
       if (myChannelData && myChannelData.id) {

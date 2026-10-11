@@ -18,7 +18,7 @@ import styles from "./styles.module.scss";
 
 interface IVideoPage {
     video: IVideoEntity
-    videoOwnerChannel: IChannelEntity,
+    channel: IChannelEntity,
     videoFragments: IFragmentEntity[],
     subscriptionData: ISubscriptionEntity | null,
     videoStatData: IVideoStatisticEntity | null,
@@ -75,13 +75,13 @@ export default async function WatchVideo({
           </Text>
           <VideoDescription
             videoId={videoData.video?.id}
-            channel={videoData.videoOwnerChannel}
+            channel={videoData.channel}
             dislikeCount={videoData.video?.dislikesCount}
             likeCount={videoData.video?.likesCount}
             name={videoData.video?.name}
             viewersCount={videoData.video?.viewersCount}
             datePublication={videoData.video?.datePublication}
-            subscribersCount={videoData.videoOwnerChannel?.subscribersCount || 0}
+            subscribersCount={videoData.channel?.subscribersCount || 0}
             isSubscribed={!!videoData.subscriptionData}
             isLiked={videoData.videoStatData?.liked || false}
             isDisliked={videoData.videoStatData?.disliked || false}

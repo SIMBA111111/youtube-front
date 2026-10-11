@@ -3,7 +3,7 @@
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { Mousewheel, Pagination, Navigation } from "swiper/modules";
 import dynamic from "next/dynamic";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, RefObject, useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -19,7 +19,7 @@ import { getVideos } from "@/shared/api/video/getVideoList";
 import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 
 import styles from "./styles.module.scss";
-
+import { mapIGetVideoToIVideoFullInfo } from "@/shared/maps/mapIGetVideoToIVideoFullInfo";
 
 const ShortPlayer = dynamic(
   () => import('@webitch/short-player'),
@@ -34,14 +34,12 @@ interface IPagination {
 const PAGINATION_STEP = 5
 
 interface IShortsSwiper {
-  videos: IVideoFullInfo[]
   initVideo: IGetVideoById
   videoId: string
   myChannelData: any
 }
 
 export const ShortsSwiper: FC<IShortsSwiper> = ({
-  videos,
   initVideo,
   videoId,
   myChannelData
@@ -50,67 +48,64 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
   const swiperRef = useRef(null);
   const isActiveIndexRef = useRef(0); 
   const isFetchingRef = useRef(false);
-  const [shortVideos, setShortVideos] = useState<IVideoFullInfo[]>(videos || []);
+  const [shortVideos, setShortVideos] = useState<IVideoFullInfo[]>([mapIGetVideoToIVideoFullInfo(initVideo)]);
   const [currentShortVideo, setCurrentShortVideo] = useState<IGetVideoById>(initVideo);
-  const [pagination, setPagination] = useState<IPagination>({
-    offset: 5,
-    limit: 10
-  });
+  const paginationRef = useRef<IPagination>({ offset: 0, limit: 5 });
 
-  const handleSlideChange = async (swiper: SwiperClass) => {
-    const newIndex = swiper.activeIndex;
-    
-    // Проверяем, что индекс действительно изменился
-    if (newIndex === isActiveIndexRef.current) return;
-    
-    isActiveIndexRef.current = newIndex
-    
-    if (shortVideos.length === 0 || !shortVideos[newIndex]) return;
-
-    console.log('newIndex: ', newIndex);
-    
-    // Проверяем, что это видео еще не загружено
-    const nextVideo = shortVideos[newIndex];
-    if (currentShortVideo?.video?.id === nextVideo.video.id) return;
-    
-    console.log('nextVideo: ', nextVideo);
-
-    // Добавляем флаг загрузки
+  const fetchVideos = async () => {
     if (isFetchingRef.current) return;
     isFetchingRef.current = true;
     
-    try {
-      router.replace(`/shorts/${nextVideo.video.id}`, { scroll: false });
+    const { offset, limit } = paginationRef.current;
+    const res = await getVideos(null, 'shorts', true, offset, limit);
+    setShortVideos((prev: IVideoFullInfo[]) => [...prev, ...res.data]);
+    paginationRef.current = {
+      offset: offset + PAGINATION_STEP,
+      limit: limit + PAGINATION_STEP,
+    };
 
-      const resGetVideoById = await getVideoById(nextVideo.video.id);
-      if (resGetVideoById) {
-        setCurrentShortVideo(resGetVideoById);
-      }
+    isFetchingRef.current = false;
+  }
 
-      if (newIndex > shortVideos.length - 2) {
-        const res = await getVideos(null, 'shorts', true, pagination.offset, pagination.limit);
-        setShortVideos((prev: IVideoFullInfo[]) => [...prev, ...res.result]);
-        setPagination(prev => ({
-          offset: prev.offset + PAGINATION_STEP,
-          limit: prev.limit + PAGINATION_STEP,
-        }));
-      }
-    } finally {
-      isFetchingRef.current = false;
+  const handleSlideChange = async (swiper: SwiperClass) => {
+    const newIndex = swiper.activeIndex;
+    if (newIndex === isActiveIndexRef.current) return;
+    isActiveIndexRef.current = newIndex;
+
+    const nextVideo = shortVideos[newIndex];
+    if (!nextVideo) return;
+    if (currentShortVideo?.video?.id === nextVideo.video.id) return;
+
+    // Не ремоунтим компонент — просто меняем URL
+    window.history.replaceState(null, '', `/shorts/${nextVideo.video.id}`);
+
+    const resGetVideoById = await getVideoById(nextVideo.video.id, null, null);
+    if (resGetVideoById) setCurrentShortVideo(resGetVideoById);
+
+    if (newIndex > shortVideos.length - 2) {
+      await fetchVideos();
     }
   };
 
-  // useEffect(() => {
-    // setShortVideos(videos);
-  // }, []);
-
   useEffect(() => {
-    if (shortVideos.length > 0) {
-      const initialIndex = shortVideos.findIndex(v => v.id === videoId);
-      if (initialIndex !== -1 && swiperRef.current?.swiper) {
-        swiperRef.current.swiper.slideTo(initialIndex, 0);
-        isActiveIndexRef.current = initialIndex
-      }
+    (async () => {
+      console.log('фетч инит');
+      await fetchVideos()
+    })()
+  }, []);
+
+  const isInitializedRef = useRef(false);
+
+  // Первичная инициализация — только один раз
+  useEffect(() => {
+    if (isInitializedRef.current) return;
+    if (!shortVideos.length || !swiperRef.current?.swiper) return;
+
+    const initialIndex = shortVideos.findIndex(v => v.video.id === videoId);
+    if (initialIndex !== -1) {
+      swiperRef.current.swiper.slideTo(initialIndex, 0);
+      isActiveIndexRef.current = initialIndex;
+      isInitializedRef.current = true;
     }
   }, [shortVideos, videoId]);
 
@@ -129,17 +124,6 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
   if (!shortVideos.length || !currentShortVideo) {
     return <div>Loading...</div>;
   }
-
-  const width = window.screen.width;
-  const height = window.screen.height;
-
-  // Функция для поиска наибольшего общего делителя (НОД)
-  const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-  const divisor = gcd(width, height);
-
-  // Результат в формате "9:16" или "3:4"
-  const aspectRatio = `${width / divisor}:${height / divisor}`;
-  console.log(`Экран устройства: ${aspectRatio}`);
 
   return (
     <div className={styles.mainPage__container}>
@@ -170,12 +154,12 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
                   <div className={styles.channelInfo}>
                     <div className={styles.channelBtn}>
                       <img 
-                        src={currentShortVideo?.videoOwnerChannel.avatarUrl ?? '/defaultImages/defaultAvatar.png'} 
+                        src={currentShortVideo?.channel.avatarUrl ?? '/defaultImages/defaultAvatar.png'} 
                         alt="avatar" 
                         className={styles.channelAvatar}
                       />
                       <SubscribeButton 
-                        channelId={currentShortVideo?.videoOwnerChannel.id} 
+                        channelId={currentShortVideo?.channel.id} 
                         isSubscribed={currentShortVideo?.subscriptionData?.deleted === undefined ? false : !currentShortVideo?.subscriptionData?.deleted} 
                         meId={myChannelData?.id || ''} 
                         notificationSetting={currentShortVideo?.subscriptionData?.notificationSettings || false}
@@ -190,7 +174,7 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
                     <ShortPlayer
                       key={`player-${currentShortVideo.video.id}`}
                       duration={currentShortVideo.video.duration}
-                      playlistUrl={currentShortVideo.video.masterM3u8Url || ''}
+                      playlistUrl={currentShortVideo.video.masterM3u8Url}
                     />
                   )}
 

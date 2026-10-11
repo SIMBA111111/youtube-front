@@ -20,9 +20,7 @@ export default async function Shorts({
   const cookie = await cookies();
   const myChannelData = await getChannelData(cookie)
   
-  const res = await getVideos(null, 'shorts', null, 0, 5);
-
-  const resGetVideoById = await getVideoById(videoId, myChannelData?.id);
+  const resGetVideoById = await getVideoById(videoId, myChannelData?.id, true);
 
   await updateViewVideo({
     videoId: videoId,
@@ -39,7 +37,6 @@ export default async function Shorts({
 
   return (
     <ShortsSwiper
-      videos={res.data}
       initVideo={resGetVideoById} 
       videoId={videoId} 
       myChannelData={myChannelData}

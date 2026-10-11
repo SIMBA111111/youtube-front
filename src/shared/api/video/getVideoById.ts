@@ -8,18 +8,19 @@ import { IVideoStatisticEntity } from "@/shared/types/videoStatisticEntity"
 export interface IGetVideoById {
     video: IVideoEntity
     videoFragments: IFragmentEntity[],
-    videoOwnerChannel: IChannelEntity,
+    channel: IChannelEntity,
     subscriptionData: ISubscriptionEntity | null,
     videoStatData: IVideoStatisticEntity | null,
 }
 
 export const getVideoById = async (
   videoId: string,
-  channelId?: string
+  channelId?: string | null,
+  isShort: boolean | null = null
 ): Promise<IGetVideoById | null> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/video/${videoId}?channelId=${channelId}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/video/${videoId}?channelId=${channelId}&isShort=${isShort}`
     );
 
     const data = await res.json();

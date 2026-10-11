@@ -60,7 +60,7 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
 
   const longsCount = useMemo(() => getVideosCount(device), [device])
   const shortsCount = useMemo(() => getShortsCount(device), [device])
-  
+
   const { shorts, longs } = data.reduce<{ shorts: IVideoFullInfo[]; longs: IVideoFullInfo[] }>(
     (acc, video: IVideoFullInfo) => {
       if (video.video.isShort) {
@@ -136,7 +136,7 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
 
             <div
                 ref={loadingRef}
-                style={{ height: "10px", margin: "10px" }}
+                style={{ height: "1px", margin: "1px" }}
             >
                 <InfinityScrollLoader isLoading={isLoading} />
             </div>
