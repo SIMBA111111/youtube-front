@@ -32,8 +32,8 @@ export const ReportModal: React.FC<IReportModal> = ({
 
     }, [isOpenedModal])
 
-    const handleCloseModal = (e: React.MouseEvent) => {
-        e.stopPropagation()
+    const handleCloseModal = (e?: React.MouseEvent) => {
+        e?.stopPropagation()
         setSelectedReportId('')
         setModalStep(1)
         setIsOpenedModal(false)

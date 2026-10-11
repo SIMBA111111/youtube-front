@@ -23,7 +23,7 @@ export const StepAccess = ({setActiveStep, setLastCompletedStep, lastCompletedSt
         (async() => {
             if (storedFile) {
                 try {
-                    eventSourceRef.current = new EventSource(`http://localhost:8080/api/event/video-process/${userData?.id}`,{
+                    eventSourceRef.current = new EventSource(`http://localhost:8080/api/video-process/${userData?.id}`,{
                         withCredentials: true,
                     });
 

@@ -1,20 +1,21 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-
-import { Popover, Searcher, Svg, Text } from "@/shared/ui"
-
-import { NotifCard } from "@/entities/notifs/ui/card/notifCard"
-import { getNotifs, INotifExtendInfo } from "@/shared/api/notifications/getNotifs"
 import Link from "next/link"
 
-import styles from './styles.module.scss'
+import { Popover, Searcher, Svg, Text } from "@/shared/ui"
+import { NotifCard } from "@/entities/notifs/ui/card/notifCard"
+import { getNotifs, INotifExtendInfo } from "@/shared/api/notifications/getNotifs"
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll"
+
+import styles from './styles.module.scss'
+import { getUnviewedNotifsCount } from "@/shared/api/notifications/getUnviewedNotifsCount"
 
 
 export const Notifications = ({userId} : {userId: string}) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const [notifs, setNotifs] = useState<INotifExtendInfo[]>([])
+  const [unviewedNotifscount, setUnviewedNotifscount] = useState<number>(0)
   const [isExistNewNotif, setIsExistNewNotif] = useState<boolean>(false)
   const eventSourceRef = useRef<EventSource>(null)
   const loadingRef = useRef<HTMLDivElement | null>(null)
@@ -27,6 +28,17 @@ export const Notifications = ({userId} : {userId: string}) => {
       }
 
       return data.data
+  }
+
+  const fetchUnviewedNotifsCount = async () => {
+    const data = await getUnviewedNotifsCount(userId)
+
+    if (!data.data || data.error || !data.success) {
+      return 0
+    }
+
+    setUnviewedNotifscount(data.data.count)
+    return data.data
   }
 
   const {
@@ -47,6 +59,12 @@ export const Notifications = ({userId} : {userId: string}) => {
 
   useEffect(() => {
     (async () => {
+      await fetchUnviewedNotifsCount()
+    })()
+  }, [])
+
+  useEffect(() => {
+    (async () => {
       if (userId) {
         try {
           eventSourceRef.current = new EventSource(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notif-event/${userId}`);
@@ -56,6 +74,7 @@ export const Notifications = ({userId} : {userId: string}) => {
 
             if (data.type === "newVideo") {
               setIsExistNewNotif(true)
+              setUnviewedNotifscount(prev => Number(prev) + 1)
             }
           };
 
@@ -86,14 +105,15 @@ export const Notifications = ({userId} : {userId: string}) => {
 
   const handleOpenPopover = () => {
     setIsOpenModal(true)
-    setIsExistNewNotif(false)
   }
 
   return (
     <div className={styles.notificationsContainer}>
       <div className={styles.notifications} onClick={handleOpenPopover}>
         <div className={styles.bellContainer}>
-          <div className={isExistNewNotif ? styles.bell : ''} />
+          <div className={Number(unviewedNotifscount) ? styles.unviewedNotifBadge : styles.unviewedNotifBadge_hide}>
+            {unviewedNotifscount}
+          </div>
           <Svg name='bell'/>
         </div>
         <div className={styles.notificationTooltip}>
@@ -121,7 +141,7 @@ export const Notifications = ({userId} : {userId: string}) => {
           {data.length > 0 ? (
             <div className={styles.notifModal__body}>
               {data.map((notif, index) => (
-                <NotifCard key={index} notif={notif}/>
+                <NotifCard key={index} notif={notif} setUnviewedNotifscount={setUnviewedNotifscount}/>
               ))}
             </div>
           ) : (

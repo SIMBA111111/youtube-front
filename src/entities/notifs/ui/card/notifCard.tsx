@@ -1,25 +1,25 @@
 "use client"
 
-import Link from "next/link";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { getFormatRelativeTime } from "@/shared/utils/getElapsedTime";
 import { Popover, Svg, Text } from "@/shared/ui";
 import { useToast } from "@/app/providers/toastProvider";
 import { INotifExtendInfo } from "@/shared/api/notifications/getNotifs";
+import { updateNotifView } from "@/shared/api/notifications/updateNotifView";
 
 import { handleHideNotif } from "../../lib/handleHideNotif";
 import { handleOffNotifByChannel } from "../../lib/handleOffNotifByChannel";
 import styles from './styles.module.scss'
-import { updateNotifView } from "@/shared/api/notifications/updateNotifView";
-import { useRouter } from "next/navigation";
 
 
 interface INotifCard {
     notif: INotifExtendInfo
+    setUnviewedNotifscount: Dispatch<SetStateAction<number>>
 }
 
-export const NotifCard: React.FC<INotifCard> = ({notif}) => {
+export const NotifCard: React.FC<INotifCard> = ({notif, setUnviewedNotifscount}) => {
     
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
     const [isViewed, setIsViewed] = useState<boolean>(notif.viewed)
@@ -38,7 +38,8 @@ export const NotifCard: React.FC<INotifCard> = ({notif}) => {
         const res = await updateNotifView(notif.id)
         if (res.data && !res.error && res.success) {
             setIsViewed(res.data)
-            router.push(linkToVideo)
+            setUnviewedNotifscount(prev => prev - 1)
+            window.open(linkToVideo, '_blank')
         }
     }
 

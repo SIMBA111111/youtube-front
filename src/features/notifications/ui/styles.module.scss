@@ -13,16 +13,18 @@
         position: relative;
         cursor: pointer;
 
-        .bell {
-            &::before {
-                content: '';
-                height: 6px;
-                width: 6px;
-                background-color: red;
-                position: absolute;
-                border-radius: 100px;
-                color: red;
-                right: 0px;
+        .unviewedNotifBadge {
+            font-size: 12px;
+            position: absolute;
+            background-color: var(--background);
+            color: var(--blackText);
+            color: red;
+            font-weight: 700;
+            right: 0px;
+            top: 0px;
+
+            &_hide {
+                display: none;
             }
         }
     }
