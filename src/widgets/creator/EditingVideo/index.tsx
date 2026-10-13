@@ -1,7 +1,6 @@
 'use client'
 
-import { Dispatch, FC, FormEvent, MouseEvent, SetStateAction, useEffect, useRef, useState } from "react"
-import Cookies from "js-cookie"
+import { Dispatch, FC, MouseEvent, SetStateAction, useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 import { IOption } from "@/shared/ui/Selector"
 import { Svg, Text } from "@/shared/ui"
@@ -11,6 +10,7 @@ import { getTags } from "@/shared/api/tags/getTags"
 import { getPlaylistsByUsername } from "@/shared/api/playlists/getPlaylistsByChannelHash"
 import { updateVideoById } from "@/shared/api/video/updateVideoById"
 import { getVideoById } from "@/shared/api/video/getVideoById"
+import { getChannelDataClient } from "@/shared/hooks/getChannelDataClient"
 import styles from './styles.module.scss'
 
 
@@ -36,20 +36,33 @@ export const EditingVideo: FC<IEditingVideo> = ({
     const descRef = useRef<HTMLTextAreaElement>(null);
 
     const getVideoData = async () => {
-        const userId = JSON.parse(Cookies.get('channelData') || '{}').username
+        const userData = getChannelDataClient()
 
-        const playlists = await getPlaylistsByUsername(userId)
+        if (!userData) {
+            return
+        }
+
+        const playlists = await getPlaylistsByUsername(userData?.id)
         const videoData = await getVideoById(videoId);
-        const tags = await getTags();
+        const tags = await getTags('');
 
-        setVideoName(videoData.video.name)
-        setVideoDescription(videoData.video.videoDescription)
+        if (!videoData || !videoData.data || videoData.error || !tags || !tags.data || !playlists || !playlists.data) {
+            return 
+        }
 
-        setIconPreview(videoData.video.previewUrl)
+        const tagsData = tags.data;
+        const playlistsData = playlists.data;
+
+        setVideoName(videoData.data.video.name)
+        setVideoDescription(videoData.data.video.description)
+
+        setIconPreview(videoData.data.video.thumbnailUrl)
+       
+        type SelectOption = { value: string; label: string };
         
-        setTagsSelectorOptions(tags.tags.map(t => { return { value: t.id, label: t.name }}))
-        const selectedTags = videoData.video.tags.reduce((arr, el) => {
-            const selectedTag = tags.tags.find(t => t.id === el);
+        setTagsSelectorOptions(tagsData.map(t => { return { value: t.id, label: t.name }}))
+        const selectedTags = videoData.data.video.tags.reduce<SelectOption[]>((arr, el) => {
+            const selectedTag = tagsData.find(t => t.id === el);
             if (selectedTag) {
                 arr.push({value: selectedTag.id, label: selectedTag.name});
             }
@@ -58,9 +71,9 @@ export const EditingVideo: FC<IEditingVideo> = ({
 
         setSelectedTags(selectedTags)
 
-        setPlaylistSelectorOptions(playlists.playlists.map(p => {return { value: p.id, label: p.name }}))
-        const selectedPlaylists = videoData.video.playlistIds.reduce((arr, el) => {
-            const selectedPlaylist = playlists.playlists.find(t => t.id === el);
+        setPlaylistSelectorOptions(playlistsData.map(p => {return { value: p.id, label: p.name }}))
+        const selectedPlaylists = videoData.data.video.playlistIds.reduce<SelectOption[]>((arr, el) => {
+            const selectedPlaylist = playlistsData.find(t => t.id === el);
             if (selectedPlaylist) {
                 arr.push({value: selectedPlaylist.id, label: selectedPlaylist.name});
             }
@@ -68,7 +81,7 @@ export const EditingVideo: FC<IEditingVideo> = ({
         }, []);
         setSelectedPlaylist(selectedPlaylists)
 
-        setSelectedHashTags(videoData.video.hashtags.map(((h, index) => { return { id: index, name: h }})))
+        setSelectedHashTags(videoData.data.video.hashtags.map(((h, index) => { return { id: index, name: h }})))
     }
 
     useEffect(() => {
@@ -171,7 +184,6 @@ export const EditingVideo: FC<IEditingVideo> = ({
         console.log('formData = ', formData);
 
         await updateVideoById({formData, videoId})
-        
     };
 
     return (

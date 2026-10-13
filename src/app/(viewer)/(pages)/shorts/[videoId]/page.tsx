@@ -27,7 +27,7 @@ export default async function Shorts({
     userId: myChannelData?.id || '',
   });
 
-  if (!resGetVideoById) {
+  if (!resGetVideoById || !resGetVideoById.data || resGetVideoById.error || !resGetVideoById.success) {
     return (
       <div>
         Ошибка...
@@ -37,7 +37,7 @@ export default async function Shorts({
 
   return (
     <ShortsSwiper
-      initVideo={resGetVideoById} 
+      initVideo={resGetVideoById.data} 
       videoId={videoId} 
       myChannelData={myChannelData}
     />

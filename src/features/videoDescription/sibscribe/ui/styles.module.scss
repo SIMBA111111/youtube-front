@@ -7,7 +7,6 @@
   &_btn {
     border: none;
     width: fit-content;
-    margin: 4px 0px;
     padding: 8px;
     border-radius: 24px;
     background-color: var(--foregroundRGB);
@@ -58,6 +57,7 @@
 .myChannelBtns {
   display: flex;
   flex-wrap: wrap;
+  gap: 8px;
   
   @media (width < 550px) {
     flex-direction: column;

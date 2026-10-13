@@ -82,7 +82,7 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
     window.history.replaceState(null, '', `/shorts/${nextVideo.video.id}`);
 
     const resGetVideoById = await getVideoById(nextVideo.video.id, null, null);
-    if (resGetVideoById) setCurrentShortVideo(resGetVideoById);
+    if (resGetVideoById.data) setCurrentShortVideo(resGetVideoById.data);
     setIsLoading(false)
 
     if (newIndex > shortVideos.length - 2) {
