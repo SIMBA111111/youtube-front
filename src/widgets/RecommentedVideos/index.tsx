@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { IVideo } from "@/entities/thumbnailVideo/model/types";
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types";
 import { ThumbnailVideoCard } from "@/entities/thumbnailVideo/ui/videoCard";
 import { Spinner, Svg } from "@/shared/ui";
 import { getRecommentedVideos } from "@/shared/api/video/getRecommentedVideos";
@@ -24,7 +24,6 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
   myChannelId,
 }) => {
   const loadingRef = useRef<HTMLDivElement | null>(null);
-
   const fetchRecommendedVideoList = async ({
     offset,
     limit,
@@ -36,15 +35,20 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
       myChannelId
     );
 
-    return res?.videos || []
+    if (!res.data || res.error || !res.success) {
+      return []
+    }
+
+    return res.data
   }
 
   const { 
     data,
     isLoading,
     hasMore,
-  } = useInfinityScroll<IVideo, any>({
-    paginationStep: 20,
+    refreshData
+  } = useInfinityScroll<IVideoFullInfo, any>({
+    paginationStep: 10,
     filter: '',
     fetchData: fetchRecommendedVideoList,
     triggerRef: loadingRef
@@ -53,21 +57,21 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
   return (
     <div className={styles.container}>
       {data
-        .filter((video: IVideo) => !video.isShort)
-        .map((video: IVideo, index) => {
+        .filter((video: IVideoFullInfo) => !video.video.isShort)
+        .map((video: IVideoFullInfo, index) => {
           return (
             <div key={index} className={styles.videoCardWrapper}>
-              <ThumbnailVideoCard key={video.id} video={video} isRow />
+              <ThumbnailVideoCard key={video.video.id} video={video} isRow />
             </div>
           );
         })}
-      {<div ref={loadingRef} style={{ height: "10px", margin: "10px" }}>
+      <div ref={loadingRef} style={{ height: "10px", margin: "10px" }}>
         {isLoading && (
           <div className={styles.recommendedVideoLoader}>
             <Spinner />
           </div>
         )}
-      </div>}
+      </div>
     </div>
   );
 };

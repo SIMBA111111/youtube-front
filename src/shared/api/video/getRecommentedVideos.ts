@@ -1,3 +1,6 @@
+import { IVideoFullInfo } from "@/entities/thumbnailVideo/model/types"
+import { ApiResponse, ApiResponseDTO } from "@/shared/types/apiResponse"
+
 const VIDEOS = [
     {
         id: '0',
@@ -276,7 +279,7 @@ const VIDEOS = [
     },
 ]
 
-export const getRecommentedVideos = async (videoId: string, offset: number, limit: number, myChannelId: string | null = null) => {
+export const getRecommentedVideos = async (videoId: string, offset: number, limit: number, myChannelId: string | null = null): Promise<ApiResponse<IVideoFullInfo[] | null>> => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recommended-videos/${videoId}?offset=${offset}&limit=${limit}`, {
             method: 'POST',
@@ -284,13 +287,12 @@ export const getRecommentedVideos = async (videoId: string, offset: number, limi
             body: JSON.stringify({myChannelId})
         })
 
-        if (res.status === 200) {
+        if (res.status === 200) 
             return await res.json()
-        } else {
-            return console.error('getRecommentedVideos non 200 status');
-        }
+
+        return new ApiResponseDTO(null)
     } catch (error) {
         new Error(`Error getRecommentedVideos: ${error}`);
-        return []
+        return new ApiResponseDTO(null)
     }
 }

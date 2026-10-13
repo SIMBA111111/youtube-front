@@ -44,7 +44,7 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
     isLoading,
     refreshData
   } = useInfinityScroll<IVideoFullInfo, string>({
-    paginationStep: 5,
+    paginationStep: 20,
     filter: activeTag,
     fetchData: fetchVideoList,
     triggerRef: loadingRef
@@ -136,7 +136,7 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
 
             <div
                 ref={loadingRef}
-                style={{ height: "1px", margin: "1px" }}
+                style={{ height: "15px", margin: "15px" }}
             >
                 <InfinityScrollLoader isLoading={isLoading} />
             </div>

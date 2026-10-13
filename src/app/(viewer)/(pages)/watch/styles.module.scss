@@ -8,10 +8,47 @@
   @include scrollPage;
 }
 
+.player {
+  width: 1250px;
+  height: 690px;
+}
+
 .description {
   margin-top: 10px;
 }
 
 .comments {
   margin-top: 20px;
+}
+
+.notFound {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+
+  .link {
+    cursor: pointer;
+    border: 1px solid gray;
+    border-radius: 28px;
+    padding: 6px 14px 6px 10px;
+    font-weight: 600;
+    color: var(--blueBorder);
+
+    &:hover {
+      transform: scale(1.03);
+      transition: 0.2s;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
 }
