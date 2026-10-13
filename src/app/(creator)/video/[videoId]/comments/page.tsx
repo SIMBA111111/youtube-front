@@ -13,6 +13,14 @@ export default async function VideoComments({
   const userData = await getChannelData(cookieStore)
   const { videoId } = await params
 
+  if (!userData) {
+    return (
+      <div>
+        Ошибка...
+      </div>
+    )
+  }
+
   return (
     <div className={styles.page}>
       <h1 className={styles.header}>Комментарии к видео</h1>

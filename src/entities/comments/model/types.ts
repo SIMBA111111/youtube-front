@@ -3,6 +3,7 @@ export interface ICommentEntity {
   text: string;
   likeCount: number;
   dislikeCount: number;
+  isAttached: boolean;
   videoId: string;
   channelId: string;
   parentCommentId: string | null;
@@ -16,6 +17,7 @@ export interface ICommentFullInfo {
   text: string;
   likeCount: number;
   dislikeCount: number;
+  isAttached: boolean;
   videoId: string;
   channelId: string;
   parentCommentId: string | null;
