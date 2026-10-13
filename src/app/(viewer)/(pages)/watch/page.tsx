@@ -48,7 +48,7 @@ export default async function WatchVideo({
   const videoData = await getVideoById(videoId, myChannelData?.id);
   const res = await updateViewVideo({
     videoId: videoId,
-    userId: myChannelData?.id || '',
+    userId: myChannelData && myChannelData.isSaveHistory ? myChannelData?.id : '',
   });
 
   // тут пример практически идеального кода для ручки как на беке так и на фронте
@@ -60,7 +60,7 @@ export default async function WatchVideo({
   if (!videoData || !videoData.data || videoData.error || !videoData.success) {
     throw new Error('Video error') 
   }
-
+  
   const fragments = mapVideoFragments(videoData.data.videoFragments || [])
 
   return (

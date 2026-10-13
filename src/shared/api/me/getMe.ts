@@ -1,5 +1,6 @@
 import { IChannelEntity } from "@/entities/channels/model/types";
 import { ApiResponse } from "@/shared/types/apiResponse";
+import { ISubscriptionEntity } from "@/shared/types/subscriptionEntity";
 
 const ME = {
     id: 'pldkfpolskf',
@@ -8,11 +9,12 @@ const ME = {
     avatarUrl:'/testImages/pr.png'
 }
 
-interface Res {
+interface IGetMe {
     channel: IChannelEntity,
+    subscription: ISubscriptionEntity
 }
 
-export const getMe = async (jwt: string, meId: string): Promise<ApiResponse<Res> | null> => {
+export const getMe = async (jwt: string, meId: string): Promise<ApiResponse<IGetMe> | null> => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-data/${meId}`, {
             headers: {

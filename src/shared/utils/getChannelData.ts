@@ -7,6 +7,7 @@ export interface IChannelData {
   username: string
   avatarUrl: string
   email: string
+  isSaveHistory: boolean
 }
 
 export const getChannelData = async (

@@ -3,6 +3,7 @@ export const updateSaveHistory = async (meId: string, isSaveHistory: boolean) =>
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/channel-update-save-history/${meId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({isSaveHistory})
         })
 

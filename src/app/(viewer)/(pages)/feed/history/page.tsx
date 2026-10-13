@@ -1,8 +1,6 @@
 import { cookies } from "next/headers";
 
 import { Text } from "@/shared/ui";
-import { History } from "@/widgets/feed/history";
-import { HistorySettings } from "@/features/HistorySettings/ui";
 import { getTags } from "@/shared/api/tags/getTags";
 import { getMe } from "@/shared/api/me/getMe";
 import { UnauthorizedWidget } from "@/widgets/UnauthorizedWidget/UnauthorizedWidget";
@@ -52,7 +50,7 @@ export default async function HistoryPage() {
             userId={myChannelData.id}
             jwt={jwt}
             tags={tags.data}
-            isSaveHistory={myChannel.data.isSaveHistory}
+            isSaveHistory={myChannel.data.channel.isSaveHistory}
           />
         </div>
       </div>
