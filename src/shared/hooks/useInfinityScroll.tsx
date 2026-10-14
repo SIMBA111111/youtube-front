@@ -54,7 +54,7 @@ export const useInfinityScroll = <T, Y>({
         if (isFetchingRef.current) return;
         
         isFetchingRef.current = true;
-        // setIsLoading(true);
+        setIsLoading(true);
 
         try {
             const res = await fetchData({

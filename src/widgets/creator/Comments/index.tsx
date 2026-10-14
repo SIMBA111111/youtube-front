@@ -1,11 +1,11 @@
 'use client'
 
 import { FC, useEffect, useState } from "react";
-import { CreatorCommentCard, ICreatorComment } from "@/entities/comments/ui/CreatorComments";
+import { CreatorCommentCard } from "@/entities/comments/ui/CreatorComments";
 import { getCommentsByVideoId, IGetCommentsByVideoId } from "@/shared/api/comments/getCommentsByVideoId";
-import styles from "./styles.module.scss";
 import { ICommentFullInfo } from "@/entities/comments/model/types";
 import { IChannelData } from "@/shared/utils/getChannelData";
+import styles from "./styles.module.scss";
 
 interface IComments {
     videoId: string

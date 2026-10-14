@@ -44,7 +44,7 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
     isLoading,
     refreshData
   } = useInfinityScroll<IVideoFullInfo, string>({
-    paginationStep: 20,
+    paginationStep: 6,
     filter: activeTag,
     fetchData: fetchVideoList,
     triggerRef: loadingRef
@@ -79,6 +79,9 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
 
   const firstShortsSection = shorts.slice(0, shortsCount)
   const secondShortsSection = shorts.slice(shortsCount, shortsCount * 2)
+
+  console.log('isLoading: ', isLoading);
+  
 
   return (
     <div className={styles.container} id="videoListContainer">

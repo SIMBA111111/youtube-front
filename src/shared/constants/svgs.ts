@@ -74,6 +74,7 @@ export const svgs = {
     pause: 'pause',
     doublePlayer: 'doublePlayer',
     channels: 'channels',
+    pin: 'pin',
 
     //creator:
     content: 'content',

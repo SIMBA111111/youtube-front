@@ -56,7 +56,6 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
   const [isDislikedMe, setIsDisliked] = useState(commentStatistic?.disliked ?? false);
   const [likesCount, setLikesCount] = useState(comment.likeCount);
   const [dislikesCount, setDislikesCount] = useState(comment.dislikeCount);
-  const [isAttached, setIsAttached] = useState(comment.isAttached);
   const [showReplies, setShowReplies] = useState(false);
   const [relatedComments, setRelatedComments] = useState<IGetRepliesCommentsByIdResponse>();
   const [isEmojiesOpened, setIsEmojiesOpened] = useState<boolean>(false);
@@ -176,7 +175,7 @@ export const CreatorCommentCard: React.FC<ICreatorCommentCard> = ({
             <Svg name="verticalEllipsis" />
           </button>
 
-          {isAttached && (
+          {comment.isAttached && (
             <Text>Закреп</Text>
           )}
 
