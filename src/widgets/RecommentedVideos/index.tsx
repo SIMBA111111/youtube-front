@@ -7,6 +7,7 @@ import { Spinner, Svg } from "@/shared/ui";
 import { getRecommentedVideos } from "@/shared/api/video/getRecommentedVideos";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import styles from "./styles.module.scss";
+import { InfinityScrollLoader } from "@/shared/ui/InfinityScrollLoader";
 
 interface IRecommentedVideos {
   videoId: string;
@@ -48,7 +49,7 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
     hasMore,
     refreshData
   } = useInfinityScroll<IVideoFullInfo, any>({
-    paginationStep: 10,
+    paginationStep: 20,
     filter: '',
     fetchData: fetchRecommendedVideoList,
     triggerRef: loadingRef
@@ -65,13 +66,15 @@ export const RecommentedVideos: React.FC<IRecommentedVideos> = ({
             </div>
           );
         })}
-      <div ref={loadingRef} style={{ height: "10px", margin: "10px" }}>
-        {isLoading && (
-          <div className={styles.recommendedVideoLoader}>
-            <Spinner />
-          </div>
-        )}
-      </div>
+
+      {hasMore && (
+        <div
+            ref={loadingRef}
+            style={{ height: "15px", margin: "15px 5px 35px 5px" }}
+        >
+            <InfinityScrollLoader isLoading={isLoading} />
+        </div>
+      )}
     </div>
   );
 };

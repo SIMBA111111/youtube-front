@@ -2,13 +2,15 @@
 
 import { CommentCard } from "@/entities/comments/ui/VideoComment";
 import { AddComment, CommentFilter } from "@/features";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
 import { getWordForm } from "@/shared/utils/getWordFrom";
 import { IChannelData } from "@/shared/utils/getChannelData";
 import { getCommentsByVideoId, IMapCommentStatistic } from "@/shared/api/comments/getCommentsByVideoId";
 import { ICommentFullInfo } from "@/entities/comments/model/types";
 import { FILTERS, TCommentFilter } from "@/features/CommentFilter/ui";
+import { InfinityScrollLoader } from "@/shared/ui/InfinityScrollLoader";
+import { CommentSkeleton } from "@/shared/ui";
 import styles from "./styles.module.scss";
 
 
@@ -35,7 +37,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
   const [commentStatistic, setCommentStatistic] = useState<IMapCommentStatistic | null>(null)
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchCommentsList = async ({ 
+  const fetchCommentsList = useCallback(async ({ 
     offset, 
     limit, 
   }: IPagination) => {
@@ -52,7 +54,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
       return res.data.comments || [];
     }
     return []
-  };
+  }, []) 
 
   const { 
     data,
@@ -81,6 +83,20 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
         videoId={videoId}
         handleRefreshCommentsList={refreshData}
       />
+
+      {!data || isLoading && (
+        <div>
+          {Array.from({ length: 6 }, (_, index) => {
+            return (
+              <div key={index} className={styles.videoCardWrapper}>
+                <CommentSkeleton />
+              </div>
+            );
+          })}
+        </div>
+      )}
+      
+
       <div className={styles.comments_comments}>
         {data.map((comment: ICommentFullInfo) => (
           <CommentCard
@@ -95,7 +111,14 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
       </div>
 
       {/* ТРИГГЕР ДЛЯ ПОДГРУЗКИ */}
-      <div ref={loadingRef} style={{ height: "0px", margin: "20px 0" }}/>
+      {hasMore && (
+        <div
+            ref={loadingRef}
+            style={{ height: "15px", margin: "15px 5px 35px 5px" }}
+        >
+            <InfinityScrollLoader isLoading={isLoading} />
+        </div>
+      )}
 
       {!hasMore && (
         <div style={{ textAlign: "center", paddingBottom: "20px" }}>

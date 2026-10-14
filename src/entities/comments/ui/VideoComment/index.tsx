@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
-import { Accordion, Svg, Text } from "@/shared/ui";
+import { Accordion, Spinner, Svg, Text } from "@/shared/ui";
 import { formatViews } from "@/shared/utils/formatViews";
 import { formatDate } from "@/shared/utils/formatDate";
 import { getRepliesCommentsById } from "@/shared/api/comments/getRepliesCommentsById";
@@ -42,6 +42,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
   const [dislikesCount, setDislikesCount] = useState(comment.dislikeCount);
   const [showReplies, setShowReplies] = useState(false);
   const [relatedComments, setRelatedComments] = useState<ICommentFullInfo[]>([]);
+  const [isLoadingReplies, setIsLoadingReplies] = useState<boolean>(false);
   const [isEmojiesOpened, setIsEmojiesOpened] = useState<boolean>(false);
   const [isOpenedReplayInput, setIsOpenedReplayInput] = useState<boolean>(false);
   const [isOpenedUnauthPopover, setIsOpenedUnauthPopover] = useState<boolean>(false);
@@ -49,11 +50,19 @@ export const CommentCard: React.FC<ICommentCard> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleShowReplies = async () => {
-    const res = await getRepliesCommentsById(comment.id, me?.id, videoId);
-    if(res && res.success && res.data) {
-      setRelatedComments(res.data.comments);
-      setRepliesCommentsStatistic(res.data.commentsStatistic);
+    try {
       setShowReplies(true)
+      setIsLoadingReplies(true)
+      const res = await getRepliesCommentsById(comment.id, me?.id, videoId);
+      if(res && res.success && res.data) {
+        setRelatedComments(res.data.comments);
+        setRepliesCommentsStatistic(res.data.commentsStatistic);
+      }
+      
+      setIsLoadingReplies(false)
+    } catch (error) {
+      console.log('Error handleShowReplies: ', error);
+      setIsLoadingReplies(false)
     }
   };
 
@@ -252,6 +261,10 @@ export const CommentCard: React.FC<ICommentCard> = ({
                 </button>
               }
             >
+              {isLoadingReplies && relatedComments.length === 0 && (
+                <Spinner size={32}/>
+              )}
+              
               <div className={styles.comments_comments}>
                 {relatedComments.map((comment: ICommentFullInfo) => (
                   <CommentCard
@@ -264,6 +277,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
                   />
                 ))}
               </div>
+
             </Accordion>
           )}
         </div>

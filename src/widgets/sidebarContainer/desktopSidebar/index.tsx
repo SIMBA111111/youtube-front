@@ -11,12 +11,10 @@ import { SIDEBAR_NAVIGATION, SIDEBAR_YOU, TSIDEBAR_NAVIGATION, TSIDEBAR_YOU } fr
 import { useSidebarStore } from "@/shared/store/sidebar";
 import { IThumbnailShortVideo } from "@/entities/thumbnailShortVideo/modal/types";
 import { Menu } from "@/shared/ui/Menu";
-
-import styles from "./styles.module.scss";
 import { LoginBtn } from "@/features";
-import { t } from "i18next";
 import { getRegisteredTranslate } from "@/shared/utils/getRegisteredTranslate";
 
+import styles from "./styles.module.scss";
 type menuItems = "subs" | "you" | null;
 
 export const DesktopSidebar = ({
@@ -256,14 +254,14 @@ export const DesktopSidebar = ({
                       <Text>{getRegisteredTranslate('subscriptions', true)}</Text>
                       <Svg name="arrowLeft" size="small" />
                     </Link>
-                    {channels.map((channel: IChannel) => (
+                    {channels.map((channel: IChannelEntity) => (
                       <Link
                         key={channel.id}
                         href={`/channel/${channel.username}`}
                         className={styles.btns__item__open}
                       >
                         <img
-                          src={channel.avatar_url}
+                          src={channel.avatarUrl || ''}
                           alt=""
                           className={styles.channelAvatar}
                         />

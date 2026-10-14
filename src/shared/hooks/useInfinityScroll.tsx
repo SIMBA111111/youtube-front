@@ -1,6 +1,6 @@
 'use client'
 
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 
 interface IFetchDataArgs<Y> {
     offset: number;
@@ -36,109 +36,105 @@ export const useInfinityScroll = <T, Y>({
 }: IUseInfitityScroll<T, Y>): IHookResponse<T> => {
     const [data, setData] = useState<T[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
     const [pagination, setPagination] = useState({ offset: 0, limit: paginationStep });
-    
-    // ✅ Реф для актуальных значений пагинации
-    const hasMoreRef = useRef(true);
-    const paginationRef = useRef(pagination);
-    
-    const observerRef = useRef<IntersectionObserver | null>(null);
-    const isFetchingRef = useRef<boolean>(false);
 
-    // ✅ Синхронизируем реф с состоянием
+    const paginationRef = useRef(pagination);
+    const hasMoreRef = useRef(true);
+    const isFetchingRef = useRef(false);
+    const observerRef = useRef<IntersectionObserver | null>(null);
+
+    // синхронизация пагинации
     useEffect(() => {
         paginationRef.current = pagination;
     }, [pagination]);
 
-    const loadData = async (offset: number, limit: number) => {
+    const loadData = useCallback(async (offset: number, limit: number) => {
         if (isFetchingRef.current) return;
-        
+
         isFetchingRef.current = true;
         setIsLoading(true);
 
         try {
-            const res = await fetchData({
-                offset,
-                limit,
-                filter,
-            });
+            const res = await fetchData({ offset, limit, filter });
 
             if (!res || res.length === 0) {
-                hasMoreRef.current = false
-                setIsLoading(false)
+                hasMoreRef.current = false;
+                setHasMore(false);
                 return;
             }
 
             setData(prev => [...prev, ...res]);
 
             if (res.length < paginationStep) {
-                hasMoreRef.current = false
-                setIsLoading(false)
+                hasMoreRef.current = false;
+                setHasMore(false);
             } else {
                 setPagination(prev => ({
                     offset: prev.offset + paginationStep,
                     limit: prev.limit + paginationStep,
                 }));
             }
-
         } catch (error) {
             console.error("ОШИБКА ЗАГРУЗКИ:", error);
         } finally {
             setIsLoading(false);
             isFetchingRef.current = false;
         }
-    };
+    }, [fetchData, filter, paginationStep]);
 
-    // ✅ callback использует paginationRef для получения актуальных значений
-    const callback = async (entries: IntersectionObserverEntry[]) => {
-        const entry = entries[0];
+    // callback через реф, чтобы observer всегда видел свежую версию
+    const callbackRef = useRef<(entries: IntersectionObserverEntry[]) => void>(() => {});
 
-        if (!entry.isIntersecting || isLoading || !hasMoreRef.current || isFetchingRef.current) {
-            return;
-        }
-
-        // ✅ Берем актуальные значения из рефа
-        const { offset, limit } = paginationRef.current;
-        await loadData(offset, limit);
-    };
-
-    // ✅ Настройка IntersectionObserver с обновленным callback
     useEffect(() => {
-        if (!triggerRef.current || !hasMoreRef.current) return;
+        callbackRef.current = async (entries) => {
+            const entry = entries[0];
+            if (!entry.isIntersecting) return;
+            if (isFetchingRef.current) return;
+            if (!hasMoreRef.current) return;
 
-        if (observerRef.current) {
-            observerRef.current.disconnect();
-            observerRef.current = null;
-        }
+            const { offset, limit } = paginationRef.current;
+            await loadData(offset, limit);
+        };
+    }, [loadData]);
 
-        observerRef.current = new IntersectionObserver(callback, options);
-        observerRef.current.observe(triggerRef.current);
+    useEffect(() => {
+        const el = triggerRef.current;
+        if (!el) return;
+
+        observerRef.current = new IntersectionObserver(
+            (entries) => callbackRef.current(entries),
+            options
+        );
+        observerRef.current.observe(el);
 
         return () => {
-            if (observerRef.current) {
-                observerRef.current.disconnect();
-                observerRef.current = null;
-            }
-        };
-    }, [hasMoreRef.current, triggerRef.current]); // ✅ Убираем pagination из зависимостей
-
-    const refreshData = async () => {
-        if (observerRef.current) {
-            observerRef.current.disconnect();
+            observerRef.current?.disconnect();
             observerRef.current = null;
-        }
+        };
+    }, [triggerRef]);
+
+    const refreshData = useCallback(async () => {
+        observerRef.current?.disconnect();
+        observerRef.current = null;
 
         setData([]);
         setPagination({ offset: 0, limit: paginationStep });
+        paginationRef.current = { offset: 0, limit: paginationStep };
         hasMoreRef.current = true;
+        setHasMore(true);
 
         await loadData(0, paginationStep);
-    };
 
-    return { 
-        data, 
-        isLoading, 
-        hasMore: hasMoreRef.current, 
-        refreshData 
-    };
+        // переподключаем observer после сброса
+        if (triggerRef.current) {
+            observerRef.current = new IntersectionObserver(
+                (entries) => callbackRef.current(entries),
+                options
+            );
+            observerRef.current.observe(triggerRef.current);
+        }
+    }, [loadData, paginationStep, triggerRef]);
+
+    return { data, isLoading, hasMore, refreshData };
 };

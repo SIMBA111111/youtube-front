@@ -30,13 +30,13 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
   const device = useDeviceIsMobile();
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchVideoList = async ({offset, limit}: {offset: number, limit: number}) => {
+  const fetchVideoList = useCallback(async ({offset, limit}: {offset: number, limit: number}) => {
     const res = await getVideos(jwt, activeTag, null, offset, limit);
     if(res.success)
       return res.data
 
     return []
-  }
+  }, []) 
 
   const {
     data,
@@ -80,9 +80,6 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
   const firstShortsSection = shorts.slice(0, shortsCount)
   const secondShortsSection = shorts.slice(shortsCount, shortsCount * 2)
 
-  console.log('isLoading: ', isLoading);
-  
-
   return (
     <div className={styles.container} id="videoListContainer">
         {tags && tags.length > 0 && (
@@ -115,7 +112,7 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
               )}
             </div>
 
-            {data && data?.length > 0 && !isLoading && (
+            {data && data?.length > 0 && (
               <>
                 <VideoGrid videos={firstLongSection} />
 
@@ -139,7 +136,7 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
 
             <div
                 ref={loadingRef}
-                style={{ height: "15px", margin: "15px" }}
+                style={{ height: "15px", margin: "15px 5px 35px 5px" }}
             >
                 <InfinityScrollLoader isLoading={isLoading} />
             </div>
