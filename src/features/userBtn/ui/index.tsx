@@ -89,7 +89,7 @@ export const UserBtn: React.FC<IUserBtn> = ({
                 <div className={styles.channelData}>
                   <Text>{channelName}</Text>
                   <Text>{username}</Text>
-                  <Link href={"/"}>
+                  <Link href={`/channel/${username}`}>
                     <Text color="blue">{t('view channel')}</Text>
                   </Link>
                 </div>

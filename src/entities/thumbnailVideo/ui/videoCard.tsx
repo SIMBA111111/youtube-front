@@ -31,6 +31,7 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
   const [isOpenModal, setIsOpenModal] = useState(false);
   const channelData = getChannelDataClient() 
   const router = useRouter()
+  const isHoverRef = useRef(null)
 
   const handleSound = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -70,14 +71,31 @@ export const ThumbnailVideoCard: React.FC<IThumbnailVideoCard> = ({
     }
   };
 
+  const handleMouseEnter = () => {
+    if (isHoverRef.current) {
+      clearTimeout(isHoverRef.current)
+    }
+
+    isHoverRef.current = setTimeout(() => {
+      setIsHovered(true)
+    }, 1500)
+  }
+
+  const handleMouseLeave = () => {
+    if (isHoverRef.current) {
+      setIsHovered(false)
+      clearTimeout(isHoverRef.current)
+    }
+  }
+
   return (
     <div className={styles.wrap}>
       <div
         className={styles.cardContainer}
         onMouseDown={handleCardClick}
         onAuxClick={handleCardAuxClick}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         role="link"
         tabIndex={0}
         style={{ cursor: 'pointer' }}

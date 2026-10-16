@@ -4,6 +4,8 @@ import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { Mousewheel, Pagination, Navigation } from "swiper/modules";
 import dynamic from "next/dynamic";
 import { FC, RefObject, useEffect, useRef, useState } from "react";
+import Link from "next/link";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -156,13 +158,17 @@ export const ShortsSwiper: FC<IShortsSwiper> = ({
                 <div className={styles.playerWrapper}>
                   <div className={styles.channelInfo}>
                     <div className={styles.channelBtn}>
-                      <img 
-                        src={currentShortVideo?.channel.avatarUrl ?? '/defaultImages/defaultAvatar.png'} 
-                        alt="avatar" 
-                        className={styles.channelAvatar}
-                      />
+                      <Link href={`/channel/${video.channel.channelUsername}`}>
+                        <img 
+                          src={currentShortVideo?.channel.avatarUrl ?? '/defaultImages/defaultAvatar.png'} 
+                          alt="avatar" 
+                          className={styles.channelAvatar}
+                        />
+                      </Link>
+                      
                       <SubscribeButton 
-                        channelId={currentShortVideo?.channel.id} 
+                        channelId={currentShortVideo?.channel.id}
+                        videoId={currentShortVideo.video.id} 
                         isSubscribed={currentShortVideo?.subscriptionData?.deleted === undefined ? false : !currentShortVideo?.subscriptionData?.deleted} 
                         meId={myChannelData?.id || ''} 
                         notificationSetting={currentShortVideo?.subscriptionData?.notificationSettings || false}

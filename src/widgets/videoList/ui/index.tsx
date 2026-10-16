@@ -36,7 +36,7 @@ export const VideoList: FC<IVideoList> = ({tags, jwt,}) => {
       return res.data
 
     return []
-  }, []) 
+  }, [activeTag]) 
 
   const {
     data,

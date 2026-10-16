@@ -24,7 +24,7 @@ export default async function Shorts({
 
   await updateViewVideo({
     videoId: videoId,
-    userId: myChannelData?.id || '',
+    userId: myChannelData && myChannelData.isSaveHistory ? myChannelData?.id : '',
   });
 
   if (!resGetVideoById || !resGetVideoById.data || resGetVideoById.error || !resGetVideoById.success) {

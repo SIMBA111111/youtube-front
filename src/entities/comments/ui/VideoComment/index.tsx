@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import Link from "next/link";
 
 import { Accordion, Spinner, Svg, Text } from "@/shared/ui";
 import { formatViews } from "@/shared/utils/formatViews";
@@ -88,17 +89,21 @@ export const CommentCard: React.FC<ICommentCard> = ({
       )}
       <div className={styles.comment}>
         <div className={styles.comment_avatar}>
-          <img
-            src={comment.channel.avatarUrl ? comment.channel.avatarUrl : "/defaultImages/defaultAvatar.png"}
-            alt={comment.channel.name}
-          />
+          <Link href={`/channel/${comment.channel.username}`}>
+            <img
+              src={comment.channel.avatarUrl ? comment.channel.avatarUrl : "/defaultImages/defaultAvatar.png"}
+              alt={comment.channel.name}
+            />
+          </Link>
         </div>
 
         <div className={styles.comment_content}>
           <div className={styles.comment_header}>
-            <Text className={styles.comment_username} weight={600}>
-              {comment.channel.name}
-            </Text>
+            <Link href={`/channel/${comment.channel.username}`}>
+              <Text className={styles.comment_username} weight={600}>
+                {comment.channel.name}
+              </Text>
+            </Link>
             <Text size={12} color="var(--grayText)">
               {formatDate(comment.createdDate)}
             </Text>

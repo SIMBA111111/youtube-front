@@ -30,5 +30,6 @@ export interface ICommentFullInfo {
 interface ICommentChannelDto {
   id: string;
   name: string;
+  username: string;
   avatarUrl: string | null;
 }

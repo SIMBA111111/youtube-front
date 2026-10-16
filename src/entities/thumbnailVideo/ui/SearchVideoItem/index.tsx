@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -31,6 +31,7 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const router = useRouter()
+  const isHoverRef = useRef(null)
   
   const handleSound = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -47,13 +48,30 @@ export const SearchVideoItem: React.FC<ISearchVideoItem> = ({
     router.push(`/watch?v=${video.video.id}`)
   }
 
+  const handleMouseEnter = () => {
+    if (isHoverRef.current) {
+      clearTimeout(isHoverRef.current)
+    }
+
+    isHoverRef.current = setTimeout(() => {
+      setIsHovered(true)
+    }, 1500)
+  }
+
+  const handleMouseLeave = () => {
+    if (isHoverRef.current) {
+      setIsHovered(false)
+      clearTimeout(isHoverRef.current)
+    }
+  }
+
   return (
     <div
       className={isRow ? styles.searchVideoItem_row : styles.searchVideoItem}
       onClick={handleGoToVideo}
       // href={`/watch?v=${video.video.id}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
         <div className={ isRow ? styles.thumbnailContainer_Row : styles.thumbnailContainer }>
           <img

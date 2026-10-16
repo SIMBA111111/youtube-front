@@ -17,6 +17,7 @@
       aspect-ratio: 16/9;
       height: clamp(100px, 275px, 325px);
       border-radius: 20px;
+      object-fit: cover;
     }
 
     .videoPreview {

@@ -51,7 +51,9 @@ export const VideoSearch = () => {
     }
 
     const handleSearch = () => {
-        router.push(`/search?query=${valueRef.current}`)
+        if (valueRef.current) {
+            router.push(`/search?query=${valueRef.current}`)
+        }
     }
 
     // useEffect(() => {
