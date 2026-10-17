@@ -54,6 +54,10 @@ export const Notifications = ({userId} : {userId: string}) => {
   })
 
   useEffect(() => {
+    setNotifs(data)
+  }, [data])
+
+  useEffect(() => {
     if (isOpenModal) refreshData()
   }, [isOpenModal])
 
@@ -107,6 +111,10 @@ export const Notifications = ({userId} : {userId: string}) => {
     setIsOpenModal(true)
   }
 
+  const handleDeleteNotif = (notifId: string) => {
+    setNotifs(prev => prev.filter((notif: INotifExtendInfo) => notif.id !== notifId))
+  }
+
   return (
     <div className={styles.notificationsContainer}>
       <div className={styles.notifications} onClick={handleOpenPopover}>
@@ -140,8 +148,8 @@ export const Notifications = ({userId} : {userId: string}) => {
 
           {data.length > 0 ? (
             <div className={styles.notifModal__body}>
-              {data.map((notif, index) => (
-                <NotifCard key={index} notif={notif} setUnviewedNotifscount={setUnviewedNotifscount}/>
+              {notifs.map((notif, index) => (
+                <NotifCard key={notif.id} notif={notif} handleDeleteNotif={handleDeleteNotif} setUnviewedNotifscount={setUnviewedNotifscount}/>
               ))}
             </div>
           ) : (

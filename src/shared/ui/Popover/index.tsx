@@ -197,14 +197,16 @@ export const Popover = ({
         if (!isOpen) return;
 
         const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as Element | null;
+
             if (
-                triggerRef.current &&
-                !triggerRef.current.contains(event.target as Node) &&
-                popoverRef.current &&
-                !popoverRef.current.contains(event.target as Node)
-            ) {
-                handleClose();
-            }
+                triggerRef.current?.contains(target as Node) ||
+                popoverRef.current?.contains(target as Node)
+            ) return;
+
+            if (target?.closest?.('[data-popover-ignore]')) return;
+
+            handleClose();
         };
 
         const handleResize = () => {

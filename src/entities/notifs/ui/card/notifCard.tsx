@@ -17,9 +17,14 @@ import styles from './styles.module.scss'
 interface INotifCard {
     notif: INotifExtendInfo
     setUnviewedNotifscount: Dispatch<SetStateAction<number>>
+    handleDeleteNotif: (notifId: string) => void
 }
 
-export const NotifCard: React.FC<INotifCard> = ({notif, setUnviewedNotifscount}) => {
+export const NotifCard: React.FC<INotifCard> = ({
+    notif, 
+    setUnviewedNotifscount,
+    handleDeleteNotif
+}) => {
     
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
     const [isViewed, setIsViewed] = useState<boolean>(notif.viewed)
@@ -78,8 +83,8 @@ export const NotifCard: React.FC<INotifCard> = ({notif, setUnviewedNotifscount})
             </div>
 
             <Popover isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} className={styles.modal}>
-                <div className={styles.notifSettings} onMouseOver={(e: any) => e.stopPropagation()}>
-                    <div className={styles.notifSettings__item} onClick={() => handleHideNotif({id:notif.id, openToast})}>
+                <div data-popover-ignore className={styles.notifSettings}>
+                    <div className={styles.notifSettings__item} onClick={() => handleHideNotif({id:notif.id, openToast, handleDeleteNotif})}>
                         <Svg name="crossedEye"/>
                         <Text weight={400}>Скрыть уведомление</Text>
                     </div>
