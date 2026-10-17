@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { useToast } from "@/app/providers/toastProvider";
 import { Text } from "@/shared/ui";
@@ -30,6 +30,34 @@ export const AddComment: React.FC<IAddComment> = ({
   const [isOpenedUnauthPopover, setIsOpenedUnauthPopover] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { openToast } = useToast();
+
+  const addComment = () => {
+    handleCreateComment(
+      inputRef.current?.value,
+      videoId,
+      me?.id || '',
+      setInputHidden,
+      inputRef,
+      openToast,
+      handleRefreshCommentsList
+    )
+  }
+
+  useEffect(() => {
+    const handleEnter = (e: KeyboardEvent) => {
+      const value = inputRef.current?.value || ''
+
+      if (e.key === 'Enter' && inputRef.current === document.activeElement && value.length > 0) {
+        addComment()      
+      }
+    }
+
+    window.addEventListener('keydown', handleEnter)
+  
+    return () => {
+      window.removeEventListener('keydown', handleEnter)
+    }
+  }, [])
 
   const handleCancel = () => {
     setInputHidden(true);
@@ -101,17 +129,7 @@ export const AddComment: React.FC<IAddComment> = ({
                 <Text>Отмена</Text>
               </button>
               <button
-                onClick={() =>
-                  handleCreateComment(
-                    inputRef.current?.value,
-                    videoId,
-                    me?.id || '',
-                    setInputHidden,
-                    inputRef,
-                    openToast,
-                    handleRefreshCommentsList
-                  )
-                }
+                onClick={addComment}
                 className={styles.actions_btns_2}
               >
                 <Text color="var(--whiteText)">Оставить комментарий</Text>

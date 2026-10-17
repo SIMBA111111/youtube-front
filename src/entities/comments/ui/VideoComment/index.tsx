@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 import { Accordion, Spinner, Svg, Text } from "@/shared/ui";
 import { formatViews } from "@/shared/utils/formatViews";
@@ -49,6 +50,10 @@ export const CommentCard: React.FC<ICommentCard> = ({
   const [isOpenedUnauthPopover, setIsOpenedUnauthPopover] = useState<boolean>(false);
   const [repliesCommentsStatistic, setRepliesCommentsStatistic] = useState<IMapCommentStatistic | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const currentTheme = Cookies.get('theme')
+  type TTheme = 'dark' | 'light'
+
+  console.log('currentTheme: ', currentTheme);
 
   const handleShowReplies = async () => {
     try {
@@ -192,21 +197,21 @@ export const CommentCard: React.FC<ICommentCard> = ({
                   ref={inputRef}
                 />
                 <div className={styles.actions}>
-                              <div className={styles.emojiContainer}>
-                <img 
-                  src={'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f601.png'} 
-                  alt="emoji" 
-                  className={styles.emojiBtn}
-                  onClick={() => setIsEmojiesOpened(prev => !prev)}
-                />
-                <div className={styles.emojiPanel}>
-                  <EmojiPicker
-                    onEmojiClick={(emojiObject) => handleAddEmoji(emojiObject)} 
-                    lazyLoadEmojis
-                    open={isEmojiesOpened}
-                  />
-                </div>
-                
+                  <div className={styles.emojiContainer}>
+                      <img 
+                        src={'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f601.png'} 
+                        alt="emoji" 
+                        className={styles.emojiBtn}
+                        onClick={() => setIsEmojiesOpened(prev => !prev)}
+                      />
+                    <div className={styles.emojiPanel}>
+                      <EmojiPicker
+                        onEmojiClick={(emojiObject) => handleAddEmoji(emojiObject)} 
+                        lazyLoadEmojis
+                        open={isEmojiesOpened}
+                        theme={currentTheme === 'dark' ? 'dark' : 'light'}
+                      />
+                  </div>
               </div>
                   <div className={styles.actions_btns}>
                     <button
@@ -241,6 +246,7 @@ export const CommentCard: React.FC<ICommentCard> = ({
 
           {comment.repliesCount > 0 && (
             <Accordion
+              className={styles.customAccordion}
               header={
                 !showReplies && (
                   <button

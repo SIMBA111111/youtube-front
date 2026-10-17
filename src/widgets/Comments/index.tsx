@@ -27,13 +27,14 @@ export interface IPagination {
 interface IComments {
   videoId: string;
   me: IChannelData | null;
-  commentCount: number
+  commentCountInit: number
 }
 
 const PAGINATION_STEP = 20
 
-export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => {
+export const Comments: React.FC<IComments> = ({ videoId, me, commentCountInit }) => {
   const [filter, setFilter] = useState<IFilter>(FILTERS[0]);
+  const [commentCount, setCommentCount] = useState<number>(commentCountInit);
   const [commentStatistic, setCommentStatistic] = useState<IMapCommentStatistic | null>(null)
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
@@ -51,6 +52,7 @@ export const Comments: React.FC<IComments> = ({ videoId, me, commentCount }) => 
 
     if (typeof res !== 'string' && res && res.data) {
       setCommentStatistic(res.data.commentsStatistic)
+      setCommentCount(res.data.commentsCount)
       return res.data.comments || [];
     }
     return []
